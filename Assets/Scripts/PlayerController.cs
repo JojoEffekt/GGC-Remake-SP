@@ -9,14 +9,4 @@ public class PlayerController : MonoBehaviour
     public static int playerGold;
     public static long playerXP;
     public static int playerLevel;
-
-    void Start()
-    {
-        
-    }
-
-    void Update()
-    {
-        
-    }
 }
