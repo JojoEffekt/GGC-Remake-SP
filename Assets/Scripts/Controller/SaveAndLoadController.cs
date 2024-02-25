@@ -7,6 +7,7 @@ using System;
 public class SaveAndLoadController : MonoBehaviour
 {
     private static string playerDataFilePath = "playerData.txt";
+    private static string wallDataFilePath = "WallData.txt";
 
     void Start()
     {
@@ -28,16 +29,37 @@ public class SaveAndLoadController : MonoBehaviour
             PlayerController.playerLevel = Int32.Parse(lines[4]);
             PlayerController.gridSize = Int32.Parse(lines[5]);
 
-            //load grid
-            //GridController.GenerateGrid();
-
-            Debug.Log("successfully load data!");
+            Debug.Log("successfully load Player-data!");
         }catch(Exception e){
-            Debug.Log("error, failed to load data!");
+            Debug.Log("error, failed to load Player-data!");
         }
 
-        //load grid
-            GridController.GenerateGrid();
+        //wenn wallfile exist, lade wallfile, ansonsten genriere grid
+        try{
+            if(File.Exists(Application.dataPath+"/Data/"+wallDataFilePath)==true){
+                StreamReader source = new StreamReader(Application.dataPath + "/Data/" + wallDataFilePath);
+                string fileContents = source.ReadToEnd();
+                source.Close();
+                string[] lines = fileContents.Split("\n"[0]);
+
+                //load wall data
+                //lines.Length-1: -1 because WriteLine generates an empty line on bottom
+                for(int a=0;a<lines.Length-1;a++){
+                    string[] lineItem = lines[a].Split(";");
+                    ObjectController.GenerateWallObject(lineItem[0],Int32.Parse(lineItem[1]),lineItem[2],Int32.Parse(lineItem[3]),float.Parse(lineItem[4]),Int32.Parse(lineItem[5]),Int32.Parse(lineItem[6]));
+                }
+                Debug.Log("successfully load Wall-data!");
+
+                //testing save data
+                SavePlayerData();
+            }else{
+                //load grid if no save exist
+                GridController.GenerateGrid();
+                Debug.Log("no Wall-data, generate grid for the first time!");
+            }
+        }catch(Exception e){
+            Debug.Log("error, failed to load Wall-data!");
+        }
     }
 
     public static void SavePlayerData(){
@@ -54,29 +76,22 @@ public class SaveAndLoadController : MonoBehaviour
             source.WriteLine(PlayerController.gridSize);
             
             source.Close();
-            Debug.Log("successfully save data!");
+            Debug.Log("successfully save Player-data!");
         }catch(Exception e){
-            Debug.Log("error, failed to save data!");
+            Debug.Log("error, failed to save Player-data!");
         }
 
         try{
-            //save 
-            StreamWriter source = new StreamWriter(Application.dataPath + "/Data/WallData.txt");
+            //save wall info
+            StreamWriter source = new StreamWriter(Application.dataPath + "/Data/" + wallDataFilePath);
             for(int a=0;a<ObjectController.WallObjectList.Count;a++){
-                string n = ObjectController.WallObjectList[a].getWallName();
-
-
-            
-                source.WriteLine(n);
-                
+                string wallObject = ObjectController.WallObjectList[a].getInfo();
+                source.WriteLine(wallObject);
             }
             source.Close();
+            Debug.Log("successfully save Wall-data!");
         }catch(Exception e){
-
+            Debug.Log("error, failed to save Wall-data!");
         } 
     }
-}
-
-public class WallData{
-
 }

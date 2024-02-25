@@ -5,6 +5,7 @@ using UnityEngine;
 public class WallObject : MonoBehaviour
 {
     //attributes
+    //muss gespeichert werden save&load
     private string wallName;
     private int rotation;
     private string wallChildName;
@@ -13,6 +14,7 @@ public class WallObject : MonoBehaviour
     private int coordX;
     private int coordY;
 
+    //folgende vars werden automatisch erstellt
     private GameObject WallPrefab;
     private GameObject WallGameObject;
 
@@ -94,6 +96,10 @@ public class WallObject : MonoBehaviour
     }
     public int getCoordY(){
         return this.coordY;
+    }
+    public string getInfo(){
+        string info = wallName+";"+rotation+";"+wallChildName+";"+wallChildLength+";"+wallChildCoordCorrection+";"+coordX+";"+coordY;
+        return info;
     }
 
     //setters

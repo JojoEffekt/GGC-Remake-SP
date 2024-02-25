@@ -5,6 +5,7 @@ using UnityEngine;
 public class GridController : MonoBehaviour
 {
     public static void GenerateGrid(){
+        //create grid for the first time, after you can load data from saveandload
         int gridSize = PlayerController.gridSize;
 
         for(int a=0;a<gridSize;a++){
@@ -16,14 +17,6 @@ public class GridController : MonoBehaviour
             ObjectController.GenerateWallObject("Wall_05_1_", 0, "Wall_Deko_06_1_", 0, 0.1f,a+1, 0);
             ObjectController.GenerateWallObject("Wall_05_1_", 1, "Wall_Deko_06_1_", 0, 0.1f,0, a+1);
         }
-
-
-        //ObjectController.PrintWallObjectList();
-        //ObjectController.PrintFloorObjectList();
-        //ObjectController.WallObjectList[5].setWallName("Wall_05_1_");
-        ObjectController.WallObjectList[5].setWallChildName("Wall_Deko_10_1_");
-
-        
         SaveAndLoadController.SavePlayerData();
     }
 }
