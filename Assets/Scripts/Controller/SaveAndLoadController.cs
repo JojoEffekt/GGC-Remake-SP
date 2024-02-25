@@ -29,12 +29,15 @@ public class SaveAndLoadController : MonoBehaviour
             PlayerController.gridSize = Int32.Parse(lines[5]);
 
             //load grid
-            GridController.GenerateGrid();
+            //GridController.GenerateGrid();
 
             Debug.Log("successfully load data!");
         }catch(Exception e){
             Debug.Log("error, failed to load data!");
         }
+
+        //load grid
+            GridController.GenerateGrid();
     }
 
     public static void SavePlayerData(){
@@ -42,7 +45,8 @@ public class SaveAndLoadController : MonoBehaviour
             StreamWriter source = new StreamWriter(Application.dataPath + "/Data/" + playerDataFilePath);
 
             //save player stats
-            source.WriteLine(PlayerController.playerName);
+            string n = PlayerController.playerName.Remove(PlayerController.playerName.Length-1);
+            source.WriteLine(n);
             source.WriteLine(PlayerController.playerMoney);
             source.WriteLine(PlayerController.playerGold);
             source.WriteLine(PlayerController.playerXP);
@@ -54,5 +58,25 @@ public class SaveAndLoadController : MonoBehaviour
         }catch(Exception e){
             Debug.Log("error, failed to save data!");
         }
+
+        try{
+            //save 
+            StreamWriter source = new StreamWriter(Application.dataPath + "/Data/WallData.txt");
+            for(int a=0;a<ObjectController.WallObjectList.Count;a++){
+                string n = ObjectController.WallObjectList[a].getWallName();
+
+
+            
+                source.WriteLine(n);
+                
+            }
+            source.Close();
+        }catch(Exception e){
+
+        } 
     }
+}
+
+public class WallData{
+
 }

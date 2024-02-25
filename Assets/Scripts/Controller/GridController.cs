@@ -22,5 +22,8 @@ public class GridController : MonoBehaviour
         //ObjectController.PrintFloorObjectList();
         //ObjectController.WallObjectList[5].setWallName("Wall_05_1_");
         ObjectController.WallObjectList[5].setWallChildName("Wall_Deko_10_1_");
+
+        
+        SaveAndLoadController.SavePlayerData();
     }
 }
