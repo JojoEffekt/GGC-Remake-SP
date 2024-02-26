@@ -7,15 +7,22 @@ public class FloorObject : MonoBehaviour
     //attributes
     private string floorName;
     private int price;
-    private int coordX;
-    private int coordY;
+    private float coordX;
+    private float coordY;
+
+    //folgende vars werden automatisch erstellt
+    private GameObject FloorPrefab;
+    private GameObject FloorGameObject;
 
     //contructor
-    public FloorObject(string floorName, int price, int coordX, int coordY){
+    public FloorObject(string floorName, int price, float coordX, float coordY){
         this.floorName = floorName;
         this.price = price;
         this.coordX = coordX;
         this.coordY = coordY;
+
+        FloorPrefab = Resources.Load("Prefabs/FloorPrefab") as GameObject;
+        FloorGameObject = Instantiate(FloorPrefab, new Vector2(coordX,coordY), Quaternion.identity);
     }
 
     //methods
@@ -30,11 +37,15 @@ public class FloorObject : MonoBehaviour
     public int getPrice(){
         return this.price;
     }
-    public int getCoordX(){
+    public float getCoordX(){
         return this.coordX;
     }
-    public int getCoordY(){
+    public float getCoordY(){
         return this.coordY;
+    }
+    public string getInfo(){
+        string info = floorName+";"+price+";"+coordX+";"+coordY;
+        return info;
     }
 
     //setters
@@ -44,10 +55,10 @@ public class FloorObject : MonoBehaviour
     public void setPrice(int price){
         this.price = price;
     }
-    public void setCoordX(int coordX){
+    public void setCoordX(float coordX){
         this.coordX = coordX;
     }
-    public void setCoordY(int coordY){
+    public void setCoordY(float coordY){
         this.coordY = coordY;
     }
 }

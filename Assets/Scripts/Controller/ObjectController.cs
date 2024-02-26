@@ -16,8 +16,8 @@ public class ObjectController : MonoBehaviour
         WallObjectList.Add(new WallObject(wallName, rotation, wallChildName, wallChildLength, wallChildCoordCorrection,xCoord, yCoord));
     }
 
-    public static void GenerateFloorObject(int xCoord, int yCoord){
-        FloorObjectList.Add(new FloorObject("standart_floor", 10, xCoord, yCoord));
+    public static void GenerateFloorObject(string floorName, int price, float xCoord, float yCoord){
+        FloorObjectList.Add(new FloorObject(floorName, price, xCoord, yCoord));
     }
 
     public static void GenerateObjectOnFloor(string type, string objectName, int price, int coordX, int coordY){

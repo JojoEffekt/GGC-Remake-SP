@@ -8,6 +8,7 @@ public class SaveAndLoadController : MonoBehaviour
 {
     private static string playerDataFilePath = "playerData.txt";
     private static string wallDataFilePath = "WallData.txt";
+    private static string floorDataFilePath = "FloorData.txt";
 
     void Start()
     {
@@ -34,14 +35,13 @@ public class SaveAndLoadController : MonoBehaviour
             Debug.Log("error, failed to load Player-data!");
         }
 
-        //wenn wallfile exist, lade wallfile, ansonsten genriere grid
+        //wenn wallfile/floorfile exist, lade wallfile/floorfile, ansonsten genriere grid
         try{
-            if(File.Exists(Application.dataPath+"/Data/"+wallDataFilePath)==true){
+            if(File.Exists(Application.dataPath+"/Data/"+wallDataFilePath)==true&&File.Exists(Application.dataPath+"/Data/"+floorDataFilePath)==true){
                 StreamReader source = new StreamReader(Application.dataPath + "/Data/" + wallDataFilePath);
                 string fileContents = source.ReadToEnd();
                 source.Close();
                 string[] lines = fileContents.Split("\n"[0]);
-
                 //load wall data
                 //lines.Length-1: -1 because WriteLine generates an empty line on bottom
                 for(int a=0;a<lines.Length-1;a++){
@@ -50,15 +50,31 @@ public class SaveAndLoadController : MonoBehaviour
                 }
                 Debug.Log("successfully load Wall-data!");
 
+
+
+                source = new StreamReader(Application.dataPath + "/Data/" + floorDataFilePath);
+                fileContents = source.ReadToEnd();
+                source.Close();
+                lines = fileContents.Split("\n"[0]);
+                //load floor data
+                //lines.Length-1: -1 because WriteLine generates an empty line on bottom
+                for(int a=0;a<lines.Length-1;a++){
+                    string[] lineItem = lines[a].Split(";");
+                    ObjectController.GenerateFloorObject(lineItem[0],Int32.Parse(lineItem[1]),float.Parse(lineItem[2]),float.Parse(lineItem[3]));
+                }
+                Debug.Log("successfully load Floor-data!");
+
+
+
                 //testing save data
                 SavePlayerData();
             }else{
                 //load grid if no save exist
                 GridController.GenerateGrid();
-                Debug.Log("no Wall-data, generate grid for the first time!");
+                Debug.Log("no Wall/Floor-data, generate grid for the first time!");
             }
         }catch(Exception e){
-            Debug.Log("error, failed to load Wall-data!");
+            Debug.Log("error, failed to load Wall/Floor-data!");
         }
     }
 
@@ -92,6 +108,19 @@ public class SaveAndLoadController : MonoBehaviour
             Debug.Log("successfully save Wall-data!");
         }catch(Exception e){
             Debug.Log("error, failed to save Wall-data!");
+        }
+
+        try{
+            //save floor info
+            StreamWriter source = new StreamWriter(Application.dataPath + "/Data/" + floorDataFilePath);
+            for(int a=0;a<ObjectController.FloorObjectList.Count;a++){
+                string floorObject = ObjectController.FloorObjectList[a].getInfo();
+                source.WriteLine(floorObject);
+            }
+            source.Close();
+            Debug.Log("successfully save Floor-data!");
+        }catch(Exception e){
+            Debug.Log("error, failed to save Floor-data!");
         } 
     }
 }
