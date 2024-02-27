@@ -6,18 +6,22 @@ public class StandartObject : MonoBehaviour
 {   
     //attributes
     private string type;
-    private string objectName;
-    private int rotation;
+    private string name;
     private int price;
-    private int coordX;
-    private int coordY;
+    private int rotation;
+    private float coordX;
+    private float coordY;
+
+    //folgende vars werden automatisch erstellt
+    private GameObject FloorPrefab;
+    private GameObject FloorGameObject;
 
     //constructor
-    public StandartObject(string type, string objectName, int rotation, int price, int coordX, int coordY){
+    public StandartObject(string type, string name, int price, int rotation, float coordX, float coordY){
         this.type = type;
-        this.objectName = objectName;
-        this.rotation = rotation;
+        this.name = name;
         this.price = price;
+        this.rotation = rotation;
         this.coordX = coordX;
         this.coordY = coordY;
 
@@ -26,12 +30,14 @@ public class StandartObject : MonoBehaviour
 
     //methods
     public void Info(){
-        Debug.Log("StandartObject-"+type+": ["+coordX+","+coordY+"], rotation:"+rotation+", objectName:"+objectName+", price:"+price);
+        Debug.Log("StandartObject-"+type+": ["+coordX+","+coordY+"], rotation:"+rotation+", objectName:"+name+", price:"+price);
     }
 
     //methods
     private void GenerateObject(){
-        //continue
+        FloorPrefab = Resources.Load("Prefabs/FloorPrefab") as GameObject;
+        FloorGameObject = Instantiate(FloorPrefab, new Vector2(coordX,coordY), Quaternion.identity);
+        Debug.Log("cretaed!!!!!!!!!!!!!! "+FloorGameObject.name);
     }
 
     //getters
@@ -39,18 +45,18 @@ public class StandartObject : MonoBehaviour
         return this.type;
     }
     public string getObjectName(){
-        return this.objectName;
-    }
-    public int getRotation(){
-        return this.rotation;
+        return this.name;
     }
     public int getPrice(){
         return this.price;
     }
-    public int getCoordX(){
+    public int getRotation(){
+        return this.rotation;
+    }
+    public float getCoordX(){
         return this.coordX;
     }
-    public int getCoordY(){
+    public float getCoordY(){
         return this.coordY;
     }
 
@@ -58,19 +64,19 @@ public class StandartObject : MonoBehaviour
     public void setType(string type){
         this.type = type;
     }
-    public void setObjectName(string objectName){
-        this.objectName = objectName;
-    }
-    public void setRotation(int rotation){
-        this.rotation = rotation;
+    public void setObjectName(string name){
+        this.name = name;
     }
     public void setPrice(int price){
         this.price = price;
     }
-    public void setCoordX(int coordX){
+    public void setRotation(int rotation){
+        this.rotation = rotation;
+    }
+    public void setCoordX(float coordX){
         this.coordX = coordX;
     }
-    public void setCoordY(int coordY){
+    public void setCoordY(float coordY){
         this.coordY = coordY;
     }
 }

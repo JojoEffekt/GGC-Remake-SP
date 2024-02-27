@@ -60,7 +60,7 @@ public class SaveAndLoadController : MonoBehaviour
                 //lines.Length-1: -1 because WriteLine generates an empty line on bottom
                 for(int a=0;a<lines.Length-1;a++){
                     string[] lineItem = lines[a].Split(";");
-                    ObjectController.GenerateFloorObject(lineItem[0],Int32.Parse(lineItem[1]),float.Parse(lineItem[2]),float.Parse(lineItem[3]));
+                    ObjectController.GenerateFloorObject(lineItem[0],lineItem[1],Int32.Parse(lineItem[2]),float.Parse(lineItem[3]),float.Parse(lineItem[4]),lineItem[5],lineItem[6],Int32.Parse(lineItem[7]),Int32.Parse(lineItem[8]),float.Parse(lineItem[9]),float.Parse(lineItem[10]));
                 }
                 Debug.Log("successfully load Floor-data!");
 

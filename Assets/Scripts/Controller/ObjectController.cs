@@ -8,7 +8,7 @@ public class ObjectController : MonoBehaviour
     public static List<WallObject> WallObjectList = new List<WallObject>();
     public static List<FloorObject> FloorObjectList = new List<FloorObject>();
 
-    public static List<DekorationObject> DekorationObjectList = new List<DekorationObject>();
+    public static List<StandartObject> standartObjectList = new List<StandartObject>();
     
 
     
@@ -16,17 +16,24 @@ public class ObjectController : MonoBehaviour
         WallObjectList.Add(new WallObject(wallName, rotation, wallChildName, wallChildLength, wallChildCoordCorrection,xCoord, yCoord));
     }
 
-    public static void GenerateFloorObject(string floorName, int price, float xCoord, float yCoord){
-        FloorObjectList.Add(new FloorObject(floorName, price, xCoord, yCoord));
+    public static void GenerateFloorObject(string floorGameObjectName, string floorName, int floorPrice, float floorCoordX, float floorCoordY, string floorChildType, string floorChildName, int floorChildPrice, int floorChildRotation, float floorChildCoordX, float floorChildCoordY){
+        FloorObjectList.Add(new FloorObject(floorGameObjectName, floorName, floorPrice, floorCoordX, floorCoordY, floorChildType, floorChildName, floorChildPrice, floorChildRotation, floorChildCoordX, floorChildCoordY));
     }
 
-    public static void GenerateObjectOnFloor(string type, string objectName, int price, int coordX, int coordY){
-        //check if floor empty
-        //
-        if(type=="Dekoration"){
-            DekorationObjectList.Add(new DekorationObject(type, objectName, 1, price, coordX, coordY));
-
+    //create object on floor 
+    public static void GenerateObjectOnFloor(string type, string objectName, int rotation, int price){
+        string parentFloorObject;
+        float parentFloorCoordX = 0;
+        float parentFloorCoordY = 0;
+        for(int a=0;a<FloorObjectList.Count;a++){
+            if(FloorObjectList[a].getFloorGameObjectName().Equals("5-5")){
+                parentFloorCoordX = FloorObjectList[a].getCoordX();
+                parentFloorCoordY = FloorObjectList[a].getCoordY();
+            }
         }
+        standartObjectList.Add(new StandartObject(type, objectName, rotation, price, parentFloorCoordX, parentFloorCoordY));
+        //FloorObjectList[a].setChild(type, objectName, price, rotation, coordX, coordY);
+        //continue save childobject in dekolist
     }
 
     
