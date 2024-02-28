@@ -6,18 +6,17 @@ public class FloorObject : MonoBehaviour
 {
     //attributes
     //muss gespeichert werden, save & load
-    private string floorGameObjectName;
-    private string floorName;
-    private int floorPrice;
-    private float floorCoordX;
-    private float floorCoordY;
-    private string floorChildType;
-    private string floorChildName;
-    private int floorChildPrice;
-    private int floorChildRotation;
-    private float floorChildCoordX;
-    private float floorChildCoordY;
-    //continue: hier muss child object (StandartObject) gespeichert werden
+    public string floorGameObjectName { get; set; }
+    public string floorName { get; set; }
+    public int floorPrice { get; set; }
+    public float floorCoordX { get; set; }
+    public float floorCoordY { get; set; }
+    public string floorChildType { get; set; }
+    public string floorChildName { get; set; }
+    public int floorChildPrice { get; set; }
+    public int floorChildRotation { get; set; }
+    public float floorChildCoordCorrectionX { get; set; }
+    public float floorChildCoordCorrectionY { get; set; }
 
     //folgende vars werden automatisch erstellt
     private GameObject FloorPrefab;
@@ -28,7 +27,7 @@ public class FloorObject : MonoBehaviour
     private Sprite floorChildSprite;
 
     //contructor
-    public FloorObject(string floorGameObjectName, string floorName, int floorPrice, float floorCoordX, float floorCoordY, string floorChildType, string floorChildName, int floorChildPrice, int floorChildRotation, float floorChildCoordX, float floorChildCoordY){
+    public FloorObject(string floorGameObjectName, string floorName, int floorPrice, float floorCoordX, float floorCoordY, string floorChildType, string floorChildName, int floorChildPrice, int floorChildRotation, float floorChildCoordCorrectionX, float floorChildCoordCorrectionY){
         this.floorGameObjectName = floorGameObjectName;
         this.floorName = floorName;
         this.floorPrice = floorPrice;
@@ -38,8 +37,8 @@ public class FloorObject : MonoBehaviour
         this.floorChildName = floorChildName;
         this.floorChildPrice = floorChildPrice;
         this.floorChildRotation = floorChildRotation;
-        this.floorChildCoordX = floorChildCoordX;
-        this.floorChildCoordY = floorChildCoordY;
+        this.floorChildCoordCorrectionX = floorChildCoordCorrectionX;
+        this.floorChildCoordCorrectionY = floorChildCoordCorrectionY;
 
         LoadAssets();
         setFloorSpriteFromList();
@@ -47,7 +46,6 @@ public class FloorObject : MonoBehaviour
         //generate UI
         FloorGameObject = Instantiate(FloorPrefab, new Vector2(floorCoordX,floorCoordY), Quaternion.identity);
         FloorGameObject.name = floorGameObjectName; 
-
         setFloorSprite();
     }
 
@@ -57,7 +55,7 @@ public class FloorObject : MonoBehaviour
         FloorPrefab = Resources.Load("Prefabs/FloorPrefab") as GameObject;
 
         //load images from folder
-        object[] sprites = Resources.LoadAll("Floor",typeof(Sprite));
+        object[] sprites = Resources.LoadAll("Textures/Floor",typeof(Sprite));
         for(int x=0;x<sprites.Length;x++){
            	floorSpriteList.Add((Sprite)sprites[x]);
         }
@@ -67,82 +65,23 @@ public class FloorObject : MonoBehaviour
     }
 
     //getters
-    public string getFloorGameObjectName(){
-        return this.floorGameObjectName;
-    }
-    public string getFloorName(){
-        return this.floorName;
-    }
-    public int getPrice(){
-        return this.floorPrice;
-    }
-    public float getCoordX(){
-        return this.floorCoordX;
-    }
-    public float getCoordY(){
-        return this.floorCoordY;
-    }
-    public string getFloorChildType(){
-        return this.floorChildType;
-    }
-    public string getFloorChildName(){
-        return this.floorChildName;
-    }
-    public int getFloorChildPrice(){
-        return this.floorChildPrice;
-    }
-    public int getFloorChildRotation(){
-        return this.floorChildRotation;
-    }
-    public float getFloorChildCoordX(){
-        return this.floorChildCoordX;
-    }
-    public float getFloorChildCoordY(){
-        return this.floorChildCoordY;
-    }
     public string getInfo(){
-        string info = floorGameObjectName+";"+floorName+";"+floorPrice+";"+floorCoordX+";"+floorCoordY+";"+floorChildType+";"+floorChildName+";"+floorChildPrice+";"+floorChildRotation+";"+floorChildCoordX+";"+floorChildCoordY;
+        string info = floorGameObjectName+";"+floorName+";"+floorPrice+";"+floorCoordX+";"+floorCoordY+";"+floorChildType+";"+floorChildName+";"+floorChildPrice+";"+floorChildRotation+";"+floorChildCoordCorrectionX+";"+floorChildCoordCorrectionY;
         return info;
     }
 
     //setters
-    public void setFloorName(string floorName){
-        this.floorName = floorName;
-    }
-    public void setPrice(int floorPrice){
-        this.floorPrice = floorPrice;
-    }
-    public void setCoordX(float floorCoordX){
-        this.floorCoordX = floorCoordX;
-    }
-    public void setCoordY(float floorCoordY){
-        this.floorCoordY = floorCoordY;
-    }
-    public void setFloorChildType(string floorChildType){
-        this.floorChildType = floorChildType;
-    }
-    public void setFloorChildName(string floorChildName){
-        this.floorChildName = floorChildName;
-    }
-    public void setFloorChildPrice(int floorChildPrice){
-        this.floorChildPrice = floorChildPrice;
-    }
-    public void setFloorChildRotation(int floorChildRotation){
-        this.floorChildRotation = floorChildRotation;
-    }
-    public void setFloorChildCoordX(float floorChildCoordX){
-        this.floorChildCoordX = floorChildCoordX;
-    }
-    public void setFloorChildCoordY(float floorChildCoordY){
-        this.floorChildCoordY = floorChildCoordY;
-    }
-    public void setChild(string floorChildType, string floorChildName, int floorChildPrice, int floorChildRotation, float floorChildCoordX, float floorChildCoordY){
+    //generate obj on this floor obj
+    public StandardObject setChild(string floorChildType, string floorChildName, int floorChildPrice, int floorChildRotation, float floorChildCoordCorrectionX, float floorChildCoordCorrectionY){
         this.floorChildType = floorChildType;
         this.floorChildName = floorChildName;
         this.floorChildPrice = floorChildPrice;
         this.floorChildRotation = floorChildRotation;
-        this.floorChildCoordX = floorChildCoordX;
-        this.floorChildCoordY = floorChildCoordY;
+        this.floorChildCoordCorrectionX = floorChildCoordCorrectionX;
+        this.floorChildCoordCorrectionY = floorChildCoordCorrectionY;
+
+        //return obj to save in list (get reference)
+        return new StandardObject(floorChildType, floorChildName, floorChildPrice, floorChildRotation, floorChildCoordCorrectionX, floorChildCoordCorrectionY, floorCoordX, floorCoordY);
     }
 
     private void setFloorSpriteFromList(){

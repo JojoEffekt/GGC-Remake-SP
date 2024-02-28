@@ -8,7 +8,7 @@ public class ObjectController : MonoBehaviour
     public static List<WallObject> WallObjectList = new List<WallObject>();
     public static List<FloorObject> FloorObjectList = new List<FloorObject>();
 
-    public static List<StandartObject> standartObjectList = new List<StandartObject>();
+    public static List<StandardObject> standartObjectList = new List<StandardObject>();
     
 
     
@@ -16,24 +16,39 @@ public class ObjectController : MonoBehaviour
         WallObjectList.Add(new WallObject(wallName, rotation, wallChildName, wallChildLength, wallChildCoordCorrection,xCoord, yCoord));
     }
 
-    public static void GenerateFloorObject(string floorGameObjectName, string floorName, int floorPrice, float floorCoordX, float floorCoordY, string floorChildType, string floorChildName, int floorChildPrice, int floorChildRotation, float floorChildCoordX, float floorChildCoordY){
-        FloorObjectList.Add(new FloorObject(floorGameObjectName, floorName, floorPrice, floorCoordX, floorCoordY, floorChildType, floorChildName, floorChildPrice, floorChildRotation, floorChildCoordX, floorChildCoordY));
+    public static void GenerateFloorObject(string floorGameObjectName, string floorName, int floorPrice, float floorCoordX, float floorCoordY, string floorChildType, string floorChildName, int floorChildPrice, int floorChildRotation, float floorChildCoordCorrectionX, float floorChildCoordCorrectionY){
+        FloorObjectList.Add(new FloorObject(floorGameObjectName, floorName, floorPrice, floorCoordX, floorCoordY, floorChildType, floorChildName, floorChildPrice, floorChildRotation, floorChildCoordCorrectionX, floorChildCoordCorrectionY));
+
+        //generiert child from floor wenn floor obj child hat
+        if(string.IsNullOrWhiteSpace(floorChildType)==false){
+            //
+            //Continue
+            //Übergebe floor child parent coord name to create floor child go name as identifier
+            //
+            GenerateObjectOnFloor(floorChildType, floorChildName, floorChildRotation, floorChildPrice, floorChildCoordCorrectionX, floorChildCoordCorrectionY, floorGameObjectName);
+        }
     }
 
+
+
     //create object on floor 
-    public static void GenerateObjectOnFloor(string type, string objectName, int rotation, int price){
-        string parentFloorObject;
-        float parentFloorCoordX = 0;
-        float parentFloorCoordY = 0;
+    public static void GenerateObjectOnFloor(string type, string objectName, int rotation, int price, float floorChildCoordCorrectionX, float floorChildCoordCorrectionY, string floorNameToPlaceOn){
+        //get floor obj, give floor obj data, create obj in floor obj
         for(int a=0;a<FloorObjectList.Count;a++){
-            if(FloorObjectList[a].getFloorGameObjectName().Equals("5-5")){
-                parentFloorCoordX = FloorObjectList[a].getCoordX();
-                parentFloorCoordY = FloorObjectList[a].getCoordY();
+            if(FloorObjectList[a].floorGameObjectName.Equals(floorNameToPlaceOn)){
+                //übergibt obj data to floor obj, generate new obj, return obj to save in "standartObjectList"
+                standartObjectList.Add(FloorObjectList[a].setChild(type, objectName, rotation, price, floorChildCoordCorrectionX, floorChildCoordCorrectionY));
             }
         }
-        standartObjectList.Add(new StandartObject(type, objectName, rotation, price, parentFloorCoordX, parentFloorCoordY));
-        //FloorObjectList[a].setChild(type, objectName, price, rotation, coordX, coordY);
-        //continue save childobject in dekolist
+    }
+
+    //rotiert obj on floor obj
+    public static void RotateObjectOnFloor(string objectName){
+        for(int a=0;a<standartObjectList.Count;a++){
+            if(standartObjectList[a].objectName.Equals(objectName)){
+                standartObjectList[a].Rotate();
+            }
+        }
     }
 
     

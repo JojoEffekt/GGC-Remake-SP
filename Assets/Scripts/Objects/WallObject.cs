@@ -6,13 +6,17 @@ public class WallObject : MonoBehaviour
 {
     //attributes
     //muss gespeichert werden save&load
-    private string wallName;
-    private int rotation;
+    public string wallName { get; set; }
+    public int rotation { get; set; }
     private string wallChildName;
-    private int wallChildLength;
-    private float wallChildCoordCorrection;
-    private int coordX;
-    private int coordY;
+    public string WallChildName {
+        get { return this.wallChildName; } 
+        set { wallChildName = value; setDekoSpriteFromList(); setDekoSprite();}
+    }
+    public int wallChildLength { get; set; }
+    public float wallChildCoordCorrection { get; set; }
+    public int coordX { get; set; }
+    public int coordY { get; set; }
 
     //folgende vars werden automatisch erstellt
     private GameObject WallPrefab;
@@ -56,20 +60,20 @@ public class WallObject : MonoBehaviour
         WallPrefab = Resources.Load("Prefabs/WallPrefab") as GameObject;
 
         //load images from folder
-        object[] sprites = Resources.LoadAll("Wall/WallRight",typeof(Sprite));
+        object[] sprites = Resources.LoadAll("Textures/Wall/WallRight",typeof(Sprite));
         for(int x=0;x<sprites.Length;x++){
            	spriteWallListRight.Add((Sprite)sprites[x]);
         }
-        sprites = Resources.LoadAll("Wall/WallLeft",typeof(Sprite));
+        sprites = Resources.LoadAll("Textures/Wall/WallLeft",typeof(Sprite));
         for(int x=0;x<sprites.Length;x++){
            	spriteWallListLeft.Add((Sprite)sprites[x]);
         }
 
-        sprites = Resources.LoadAll("Wall/WallDekoRight",typeof(Sprite));
+        sprites = Resources.LoadAll("Textures/Wall/WallDekoRight",typeof(Sprite));
         for(int x=0;x<sprites.Length;x++){
            	spriteDekoListRight.Add((Sprite)sprites[x]);
         }
-        sprites = Resources.LoadAll("Wall/WallDekoLeft",typeof(Sprite));
+        sprites = Resources.LoadAll("Textures/Wall/WallDekoLeft",typeof(Sprite));
         for(int x=0;x<sprites.Length;x++){
            	spriteDekoListLeft.Add((Sprite)sprites[x]);
         }
@@ -79,24 +83,6 @@ public class WallObject : MonoBehaviour
     }
 
     //getters
-    public string getWallName(){
-        return this.wallName;
-    }
-    public int getRotation(){
-        return this.rotation;
-    }
-    public string getWallChildName(){
-        return this.wallChildName;
-    }
-    public int getWallChildLength(){
-        return this.wallChildLength;
-    }
-    public int getCoordX(){
-        return this.coordX;
-    }
-    public int getCoordY(){
-        return this.coordY;
-    }
     public string getInfo(){
         string info = wallName+";"+rotation+";"+wallChildName+";"+wallChildLength+";"+wallChildCoordCorrection+";"+coordX+";"+coordY;
         return info;
@@ -109,25 +95,6 @@ public class WallObject : MonoBehaviour
         //render new wallName
         setWallSpriteFromList();
         setWallSprite();
-    }
-    public void setRotation(int rotation){
-        this.rotation = rotation;
-    }
-    public void setWallChildName(string name){
-        this.wallChildName = name;
-
-        //render new dekoName
-        setDekoSpriteFromList();
-        setDekoSprite();
-    }
-    public void setWallChildLength(int length){
-        this.wallChildLength = length;
-    }
-    public void setCoordX(int coordX){
-        this.coordX = coordX;
-    }
-    public void setCoordY(int coordY){
-        this.coordY = coordY;
     }
     public void setWallChildNameEmpty(){
         //continue

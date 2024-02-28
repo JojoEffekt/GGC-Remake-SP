@@ -35,8 +35,8 @@ public class SaveAndLoadController : MonoBehaviour
             Debug.Log("error, failed to load Player-data!");
         }
 
-        //wenn wallfile/floorfile exist, lade wallfile/floorfile, ansonsten genriere grid
-        try{
+        //wenn wallfile/floorfile exist, lade wallfile/floorfile, ansonsten generiere grid
+       // try{
             if(File.Exists(Application.dataPath+"/Data/"+wallDataFilePath)==true&&File.Exists(Application.dataPath+"/Data/"+floorDataFilePath)==true){
                 StreamReader source = new StreamReader(Application.dataPath + "/Data/" + wallDataFilePath);
                 string fileContents = source.ReadToEnd();
@@ -73,9 +73,9 @@ public class SaveAndLoadController : MonoBehaviour
                 GridController.GenerateGrid();
                 Debug.Log("no Wall/Floor-data, generate grid for the first time!");
             }
-        }catch(Exception e){
+       /* }catch(Exception e){
             Debug.Log("error, failed to load Wall/Floor-data!");
-        }
+        } */
     }
 
     public static void SavePlayerData(){
