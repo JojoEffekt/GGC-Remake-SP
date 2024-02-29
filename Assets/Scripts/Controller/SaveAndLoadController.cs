@@ -36,7 +36,7 @@ public class SaveAndLoadController : MonoBehaviour
         }
 
         //wenn wallfile/floorfile exist, lade wallfile/floorfile, ansonsten generiere grid
-       // try{
+        //try{
             if(File.Exists(Application.dataPath+"/Data/"+wallDataFilePath)==true&&File.Exists(Application.dataPath+"/Data/"+floorDataFilePath)==true){
                 StreamReader source = new StreamReader(Application.dataPath + "/Data/" + wallDataFilePath);
                 string fileContents = source.ReadToEnd();
@@ -60,7 +60,7 @@ public class SaveAndLoadController : MonoBehaviour
                 //lines.Length-1: -1 because WriteLine generates an empty line on bottom
                 for(int a=0;a<lines.Length-1;a++){
                     string[] lineItem = lines[a].Split(";");
-                    ObjectController.GenerateFloorObject(lineItem[0],lineItem[1],Int32.Parse(lineItem[2]),float.Parse(lineItem[3]),float.Parse(lineItem[4]),lineItem[5],lineItem[6],Int32.Parse(lineItem[7]),Int32.Parse(lineItem[8]),float.Parse(lineItem[9]),float.Parse(lineItem[10]));
+                    ObjectController.GenerateFloorObject(lineItem[0],lineItem[1],Int32.Parse(lineItem[2]),float.Parse(lineItem[3]),float.Parse(lineItem[4]),lineItem[5],lineItem[6],lineItem[7],Int32.Parse(lineItem[8]),float.Parse(lineItem[9]),float.Parse(lineItem[10]),float.Parse(lineItem[11]),float.Parse(lineItem[12]));
                 }
                 Debug.Log("successfully load Floor-data!");
 
@@ -73,9 +73,9 @@ public class SaveAndLoadController : MonoBehaviour
                 GridController.GenerateGrid();
                 Debug.Log("no Wall/Floor-data, generate grid for the first time!");
             }
-       /* }catch(Exception e){
+        /*}catch(Exception e){
             Debug.Log("error, failed to load Wall/Floor-data!");
-        } */
+        }*/
     }
 
     public static void SavePlayerData(){

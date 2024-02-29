@@ -6,11 +6,14 @@ public class StandardObject : MonoBehaviour
 {   
     //attributes
     public string type { get; set; }
+    public string gameObjectName { get; set; }
     public string objectName { get; set; }
     public int price { get; set; }
     public int rotation { get; set; }
-    public float coordCorrectionX { get; set; }
-    public float coordCorrectionY { get; set; }
+    public float coordCorrectionXA { get; set; }
+    public float coordCorrectionYA { get; set; }
+    public float coordCorrectionXB { get; set; }
+    public float coordCorrectionYB { get; set; }
     public float coordX { get; set; }
     public float coordY { get; set; }
 
@@ -22,23 +25,25 @@ public class StandardObject : MonoBehaviour
     private Sprite standartSprite;
 
     //constructor
-    public StandardObject(string type, string objectName, int price, int rotation, float coordCorrectionX, float coordCorrectionY, float coordX, float coordY){
+    public StandardObject(string type, string gameObjectName, string objectName, int price, float coordCorrectionXA, float coordCorrectionYA, float coordCorrectionXB, float coordCorrectionYB, float coordX, float coordY){
         this.type = type;
+        this.gameObjectName = gameObjectName;
         this.objectName = objectName;
         this.price = price;
-        this.rotation = rotation;
-        this.coordCorrectionX = coordCorrectionX;
-        this.coordCorrectionY = coordCorrectionY;
+        this.coordCorrectionXA = coordCorrectionXA;
+        this.coordCorrectionYA = coordCorrectionYA;
+        this.coordCorrectionXB = coordCorrectionXB;
+        this.coordCorrectionYB = coordCorrectionYB;
         this.coordX = coordX;
         this.coordY = coordY;
 
         LoadAssets();
-        setStandartSpriteFromList();
         
         //generate UI
-        StandartGameObject = Instantiate(StandartPrefab, new Vector2(coordX,coordY), Quaternion.identity);
-        StandartGameObject.transform.position = new Vector2(StandartGameObject.transform.position.x + coordCorrectionX, StandartGameObject.transform.position.y + coordCorrectionY);
+        StandartGameObject = Instantiate(StandartPrefab, new Vector2(this.coordX, this.coordY), Quaternion.identity);
+        StandartGameObject.name = this.gameObjectName;
 
+        setStandartSpriteFromList();
         setStandartSprite();
     }
 
@@ -52,8 +57,9 @@ public class StandardObject : MonoBehaviour
            	dekoSpriteList.Add((Sprite)sprites[x]);
         }
     } 
-    public void Rotate(){
+    public string Rotate(){
         //get ende von name (a,b,c,d) dann nächster buchstabe
+        //set next name, danach generiere das bild
         string[] nameSlice = objectName.Split("_");
         if(nameSlice[nameSlice.Length-1].Equals("a")){
             this.objectName = objectName.Substring(0,objectName.Length-1)+"b";
@@ -66,16 +72,23 @@ public class StandardObject : MonoBehaviour
         }
         setStandartSpriteFromList();
         setStandartSprite();
+
+        return objectName;
     }
     public void Info(){
-        Debug.Log("StandartObject-"+type+": ["+coordX+","+coordY+"], rotation:"+rotation+", objectName:"+objectName+", price:"+price);
+        Debug.Log("StandartObject-"+type+": ["+coordX+","+coordY+"], objectName:"+objectName+", price:"+price);
     }
 
     //getters
+    public string getInfo(){
+        string info = type+";"+gameObjectName+";"+objectName+";"+price+";"+coordCorrectionXA+";"+coordCorrectionYA+";"+coordCorrectionXB+";"+coordCorrectionYB;
+        return info;
+    }
+
 
     //setters
+    //sucht passendes sprite
     private void setStandartSpriteFromList(){
-        //suche sprite from lists
         Sprite sprite = null;
         if(type.Equals("Deko")){
             for(int a=0;a<dekoSpriteList.Count;a++){
@@ -86,8 +99,19 @@ public class StandardObject : MonoBehaviour
         }
         this.standartSprite = sprite;
     }
+    //rendert passendes sprite
     public void setStandartSprite(){
         StandartGameObject.GetComponent<SpriteRenderer>().sprite = standartSprite;
         StandartGameObject.GetComponent<SpriteRenderer>().sortingOrder = 1;
+        //reset coords
+        StandartGameObject.transform.position = new Vector2(coordX, coordY);
+
+        //render coordcorrection for rotated sprite 
+        string[] nameSlice = objectName.Split("_");
+        if(nameSlice[nameSlice.Length-1].Equals("a")||nameSlice[nameSlice.Length-1].Equals("c")){
+            StandartGameObject.transform.position = new Vector2(StandartGameObject.transform.position.x + coordCorrectionXA, StandartGameObject.transform.position.y + coordCorrectionYA);
+        }else if(nameSlice[nameSlice.Length-1].Equals("b")||nameSlice[nameSlice.Length-1].Equals("d")){
+            StandartGameObject.transform.position = new Vector2(StandartGameObject.transform.position.x + coordCorrectionXB, StandartGameObject.transform.position.y + coordCorrectionYB);
+        }
     }
 }
