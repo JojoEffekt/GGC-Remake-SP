@@ -46,8 +46,10 @@ public class WallObject : MonoBehaviour
         //generate UI
         if(rotation==0){
             WallGameObject = Instantiate(WallPrefab, new Vector2((coordX*2)-1,(1-coordX)), Quaternion.identity);
+            WallGameObject.GetComponent<SpriteRenderer>().sortingOrder = coordX-1;
         }else if(rotation==1){
             WallGameObject = Instantiate(WallPrefab, new Vector2(-1.23f+((coordY-1)*-2),(1-coordY)), Quaternion.identity);
+            WallGameObject.GetComponent<SpriteRenderer>().sortingOrder = coordY-1;
         }
 
         setWallSprite();

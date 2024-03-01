@@ -26,109 +26,96 @@ public class ObjectController : MonoBehaviour
         if(string.IsNullOrWhiteSpace(floorChildType)==false){
             //Übergebe floor child parent coord name to create floor child go name as identifier
 
-            for(int a=0;a<FloorObjectList.Count;a++){
-                if(FloorObjectList[a].floorGameObjectName.Equals(floorGameObjectName)){//sucht floorObject anhand von floorGameObjectName
-                    standardObjectList.Add(FloorObjectList[a].setChild(floorChildType, floorGameObjectName, floorChildName, floorChildPrice, floorChildCoordCorrectionXA, floorChildCoordCorrectionYA, floorChildCoordCorrectionXB, floorChildCoordCorrectionYB));
-                }
-            }
+            FloorObject floorObject = getFloorGOFromFloorGOName(floorGameObjectName);
+            standardObjectList.Add(floorObject.setChild(floorChildType, floorGameObjectName, floorChildName, floorChildPrice, floorChildCoordCorrectionXA, floorChildCoordCorrectionYA, floorChildCoordCorrectionXB, floorChildCoordCorrectionYB));
         }
     }
+
     //create object on floor 
     public static void GenerateObjectOnFloor(string type, string objectName, int price, float floorChildCoordCorrectionXA, float floorChildCoordCorrectionYA, float floorChildCoordCorrectionXB, float floorChildCoordCorrectionYB, string floorNameToPlaceOn){
-        //get floor obj, give floor obj data, create obj in floor obj
-        for(int a=0;a<FloorObjectList.Count;a++){
-            if(FloorObjectList[a].floorGameObjectName.Equals(floorNameToPlaceOn)){//sucht floorObject anhand von floorGameObjectName
-                if(string.IsNullOrWhiteSpace(FloorObjectList[a].floorChildType)==true){//wenn floorGameObject schon childgameObject hat, erzeuge nicht
-                    //übergibt obj data to floor obj, generate new obj, return obj to save in "standardObjectList"
-                    standardObjectList.Add(FloorObjectList[a].setChild(type, floorNameToPlaceOn, objectName, price, floorChildCoordCorrectionXA, floorChildCoordCorrectionYA, floorChildCoordCorrectionXB, floorChildCoordCorrectionYB));   
-                }
-            }
+        //übergibt obj data to floor obj, generate new obj, return obj to save in "standardObjectList"
+        FloorObject floorObject = getFloorGOFromFloorGOName(floorNameToPlaceOn);
+        if(string.IsNullOrWhiteSpace(floorObject.floorChildType)==true){//wenn floorGameObject schon childgameObject hat, erzeuge nicht
+            standardObjectList.Add(floorObject.setChild(type, floorNameToPlaceOn, objectName, price, floorChildCoordCorrectionXA, floorChildCoordCorrectionYA, floorChildCoordCorrectionXB, floorChildCoordCorrectionYB));   
         }
     }
+
     //rotiert obj on floor obj
     public static void RotateObjectOnFloor(string floorChildGameObjectName){
-        //cut string to get floorGameObject
-        string[] nameSlice = floorChildGameObjectName.Split("-");
-        StandardObject child = null;
+        //get currentFloorParent from child
+        string FloorGameObjectName = getFloorGONameFromChildGOName(floorChildGameObjectName);
 
-        //get floorchild object durch floorChildGameObjectName
-        for(int a=0;a<standardObjectList.Count;a++){
-            if(standardObjectList[a].gameObjectName.Equals(floorChildGameObjectName)){
-                child = standardObjectList[a];
-            }
-        }
-        //get floor object durch floorChildGameObjectName
-        for(int b=0;b<FloorObjectList.Count;b++){
-            if((nameSlice[0]+"-"+nameSlice[1]).Equals(FloorObjectList[b].floorGameObjectName)){
-                //Debug.Log("rotate: "+FloorObjectList[b].getInfo());
-                FloorObjectList[b].RotateChild(child);
-            }
-        }
+        StandardObject child = getFloorGOChildFromChildGOName(floorChildGameObjectName);
+
+        //get floor object durch FloorGameObjectName 
+        FloorObject floorObject = getFloorGOFromFloorGOName(FloorGameObjectName);
+        floorObject.RotateChild(child);
     }
 
-    //platziert ein floorChildGameObject von ein floorGameObject auf einen anderes floorGameObject
+    //platziert ein floorChildGameObject von ein floorGameObject auf einen anderes floorGameObject und löscht das alte
     public static void MoveObjectOnFloor(string floorChildGameObjectName, string newFloorGameObjectName){
-        string[] nameSlice = floorChildGameObjectName.Split("-");//splitt name
-        string floorChildInfo = "";
-        string oldFloorGameObjectName = nameSlice[0]+"-"+nameSlice[1];//get old parent
-        string[] floorChildInfoItems = new string[100];
+        //get currentFloorParent from child
+        string oldFloorGameObjectName = getFloorGONameFromChildGOName(floorChildGameObjectName);
 
         //hole floorchild data von floorParent
-        for(int b=0;b<FloorObjectList.Count;b++){
-            if(FloorObjectList[b].floorGameObjectName.Equals(oldFloorGameObjectName)){
-                floorChildInfo = FloorObjectList[b].getInfo();
-                floorChildInfoItems = floorChildInfo.Split(";");
-            }
-        }
+        FloorObject floorObject = getFloorGOFromFloorGOName(oldFloorGameObjectName);
+        string floorChildInfo = floorObject.getInfo();
+        string[] floorChildInfoItems = floorChildInfo.Split(";");
 
-        //check if new FloorGameObject hat bereits FloorChildGameObject, wenn nicht generiere neuen child
+        //gucke ob neue position bereits ein childObject besitzt, wenn nicht platziere
         for(int c=0;c<FloorObjectList.Count;c++){
             if(FloorObjectList[c].floorGameObjectName.Equals(newFloorGameObjectName)){
                 if(string.IsNullOrWhiteSpace(FloorObjectList[c].floorChildType)){
-                    Debug.Log("Empty, can place new child");
-                    
-                    //platziere FloorChildGameObject all data neu
-                    /*
-
-
-                    Falsch oder neu nmachen
-                    entweder neues Object generiernen und altes vollständig löschen,
-
-                    oder object moven, dann aber neue methoden in Standartobject
-
-
-                    */
                     GenerateObjectOnFloor(floorChildInfoItems[5],floorChildInfoItems[7],Int32.Parse(floorChildInfoItems[8]),float.Parse(floorChildInfoItems[9]),float.Parse(floorChildInfoItems[10]),float.Parse(floorChildInfoItems[11]),float.Parse(floorChildInfoItems[12]),newFloorGameObjectName);
-                    //löscht child von alten floorGO
-                    DeleteChildFromFloor(oldFloorGameObjectName);
-                }else{
-                    Debug.Log("cant place new child");
+                    DestroyFloorChild(floorChildGameObjectName);
                 }
             }
         }
     }
 
-    //lösche FloorChildGameObject aus FloorGameObject
-    public static void DeleteChildFromFloor(string floorGOName){//(floorGameObjectName)
-        for(int a=0;a<FloorObjectList.Count;a++){
-            if(FloorObjectList[a].floorGameObjectName.Equals(floorGOName)){
-                FloorObjectList[a].DeleteChild();
-                Debug.Log("delete child from old obj");
+    //lösche FloorChildGameObject aus dem spiel FloorGameObject
+    public static void DestroyFloorChild(string childGOName){//(floorChildGameObjectName)
+        string floorGOName = getFloorGONameFromChildGOName(childGOName);
+
+        //delete floorChild info von floorGameObject
+        FloorObject floorObject = getFloorGOFromFloorGOName(floorGOName);
+        floorObject.DeleteChild();
+
+        //delete floorChild von standardObjectList
+        for(int b=0;b<standardObjectList.Count;b++){
+            if(standardObjectList[b].gameObjectName.Equals(childGOName)){
+                standardObjectList.RemoveAt(b);
             }
         }
+        //delete floorChild from scene
+        Destroy(GameObject.Find(childGOName));
     }
 
-    
 
-    public static void PrintWallObjectList(){
-        for(int a=0;a<WallObjectList.Count;a++){
-            WallObjectList[a].Info();
+
+    public static StandardObject getFloorGOChildFromChildGOName(string floorChildGameObjectName){
+        StandardObject objChild = null;
+        for(int a=0;a<standardObjectList.Count;a++){
+            if(standardObjectList[a].gameObjectName.Equals(floorChildGameObjectName)){
+                objChild = standardObjectList[a];
+            }
         }
+        return objChild;
     }
 
-    public static void PrintFloorObjectList(){
+    public static FloorObject getFloorGOFromFloorGOName(string floorGameObjectName){
+        FloorObject obj = null;
         for(int a=0;a<FloorObjectList.Count;a++){
-            FloorObjectList[a].Info();
+            if(FloorObjectList[a].floorGameObjectName.Equals(floorGameObjectName)){
+                obj = FloorObjectList[a];
+            }
         }
+        return obj;
+    }
+
+    public static string getFloorGONameFromChildGOName(string floorChildGameObjectName){
+        string[] nameSlice = floorChildGameObjectName.Split("-");//splitt name
+        string oldFloorGameObjectName = nameSlice[0]+"-"+nameSlice[1];//get old parent
+        return oldFloorGameObjectName;
     }
 }

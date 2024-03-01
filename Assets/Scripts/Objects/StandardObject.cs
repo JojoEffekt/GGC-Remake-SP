@@ -41,6 +41,7 @@ public class StandardObject : MonoBehaviour
         
         //generate UI
         StandartGameObject = Instantiate(StandartPrefab, new Vector2(this.coordX, this.coordY), Quaternion.identity);
+        StandartGameObject.GetComponent<SpriteRenderer>().sortingOrder = (int)(-coordY-2.75f);
         StandartGameObject.name = this.gameObjectName;
 
         setStandartSpriteFromList();
@@ -102,7 +103,6 @@ public class StandardObject : MonoBehaviour
     //rendert passendes sprite
     public void setStandartSprite(){
         StandartGameObject.GetComponent<SpriteRenderer>().sprite = standartSprite;
-        StandartGameObject.GetComponent<SpriteRenderer>().sortingOrder = 1;
         //reset coords
         StandartGameObject.transform.position = new Vector2(coordX, coordY);
 
