@@ -12,8 +12,17 @@ public class ObjectController : MonoBehaviour
     
 
     
-    public static void GenerateWallObject(string wallName, int rotation, string wallChildName, int wallChildLength, float wallChildCoordCorrection, int xCoord, int yCoord){
-        WallObjectList.Add(new WallObject(wallName, rotation, wallChildName, wallChildLength, wallChildCoordCorrection,xCoord, yCoord));
+    public static void GenerateWallObject(string wallGameObjectName, string wallSpriteName, int rotation, string wallChildName, int wallChildLength, float wallChildCoordCorrection, int xCoord, int yCoord){
+        WallObjectList.Add(new WallObject(wallGameObjectName, wallSpriteName, rotation, wallChildName, wallChildLength, wallChildCoordCorrection,xCoord, yCoord));
+    }
+
+    //render Deko Obj on Wall
+    public static void GenerateObjectOnWall(string wallChildName, string wallName){
+        WallObject wallObject = getWallGOFromWallGOName(wallName);
+        //wenn kein deko object auf WallObject ist, generiere deko obj
+        if(string.IsNullOrWhiteSpace(wallObject.WallChildName)){
+            wallObject.WallChildName = wallChildName;
+        }
     }
 
 
@@ -92,6 +101,16 @@ public class ObjectController : MonoBehaviour
     }
 
 
+
+    public static WallObject getWallGOFromWallGOName(string wallGOName){
+        WallObject obj = null;
+        for(int a=0;a<WallObjectList.Count;a++){
+            if(WallObjectList[a].wallGameObjectName.Equals(wallGOName)){
+                obj = WallObjectList[a];
+            }
+        }
+        return obj;
+    }
 
     public static StandardObject getFloorGOChildFromChildGOName(string floorChildGameObjectName){
         StandardObject objChild = null;
