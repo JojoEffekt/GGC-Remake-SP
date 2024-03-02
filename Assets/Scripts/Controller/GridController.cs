@@ -16,15 +16,16 @@ public class GridController : MonoBehaviour
                 //floorName, floorPrice, floorCoordX, floorCoordY, floorChildType, floorChildGameObjectName, floorChildName, floorChildPrice, floorChildRotation, floorChildCoordCorrectionXA, floorChildCoordCorrectionYA, floorChildCoordCorrectionXB, floorChildCoordCorrectionYB
             }
             //create wall
-            ObjectController.GenerateWallObject((a+1)+"-"+0+"-Wall" ,"Wall_09_", 0, "Wall_Deko_01_1_", 0, 0.1f,a+1, 0);
-            ObjectController.GenerateWallObject(0+"-"+(a+1)+"-Wall" ,"Wall_09_", 1, null, 0, 0.1f,0, a+1);
+            ObjectController.GenerateWallObject((a+1)+"-"+0+"-Wall" ,"Wall_09_", 0, null, 0, 0.0f, 0.0f,a+1, 0);
+            ObjectController.GenerateWallObject(0+"-"+(a+1)+"-Wall" ,"Wall_09_", 1, null, 0, 0.0f, 0.0f, 0, a+1);
         }
 
-        ObjectController.GenerateObjectOnWall("Wall_Deko_02_1_", "0-2-Wall");//(floorChildName,WallName)
-        ObjectController.GenerateObjectOnWall("Wall_Deko_02_1_", "2-0-Wall");//(floorChildName,WallName)
-
-
-
+        ObjectController.GenerateObjectOnWall("Wall_Deko_02_1_", "0-2-Wall", 1, 0.75f, 1.0f);//(floorChildName,WallName,wallChildLength,coordCorrectionX,coordCorrectionY)
+        ObjectController.GenerateObjectOnWall("Wall_Deko_09_", "0-5-Wall", 3, 1.15f, 1.0f);//(floorChildName,WallName,wallChildLength,coordCorrectionX,coordCorrectionY)
+        ObjectController.GenerateObjectOnWall("Wall_Deko_10_1_", "4-0-Wall", 1, 0.75f, 1.0f);
+        ObjectController.GenerateObjectOnWall("Wall_Deko_09_", "5-0-Wall", 3, 1.15f, 1.0f);//(floorChildName,WallName,wallChildLength,coordCorrectionX,coordCorrectionY)
+        ObjectController.GenerateObjectOnWall("Wall_Deko_02_1_", "2-0-Wall", 1, 0.75f, 1.0f);//(floorChildName,WallName,wallChildLength,coordCorrectionX,coordCorrectionY)
+        ObjectController.GenerateObjectOnWall("Wall_Deko_09_", "1-0-Wall", 3, 1.15f, 1.0f);
 
         ObjectController.GenerateObjectOnFloor("Deko", "Deko_11_1_a", 10, -0.2f, 2.4f, 0.15f, 2.4f, "5-5");//(type,spriteName,price,coordCoorXA...-coordCoorYB,FloorGameObjectName)
         ObjectController.RotateObjectOnFloor("5-5-Child");//(floorChildGameObjectName)

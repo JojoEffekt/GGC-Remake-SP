@@ -12,16 +12,41 @@ public class ObjectController : MonoBehaviour
     
 
     
-    public static void GenerateWallObject(string wallGameObjectName, string wallSpriteName, int rotation, string wallChildName, int wallChildLength, float wallChildCoordCorrection, int xCoord, int yCoord){
-        WallObjectList.Add(new WallObject(wallGameObjectName, wallSpriteName, rotation, wallChildName, wallChildLength, wallChildCoordCorrection,xCoord, yCoord));
+    public static void GenerateWallObject(string wallGameObjectName, string wallSpriteName, int rotation, string wallChildName, int wallChildLength, float wallChildCoordCorrectionX, float wallChildCoordCorrectionY, int xCoord, int yCoord){
+        WallObjectList.Add(new WallObject(wallGameObjectName, wallSpriteName, rotation, wallChildName, wallChildLength, wallChildCoordCorrectionX, wallChildCoordCorrectionY, xCoord, yCoord));
     }
 
     //render Deko Obj on Wall
-    public static void GenerateObjectOnWall(string wallChildName, string wallName){
+    public static void GenerateObjectOnWall(string wallChildName, string wallName, int wallChildLength, float wallChildCoordCorrectionX, float wallChildCoordCorrectionY){
         WallObject wallObject = getWallGOFromWallGOName(wallName);
         //wenn kein deko object auf WallObject ist, generiere deko obj
-        if(string.IsNullOrWhiteSpace(wallObject.WallChildName)){
-            wallObject.WallChildName = wallChildName;
+        if(wallChildLength == 3){//überprüfe ob es ein 2 teiliges child ist, wenn ja prüfe ob nachbar existiert + child hat (3==2teilig)
+            //prüfe ob ein kleineren nachbarn hat, prüfe ob der nachbar frei ist
+            WallObject neighbourWallobject = getSmallerNeighbourWallGOFromWallGOName(wallName);
+            if(neighbourWallobject.wallGameObjectName!=null){
+                if(string.IsNullOrWhiteSpace(wallObject.WallChildName)&&string.IsNullOrWhiteSpace(neighbourWallobject.WallChildName)){
+                    Debug.Log("Generate 3er obj");
+                    wallObject.wallChildCoordCorrectionX = wallChildCoordCorrectionX;
+                    wallObject.wallChildCoordCorrectionY = wallChildCoordCorrectionY;
+                    wallObject.wallChildLength = wallChildLength;
+                    wallObject.WallChildName = wallChildName;
+
+                    neighbourWallobject.wallChildCoordCorrectionX = 0.0f;
+                    neighbourWallobject.wallChildCoordCorrectionY = 0.0f;
+                    neighbourWallobject.wallChildLength = 2;
+                    neighbourWallobject.WallChildName = "placeholder";
+                }else{
+                    Debug.Log("no space, eighter main or sec");
+                }
+            }
+        }else{
+            if(string.IsNullOrWhiteSpace(wallObject.WallChildName)){
+                Debug.Log("Generate 1er obj");
+                wallObject.wallChildCoordCorrectionX = wallChildCoordCorrectionX;
+                wallObject.wallChildCoordCorrectionY = wallChildCoordCorrectionY;
+                wallObject.wallChildLength = wallChildLength;
+                wallObject.WallChildName = wallChildName;
+            }
         }
     }
 
@@ -101,13 +126,26 @@ public class ObjectController : MonoBehaviour
     }
 
 
-
+    //getter
     public static WallObject getWallGOFromWallGOName(string wallGOName){
         WallObject obj = null;
         for(int a=0;a<WallObjectList.Count;a++){
             if(WallObjectList[a].wallGameObjectName.Equals(wallGOName)){
                 obj = WallObjectList[a];
             }
+        }
+        return obj;
+    }
+
+    public static WallObject getSmallerNeighbourWallGOFromWallGOName(string wallGOName){
+        WallObject obj = new WallObject();
+        string[] nameSlice = wallGOName.Split("-");//splitt name
+        int val1 = Int32.Parse(nameSlice[0]);//gucke ob eine x,y coord größer als 1 ist
+        int val2 = Int32.Parse(nameSlice[1]);
+        if(val1>1){
+            obj = getWallGOFromWallGOName((val1-1).ToString()+"-"+nameSlice[1]+"-Wall");
+        }else if(val2>1){
+            obj = getWallGOFromWallGOName(nameSlice[0]+"-"+(val2-1).ToString()+"-Wall");
         }
         return obj;
     }

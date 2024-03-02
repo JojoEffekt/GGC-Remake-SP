@@ -46,7 +46,7 @@ public class SaveAndLoadController : MonoBehaviour
                 //lines.Length-1: -1 because WriteLine generates an empty line on bottom
                 for(int a=0;a<lines.Length-1;a++){
                     string[] lineItem = lines[a].Split(";");
-                    ObjectController.GenerateWallObject(lineItem[0], lineItem[1],Int32.Parse(lineItem[2]),lineItem[3],Int32.Parse(lineItem[4]),float.Parse(lineItem[5]),Int32.Parse(lineItem[6]),Int32.Parse(lineItem[7]));
+                    ObjectController.GenerateWallObject(lineItem[0], lineItem[1],Int32.Parse(lineItem[2]),lineItem[3],Int32.Parse(lineItem[4]),float.Parse(lineItem[5]),float.Parse(lineItem[6]),Int32.Parse(lineItem[7]),Int32.Parse(lineItem[8]));
                 }
                 Debug.Log("successfully load Wall-data!");
 

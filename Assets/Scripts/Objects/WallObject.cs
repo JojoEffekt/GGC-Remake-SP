@@ -22,8 +22,9 @@ public class WallObject : MonoBehaviour
         set { wallChildName = value; setDekoSpriteFromList(); }
     }
 
-    public int wallChildLength { get; set; }
-    public float wallChildCoordCorrection { get; set; }
+    public int wallChildLength { get; set; }//0=NoChild 1=SingleChild 2=SecDoubleChild 3=MainDoubleChild
+    public float wallChildCoordCorrectionX { get; set; }
+    public float wallChildCoordCorrectionY { get; set; }
     public int coordX { get; set; }
     public int coordY { get; set; }
 
@@ -39,13 +40,14 @@ public class WallObject : MonoBehaviour
     private Sprite dekoSprite;
 
     //constructor
-    public WallObject(string wallGameObjectName, string wallSpriteName, int rotation, string wallChildName, int wallChildLength, float wallChildCoordCorrection, int coordX, int coordY){
+    public WallObject(string wallGameObjectName, string wallSpriteName, int rotation, string wallChildName, int wallChildLength, float wallChildCoordCorrectionX, float wallChildCoordCorrectionY, int coordX, int coordY){
         this.wallGameObjectName = wallGameObjectName;
         this.wallSpriteName = wallSpriteName;
         this.rotation = rotation;
         this.wallChildName = wallChildName;
         this.wallChildLength = wallChildLength;
-        this.wallChildCoordCorrection = wallChildCoordCorrection;
+        this.wallChildCoordCorrectionX = wallChildCoordCorrectionX;
+        this.wallChildCoordCorrectionY = wallChildCoordCorrectionY;
         this.coordX = coordX;
         this.coordY = coordY;
 
@@ -54,6 +56,8 @@ public class WallObject : MonoBehaviour
         InstantiateWall();
         setWallSpriteFromList();
         setDekoSpriteFromList();
+    }
+    public WallObject(){
     }
 
     //methods
@@ -103,10 +107,10 @@ public class WallObject : MonoBehaviour
         GameObject child = WallGameObject.transform.GetChild(0).gameObject;
         child.GetComponent<SpriteRenderer>().sprite = dekoSprite;
         if(rotation==0){
-            child.transform.position = new Vector2(WallGameObject.transform.position.x-wallChildCoordCorrection,WallGameObject.transform.position.y+0.85f);
+            child.transform.position = new Vector2(WallGameObject.transform.position.x-wallChildCoordCorrectionX,WallGameObject.transform.position.y+wallChildCoordCorrectionY);
             child.GetComponent<SpriteRenderer>().sortingOrder = coordX-1;
         }else if(rotation==1){
-            child.transform.position = new Vector2(WallGameObject.transform.position.x+wallChildCoordCorrection,WallGameObject.transform.position.y+0.85f);
+            child.transform.position = new Vector2(WallGameObject.transform.position.x+wallChildCoordCorrectionX,WallGameObject.transform.position.y+wallChildCoordCorrectionY);
             child.GetComponent<SpriteRenderer>().sortingOrder = coordY-1;    
         }
     }
@@ -115,7 +119,7 @@ public class WallObject : MonoBehaviour
 
     //getters
     public string getInfo(){
-        string info = wallGameObjectName+";"+wallSpriteName+";"+rotation+";"+wallChildName+";"+wallChildLength+";"+wallChildCoordCorrection+";"+coordX+";"+coordY;
+        string info = wallGameObjectName+";"+wallSpriteName+";"+rotation+";"+wallChildName+";"+wallChildLength+";"+wallChildCoordCorrectionX+";"+wallChildCoordCorrectionY+";"+coordX+";"+coordY;
         return info;
     }
 
