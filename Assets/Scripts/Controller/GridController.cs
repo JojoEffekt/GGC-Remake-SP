@@ -16,8 +16,8 @@ public class GridController : MonoBehaviour
                 //floorName, floorPrice, floorCoordX, floorCoordY, floorChildType, floorChildGameObjectName, floorChildName, floorChildPrice, floorChildRotation, floorChildCoordCorrectionXA, floorChildCoordCorrectionYA, floorChildCoordCorrectionXB, floorChildCoordCorrectionYB
             }
             //create wall
-            ObjectController.GenerateWallObject("Wall_09_", 0, null, 0, 0.1f,a+1, 0);
-            ObjectController.GenerateWallObject("Wall_09_", 1, null, 0, 0.1f,0, a+1);
+            ObjectController.GenerateWallObject("Wall_09_", 0, "Wall_Deko_01_1_", 0, 0.1f,a+1, 0);
+            ObjectController.GenerateWallObject("Wall_09_", 1, "Wall_Deko_01_1_", 0, 0.1f,0, a+1);
         }
 
         ObjectController.GenerateObjectOnFloor("Deko", "Deko_11_1_a", 10, -0.2f, 2.4f, 0.15f, 2.4f, "5-5");//(type,spriteName,price,coordCoorXA...-coordCoorYB,FloorGameObjectName)

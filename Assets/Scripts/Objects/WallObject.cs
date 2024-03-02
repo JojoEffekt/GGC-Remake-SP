@@ -46,11 +46,12 @@ public class WallObject : MonoBehaviour
         //generate UI
         if(rotation==0){
             WallGameObject = Instantiate(WallPrefab, new Vector2((coordX*2)-1,(1-coordX)), Quaternion.identity);
-            WallGameObject.GetComponent<SpriteRenderer>().sortingOrder = coordX-1;
+            WallGameObject.GetComponent<SpriteRenderer>().sortingOrder = coordX-2;
         }else if(rotation==1){
             WallGameObject = Instantiate(WallPrefab, new Vector2(-1.23f+((coordY-1)*-2),(1-coordY)), Quaternion.identity);
-            WallGameObject.GetComponent<SpriteRenderer>().sortingOrder = coordY-1;
+            WallGameObject.GetComponent<SpriteRenderer>().sortingOrder = coordY-2;
         }
+        WallGameObject.name = coordX+"-"+coordY+"-Wall";
 
         setWallSprite();
         setDekoSprite();
@@ -144,11 +145,12 @@ public class WallObject : MonoBehaviour
     }
     private void setDekoSprite(){
         WallGameObject.transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = dekoSprite;
-        WallGameObject.transform.GetChild(0).GetComponent<SpriteRenderer>().sortingOrder = 1;
         if(rotation==0){
             WallGameObject.transform.GetChild(0).transform.position = new Vector2(WallGameObject.transform.position.x-wallChildCoordCorrection,WallGameObject.transform.position.y+0.85f);
+            WallGameObject.transform.GetChild(0).GetComponent<SpriteRenderer>().sortingOrder = coordX-1;
         }else if(rotation==1){
             WallGameObject.transform.GetChild(0).transform.position = new Vector2(WallGameObject.transform.position.x+wallChildCoordCorrection,WallGameObject.transform.position.y+0.85f);
+            WallGameObject.transform.GetChild(0).GetComponent<SpriteRenderer>().sortingOrder = coordY-1;    
         }
     }
 }
