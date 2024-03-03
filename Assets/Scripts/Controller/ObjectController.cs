@@ -23,31 +23,31 @@ public class ObjectController : MonoBehaviour
         if(wallChildLength == 3){//überprüfe ob es ein 2 teiliges child ist, wenn ja prüfe ob nachbar existiert + child hat (3==2teilig)
             //prüfe ob ein kleineren nachbarn hat, prüfe ob der nachbar frei ist
             WallObject neighbourWallobject = getSmallerNeighbourWallGOFromWallGOName(wallName);
-            if(neighbourWallobject.wallGameObjectName!=null){
-                if(string.IsNullOrWhiteSpace(wallObject.WallChildName)&&string.IsNullOrWhiteSpace(neighbourWallobject.WallChildName)){
-                    Debug.Log("Generate 3er obj");
-                    wallObject.wallChildCoordCorrectionX = wallChildCoordCorrectionX;
-                    wallObject.wallChildCoordCorrectionY = wallChildCoordCorrectionY;
-                    wallObject.wallChildLength = wallChildLength;
-                    wallObject.WallChildName = wallChildName;
-
-                    neighbourWallobject.wallChildCoordCorrectionX = 0.0f;
-                    neighbourWallobject.wallChildCoordCorrectionY = 0.0f;
-                    neighbourWallobject.wallChildLength = 2;
-                    neighbourWallobject.WallChildName = "placeholder";
-                }else{
-                    Debug.Log("no space, eighter main or sec");
+            if(neighbourWallobject.wallGameObjectName!=null){//nachbar existiert(angenommen main wallobj ist 1-0)
+                if(string.IsNullOrWhiteSpace(wallObject.WallChildName)&&string.IsNullOrWhiteSpace(neighbourWallobject.WallChildName)){//hat keine deko objecte
+                    InstantiateObjectOnWall(wallObject, wallChildCoordCorrectionX, wallChildCoordCorrectionY, wallChildLength, wallChildName);
+                    InstantiateObjectOnWall(neighbourWallobject, 0.0f, 0.0f, 2, "placeholder");
                 }
             }
-        }else{
+        }else if(wallChildLength == 1){
             if(string.IsNullOrWhiteSpace(wallObject.WallChildName)){
-                Debug.Log("Generate 1er obj");
-                wallObject.wallChildCoordCorrectionX = wallChildCoordCorrectionX;
-                wallObject.wallChildCoordCorrectionY = wallChildCoordCorrectionY;
-                wallObject.wallChildLength = wallChildLength;
-                wallObject.WallChildName = wallChildName;
+                //prüfe noch ob, wenn door generiert werden soll, keine vorhanden ist
+                if(checkIfObjectIsDoor(wallChildName)==true){
+                    if(checkIfDoorOnWallExists()==false){
+                        InstantiateObjectOnWall(wallObject, wallChildCoordCorrectionX, wallChildCoordCorrectionY, wallChildLength, wallChildName);
+                    }
+                }else{
+                    InstantiateObjectOnWall(wallObject, wallChildCoordCorrectionX, wallChildCoordCorrectionY, wallChildLength, wallChildName);
+                }
             }
         }
+    }
+
+    public static void InstantiateObjectOnWall(WallObject obj, float coordCoorX, float coordCoorY, int length, string name){
+        obj.wallChildCoordCorrectionX = coordCoorX;
+        obj.wallChildCoordCorrectionY = coordCoorY;
+        obj.wallChildLength = length;
+        obj.WallChildName = name;
     }
 
 
@@ -59,7 +59,6 @@ public class ObjectController : MonoBehaviour
         //generiert child from floor wenn floor obj child hat
         if(string.IsNullOrWhiteSpace(floorChildType)==false){
             //Übergebe floor child parent coord name to create floor child go name as identifier
-
             FloorObject floorObject = getFloorGOFromFloorGOName(floorGameObjectName);
             standardObjectList.Add(floorObject.setChild(floorChildType, floorGameObjectName, floorChildName, floorChildPrice, floorChildCoordCorrectionXA, floorChildCoordCorrectionYA, floorChildCoordCorrectionXB, floorChildCoordCorrectionYB));
         }
@@ -148,6 +147,26 @@ public class ObjectController : MonoBehaviour
             obj = getWallGOFromWallGOName(nameSlice[0]+"-"+(val2-1).ToString()+"-Wall");
         }
         return obj;
+    }
+
+    public static bool checkIfObjectIsDoor(string objName){
+        string[] nameSlice = objName.Split("_");//splitt name
+        if(nameSlice[1].Equals("Door")){
+            return true;
+        }
+        return false;
+    }
+
+    public static bool checkIfDoorOnWallExists(){
+        for(int a=0;a<WallObjectList.Count;a++){
+            if(WallObjectList[a].WallChildName!=null){
+                string[] nameSlice = WallObjectList[a].WallChildName.Split("_");//splitt name
+                if(nameSlice[1].Equals("Door")){
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     public static StandardObject getFloorGOChildFromChildGOName(string floorChildGameObjectName){

@@ -19,13 +19,16 @@ public class GridController : MonoBehaviour
             ObjectController.GenerateWallObject((a+1)+"-"+0+"-Wall" ,"Wall_09_", 0, null, 0, 0.0f, 0.0f,a+1, 0);
             ObjectController.GenerateWallObject(0+"-"+(a+1)+"-Wall" ,"Wall_09_", 1, null, 0, 0.0f, 0.0f, 0, a+1);
         }
-
+        ObjectController.GenerateObjectOnWall("Wall_Door_01_1_", "6-0-Wall", 1, 0.2f, -0.5f);
+        ObjectController.GenerateObjectOnWall("Wall_Door_06_1_", "0-6-Wall", 1, 0.1f, -0.75f);
         ObjectController.GenerateObjectOnWall("Wall_Deko_02_1_", "0-2-Wall", 1, 0.75f, 1.0f);//(floorChildName,WallName,wallChildLength,coordCorrectionX,coordCorrectionY)
         ObjectController.GenerateObjectOnWall("Wall_Deko_09_", "0-5-Wall", 3, 1.15f, 1.0f);//(floorChildName,WallName,wallChildLength,coordCorrectionX,coordCorrectionY)
         ObjectController.GenerateObjectOnWall("Wall_Deko_10_1_", "4-0-Wall", 1, 0.75f, 1.0f);
         ObjectController.GenerateObjectOnWall("Wall_Deko_09_", "5-0-Wall", 3, 1.15f, 1.0f);//(floorChildName,WallName,wallChildLength,coordCorrectionX,coordCorrectionY)
         ObjectController.GenerateObjectOnWall("Wall_Deko_02_1_", "2-0-Wall", 1, 0.75f, 1.0f);//(floorChildName,WallName,wallChildLength,coordCorrectionX,coordCorrectionY)
         ObjectController.GenerateObjectOnWall("Wall_Deko_09_", "1-0-Wall", 3, 1.15f, 1.0f);
+
+
 
         ObjectController.GenerateObjectOnFloor("Deko", "Deko_11_1_a", 10, -0.2f, 2.4f, 0.15f, 2.4f, "5-5");//(type,spriteName,price,coordCoorXA...-coordCoorYB,FloorGameObjectName)
         ObjectController.RotateObjectOnFloor("5-5-Child");//(floorChildGameObjectName)
@@ -38,6 +41,7 @@ public class GridController : MonoBehaviour
         ObjectController.GenerateObjectOnFloor("Deko", "Deko_04_1_a", 100, 0.0f, 2.95f, 0.0f, 2.95f, "0-0");
         ObjectController.RotateObjectOnFloor("0-0-Child");
         ObjectController.DestroyFloorChild("0-5-Child");//(floorChildGameObjectName)
+
 
 
         SaveAndLoadController.SavePlayerData();

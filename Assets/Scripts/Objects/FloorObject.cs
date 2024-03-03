@@ -120,6 +120,6 @@ public class FloorObject : MonoBehaviour
     }
     private void setFloorSprite(){
         FloorGameObject.GetComponent<SpriteRenderer>().sprite = floorSprite;
-        FloorGameObject.GetComponent<SpriteRenderer>().sortingOrder = -2;
+        FloorGameObject.GetComponent<SpriteRenderer>().sortingOrder = -3;
     }
 }
