@@ -6,8 +6,8 @@ using System;
 public class ObjectController : MonoBehaviour
 {
     public static List<WallObject> WallObjectList = new List<WallObject>();
-    public static List<FloorObject> FloorObjectList = new List<FloorObject>();
 
+    public static List<FloorObject> FloorObjectList = new List<FloorObject>();
     public static List<StandardObject> standardObjectList = new List<StandardObject>();
     
 
@@ -48,6 +48,35 @@ public class ObjectController : MonoBehaviour
         obj.wallChildCoordCorrectionY = coordCoorY;
         obj.wallChildLength = length;
         obj.WallChildName = name;
+    }
+
+    /*public static void MoveObjectOnWall(string wallObjectChild, string newWallObjectName){
+        WallObject oldWallObject = getWallGOFromWallGOName(wallObjectChild);
+        WallObject newWallObject = getWallGOFromWallGOName(newWallObjectName);
+
+        Debug.Log("oldWallObject:"+oldWallObject.wallGameObjectName+" newWallObject:"+newWallObject.wallGameObjectName);
+
+
+    }*/
+    public static void DestroyObjectOnWall(string wallObjectName){
+        WallObject wallObject = getWallGOFromWallGOName(wallObjectName);
+
+        //Hat child? Ist nicht Tür? hat obj child? guck ob child zwei teilig ist? wenn nicht resete, ansonsten hole 2tes obj und resete beide
+        if(wallObject.WallChildName!=null){
+            if(checkIfObjectIsDoor(wallObject.WallChildName)==false){//darf nicht tür entfernen
+                if(wallObject.wallChildLength==1){
+                    wallObject.DeleteChild();//löscht alle child komponenten
+                }else if(wallObject.wallChildLength==2){//get rechts liegendes obj zusätzlich
+                    WallObject greaterWallObject = getGreaterNeighbourWallGOFromWallGOName(wallObject.wallGameObjectName);
+                    greaterWallObject.DeleteChild();
+                    wallObject.DeleteChild();//löscht alle child komponenten
+                }else if(wallObject.wallChildLength==3){//get links liegendes obj zusätzlich
+                    WallObject smallerWallObject = getSmallerNeighbourWallGOFromWallGOName(wallObject.wallGameObjectName);
+                    smallerWallObject.DeleteChild();
+                    wallObject.DeleteChild();//löscht alle child komponenten
+                }
+            }
+        }
     }
 
 
@@ -149,10 +178,25 @@ public class ObjectController : MonoBehaviour
         return obj;
     }
 
+    public static WallObject getGreaterNeighbourWallGOFromWallGOName(string wallGOName){
+        WallObject obj = new WallObject();
+        string[] nameSlice = wallGOName.Split("-");//splitt name
+        int val1 = Int32.Parse(nameSlice[0]);//gucke ob eine x,y coord größer als 1 ist
+        int val2 = Int32.Parse(nameSlice[1]);
+        if(val1>1){
+            obj = getWallGOFromWallGOName((val1+1).ToString()+"-"+nameSlice[1]+"-Wall");
+        }else if(val2>1){
+            obj = getWallGOFromWallGOName(nameSlice[0]+"-"+(val2+1).ToString()+"-Wall");
+        }
+        return obj;
+    }
+
     public static bool checkIfObjectIsDoor(string objName){
         string[] nameSlice = objName.Split("_");//splitt name
-        if(nameSlice[1].Equals("Door")){
-            return true;
+        if(nameSlice.Length>2){
+            if(nameSlice[1].Equals("Door")){
+                return true;
+            }
         }
         return false;
     }
@@ -168,6 +212,16 @@ public class ObjectController : MonoBehaviour
         }
         return false;
     }
+
+    public static bool checkIfWallGOContainsDoor(WallObject obj){
+        string[] objSlice = obj.WallChildName.Split("_");//splitt name
+        if(objSlice[1].Equals("Door")){
+            return true;
+        }
+        return false;
+    }
+
+
 
     public static StandardObject getFloorGOChildFromChildGOName(string floorChildGameObjectName){
         StandardObject objChild = null;

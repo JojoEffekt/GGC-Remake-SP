@@ -6,7 +6,7 @@ public class WallObject : MonoBehaviour
 {
     //attributes
     //muss gespeichert werden save&load
-    public  string wallGameObjectName { get; set; }
+    public string wallGameObjectName { get; set; }
 
     private string wallSpriteName;
     public string WallSpriteName { 
@@ -95,6 +95,8 @@ public class WallObject : MonoBehaviour
             WallGameObject.GetComponent<SpriteRenderer>().sortingOrder = coordY-3;
         }
         WallGameObject.name = wallGameObjectName;
+        GameObject child = WallGameObject.transform.GetChild(0).gameObject;
+        child.name = wallGameObjectName;
     }
 
     //rendert wallSprite
@@ -115,6 +117,14 @@ public class WallObject : MonoBehaviour
         }
     }
 
+    public void DeleteChild(){//reset all child data
+        this.wallChildName = null;
+        this.wallChildLength = 0;
+        this.wallChildCoordCorrectionX = 0.0f;
+        this.wallChildCoordCorrectionY = 0.0f;
+        this.dekoSprite = null;
+        setDekoSpriteFromList();//reload data
+    }
 
 
     //getters
