@@ -17,7 +17,7 @@ public class ObjectController : MonoBehaviour
     }
 
     //render Deko Obj on Wall
-    public static void GenerateObjectOnWall(string wallChildName, string wallName, int wallChildLength, float wallChildCoordCorrectionX, float wallChildCoordCorrectionY){
+    public static bool GenerateObjectOnWall(string wallChildName, string wallName, int wallChildLength, float wallChildCoordCorrectionX, float wallChildCoordCorrectionY){
         WallObject wallObject = getWallGOFromWallGOName(wallName);
         //wenn kein deko object auf WallObject ist, generiere deko obj
         if(wallChildLength == 3){//überprüfe ob es ein 2 teiliges child ist, wenn ja prüfe ob nachbar existiert + child hat (3==2teilig)
@@ -27,6 +27,7 @@ public class ObjectController : MonoBehaviour
                 if(string.IsNullOrWhiteSpace(wallObject.WallChildName)&&string.IsNullOrWhiteSpace(neighbourWallobject.WallChildName)){//hat keine deko objecte
                     InstantiateObjectOnWall(wallObject, wallChildCoordCorrectionX, wallChildCoordCorrectionY, wallChildLength, wallChildName);
                     InstantiateObjectOnWall(neighbourWallobject, 0.0f, 0.0f, 2, "placeholder");
+                    return true;
                 }
             }
         }else if(wallChildLength == 1){
@@ -35,12 +36,15 @@ public class ObjectController : MonoBehaviour
                 if(checkIfObjectIsDoor(wallChildName)==true){
                     if(checkIfDoorOnWallExists()==false){
                         InstantiateObjectOnWall(wallObject, wallChildCoordCorrectionX, wallChildCoordCorrectionY, wallChildLength, wallChildName);
+                        return true;
                     }
                 }else{
                     InstantiateObjectOnWall(wallObject, wallChildCoordCorrectionX, wallChildCoordCorrectionY, wallChildLength, wallChildName);
+                    return true;
                 }
             }
         }
+        return false;
     }
 
     public static void InstantiateObjectOnWall(WallObject obj, float coordCoorX, float coordCoorY, int length, string name){
@@ -50,14 +54,50 @@ public class ObjectController : MonoBehaviour
         obj.WallChildName = name;
     }
 
-    /*public static void MoveObjectOnWall(string wallObjectChild, string newWallObjectName){
-        WallObject oldWallObject = getWallGOFromWallGOName(wallObjectChild);
+    public static void MoveObjectOnWall(string wallObjectChildName, string newWallObjectName){
+        WallObject oldWallObject = getWallGOFromChildGOName(wallObjectChildName);
         WallObject newWallObject = getWallGOFromWallGOName(newWallObjectName);
+
+        //kriege beide wallObjekte, gucke ob child existiert, gucke ob sprite 2 teilig ist
+        //wenn sprite "wallChildLength==2" ist, übergebe 3 als wert
+        //speichere werte, lösche objekte
+        //GenerateObjectOnWall, wenn nicht instantiiert wurde, generiere alte obj
+        if(string.IsNullOrWhiteSpace(oldWallObject.WallChildName)==false){//AktuellesObjekt hat childsprite
+            if(oldWallObject.wallChildLength == 1){
+
+                //speichert child daten
+                string OldWallChildName = oldWallObject.WallChildName;
+                int oldWallChildLength = oldWallObject.wallChildLength;
+                float oldWallChildCoordCorX = oldWallObject.wallChildCoordCorrectionX;
+                float oldWallChildCoordCorY = oldWallObject.wallChildCoordCorrectionY;
+
+                //lösche Objekt und guckt ob neues erzeugt wurde, wenn icht erzeuge altes
+                if(checkIfObjectIsDoor(OldWallChildName)==true){//check if child is door, dann zerstöre door direkt, da "DestroyObjectOnWall" nicht door zerstören kann
+                    oldWallObject.DeleteChild();//löscht alle child komponenten
+                }else{
+                    DestroyObjectOnWall(oldWallObject.wallGameObjectName);
+                }
+
+                bool isTrue = GenerateObjectOnWall(OldWallChildName, newWallObject.wallGameObjectName, oldWallChildLength, oldWallChildCoordCorX, oldWallChildCoordCorY);
+                Debug.Log("bool:"+isTrue);
+                if(isTrue==false){//konnte nicht erzeugt werden? generiere altes 
+                    GenerateObjectOnWall(OldWallChildName, oldWallObject.wallGameObjectName, oldWallChildLength, oldWallChildCoordCorX, oldWallChildCoordCorY);
+                }
+
+            }else if(oldWallObject.wallChildLength == 2){
+                //get greater object und generate das
+                Debug.Log("objekt hat child und ist 2 teilig");
+            }else if(oldWallObject.wallChildLength == 3){
+                Debug.Log("3 teilig");
+            }
+        }
+
 
         Debug.Log("oldWallObject:"+oldWallObject.wallGameObjectName+" newWallObject:"+newWallObject.wallGameObjectName);
 
 
-    }*/
+    }
+
     public static void DestroyObjectOnWall(string wallObjectName){
         WallObject wallObject = getWallGOFromWallGOName(wallObjectName);
 
@@ -154,6 +194,7 @@ public class ObjectController : MonoBehaviour
     }
 
 
+
     //getter
     public static WallObject getWallGOFromWallGOName(string wallGOName){
         WallObject obj = null;
@@ -162,6 +203,12 @@ public class ObjectController : MonoBehaviour
                 obj = WallObjectList[a];
             }
         }
+        return obj;
+    }
+
+    public static WallObject getWallGOFromChildGOName(string child){
+        WallObject obj = null; 
+        obj = getWallGOFromWallGOName(child);
         return obj;
     }
 
@@ -203,7 +250,7 @@ public class ObjectController : MonoBehaviour
 
     public static bool checkIfDoorOnWallExists(){
         for(int a=0;a<WallObjectList.Count;a++){
-            if(WallObjectList[a].WallChildName!=null){
+            if(WallObjectList[a].WallChildName!=null&&WallObjectList[a].WallChildName!="placeholder"){//placeholder ist 2tes teil von 2teiligen child
                 string[] nameSlice = WallObjectList[a].WallChildName.Split("_");//splitt name
                 if(nameSlice[1].Equals("Door")){
                     return true;
