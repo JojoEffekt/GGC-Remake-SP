@@ -110,10 +110,10 @@ public class WallObject : MonoBehaviour
         child.GetComponent<SpriteRenderer>().sprite = dekoSprite;
         if(rotation==0){
             child.transform.position = new Vector2(WallGameObject.transform.position.x-wallChildCoordCorrectionX,WallGameObject.transform.position.y+wallChildCoordCorrectionY);
-            child.GetComponent<SpriteRenderer>().sortingOrder = coordX-1;
+            child.GetComponent<SpriteRenderer>().sortingOrder = coordX-2;
         }else if(rotation==1){
             child.transform.position = new Vector2(WallGameObject.transform.position.x+wallChildCoordCorrectionX,WallGameObject.transform.position.y+wallChildCoordCorrectionY);
-            child.GetComponent<SpriteRenderer>().sortingOrder = coordY-1;    
+            child.GetComponent<SpriteRenderer>().sortingOrder = coordY-2;    
         }
     }
 

@@ -29,14 +29,14 @@ public class GridController : MonoBehaviour
         ObjectController.GenerateObjectOnWall("Wall_Deko_09_", "1-0-Wall", 3, 1.15f, 1.0f);
         ObjectController.DestroyObjectOnWall("0-2-Wall");//(WallName)
 
-        ObjectController.MoveObjectOnWall("2-0-Wall","3-0-Wall");//(curWallName,newWallName)
-        ObjectController.MoveObjectOnWall("6-0-Wall","3-0-Wall");//(curWallName,newWallName)
+        ObjectController.MoveObjectOnWall("0-4-Wall","8-0-Wall");//(curWallName,newWallName)
         ObjectController.MoveObjectOnWall("6-0-Wall","8-0-Wall");//(curWallName,newWallName)
-        ObjectController.MoveObjectOnWall("6-0-Wall","8-0-Wall");//(curWallName,newWallName)
+        ObjectController.MoveObjectOnWall("6-0-Wall","0-8-Wall");//(curWallName,newWallName)
 
 
 
         ObjectController.GenerateObjectOnFloor("Deko", "Deko_11_1_a", 10, -0.2f, 2.4f, 0.15f, 2.4f, "5-5");//(type,spriteName,price,coordCoorXA...-coordCoorYB,FloorGameObjectName)
+        ObjectController.GenerateObjectOnFloor("Fridge", "Fridge_04_1_a", 10, -0.2f, 2.4f, 0.15f, 2.4f, "2-4");//(type,spriteName,price,coordCoorXA...-coordCoorYB,FloorGameObjectName)
         ObjectController.RotateObjectOnFloor("5-5-Child");//(floorChildGameObjectName)
         ObjectController.GenerateObjectOnFloor("Deko", "Deko_11_1_a", 10, -0.2f, 2.4f, 0.15f, 2.4f, "7-1");
         ObjectController.GenerateObjectOnFloor("GOGO", "Deko_06_1_b", 100, -0.2f, 2.4f, 0.15f, 2.4f, "7-1");

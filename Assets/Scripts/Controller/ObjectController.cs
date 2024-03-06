@@ -58,44 +58,35 @@ public class ObjectController : MonoBehaviour
         WallObject oldWallObject = getWallGOFromChildGOName(wallObjectChildName);
         WallObject newWallObject = getWallGOFromWallGOName(newWallObjectName);
 
-        //kriege beide wallObjekte, gucke ob child existiert, gucke ob sprite 2 teilig ist
-        //wenn sprite "wallChildLength==2" ist, übergebe 3 als wert
+        //krieg beide wallObjekte, gucke ob child existiert, gucke ob sprite 2 teilig ist
+        //wenn sprite "wallChildLength==2" ist, setzt main als "oldWallObject"
         //speichere werte, lösche objekte
         //GenerateObjectOnWall, wenn nicht instantiiert wurde, generiere alte obj
         if(string.IsNullOrWhiteSpace(oldWallObject.WallChildName)==false){//AktuellesObjekt hat childsprite
-            if(oldWallObject.wallChildLength == 1){
+            
+            if(oldWallObject.wallChildLength == 2){
+                //setzt vom 2 teiligen chil das main obj als referenz 
+                oldWallObject = getGreaterNeighbourWallGOFromWallGOName(oldWallObject.wallGameObjectName);
+            }
 
-                //speichert child daten
-                string OldWallChildName = oldWallObject.WallChildName;
-                int oldWallChildLength = oldWallObject.wallChildLength;
-                float oldWallChildCoordCorX = oldWallObject.wallChildCoordCorrectionX;
-                float oldWallChildCoordCorY = oldWallObject.wallChildCoordCorrectionY;
+            //speichert child daten
+            string OldWallChildName = oldWallObject.WallChildName;
+            int oldWallChildLength = oldWallObject.wallChildLength;
+            float oldWallChildCoordCorX = oldWallObject.wallChildCoordCorrectionX;
+            float oldWallChildCoordCorY = oldWallObject.wallChildCoordCorrectionY;
 
-                //lösche Objekt und guckt ob neues erzeugt wurde, wenn icht erzeuge altes
-                if(checkIfObjectIsDoor(OldWallChildName)==true){//check if child is door, dann zerstöre door direkt, da "DestroyObjectOnWall" nicht door zerstören kann
-                    oldWallObject.DeleteChild();//löscht alle child komponenten
-                }else{
-                    DestroyObjectOnWall(oldWallObject.wallGameObjectName);
-                }
+            if(checkIfObjectIsDoor(OldWallChildName)==true){//check ob child ist Tür, dann zerstöre Tür direkt, da "DestroyObjectOnWall" nicht Tür zerstören kann
+                oldWallObject.DeleteChild();//löscht alle child komponenten
+            }else{
+                DestroyObjectOnWall(oldWallObject.wallGameObjectName);
+            }
 
-                bool isTrue = GenerateObjectOnWall(OldWallChildName, newWallObject.wallGameObjectName, oldWallChildLength, oldWallChildCoordCorX, oldWallChildCoordCorY);
-                Debug.Log("bool:"+isTrue);
-                if(isTrue==false){//konnte nicht erzeugt werden? generiere altes 
-                    GenerateObjectOnWall(OldWallChildName, oldWallObject.wallGameObjectName, oldWallChildLength, oldWallChildCoordCorX, oldWallChildCoordCorY);
-                }
-
-            }else if(oldWallObject.wallChildLength == 2){
-                //get greater object und generate das
-                Debug.Log("objekt hat child und ist 2 teilig");
-            }else if(oldWallObject.wallChildLength == 3){
-                Debug.Log("3 teilig");
+            //guck ob Child am neuen Ort generiert wurde, wenn nicht, stelle altes her
+            bool isTrue = GenerateObjectOnWall(OldWallChildName, newWallObject.wallGameObjectName, oldWallChildLength, oldWallChildCoordCorX, oldWallChildCoordCorY);
+            if(isTrue==false){
+                GenerateObjectOnWall(OldWallChildName, oldWallObject.wallGameObjectName, oldWallChildLength, oldWallChildCoordCorX, oldWallChildCoordCorY);
             }
         }
-
-
-        Debug.Log("oldWallObject:"+oldWallObject.wallGameObjectName+" newWallObject:"+newWallObject.wallGameObjectName);
-
-
     }
 
     public static void DestroyObjectOnWall(string wallObjectName){

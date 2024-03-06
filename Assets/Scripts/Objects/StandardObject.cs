@@ -22,6 +22,7 @@ public class StandardObject : MonoBehaviour
     private GameObject StandartGameObject;
 
     private List<Sprite> dekoSpriteList = new List<Sprite>();
+    private List<Sprite> fridgeSpriteList = new List<Sprite>();
     private Sprite standartSprite;
 
     //constructor
@@ -46,6 +47,7 @@ public class StandardObject : MonoBehaviour
 
         setStandartSpriteFromList();
         setStandartSprite();
+        RenderType();
     }
 
     //methods
@@ -57,7 +59,13 @@ public class StandardObject : MonoBehaviour
         for(int x=0;x<sprites.Length;x++){
            	dekoSpriteList.Add((Sprite)sprites[x]);
         }
+
+        sprites = Resources.LoadAll("Textures/FridgeFloor",typeof(Sprite));
+        for(int x=0;x<sprites.Length;x++){
+           	fridgeSpriteList.Add((Sprite)sprites[x]);
+        }
     } 
+
     public string Rotate(){
         //get ende von name (a,b,c,d) dann nächster buchstabe
         //set next name, danach generiere das bild
@@ -76,15 +84,23 @@ public class StandardObject : MonoBehaviour
 
         return objectName;
     }
-    public void Info(){
-        Debug.Log("StandartObject-"+type+": ["+coordX+","+coordY+"], objectName:"+objectName+", price:"+price);
+
+    private void RenderType(){
+        //wenn obj == fridge: erzeuge Klickable UI to open FridgeShop
+        if(type.Equals("Fridge")){
+            this.StandartGameObject.AddComponent(typeof(PolygonCollider2D));
+        }
+        //continue
     }
+
+
 
     //getters
     public string getInfo(){
         string info = type+";"+gameObjectName+";"+objectName+";"+price+";"+coordCorrectionXA+";"+coordCorrectionYA+";"+coordCorrectionXB+";"+coordCorrectionYB;
         return info;
     }
+
 
 
     //setters
@@ -97,7 +113,14 @@ public class StandardObject : MonoBehaviour
                     sprite = dekoSpriteList[a];
                 }
             }
-        }
+        }else if(type.Equals("Fridge")){
+            for(int b=0;b<fridgeSpriteList.Count;b++){
+                if(fridgeSpriteList[b].name.Equals(objectName)){
+                    sprite = fridgeSpriteList[b];
+                }
+            }
+        }//continue...
+
         this.standartSprite = sprite;
     }
     //rendert passendes sprite
