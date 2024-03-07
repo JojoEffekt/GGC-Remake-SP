@@ -23,6 +23,11 @@ public class StandardObject : MonoBehaviour
 
     private List<Sprite> dekoSpriteList = new List<Sprite>();
     private List<Sprite> fridgeSpriteList = new List<Sprite>();
+    private List<Sprite> chairSpriteList = new List<Sprite>();
+    private List<Sprite> tableSpriteList = new List<Sprite>();
+    private List<Sprite> counterSpriteList = new List<Sprite>();
+    private List<Sprite> ovenSpriteList = new List<Sprite>();
+    private List<Sprite> slushiSpriteList = new List<Sprite>();
     private Sprite standartSprite;
 
     //constructor
@@ -59,10 +64,29 @@ public class StandardObject : MonoBehaviour
         for(int x=0;x<sprites.Length;x++){
            	dekoSpriteList.Add((Sprite)sprites[x]);
         }
-
         sprites = Resources.LoadAll("Textures/FridgeFloor",typeof(Sprite));
         for(int x=0;x<sprites.Length;x++){
            	fridgeSpriteList.Add((Sprite)sprites[x]);
+        }
+        sprites = Resources.LoadAll("Textures/ChairFloor",typeof(Sprite));
+        for(int x=0;x<sprites.Length;x++){
+           	chairSpriteList.Add((Sprite)sprites[x]);
+        }
+        sprites = Resources.LoadAll("Textures/TableFloor",typeof(Sprite));
+        for(int x=0;x<sprites.Length;x++){
+           	tableSpriteList.Add((Sprite)sprites[x]);
+        }
+        sprites = Resources.LoadAll("Textures/CounterFloor",typeof(Sprite));
+        for(int x=0;x<sprites.Length;x++){
+           	counterSpriteList.Add((Sprite)sprites[x]);
+        }
+        sprites = Resources.LoadAll("Textures/OvenFloor",typeof(Sprite));
+        for(int x=0;x<sprites.Length;x++){
+           	ovenSpriteList.Add((Sprite)sprites[x]);
+        }
+        sprites = Resources.LoadAll("Textures/SlushiFloor",typeof(Sprite));
+        for(int x=0;x<sprites.Length;x++){
+           	slushiSpriteList.Add((Sprite)sprites[x]);
         }
     } 
 
@@ -87,10 +111,21 @@ public class StandardObject : MonoBehaviour
 
     private void RenderType(){
         //wenn obj == fridge: erzeuge Klickable UI to open FridgeShop
-        if(type.Equals("Fridge")){
+        if(type.Equals("Deko")){
+            this.StandartGameObject.AddComponent(typeof(PolygonCollider2D));
+        }else if(type.Equals("Fridge")){
+            this.StandartGameObject.AddComponent(typeof(PolygonCollider2D));
+        }else if(type.Equals("Chair")){
+            this.StandartGameObject.AddComponent(typeof(PolygonCollider2D));
+        }else if(type.Equals("Table")){
+            this.StandartGameObject.AddComponent(typeof(PolygonCollider2D));
+        }else if(type.Equals("Counter")){
+            this.StandartGameObject.AddComponent(typeof(PolygonCollider2D));
+        }else if(type.Equals("Oven")){
+            this.StandartGameObject.AddComponent(typeof(PolygonCollider2D));
+        }else if(type.Equals("Slushi")){
             this.StandartGameObject.AddComponent(typeof(PolygonCollider2D));
         }
-        //continue
     }
 
 
@@ -119,7 +154,37 @@ public class StandardObject : MonoBehaviour
                     sprite = fridgeSpriteList[b];
                 }
             }
-        }//continue...
+        }else if(type.Equals("Chair")){
+            for(int b=0;b<chairSpriteList.Count;b++){
+                if(chairSpriteList[b].name.Equals(objectName)){
+                    sprite = chairSpriteList[b];
+                }
+            }
+        }else if(type.Equals("Table")){
+            for(int b=0;b<tableSpriteList.Count;b++){
+                if(tableSpriteList[b].name.Equals(objectName)){
+                    sprite = tableSpriteList[b];
+                }
+            }
+        }else if(type.Equals("Counter")){
+            for(int b=0;b<counterSpriteList.Count;b++){
+                if(counterSpriteList[b].name.Equals(objectName)){
+                    sprite = counterSpriteList[b];
+                }
+            }
+        }else if(type.Equals("Oven")){
+            for(int b=0;b<ovenSpriteList.Count;b++){
+                if(ovenSpriteList[b].name.Equals(objectName)){
+                    sprite = ovenSpriteList[b];
+                }
+            }
+        }else if(type.Equals("Slushi")){
+            for(int b=0;b<slushiSpriteList.Count;b++){
+                if(slushiSpriteList[b].name.Equals(objectName)){
+                    sprite = slushiSpriteList[b];
+                }
+            }
+        }
 
         this.standartSprite = sprite;
     }

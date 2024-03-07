@@ -35,8 +35,11 @@ public class ObjectController : MonoBehaviour
                 //prüfe noch ob, wenn door generiert werden soll, keine vorhanden ist
                 if(checkIfObjectIsDoor(wallChildName)==true){
                     if(checkIfDoorOnWallExists()==false){
-                        InstantiateObjectOnWall(wallObject, wallChildCoordCorrectionX, wallChildCoordCorrectionY, wallChildLength, wallChildName);
-                        return true;
+                        //prüfe ob das floorObj auf dem die tür steht frei ist(kein deko obj etc)
+                        if(checkPotentialDoorPlacementOnFloorFromWallGOName(wallObject.wallGameObjectName)==true){
+                            InstantiateObjectOnWall(wallObject, wallChildCoordCorrectionX, wallChildCoordCorrectionY, wallChildLength, wallChildName);
+                            return true;
+                        }
                     }
                 }else{
                     InstantiateObjectOnWall(wallObject, wallChildCoordCorrectionX, wallChildCoordCorrectionY, wallChildLength, wallChildName);
@@ -285,5 +288,22 @@ public class ObjectController : MonoBehaviour
         string[] nameSlice = floorChildGameObjectName.Split("-");//splitt name
         string oldFloorGameObjectName = nameSlice[0]+"-"+nameSlice[1];//get old parent
         return oldFloorGameObjectName;
+    }
+
+    public static bool checkPotentialDoorPlacementOnFloorFromWallGOName(string wallName){
+        string[] nameSlice = wallName.Split("-");//splitt name
+        int val1 = Int32.Parse(nameSlice[0]);//gucke ob eine x,y coord größer als 0 ist
+        int val2 = Int32.Parse(nameSlice[1]);
+        if(val1>0){//generiere floorGOName 
+            val1 = val1 - 1;
+        }else if(val2>0){
+            val2 = val2 - 1;
+        }
+        //prüft ob der boden auf dem die tür steht frei ist(kein child objecte)
+        FloorObject floorObject = getFloorGOFromFloorGOName((val1).ToString()+"-"+(val2).ToString());
+        if(string.IsNullOrWhiteSpace(floorObject.floorChildType)==true){
+            return true;
+        }
+        return false;
     }
 }
