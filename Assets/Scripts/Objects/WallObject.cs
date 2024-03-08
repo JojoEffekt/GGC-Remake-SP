@@ -102,12 +102,18 @@ public class WallObject : MonoBehaviour
     //rendert wallSprite
     private void RenderWallSprite(){
         WallGameObject.GetComponent<SpriteRenderer>().sprite = wallSprite;
+        WallGameObject.AddComponent(typeof(PolygonCollider2D));
     }
     
     //rendert DekoSprite und passt position an
     private void RenderDekoSprite(){
         GameObject child = WallGameObject.transform.GetChild(0).gameObject;
         child.GetComponent<SpriteRenderer>().sprite = dekoSprite;
+        if(dekoSprite!=null){//render collider if dekostrpite existiert
+            child.AddComponent(typeof(PolygonCollider2D));
+        }else{
+            Destroy(child.GetComponent<PolygonCollider2D>());
+        }
         if(rotation==0){
             child.transform.position = new Vector2(WallGameObject.transform.position.x-wallChildCoordCorrectionX,WallGameObject.transform.position.y+wallChildCoordCorrectionY);
             child.GetComponent<SpriteRenderer>().sortingOrder = coordX-2;

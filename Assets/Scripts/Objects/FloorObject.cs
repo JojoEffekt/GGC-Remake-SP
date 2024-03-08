@@ -49,7 +49,8 @@ public class FloorObject : MonoBehaviour
         
         //generate UI
         FloorGameObject = Instantiate(FloorPrefab, new Vector2(floorCoordX,floorCoordY), Quaternion.identity);
-        FloorGameObject.name = floorGameObjectName; 
+        FloorGameObject.name = floorGameObjectName;
+        FloorGameObject.AddComponent(typeof(PolygonCollider2D));
         setFloorSprite();
     }
 
@@ -63,9 +64,6 @@ public class FloorObject : MonoBehaviour
         for(int x=0;x<sprites.Length;x++){
            	floorSpriteList.Add((Sprite)sprites[x]);
         }
-    }
-    public void Info(){
-        Debug.Log("FloorObject-"+floorName+": ["+floorCoordX+","+floorCoordY+"], "+floorPrice+", "+floorChildName);
     }
 
     //getters

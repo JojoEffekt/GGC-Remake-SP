@@ -9,6 +9,7 @@ public class SaveAndLoadController : MonoBehaviour
     private static string playerDataFilePath = "playerData.txt";
     private static string wallDataFilePath = "WallData.txt";
     private static string floorDataFilePath = "FloorData.txt";
+    private static string floorChildExtraDataFilePath = "FloorChildExtraData.txt";
 
     void Start()
     {
@@ -17,12 +18,9 @@ public class SaveAndLoadController : MonoBehaviour
 
     public static void LoadPlayerData(){
         try{
-            StreamReader source = new StreamReader(Application.dataPath + "/Data/" + playerDataFilePath);
-            string fileContents = source.ReadToEnd();
-            source.Close();
-            string[] lines = fileContents.Split("\n"[0]);
+            string[] lines = ReadStream(playerDataFilePath);
 
-            //load player stats
+            //LOAD PLAYERSTATS
             PlayerController.playerName = lines[0];
             PlayerController.playerMoney = Int32.Parse(lines[1]);
             PlayerController.playerGold = Int32.Parse(lines[2]);
@@ -38,11 +36,9 @@ public class SaveAndLoadController : MonoBehaviour
         //wenn wallfile/floorfile exist, lade wallfile/floorfile, ansonsten generiere grid
         try{
             if(File.Exists(Application.dataPath+"/Data/"+wallDataFilePath)==true&&File.Exists(Application.dataPath+"/Data/"+floorDataFilePath)==true){
-                //load wall data
-                StreamReader source = new StreamReader(Application.dataPath + "/Data/" + wallDataFilePath);
-                string fileContents = source.ReadToEnd();
-                source.Close();
-                string[] lines = fileContents.Split("\n"[0]);
+                
+                //LOAD WALL
+                string[] lines = ReadStream(wallDataFilePath);
                 //lines.Length-1: -1 because WriteLine generates an empty line on bottom
                 for(int a=0;a<lines.Length-1;a++){
                     string[] lineItem = lines[a].Split(";");
@@ -52,11 +48,8 @@ public class SaveAndLoadController : MonoBehaviour
 
 
 
-                //load floor data
-                source = new StreamReader(Application.dataPath + "/Data/" + floorDataFilePath);
-                fileContents = source.ReadToEnd();
-                source.Close();
-                lines = fileContents.Split("\n"[0]);
+                //LOAD FLOOR
+                lines = ReadStream(floorDataFilePath);
                 //lines.Length-1: -1 because WriteLine generates an empty line on bottom
                 for(int a=0;a<lines.Length-1;a++){
                     string[] lineItem = lines[a].Split(";");
@@ -66,12 +59,23 @@ public class SaveAndLoadController : MonoBehaviour
 
 
 
+                //LOAD FLOOREXTRADTA
+                lines = ReadStream(floorChildExtraDataFilePath);
+                //lines.Length-1: -1 because WriteLine generates an empty line on bottom
+                for(int a=0;a<lines.Length-1;a++){
+                    string lineItem = lines[a];
+                    ObjectController.GenerateFloorChildExtraData(lineItem);
+                }
+                //Debug.Log("successfully load FloorExtra-data!");
+
+
+
                 //testing save data
                 SavePlayerData();
             }else{
                 //load grid if no save exist
-                GridController.GenerateGrid();
                 Debug.Log("no Wall/Floor-data, generate grid for the first time!");
+                GridController.GenerateGrid();
             }
         }catch(Exception e){
             Debug.Log("error, failed to load Wall/Floor-data!");
@@ -79,10 +83,9 @@ public class SaveAndLoadController : MonoBehaviour
     }
 
     public static void SavePlayerData(){
+        //SAVE PLAYERSTATS
         try{
             StreamWriter source = new StreamWriter(Application.dataPath + "/Data/" + playerDataFilePath);
-
-            //save player stats
             string n = PlayerController.playerName.Remove(PlayerController.playerName.Length-1);
             source.WriteLine(n);
             source.WriteLine(PlayerController.playerMoney);
@@ -96,9 +99,9 @@ public class SaveAndLoadController : MonoBehaviour
         }catch(Exception e){
             Debug.Log("error, failed to save Player-data!");
         }
-
+        
+        //SAVE WALL
         try{
-            //save wall info
             StreamWriter source = new StreamWriter(Application.dataPath + "/Data/" + wallDataFilePath);
             for(int a=0;a<ObjectController.WallObjectList.Count;a++){
                 string wallObject = ObjectController.WallObjectList[a].getInfo();
@@ -110,8 +113,8 @@ public class SaveAndLoadController : MonoBehaviour
             Debug.Log("error, failed to save Wall-data!");
         }
 
+        //SAVE FLOOR
         try{
-            //save floor info
             StreamWriter source = new StreamWriter(Application.dataPath + "/Data/" + floorDataFilePath);
             for(int a=0;a<ObjectController.FloorObjectList.Count;a++){
                 string floorObject = ObjectController.FloorObjectList[a].getInfo();
@@ -121,6 +124,37 @@ public class SaveAndLoadController : MonoBehaviour
             //Debug.Log("successfully save Floor-data!");
         }catch(Exception e){
             Debug.Log("error, failed to save Floor-data!");
-        } 
+        }
+
+        //SAVE FLOORCHILDEXTRADATA
+        /*try{
+            StreamWriter source = new StreamWriter(Application.dataPath + "/Data/" + floorChildExtraDataFilePath);
+            for(int a=0;a<ObjectController.standardObjectList.Count;a++){
+                string floorObject = ObjectController.standardObjectList[a].getTypeInfo();
+                source.WriteLine(floorObject);
+            }
+            source.Close();
+            //Debug.Log("successfully save FloorChildExtra-data!");
+        }catch(Exception e){
+            Debug.Log("error, failed to save FloorChildExtra-data!");
+        }*/
+        test();
+    }
+
+    private static void test(){
+        StreamWriter source = new StreamWriter(Application.dataPath + "/Data/" + floorChildExtraDataFilePath);
+            for(int a=0;a<ObjectController.standardObjectList.Count;a++){
+                string floorObject = ObjectController.standardObjectList[a].getTypeInfo();
+                source.WriteLine(floorObject);
+            }
+            source.Close();
+    }
+
+    private static string[] ReadStream(string pathFile){
+        StreamReader source = new StreamReader(Application.dataPath + "/Data/" + pathFile);
+        string fileContents = source.ReadToEnd();
+        source.Close();
+        string[] lines = fileContents.Split("\n"[0]);
+        return lines;
     }
 }
