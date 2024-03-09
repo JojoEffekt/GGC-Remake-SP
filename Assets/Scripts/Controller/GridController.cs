@@ -27,6 +27,7 @@ public class GridController : MonoBehaviour
         ObjectController.GenerateObjectOnWall("Wall_Deko_09_", "5-0-Wall", 3, 1.15f, 1.0f);//(floorChildName,WallName,wallChildLength,coordCorrectionX,coordCorrectionY)
         ObjectController.GenerateObjectOnWall("Wall_Deko_02_1_", "2-0-Wall", 1, 0.75f, 1.0f);//(floorChildName,WallName,wallChildLength,coordCorrectionX,coordCorrectionY)
         ObjectController.GenerateObjectOnWall("Wall_Deko_09_", "1-0-Wall", 3, 1.15f, 1.0f);
+        ObjectController.GenerateObjectOnWall("Wall_Deko_02_1_", "1-0-Wall", 1, 0.75f, 1.0f);
         ObjectController.DestroyObjectOnWall("0-2-Wall");//(WallName)
 
 
