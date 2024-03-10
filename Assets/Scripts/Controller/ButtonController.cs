@@ -6,6 +6,8 @@ using UnityEngine.InputSystem;
 public class ButtonController : MonoBehaviour
 {
     public int MouseAction = 0; //0=nothing,1=rotate,2=create,3=remove,4=replace
+
+    public string ObjectToMove = "";
     
     //methodes
     void Update(){
@@ -22,15 +24,38 @@ public class ButtonController : MonoBehaviour
     public void MouseHandler(RaycastHit2D[] info){
         string objectName = getPrioritizedObjectName(info);
     
-        if(MouseAction==3){
+        if(MouseAction==1){//rotate
+            if(isFloorChildObject(objectName)){
+                RotateFloorChild(objectName);
+            }
+        }else if(MouseAction==2){//create
+            if(isWallObject(objectName)){
+                //data übergeben
+                GenerateObjectOnWall("Wall_Deko_02_1_", objectName, 1, 0.75f, 1.0f);
+            }
+            if(isFloorObject(objectName)){
+                GenerateObjectOnFloor("Deko", "Deko_11_1_a", 10, -0.2f, 2.05f, 0.15f, 2.05f, objectName);
+            }
+        }else if(MouseAction==3){//destroy
             if(isWallObject(objectName)==true){
                 DestroyObjectOnWall(objectName);
             }
             if(isFloorChildObject(objectName)==true){
                 DestroyFloorChild(objectName);
             }
+        }else if(MouseAction==4){//replace
+            
+
+            if(ObjectToMove.Equals("")==false&&isFloorObject(objectName)==true){//im zweiten schritt prüfe ob ein floorChild Object vorhanden ist
+                MoveObjectOnFloor(ObjectToMove, objectName);                    //und ob das neue Object floor ist
+                ObjectToMove = "";
+            }else if(isFloorChildObject(objectName)==true){//im ersten schritt prüfe ob ein floorChild Object angeklickt wurde
+                ObjectToMove = objectName;
+            }else{//wenn was anderes angklickt wurde, breche ab
+                ObjectToMove = "";
+            }
+            //continue mit ObjectOnWall
         }
-        //continue
 
         //nach jeder action muss neu gespeichert werden
         SaveAndLoadController.SavePlayerData();
@@ -42,6 +67,24 @@ public class ButtonController : MonoBehaviour
 
     public void DestroyFloorChild(string objectName){
         ObjectController.DestroyFloorChild(objectName);//(FloorChildGOName)
+    }
+
+    public void RotateFloorChild(string objectName){
+        ObjectController.RotateObjectOnFloor(objectName);//(floorChildGOName)
+    }
+
+    public void GenerateObjectOnWall(string spriteName, string wallName, int wallChildLength, float coordCorrectionX, float coordCorrectionY){
+        ObjectController.GenerateObjectOnWall(spriteName, wallName, wallChildLength, coordCorrectionX, coordCorrectionY);//(floorChildName,WallName,wallChildLength,coordCorrectionX,coordCorrectionY)
+    }
+    public void GenerateObjectOnFloor(string type, string spriteName, int price, float coordCoorXA, float coordCoorYA, float coordCoorXB, float coordCoorYB, string wallName){
+        ObjectController.GenerateObjectOnFloor(type, spriteName, price, coordCoorXA, coordCoorYA, coordCoorXB, coordCoorYB, wallName);//(type,spriteName,price,coordCoorXA...-coordCoorYB,FloorGameObjectName)
+    }
+
+    public void MoveObjectOnWall(){
+        ObjectController.MoveObjectOnWall("0-8-Wall","0-1-Wall");//(curWallName,newWallName)
+    }
+    public void MoveObjectOnFloor(string objectName, string floorName){
+        ObjectController.MoveObjectOnFloor(objectName, floorName);//(floorChildGameObjectName,floorGameObjectName(neuer platz))
     }
     
 
@@ -75,6 +118,14 @@ public class ButtonController : MonoBehaviour
     public bool isFloorChildObject(string objectName){
         string[] splitName = objectName.Split("-");
         if(splitName[splitName.Length-1].Equals("Child")){
+            return true;
+        }
+        return false;
+    }
+
+    public bool isFloorObject(string objectName){
+        string[] splitName = objectName.Split("-");
+        if(splitName.Length==2){
             return true;
         }
         return false;

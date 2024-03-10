@@ -162,8 +162,12 @@ public class ObjectController : MonoBehaviour
         for(int c=0;c<FloorObjectList.Count;c++){
             if(FloorObjectList[c].floorGameObjectName.Equals(newFloorGameObjectName)){
                 if(string.IsNullOrWhiteSpace(FloorObjectList[c].floorChildType)){
-                    GenerateObjectOnFloor(floorChildInfoItems[5],floorChildInfoItems[7],Int32.Parse(floorChildInfoItems[8]),float.Parse(floorChildInfoItems[9]),float.Parse(floorChildInfoItems[10]),float.Parse(floorChildInfoItems[11]),float.Parse(floorChildInfoItems[12]),newFloorGameObjectName);
-                    DestroyFloorChild(floorChildGameObjectName);
+
+                    //gucke ob FloorObject unter tür ist, wenn ja platziere nicht
+                    if(checkFloorGONameHasDoor(newFloorGameObjectName)==false){
+                        GenerateObjectOnFloor(floorChildInfoItems[5],floorChildInfoItems[7],Int32.Parse(floorChildInfoItems[8]),float.Parse(floorChildInfoItems[9]),float.Parse(floorChildInfoItems[10]),float.Parse(floorChildInfoItems[11]),float.Parse(floorChildInfoItems[12]),newFloorGameObjectName);
+                        DestroyFloorChild(floorChildGameObjectName);
+                    }
                 }
             }
         }
@@ -262,8 +266,10 @@ public class ObjectController : MonoBehaviour
 
     public static bool checkIfWallGOContainsDoor(WallObject obj){
         string[] objSlice = obj.WallChildName.Split("_");//splitt name
-        if(objSlice[1].Equals("Door")){
-            return true;
+        if(objSlice.Length>=2){
+            if(objSlice[1].Equals("Door")){
+                return true;
+            }
         }
         return false;
     }
@@ -309,6 +315,44 @@ public class ObjectController : MonoBehaviour
         FloorObject floorObject = getFloorGOFromFloorGOName((val1).ToString()+"-"+(val2).ToString());
         if(string.IsNullOrWhiteSpace(floorObject.floorChildType)==true){
             return true;
+        }
+        return false;
+    }
+
+    public static bool checkFloorGONameHasDoor(string floorGameObjectName){
+        //prüfe ob Tür auf FloorGO steht, wenn ja dann true
+        string[] nameSlice = floorGameObjectName.Split("-");//splitt name
+        int val1 = Int32.Parse(nameSlice[0]);
+        int val2 = Int32.Parse(nameSlice[1]);
+        if(val1==0&&val2>0){
+            val2 = val2 + 1;
+            WallObject wallObject = getWallGOFromWallGOName(val1+"-"+val2+"-Wall");
+            if(string.IsNullOrWhiteSpace(wallObject.wallGameObjectName)==false){
+                if(checkIfWallGOContainsDoor(wallObject)==true){
+                    return true;
+                }
+            }
+        }else if(val2==0&&val1>0){
+            val1 = val1 + 1;
+            WallObject wallObject1 = getWallGOFromWallGOName(val1+"-"+val2+"-Wall");
+            if(string.IsNullOrWhiteSpace(wallObject1.wallGameObjectName)==false){
+                if(checkIfWallGOContainsDoor(wallObject1)==true){
+                    return true;
+                }
+            }
+        }else if(val2==0&&val2==0){
+            WallObject wallObject2 = getWallGOFromWallGOName(1+"-"+0+"-Wall");
+            if(string.IsNullOrWhiteSpace(wallObject2.wallGameObjectName)==false){
+                if(checkIfWallGOContainsDoor(wallObject2)==true){
+                    return true;
+                }
+            }
+            WallObject wallObject3 = getWallGOFromWallGOName(0+"-"+1+"-Wall");
+            if(string.IsNullOrWhiteSpace(wallObject3.wallGameObjectName)==false){
+                if(checkIfWallGOContainsDoor(wallObject3)==true){
+                    return true;
+                }    
+            }
         }
         return false;
     }
