@@ -254,7 +254,7 @@ public class ObjectController : MonoBehaviour
 
     public static bool checkIfDoorOnWallExists(){
         for(int a=0;a<WallObjectList.Count;a++){
-            if(WallObjectList[a].WallChildName!=null&&WallObjectList[a].WallChildName!="placeholder"){//placeholder ist 2tes teil von 2teiligen child
+            if(string.IsNullOrWhiteSpace(WallObjectList[a].WallChildName)==false&&WallObjectList[a].WallChildName!="placeholder"){//placeholder ist 2tes teil von 2teiligen child
                 string[] nameSlice = WallObjectList[a].WallChildName.Split("_");//splitt name
                 if(nameSlice[1].Equals("Door")){
                     return true;
@@ -327,7 +327,7 @@ public class ObjectController : MonoBehaviour
         if(val1==0&&val2>0){
             val2 = val2 + 1;
             WallObject wallObject = getWallGOFromWallGOName(val1+"-"+val2+"-Wall");
-            if(string.IsNullOrWhiteSpace(wallObject.wallGameObjectName)==false){
+            if(string.IsNullOrWhiteSpace(wallObject.WallChildName)==false){
                 if(checkIfWallGOContainsDoor(wallObject)==true){
                     return true;
                 }
@@ -335,20 +335,20 @@ public class ObjectController : MonoBehaviour
         }else if(val2==0&&val1>0){
             val1 = val1 + 1;
             WallObject wallObject1 = getWallGOFromWallGOName(val1+"-"+val2+"-Wall");
-            if(string.IsNullOrWhiteSpace(wallObject1.wallGameObjectName)==false){
+            if(string.IsNullOrWhiteSpace(wallObject1.WallChildName)==false){
                 if(checkIfWallGOContainsDoor(wallObject1)==true){
                     return true;
                 }
             }
         }else if(val2==0&&val2==0){
             WallObject wallObject2 = getWallGOFromWallGOName(1+"-"+0+"-Wall");
-            if(string.IsNullOrWhiteSpace(wallObject2.wallGameObjectName)==false){
+            if(string.IsNullOrWhiteSpace(wallObject2.WallChildName)==false){
                 if(checkIfWallGOContainsDoor(wallObject2)==true){
                     return true;
                 }
             }
             WallObject wallObject3 = getWallGOFromWallGOName(0+"-"+1+"-Wall");
-            if(string.IsNullOrWhiteSpace(wallObject3.wallGameObjectName)==false){
+            if(string.IsNullOrWhiteSpace(wallObject3.WallChildName)==false){
                 if(checkIfWallGOContainsDoor(wallObject3)==true){
                     return true;
                 }    

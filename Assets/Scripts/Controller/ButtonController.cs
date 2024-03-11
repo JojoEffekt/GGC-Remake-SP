@@ -46,15 +46,19 @@ public class ButtonController : MonoBehaviour
         }else if(MouseAction==4){//replace
             
 
-            if(ObjectToMove.Equals("")==false&&isFloorObject(objectName)==true){//im zweiten schritt prüfe ob ein floorChild Object vorhanden ist
-                MoveObjectOnFloor(ObjectToMove, objectName);                    //und ob das neue Object floor ist
+            if(ObjectToMove.Equals("")==false&&isFloorObject(objectName)==true&&isFloorChildObject(ObjectToMove)==true){//im zweiten schritt prüfe ob ein floorChild Object vorhanden ist
+                MoveObjectOnFloor(ObjectToMove, objectName);                                                            //und ob das neue Object floor ist
                 ObjectToMove = "";
             }else if(isFloorChildObject(objectName)==true){//im ersten schritt prüfe ob ein floorChild Object angeklickt wurde
+                ObjectToMove = objectName;
+            }else if(ObjectToMove.Equals("")==false&&isWallObject(objectName)==true&&isWallObject(ObjectToMove)==true){
+                MoveObjectOnWall(ObjectToMove,objectName);
+                ObjectToMove = "";
+            }else if(isWallObject(objectName)==true){//im ersten schritt prüfe ob ein wallObject angeklickt wurde
                 ObjectToMove = objectName;
             }else{//wenn was anderes angklickt wurde, breche ab
                 ObjectToMove = "";
             }
-            //continue mit ObjectOnWall
         }
 
         //nach jeder action muss neu gespeichert werden
@@ -80,8 +84,8 @@ public class ButtonController : MonoBehaviour
         ObjectController.GenerateObjectOnFloor(type, spriteName, price, coordCoorXA, coordCoorYA, coordCoorXB, coordCoorYB, wallName);//(type,spriteName,price,coordCoorXA...-coordCoorYB,FloorGameObjectName)
     }
 
-    public void MoveObjectOnWall(){
-        ObjectController.MoveObjectOnWall("0-8-Wall","0-1-Wall");//(curWallName,newWallName)
+    public void MoveObjectOnWall(string wallNameOld, string wallNameNew){
+        ObjectController.MoveObjectOnWall(wallNameOld, wallNameNew);//(curWallName,newWallName)
     }
     public void MoveObjectOnFloor(string objectName, string floorName){
         ObjectController.MoveObjectOnFloor(objectName, floorName);//(floorChildGameObjectName,floorGameObjectName(neuer platz))
