@@ -180,6 +180,7 @@ public class StandardObject : MonoBehaviour
             info = slushi.cocktailSprite+";"+slushi.cocktailCount;
         }
         info = type+";"+gameObjectName+";"+info;
+        Debug.Log("info: "+info);
         return info;
     }
 

@@ -204,6 +204,11 @@ public class ObjectController : MonoBehaviour
         standartObject.UpdateTypeData(info);
     }
 
+    public static void UpdateFloorChildExtraData(string floorChildGOName/*,... ,... ,... ....*/){
+        //krieg referenz zu StandartObject
+        //übergebe parameter (braucht neue methode in standardObject)
+    }
+
 
 
 

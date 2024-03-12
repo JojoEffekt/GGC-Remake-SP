@@ -127,27 +127,16 @@ public class SaveAndLoadController : MonoBehaviour
         }
 
         //SAVE FLOORCHILDEXTRADATA
-        /*try{
-            StreamWriter source = new StreamWriter(Application.dataPath + "/Data/" + floorChildExtraDataFilePath);
-            for(int a=0;a<ObjectController.standardObjectList.Count;a++){
-                string floorObject = ObjectController.standardObjectList[a].getTypeInfo();
-                source.WriteLine(floorObject);
-            }
-            source.Close();
-            //Debug.Log("successfully save FloorChildExtra-data!");
-        }catch(Exception e){
-            Debug.Log("error, failed to save FloorChildExtra-data!");
-        }*/
-        test();
+        SaveFloorChildExtraData();
     }
 
-    private static void test(){
+    private static void SaveFloorChildExtraData(){
         StreamWriter source = new StreamWriter(Application.dataPath + "/Data/" + floorChildExtraDataFilePath);
-            for(int a=0;a<ObjectController.standardObjectList.Count;a++){
-                string floorObject = ObjectController.standardObjectList[a].getTypeInfo();
-                source.WriteLine(floorObject);
-            }
-            source.Close();
+        for(int a=0;a<ObjectController.standardObjectList.Count;a++){
+            string floorObject = ObjectController.standardObjectList[a].getTypeInfo();
+            source.WriteLine(floorObject);
+        }
+        source.Close();
     }
 
     private static string[] ReadStream(string pathFile){
