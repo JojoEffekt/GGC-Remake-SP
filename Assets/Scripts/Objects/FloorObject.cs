@@ -104,7 +104,13 @@ public class FloorObject : MonoBehaviour
     }
 
 
-
+    public void setNewFloorSprite(string floorName, int price){
+        //set new FloorSprite
+        this.floorName = floorName;
+        this.floorPrice = price;
+        setFloorSpriteFromList();
+        setFloorSprite();
+    }
 
     private void setFloorSpriteFromList(){
         //suche sprite from lists
@@ -116,6 +122,7 @@ public class FloorObject : MonoBehaviour
         }
         this.floorSprite = sprite;
     }
+
     private void setFloorSprite(){
         FloorGameObject.GetComponent<SpriteRenderer>().sprite = floorSprite;
         FloorGameObject.GetComponent<SpriteRenderer>().sortingOrder = -3;

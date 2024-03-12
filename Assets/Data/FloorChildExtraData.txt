@@ -1,10 +1,5 @@
-Counter;0-2-Child;False;;0
-Fridge;0-3-Child;
-Deko;0-4-Child;
-Deko;1-1-Child;
-Deko;2-5-Child;
-Deko;3-6-Child;
+Oven;1-3-Child;0;;0;;
+Counter;1-7-Child;False;;0
 Deko;4-7-Child;
-Oven;5-1-Child;0;;0;;
 Deko;5-5-Child;
-Deko;6-4-Child;
+Fridge;7-1-Child;

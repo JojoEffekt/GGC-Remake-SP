@@ -31,8 +31,6 @@ public class GridController : MonoBehaviour
         ObjectController.DestroyObjectOnWall("0-2-Wall");//(WallName)
 
 
-
-
         ObjectController.GenerateObjectOnFloor("Deko", "Deko_11_1_a", 10, -0.2f, 2.05f, 0.15f, 2.05f, "5-5");//(type,spriteName,price,coordCoorXA...-coordCoorYB,FloorGameObjectName)
         ObjectController.GenerateObjectOnFloor("Fridge", "Fridge_04_1_a", 10, 0.0f, 2.1f, 0.0f, 2.1f, "2-4");//(type,spriteName,price,coordCoorXA...-coordCoorYB,FloorGameObjectName)
         ObjectController.GenerateObjectOnFloor("Counter", "Counter_06_1_d", 10, 0.0f, 0.75f, 0.0f, 0.75f, "1-7");
@@ -48,12 +46,38 @@ public class GridController : MonoBehaviour
         ObjectController.RotateObjectOnFloor("0-0-Child");
         ObjectController.DestroyFloorChild("0-5-Child");//(floorChildGameObjectName)
 
+        ObjectController.NewFloorSprite("Floor_16_1", 100, "4-5");//newFloorSprite,FloorPrice,FloorGOName
+        ObjectController.NewFloorSprite("Floor_06_1", 999, "7-6");//newFloorSprite,FloorPrice,FloorGOName
+        ObjectController.NewFloorSprite("Floor_06_1", 999, "7-6");//newFloorSprite,FloorPrice,FloorGOName
+
 
         ObjectController.MoveObjectOnWall("0-4-Wall","8-0-Wall");//(curWallName,newWallName)
         ObjectController.MoveObjectOnWall("6-0-Wall","8-0-Wall");//(curWallName,newWallName)
         ObjectController.MoveObjectOnWall("6-0-Wall","0-8-Wall");//(curWallName,newWallName)
         ObjectController.MoveObjectOnWall("0-8-Wall","0-1-Wall");//(curWallName,newWallName)
 
+
+        SaveAndLoadController.SavePlayerData();
+    }
+
+    public static void UpgradeGrid(){
+        //vergrößert das spielfeld um 1x1
+        
+        int gridSize = PlayerController.gridSize;
+        PlayerController.gridSize = PlayerController.gridSize + 1;
+
+        //add wall
+        ObjectController.GenerateWallObject((gridSize+1)+"-"+0+"-Wall" ,"Wall_09_", 0, null, 0, 0.0f, 0.0f,gridSize+1, 0);
+        ObjectController.GenerateWallObject(0+"-"+(gridSize+1)+"-Wall" ,"Wall_09_", 1, null, 0, 0.0f, 0.0f, 0, gridSize+1);
+
+        //add floor
+        for(int a=0;a<gridSize;a++){
+            ObjectController.GenerateFloorObject((a+"-"+gridSize),"Floor_01", 10, ((a-gridSize)*2)-0.1f, -3.75f-gridSize-a, null, null, null, 0, 0.0f, 0.0f, 0.0f, 0.0f);
+        }
+        for(int b=0;b<gridSize;b++){
+            ObjectController.GenerateFloorObject((gridSize+"-"+b),"Floor_01", 10, ((gridSize-b)*2)-0.1f, -3.75f-b-gridSize, null, null, null, 0, 0.0f, 0.0f, 0.0f, 0.0f);
+        }
+        ObjectController.GenerateFloorObject((gridSize+"-"+gridSize),"Floor_01", 10, ((gridSize-gridSize)*2)-0.1f, -3.75f-gridSize-gridSize, null, null, null, 0, 0.0f, 0.0f, 0.0f, 0.0f);
 
         SaveAndLoadController.SavePlayerData();
     }

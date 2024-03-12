@@ -9,5 +9,6 @@ public class PlayerController : MonoBehaviour
     public static int playerGold;
     public static long playerXP;
     public static int playerLevel;
+
     public static int gridSize;
 }

@@ -136,6 +136,14 @@ public class ObjectController : MonoBehaviour
         }
     }
 
+    //setzt ein neues floorSprite
+    public static void NewFloorSprite(string newFloorSpriteName, int floorPrice, string floorGOName){
+        FloorObject floorObject = getFloorGOFromFloorGOName(floorGOName);
+        if(floorObject.floorName.Equals(newFloorSpriteName)==false){//gucke ob FloorGO nicht schon diesen floor hat
+            floorObject.setNewFloorSprite(newFloorSpriteName, floorPrice);
+        }
+    }
+
     //rotiert obj on floor obj
     public static void RotateObjectOnFloor(string floorChildGameObjectName){
         //get currentFloorParent from child

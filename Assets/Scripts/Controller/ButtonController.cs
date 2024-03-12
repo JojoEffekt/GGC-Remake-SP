@@ -5,7 +5,7 @@ using UnityEngine.InputSystem;
 
 public class ButtonController : MonoBehaviour
 {
-    public int MouseAction = 0; //0=nothing,1=rotate,2=create,3=remove,4=replace
+    public int MouseAction = 0; //0=nothing,1=rotate,2=create,3=remove,4=replace,5=newFloor
 
     public string ObjectToMove = "";
     
@@ -44,8 +44,6 @@ public class ButtonController : MonoBehaviour
                 DestroyFloorChild(objectName);
             }
         }else if(MouseAction==4){//replace
-            
-
             if(ObjectToMove.Equals("")==false&&isFloorObject(objectName)==true&&isFloorChildObject(ObjectToMove)==true){//im zweiten schritt prüfe ob ein floorChild Object vorhanden ist
                 MoveObjectOnFloor(ObjectToMove, objectName);                                                            //und ob das neue Object floor ist
                 ObjectToMove = "";
@@ -58,6 +56,12 @@ public class ButtonController : MonoBehaviour
                 ObjectToMove = objectName;
             }else{//wenn was anderes angklickt wurde, breche ab
                 ObjectToMove = "";
+            }
+        }else if(MouseAction==5){//new Floor
+            string floorObj = getFloor(info);
+            if(string.IsNullOrWhiteSpace(floorObj)==false){
+                Debug.Log("floorObj: "+floorObj);
+                NewFloorSprite("Floor_06_1", 99, floorObj);
             }
         }
 
@@ -90,6 +94,10 @@ public class ButtonController : MonoBehaviour
     public void MoveObjectOnFloor(string objectName, string floorName){
         ObjectController.MoveObjectOnFloor(objectName, floorName);//(floorChildGameObjectName,floorGameObjectName(neuer platz))
     }
+
+    public void NewFloorSprite(string newFloorSpriteName, int floorPrice, string floorGOName){
+        ObjectController.NewFloorSprite(newFloorSpriteName, floorPrice, floorGOName);//(newFloorSprite,floorPrice,floorGOName)
+    }
     
 
 
@@ -106,6 +114,17 @@ public class ButtonController : MonoBehaviour
                 if(splitName[2].Equals("Child")){
                     return info[a].collider.name;
                 }
+            }
+        }
+        return objectName;
+    }
+
+    public string getFloor(RaycastHit2D[] info){//guckt ob beim raycast ein floor gecatch wurde
+        string objectName = null;
+        for(int a=0;a<info.Length;a++){
+            string[] splitName = info[a].collider.name.Split("-");
+            if(splitName.Length==2){
+                return info[a].collider.name;
             }
         }
         return objectName;
