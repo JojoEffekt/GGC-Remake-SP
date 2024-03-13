@@ -199,17 +199,6 @@ public class ObjectController : MonoBehaviour
         Destroy(GameObject.Find(childGOName));
     }
 
-    public static void GenerateFloorChildExtraData(string info){
-        StandardObject standartObject = getFloorGOChildFromChildGOName(info.Split(";")[1]);
-        standartObject.UpdateTypeData(info);
-    }
-
-    public static void UpdateFloorChildExtraData(string floorChildGOName/*,... ,... ,... ....*/){
-        //krieg referenz zu StandartObject
-        //übergebe parameter (braucht neue methode in standardObject)
-    }
-
-
 
 
     //getter

@@ -31,12 +31,6 @@ public class StandardObject : MonoBehaviour
     private List<Sprite> slushiSpriteList = new List<Sprite>();
     private Sprite standartSprite;
 
-    private Chair chair;
-    private Table table;
-    private Counter counter;
-    private Oven oven;
-    private Slushi slushi;
-
     //constructor
     public StandardObject(string type, string gameObjectName, string objectName, int price, float coordCorrectionXA, float coordCorrectionYA, float coordCorrectionXB, float coordCorrectionYB, float coordX, float coordY){
         this.type = type;
@@ -60,8 +54,7 @@ public class StandardObject : MonoBehaviour
         setStandartSpriteFromList();
         setStandartSprite();
 
-        RenderType();
-        InstantiateTypeData();
+        this.StandartGameObject.AddComponent(typeof(PolygonCollider2D));//fügt ein collider zum klicken hinzu
     }
 
     //methods
@@ -98,20 +91,6 @@ public class StandardObject : MonoBehaviour
            	slushiSpriteList.Add((Sprite)sprites[x]);
         }
     }
-    
-    private void InstantiateTypeData(){//beim erstmaligen laden aufgerufen, kann überschrieben werden
-        if(type.Equals("Chair")){
-            chair = new Chair(false);
-        }else if(type.Equals("Table")){
-            table = new Table(false);
-        }else if(type.Equals("Counter")){
-            counter = new Counter(false, null, 0);
-        }else if(type.Equals("Oven")){
-            oven = new Oven(0, null, 0, null, null);
-        }else if(type.Equals("Slushi")){
-            slushi = new Slushi(null, 0);
-        }
-    }
 
     public string Rotate(){
         //get ende von name (a,b,c,d) dann nächster buchstabe
@@ -132,55 +111,11 @@ public class StandardObject : MonoBehaviour
         return objectName;
     }
 
-    private void RenderType(){//gibt sprite ein collider
-        this.StandartGameObject.AddComponent(typeof(PolygonCollider2D));
-    }
-
-    public void UpdateTypeData(string data){//wird zum updaten aufgerufen
-        string[] listItem = data.Split(";");
-        if(type.Equals("Chair")){
-            chair.isEmpty = bool.Parse(listItem[2]);
-        }else if(type.Equals("Table")){
-            table.isEmpty = bool.Parse(listItem[2]);
-        }else if(type.Equals("Counter")){
-            counter.isEmpty = bool.Parse(listItem[2]);
-            counter.foodSprite = listItem[3];
-            counter.foodCount = Int32.Parse(listItem[4]);
-        }else if(type.Equals("Oven")){
-            oven.foodStep = Int32.Parse(listItem[2]);
-            oven.foodSprite = listItem[3];
-            oven.foodCount = Int32.Parse(listItem[4]);
-            oven.dateStart = listItem[5];
-            oven.dateEnd = listItem[6];
-        }else if(type.Equals("Slushi")){
-            slushi.cocktailSprite = listItem[2];
-            slushi.cocktailCount = Int32.Parse(listItem[3]);
-        }
-    }
-
 
 
     //getters
     public string getInfo(){
         string info = type+";"+gameObjectName+";"+objectName+";"+price+";"+coordCorrectionXA+";"+coordCorrectionYA+";"+coordCorrectionXB+";"+coordCorrectionYB;
-        return info;
-    }
-
-    public string getTypeInfo(){
-        string info = "";
-        if(type.Equals("Chair")){
-            info = ""+chair.isEmpty;
-        }else if(type.Equals("Table")){
-            info = ""+table.isEmpty;
-        }else if(type.Equals("Counter")){
-            info = counter.isEmpty+";"+counter.foodSprite+";"+counter.foodCount;
-        }else if(type.Equals("Oven")){
-            info = oven.foodStep+";"+oven.foodSprite+";"+oven.foodCount+";"+oven.dateStart+";"+oven.dateEnd;
-        }else if(type.Equals("Slushi")){
-            info = slushi.cocktailSprite+";"+slushi.cocktailCount;
-        }
-        info = type+";"+gameObjectName+";"+info;
-        Debug.Log("info: "+info);
         return info;
     }
 
@@ -248,54 +183,5 @@ public class StandardObject : MonoBehaviour
         }else if(nameSlice[nameSlice.Length-1].Equals("b")||nameSlice[nameSlice.Length-1].Equals("d")){
             StandartGameObject.transform.position = new Vector2(StandartGameObject.transform.position.x + coordCorrectionXB, StandartGameObject.transform.position.y + coordCorrectionYB);
         }
-    }
-}
-
-public class Chair{
-    public bool isEmpty { get; set; }
-    public Chair(bool isEmpty){
-        this.isEmpty = isEmpty;
-    }
-}
-
-public class Table{
-    public bool isEmpty { get; set; }
-    public Table(bool isEmpty){
-        this.isEmpty = isEmpty;
-    }
-}
-
-public class Counter{
-    public bool isEmpty { get; set; }
-    public string foodSprite { get; set; }
-    public int foodCount { get; set; }
-    public Counter(bool isEmpty, string foodSprite, int foodCount){
-        this.isEmpty = isEmpty;
-        this.foodSprite = foodSprite;
-        this.foodCount = foodCount;
-    }
-}
-
-public class Oven{
-    public int foodStep { get; set; }
-    public string foodSprite { get; set; }
-    public int foodCount { get; set; }
-    public string dateStart { get; set; }
-    public string dateEnd { get; set; }
-    public Oven(int foodStep, string foodSprite, int foodCount, string dateStart, string dateEnd){
-        this.foodStep = foodStep;//0 = empty, 1 = in Proccess, 2 = ready, 3 = dirty
-        this.foodSprite = foodSprite;
-        this.foodCount = foodCount;
-        this.dateStart = dateStart;
-        this.dateEnd = dateEnd;
-    }
-}
-
-public class Slushi{
-    public string cocktailSprite { get; set; }
-    public int cocktailCount { get; set; }
-    public Slushi(string cocktailSprite, int cocktailCount){
-        this.cocktailSprite = cocktailSprite;
-        this.cocktailCount = cocktailCount;
     }
 }

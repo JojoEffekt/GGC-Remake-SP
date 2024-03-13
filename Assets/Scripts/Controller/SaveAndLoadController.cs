@@ -62,10 +62,10 @@ public class SaveAndLoadController : MonoBehaviour
                 //LOAD FLOOREXTRADTA
                 lines = ReadStream(floorChildExtraDataFilePath);
                 //lines.Length-1: -1 because WriteLine generates an empty line on bottom
-                for(int a=0;a<lines.Length-1;a++){
+                /*for(int a=0;a<lines.Length-1;a++){
                     string lineItem = lines[a];
                     ObjectController.GenerateFloorChildExtraData(lineItem);
-                }
+                }*/
                 //Debug.Log("successfully load FloorExtra-data!");
 
 
@@ -127,14 +127,14 @@ public class SaveAndLoadController : MonoBehaviour
         }
 
         //SAVE FLOORCHILDEXTRADATA
-        SaveFloorChildExtraData();
+        //SaveFloorChildExtraData();
     }
 
     private static void SaveFloorChildExtraData(){
         StreamWriter source = new StreamWriter(Application.dataPath + "/Data/" + floorChildExtraDataFilePath);
         for(int a=0;a<ObjectController.standardObjectList.Count;a++){
-            string floorObject = ObjectController.standardObjectList[a].getTypeInfo();
-            source.WriteLine(floorObject);
+            //string floorObject = ObjectController.standardObjectList[a].getTypeInfo();
+           // source.WriteLine(floorObject);
         }
         source.Close();
     }
