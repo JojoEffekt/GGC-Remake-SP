@@ -60,7 +60,7 @@ public class SaveAndLoadController : MonoBehaviour
 
 
                 //LOAD FLOOREXTRADTA
-                lines = ReadStream(floorChildExtraDataFilePath);
+                //lines = ReadStream(floorChildExtraDataFilePath);
                 //lines.Length-1: -1 because WriteLine generates an empty line on bottom
                 /*for(int a=0;a<lines.Length-1;a++){
                     string lineItem = lines[a];

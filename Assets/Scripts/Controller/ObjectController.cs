@@ -124,6 +124,10 @@ public class ObjectController : MonoBehaviour
             //Übergebe floor child parent coord name to create floor child go name as identifier
             FloorObject floorObject = getFloorGOFromFloorGOName(floorGameObjectName);
             standardObjectList.Add(floorObject.setChild(floorChildType, floorGameObjectName, floorChildName, floorChildPrice, floorChildCoordCorrectionXA, floorChildCoordCorrectionYA, floorChildCoordCorrectionXB, floorChildCoordCorrectionYB));
+        
+            //FloorChildExtraData wird erstellt
+            FloorChildExtraDataController.InstantiateFCED(floorChildType+";"+floorGameObjectName);
+            FloorChildExtraDataController.getInfo();
         }
     }
 
@@ -133,6 +137,10 @@ public class ObjectController : MonoBehaviour
         FloorObject floorObject = getFloorGOFromFloorGOName(floorNameToPlaceOn);
         if(string.IsNullOrWhiteSpace(floorObject.floorChildType)==true){//wenn floorGameObject schon childgameObject hat, erzeuge nicht
             standardObjectList.Add(floorObject.setChild(type, floorNameToPlaceOn, objectName, price, floorChildCoordCorrectionXA, floorChildCoordCorrectionYA, floorChildCoordCorrectionXB, floorChildCoordCorrectionYB));   
+        
+            //FloorChildExtraData wird erstellt
+            FloorChildExtraDataController.InstantiateFCED(type+";"+floorNameToPlaceOn);
+            FloorChildExtraDataController.getInfo();
         }
     }
 
@@ -173,6 +181,10 @@ public class ObjectController : MonoBehaviour
 
                     //gucke ob FloorObject unter tür ist, wenn ja platziere nicht
                     if(checkFloorGONameHasDoor(newFloorGameObjectName)==false){
+
+                        //floorChildExtraData
+                        FloorChildExtraDataController.CloneFECD(floorChildGameObjectName, newFloorGameObjectName);
+
                         GenerateObjectOnFloor(floorChildInfoItems[5],floorChildInfoItems[7],Int32.Parse(floorChildInfoItems[8]),float.Parse(floorChildInfoItems[9]),float.Parse(floorChildInfoItems[10]),float.Parse(floorChildInfoItems[11]),float.Parse(floorChildInfoItems[12]),newFloorGameObjectName);
                         DestroyFloorChild(floorChildGameObjectName);
                     }
@@ -197,6 +209,9 @@ public class ObjectController : MonoBehaviour
         }
         //delete floorChild from scene
         Destroy(GameObject.Find(childGOName));
+
+        //floorChildExtraData wird entfernt
+        FloorChildExtraDataController.DeleteFECD(childGOName);
     }
 
 
