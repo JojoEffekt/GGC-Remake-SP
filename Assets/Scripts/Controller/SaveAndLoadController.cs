@@ -37,6 +37,32 @@ public class SaveAndLoadController : MonoBehaviour
        // try{
             if(File.Exists(Application.dataPath+"/Data/"+wallDataFilePath)==true&&File.Exists(Application.dataPath+"/Data/"+floorDataFilePath)==true){
                 
+                //LOAD FLOOREXTRADATA
+                //muss zu erst geladen werden, da beim Instanziieren der FloorObjekte sonst leere FCED erzeugt werden
+                lines = ReadStream(floorChildExtraDataFilePath);
+                //lines.Length-1;// -1 because WriteLine generates an empty line on bottom
+                for(int a=0;a<lines.Length-1;a++){
+                    string[] lineItem = lines[a].Split(";");
+
+                    if(lineItem[0].Equals("Chair")){
+                        FloorChildExtraDataController.InstantiateFCED(lines[a]);
+                    }
+                    if(lineItem[0].Equals("Table")){
+                        FloorChildExtraDataController.InstantiateFCED(lines[a]); 
+                    }
+                    if(lineItem[0].Equals("Counter")){
+                        FloorChildExtraDataController.InstantiateFCED(lines[a]);
+                    }
+                    if(lineItem[0].Equals("Oven")){
+                        FloorChildExtraDataController.InstantiateFCED(lines[a]);
+                    }
+                    if(lineItem[0].Equals("Slushi")){
+                        FloorChildExtraDataController.InstantiateFCED(lines[a]);
+                    }
+                }
+                //Debug.Log("successfully load FloorExtra-data!");
+
+
                 //LOAD WALL
                 string[] lines = ReadStream(wallDataFilePath);
                 //lines.Length-1: -1 because WriteLine generates an empty line on bottom
@@ -56,17 +82,6 @@ public class SaveAndLoadController : MonoBehaviour
                     ObjectController.GenerateFloorObject(lineItem[0],lineItem[1],Int32.Parse(lineItem[2]),float.Parse(lineItem[3]),float.Parse(lineItem[4]),lineItem[5],lineItem[6],lineItem[7],Int32.Parse(lineItem[8]),float.Parse(lineItem[9]),float.Parse(lineItem[10]),float.Parse(lineItem[11]),float.Parse(lineItem[12]));
                 }
                 //Debug.Log("successfully load Floor-data!");
-
-
-
-                //LOAD FLOOREXTRADTA
-                //lines = ReadStream(floorChildExtraDataFilePath);
-                //lines.Length-1: -1 because WriteLine generates an empty line on bottom
-                /*for(int a=0;a<lines.Length-1;a++){
-                    string lineItem = lines[a];
-                    ObjectController.GenerateFloorChildExtraData(lineItem);
-                }*/
-                //Debug.Log("successfully load FloorExtra-data!");
 
 
 
@@ -127,14 +142,25 @@ public class SaveAndLoadController : MonoBehaviour
         }
 
         //SAVE FLOORCHILDEXTRADATA
-        //SaveFloorChildExtraData();
+        SaveFloorChildExtraData(); //NICHT GETESTET
     }
 
     private static void SaveFloorChildExtraData(){
         StreamWriter source = new StreamWriter(Application.dataPath + "/Data/" + floorChildExtraDataFilePath);
-        for(int a=0;a<ObjectController.standardObjectList.Count;a++){
-            //string floorObject = ObjectController.standardObjectList[a].getTypeInfo();
-           // source.WriteLine(floorObject);
+        for(int a=0;a<FloorChildExtraDataController.ChairList.Count;a++){
+            source.WriteLine(FloorChildExtraDataController.ChairList[a].Info());
+        }
+        for(int b=0;b<FloorChildExtraDataController.TableList.Count;b++){
+            source.WriteLine(FloorChildExtraDataController.TableList[b].Info());
+        }
+        for(int c=0;c<FloorChildExtraDataController.CounterList.Count;c++){
+            source.WriteLine(FloorChildExtraDataController.CounterList[c].Info());
+        }
+        for(int d=0;d<FloorChildExtraDataController.OvenList.Count;d++){
+            source.WriteLine(FloorChildExtraDataController.OvenList[d].Info());
+        }
+        for(int e=0;e<FloorChildExtraDataController.SlushiList.Count;e++){
+            source.WriteLine(FloorChildExtraDataController.SlushiList[e].Info());
         }
         source.Close();
     }
