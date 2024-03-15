@@ -183,6 +183,7 @@ public class ObjectController : MonoBehaviour
                     if(checkFloorGONameHasDoor(newFloorGameObjectName)==false){
 
                         //floorChildExtraData
+                        //muss vor GenerateObjectOnFloor(...) passieren, da hier das FCED geklont wird und nicht neu ohne werte erzeugt wird
                         FloorChildExtraDataController.CloneFECD(floorChildGameObjectName, newFloorGameObjectName);
 
                         GenerateObjectOnFloor(floorChildInfoItems[5],floorChildInfoItems[7],Int32.Parse(floorChildInfoItems[8]),float.Parse(floorChildInfoItems[9]),float.Parse(floorChildInfoItems[10]),float.Parse(floorChildInfoItems[11]),float.Parse(floorChildInfoItems[12]),newFloorGameObjectName);

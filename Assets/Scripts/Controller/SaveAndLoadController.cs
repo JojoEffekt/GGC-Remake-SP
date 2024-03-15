@@ -148,19 +148,19 @@ public class SaveAndLoadController : MonoBehaviour
     private static void SaveFloorChildExtraData(){
         StreamWriter source = new StreamWriter(Application.dataPath + "/Data/" + floorChildExtraDataFilePath);
         for(int a=0;a<FloorChildExtraDataController.ChairList.Count;a++){
-            source.WriteLine(FloorChildExtraDataController.ChairList[a].Info());
+            source.WriteLine(FloorChildExtraDataController.ChairList[a].getData());
         }
         for(int b=0;b<FloorChildExtraDataController.TableList.Count;b++){
-            source.WriteLine(FloorChildExtraDataController.TableList[b].Info());
+            source.WriteLine(FloorChildExtraDataController.TableList[b].getData());
         }
         for(int c=0;c<FloorChildExtraDataController.CounterList.Count;c++){
-            source.WriteLine(FloorChildExtraDataController.CounterList[c].Info());
+            source.WriteLine(FloorChildExtraDataController.CounterList[c].getData());
         }
         for(int d=0;d<FloorChildExtraDataController.OvenList.Count;d++){
-            source.WriteLine(FloorChildExtraDataController.OvenList[d].Info());
+            source.WriteLine(FloorChildExtraDataController.OvenList[d].getData());
         }
         for(int e=0;e<FloorChildExtraDataController.SlushiList.Count;e++){
-            source.WriteLine(FloorChildExtraDataController.SlushiList[e].Info());
+            source.WriteLine(FloorChildExtraDataController.SlushiList[e].getData());
         }
         source.Close();
     }

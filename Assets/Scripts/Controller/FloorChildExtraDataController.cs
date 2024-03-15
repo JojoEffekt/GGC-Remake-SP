@@ -108,22 +108,23 @@ public class FloorChildExtraDataController : MonoBehaviour
 
         string data = "";
         if(getChair(oldFloorChildGOName)!=null){
-            data = getChair(oldFloorChildGOName).Info();
+            data = getChair(oldFloorChildGOName).getData();
         }
         if(getTable(oldFloorChildGOName)!=null){
-            data = getTable(oldFloorChildGOName).Info();
+            data = getTable(oldFloorChildGOName).getData();
         }
         if(getCounter(oldFloorChildGOName)!=null){
-            data = getCounter(oldFloorChildGOName).Info();
+            data = getCounter(oldFloorChildGOName).getData();
         }
         if(getOven(oldFloorChildGOName)!=null){
-            data = getOven(oldFloorChildGOName).Info();
+            data = getOven(oldFloorChildGOName).getData();
         }
         if(getSlushi(oldFloorChildGOName)!=null){
-            data = getSlushi(oldFloorChildGOName).Info();
+            data = getSlushi(oldFloorChildGOName).getData();
         }
         
         Debug.Log("data: "+data);
+        //data muss an 2 stelle gesplittet werden und das element muss mit dem "newFloorGOName" ausgetauscht werden
         string[] items = data.Split(";");
         for(int a=0;a<items.Length;a++){
             if(a==1){
@@ -132,13 +133,33 @@ public class FloorChildExtraDataController : MonoBehaviour
                 data += items[a]+";";
             }
         }
-        data = data.Remove(data.Length - 1, 1);
-        Debug.Log("Cloned Data: oldFloorChildGOName: "+oldFloorChildGOName+" : "+newFloorGOName+" : "+data);
-
-        
+        data = data.Remove(data.Length-1, 1);//löscht das überflüssige ";" am ende
+        Debug.Log("Cloned Data: oldFloorChildGOName: "+oldFloorChildGOName+" newFloorGOName: "+newFloorGOName+" data: "+data);
 
         if(data!=""){
             InstantiateFCED(data);
+        }
+    }
+
+    public static void ChangeFCEDData(string data){
+        string[] listItem = data.Split(";");//type;GON;...;...
+        string type = listItem[0];
+
+        if(type.Equals("Chair")){
+            Chair chair = getChair(listItem[1]);
+            chair.setData(listItem[2]);
+        }else if(type.Equals("Table")){
+            Table table = getTable(listItem[1]);
+            table.setData = listItem[2];
+        }else if(type.Equals("Counter")){
+            Counter counter = getCounter(listItem[1]);
+            counter.setData(listItem[2], listItem[3], listItem[4]);
+        }else if(type.Equals("Oven")){
+            Oven oven = getOven(listItem[1]);
+            oven.setData(listItem[2], listItem[3], listItem[4], listItem[5], listItem[6]);
+        }else if(type.Equals("Slushi")){
+            Slushi slushi = getSlushi(listItem[1]);
+            slushi.setData(listItem[2], listItem[2]);
         }
     }
 
@@ -174,12 +195,6 @@ public class FloorChildExtraDataController : MonoBehaviour
         string[] name = floorChildGOName.Split("-");
         return name[0]+"-"+name[1];
     }
-
-
-    //setter
-    public static void setObjectInfo(){
-
-    }
 }
 
 public class Chair{
@@ -191,8 +206,11 @@ public class Chair{
         this.gameObjectName = gameObjectName;
         this.isEmpty = isEmpty;
     }
-    public string Info(){
+    public string getData(){
         return type+";"+gameObjectName+";"+isEmpty;
+    }
+    public void setData(bool isEmpty){
+        this.isEmpty = isEmpty;
     }
 }
 
@@ -205,8 +223,11 @@ public class Table{
         this.gameObjectName = gameObjectName;
         this.isEmpty = isEmpty;
     }
-    public string Info(){
+    public string getData(){
         return type+";"+gameObjectName+";"+isEmpty;
+    }
+    public void setData(bool isEmpty){
+        this.isEmpty = isEmpty;
     }
 }
 
@@ -223,8 +244,13 @@ public class Counter{
         this.foodSprite = foodSprite;
         this.foodCount = foodCount;
     }
-    public string Info(){
+    public string getData(){
         return type+";"+gameObjectName+";"+isEmpty+";"+foodSprite+";"+foodCount;
+    }
+    public void setData(bool isEmpty, string foodSprite, string foodCount){
+        this.isEmpty = isEmpty;
+        this.foodSprite = foodSprite;
+        this.foodCount = foodCount;
     }
 }
 
@@ -245,8 +271,15 @@ public class Oven{
         this.dateStart = dateStart;
         this.dateEnd = dateEnd;
     }
-    public string Info(){
+    public string getData(){
         return type+";"+gameObjectName+";"+foodStep+";"+foodSprite+";"+foodCount+";"+dateStart+";"+dateEnd;
+    }
+    public void setData(int foodStep, string foodSprite, int foodCount, string dateStart, string dateEnd){
+        this.foodStep = foodStep;
+        this.foodSprite = foodSprite;
+        this.foodCount = foodCount;
+        this.dateStart = dateStart;
+        this.dateEnd = dateEnd;
     }
 }
 
@@ -261,7 +294,11 @@ public class Slushi{
         this.cocktailSprite = cocktailSprite;
         this.cocktailCount = cocktailCount;
     }
-    public string Info(){
+    public string getData(){
         return type+";"+gameObjectName+";"+cocktailSprite+";"+cocktailCount;
+    }
+    public void setData(string cocktailSprite, string cocktailCount){
+        this.cocktailSprite = cocktailSprite;
+        this.cocktailCount = cocktailCount;
     }
 }
