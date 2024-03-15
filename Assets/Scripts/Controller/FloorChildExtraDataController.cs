@@ -98,8 +98,6 @@ public class FloorChildExtraDataController : MonoBehaviour
                 SlushiList.RemoveAt(e);
             }
         }
-
-        getInfo();
     }
 
     public static void CloneFECD(string oldFloorChildGOName, string newFloorGOName){
@@ -123,9 +121,9 @@ public class FloorChildExtraDataController : MonoBehaviour
             data = getSlushi(oldFloorChildGOName).getData();
         }
         
-        Debug.Log("data: "+data);
         //data muss an 2 stelle gesplittet werden und das element muss mit dem "newFloorGOName" ausgetauscht werden
         string[] items = data.Split(";");
+        data = "";
         for(int a=0;a<items.Length;a++){
             if(a==1){
                 data += newFloorGOName+";";
@@ -134,7 +132,6 @@ public class FloorChildExtraDataController : MonoBehaviour
             }
         }
         data = data.Remove(data.Length-1, 1);//löscht das überflüssige ";" am ende
-        Debug.Log("Cloned Data: oldFloorChildGOName: "+oldFloorChildGOName+" newFloorGOName: "+newFloorGOName+" data: "+data);
 
         if(data!=""){
             InstantiateFCED(data);
@@ -147,19 +144,19 @@ public class FloorChildExtraDataController : MonoBehaviour
 
         if(type.Equals("Chair")){
             Chair chair = getChair(listItem[1]);
-            chair.setData(listItem[2]);
+            chair.setData(Convert.ToBoolean(listItem[2]));
         }else if(type.Equals("Table")){
             Table table = getTable(listItem[1]);
-            table.setData = listItem[2];
+            table.setData(Convert.ToBoolean(listItem[2]));
         }else if(type.Equals("Counter")){
             Counter counter = getCounter(listItem[1]);
-            counter.setData(listItem[2], listItem[3], listItem[4]);
+            counter.setData(Convert.ToBoolean(listItem[2]), listItem[3], Int32.Parse(listItem[4]));
         }else if(type.Equals("Oven")){
             Oven oven = getOven(listItem[1]);
-            oven.setData(listItem[2], listItem[3], listItem[4], listItem[5], listItem[6]);
+            oven.setData(Int32.Parse(listItem[2]), listItem[3], Int32.Parse(listItem[4]), listItem[5], listItem[6]);
         }else if(type.Equals("Slushi")){
             Slushi slushi = getSlushi(listItem[1]);
-            slushi.setData(listItem[2], listItem[2]);
+            slushi.setData(listItem[2], Int32.Parse(listItem[2]));
         }
     }
 
@@ -174,19 +171,19 @@ public class FloorChildExtraDataController : MonoBehaviour
 
     public static void getInfo(){
         for(int a=0;a<ChairList.Count;a++){
-            Debug.Log(ChairList[a].Info());
+            Debug.Log(ChairList[a].getData());
         }
         for(int b=0;b<TableList.Count;b++){
-            Debug.Log(TableList[b].Info());
+            Debug.Log(TableList[b].getData());
         }
         for(int c=0;c<CounterList.Count;c++){
-            Debug.Log(CounterList[c].Info());
+            Debug.Log(CounterList[c].getData());
         }
         for(int d=0;d<OvenList.Count;d++){
-            Debug.Log(OvenList[d].Info());
+            Debug.Log(OvenList[d].getData());
         }
         for(int e=0;e<SlushiList.Count;e++){
-            Debug.Log(SlushiList[e].Info());
+            Debug.Log(SlushiList[e].getData());
         }
         Debug.Log("");
     }
@@ -247,7 +244,7 @@ public class Counter{
     public string getData(){
         return type+";"+gameObjectName+";"+isEmpty+";"+foodSprite+";"+foodCount;
     }
-    public void setData(bool isEmpty, string foodSprite, string foodCount){
+    public void setData(bool isEmpty, string foodSprite, int foodCount){
         this.isEmpty = isEmpty;
         this.foodSprite = foodSprite;
         this.foodCount = foodCount;
@@ -309,7 +306,7 @@ public class Slushi{
     public string getData(){
         return type+";"+gameObjectName+";"+cocktailSprite+";"+cocktailCount;
     }
-    public void setData(string cocktailSprite, string cocktailCount){
+    public void setData(string cocktailSprite, int cocktailCount){
         this.cocktailSprite = cocktailSprite;
         this.cocktailCount = cocktailCount;
     }

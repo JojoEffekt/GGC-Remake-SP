@@ -127,7 +127,7 @@ public class ObjectController : MonoBehaviour
         
             //FloorChildExtraData wird erstellt
             FloorChildExtraDataController.InstantiateFCED(floorChildType+";"+floorGameObjectName);
-            FloorChildExtraDataController.getInfo();
+            //FloorChildExtraDataController.getInfo();
         }
     }
 
@@ -140,7 +140,7 @@ public class ObjectController : MonoBehaviour
         
             //FloorChildExtraData wird erstellt
             FloorChildExtraDataController.InstantiateFCED(type+";"+floorNameToPlaceOn);
-            FloorChildExtraDataController.getInfo();
+            //FloorChildExtraDataController.getInfo();
         }
     }
 

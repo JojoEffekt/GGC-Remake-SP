@@ -17,7 +17,7 @@ public class SaveAndLoadController : MonoBehaviour
     }
 
     public static void LoadPlayerData(){
-        try{
+        //try{
             string[] lines = ReadStream(playerDataFilePath);
 
             //LOAD PLAYERSTATS
@@ -27,15 +27,27 @@ public class SaveAndLoadController : MonoBehaviour
             PlayerController.playerXP = long.Parse(lines[3]);
             PlayerController.playerLevel = Int32.Parse(lines[4]);
             PlayerController.gridSize = Int32.Parse(lines[5]);
+            PlayerController.LoadFoodItemDict(lines[6]);
+            PlayerController.LoadStorageItemDict(lines[7]);
+            
+
+            /*PlayerController.AddFoodItem("Zwiebel");
+            PlayerController.AddFoodItem("Apfel");
+            PlayerController.AddFoodItem("Tomate");
+            PlayerController.AddFoodItem("Zwiebel");
+            PlayerController.RemoveFoodItem("Tomate");
+            PlayerController.RemoveFoodItem("Zwiebel");
+            PlayerController.RemoveFoodItem("Tomate");
+            PlayerController.getFoodItemDictInfo();*/
 
             //Debug.Log("successfully load Player-data!");
-        }catch(Exception e){
+        /*}catch(Exception e){
             Debug.Log("error, failed to load Player-data!");
-        }
+        }*/
 
         //wenn wallfile/floorfile exist, lade wallfile/floorfile, ansonsten generiere grid
-       // try{
-            if(File.Exists(Application.dataPath+"/Data/"+wallDataFilePath)==true&&File.Exists(Application.dataPath+"/Data/"+floorDataFilePath)==true){
+        //try{
+            if(File.Exists(Application.dataPath+"/Data/"+wallDataFilePath)==true&&File.Exists(Application.dataPath+"/Data/"+floorDataFilePath)==true&&File.Exists(Application.dataPath+"/Data/"+floorChildExtraDataFilePath)==true){
                 
                 //LOAD FLOOREXTRADATA
                 //muss zu erst geladen werden, da beim Instanziieren der FloorObjekte sonst leere FCED erzeugt werden
@@ -64,7 +76,7 @@ public class SaveAndLoadController : MonoBehaviour
 
 
                 //LOAD WALL
-                string[] lines = ReadStream(wallDataFilePath);
+                lines = ReadStream(wallDataFilePath);
                 //lines.Length-1: -1 because WriteLine generates an empty line on bottom
                 for(int a=0;a<lines.Length-1;a++){
                     string[] lineItem = lines[a].Split(";");
@@ -99,7 +111,7 @@ public class SaveAndLoadController : MonoBehaviour
 
     public static void SavePlayerData(){
         //SAVE PLAYERSTATS
-        try{
+        //try{
             StreamWriter source = new StreamWriter(Application.dataPath + "/Data/" + playerDataFilePath);
             string n = PlayerController.playerName.Remove(PlayerController.playerName.Length-1);
             source.WriteLine(n);
@@ -108,16 +120,18 @@ public class SaveAndLoadController : MonoBehaviour
             source.WriteLine(PlayerController.playerXP);
             source.WriteLine(PlayerController.playerLevel);
             source.WriteLine(PlayerController.gridSize);
+            source.WriteLine(PlayerController.getFoodItemDictInfo());
+            source.WriteLine(PlayerController.getStorageItemDictInfo());
             
             source.Close();
             //Debug.Log("successfully save Player-data!");
-        }catch(Exception e){
+        /*}catch(Exception e){
             Debug.Log("error, failed to save Player-data!");
-        }
+        }*/
         
         //SAVE WALL
         try{
-            StreamWriter source = new StreamWriter(Application.dataPath + "/Data/" + wallDataFilePath);
+            source = new StreamWriter(Application.dataPath + "/Data/" + wallDataFilePath);
             for(int a=0;a<ObjectController.WallObjectList.Count;a++){
                 string wallObject = ObjectController.WallObjectList[a].getInfo();
                 source.WriteLine(wallObject);
@@ -130,7 +144,7 @@ public class SaveAndLoadController : MonoBehaviour
 
         //SAVE FLOOR
         try{
-            StreamWriter source = new StreamWriter(Application.dataPath + "/Data/" + floorDataFilePath);
+            source = new StreamWriter(Application.dataPath + "/Data/" + floorDataFilePath);
             for(int a=0;a<ObjectController.FloorObjectList.Count;a++){
                 string floorObject = ObjectController.FloorObjectList[a].getInfo();
                 source.WriteLine(floorObject);
@@ -148,19 +162,19 @@ public class SaveAndLoadController : MonoBehaviour
     private static void SaveFloorChildExtraData(){
         StreamWriter source = new StreamWriter(Application.dataPath + "/Data/" + floorChildExtraDataFilePath);
         for(int a=0;a<FloorChildExtraDataController.ChairList.Count;a++){
-            source.WriteLine(FloorChildExtraDataController.ChairList[a].getData());
+            source.Write(FloorChildExtraDataController.ChairList[a].getData()+"\n");
         }
         for(int b=0;b<FloorChildExtraDataController.TableList.Count;b++){
-            source.WriteLine(FloorChildExtraDataController.TableList[b].getData());
+            source.Write(FloorChildExtraDataController.TableList[b].getData()+"\n");
         }
         for(int c=0;c<FloorChildExtraDataController.CounterList.Count;c++){
-            source.WriteLine(FloorChildExtraDataController.CounterList[c].getData());
+            source.Write(FloorChildExtraDataController.CounterList[c].getData()+"\n");
         }
         for(int d=0;d<FloorChildExtraDataController.OvenList.Count;d++){
-            source.WriteLine(FloorChildExtraDataController.OvenList[d].getData());
+            source.Write(FloorChildExtraDataController.OvenList[d].getData()+"\n");
         }
         for(int e=0;e<FloorChildExtraDataController.SlushiList.Count;e++){
-            source.WriteLine(FloorChildExtraDataController.SlushiList[e].getData());
+            source.Write(FloorChildExtraDataController.SlushiList[e].getData()+"\n");
         }
         source.Close();
     }
