@@ -1,2 +1,2 @@
-Counter;5-3;True;;0
+Counter;5-2;True;;0
 Oven;4-2;0;;0;;
