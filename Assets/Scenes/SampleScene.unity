@@ -611,7 +611,7 @@ GameObject:
   - component: {fileID: 114721315}
   - component: {fileID: 114721314}
   m_Layer: 0
-  m_Name: background
+  m_Name: backgroundIngredients
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1566,7 +1566,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 504707371}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 872153700}
+        m_TargetAssemblyTypeName: IngredientsUIController, Assembly-CSharp
+        m_MethodName: IsFridgeOpen
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &504707371
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2465,7 +2477,7 @@ GameObject:
   - component: {fileID: 872153699}
   - component: {fileID: 872153700}
   m_Layer: 0
-  m_Name: IngredientsUIController
+  m_Name: IngredientsAndFridgeUIController
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2507,9 +2519,13 @@ MonoBehaviour:
   PlayerGoldUI: {fileID: 241693205}
   ArrowLeft: {fileID: 1321175564}
   ArrowRight: {fileID: 1151121289}
+  BackgroundIngredients: {fileID: 114721312}
+  BackgroundFridge: {fileID: 1727583734}
+  ShopName: {fileID: 15446225}
   SpriteList: []
   shopSite: 0
   filter: 0
+  isFridgeOpen: 0
 --- !u!1 &920360879
 GameObject:
   m_ObjectHideFlags: 0
@@ -3365,6 +3381,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 114721313}
+  - {fileID: 1727583735}
   - {fileID: 928990742}
   - {fileID: 15446226}
   - {fileID: 849912083}
@@ -4597,7 +4614,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1426066548}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 872153700}
+        m_TargetAssemblyTypeName: IngredientsUIController, Assembly-CSharp
+        m_MethodName: IsFridgeOpen
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
 --- !u!114 &1426066548
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5811,6 +5840,81 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1711641666}
   m_CullTransparentMesh: 1
+--- !u!1 &1727583734
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1727583735}
+  - component: {fileID: 1727583737}
+  - component: {fileID: 1727583736}
+  m_Layer: 0
+  m_Name: backgroundFridge
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!224 &1727583735
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1727583734}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.3, y: 0.3, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1170289940}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 3320, y: 2670}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1727583736
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1727583734}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 21300000, guid: 9a4e71d138e8fd44cba629d6f4d1303d, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &1727583737
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1727583734}
+  m_CullTransparentMesh: 1
 --- !u!1 &1747241070
 GameObject:
   m_ObjectHideFlags: 0
@@ -6915,7 +7019,7 @@ GameObject:
   - component: {fileID: 2022447594}
   - component: {fileID: 2022447593}
   m_Layer: 0
-  m_Name: Ingredients_Store
+  m_Name: IngredientsAndFridge_Store
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

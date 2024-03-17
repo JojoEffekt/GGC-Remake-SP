@@ -25,20 +25,10 @@ public class SaveAndLoadController : MonoBehaviour
             PlayerController.playerMoney = Int32.Parse(lines[1]);
             PlayerController.playerGold = Int32.Parse(lines[2]);
             PlayerController.playerXP = long.Parse(lines[3]);
-            PlayerController.playerLevel = Int32.Parse(lines[4]);
-            PlayerController.gridSize = Int32.Parse(lines[5]);
-            PlayerController.LoadFoodItemDict(lines[6]);
-            PlayerController.LoadStorageItemDict(lines[7]);
-            
-
-            /*PlayerController.AddFoodItem("Zwiebel");
-            PlayerController.AddFoodItem("Apfel");
-            PlayerController.AddFoodItem("Tomate");
-            PlayerController.AddFoodItem("Zwiebel");
-            PlayerController.RemoveFoodItem("Tomate");
-            PlayerController.RemoveFoodItem("Zwiebel");
-            PlayerController.RemoveFoodItem("Tomate");
-            PlayerController.getFoodItemDictInfo();*/
+            PlayerController.LoadLevelByXp(long.Parse(lines[3]));//load playerlevel by converting xp
+            PlayerController.gridSize = Int32.Parse(lines[4]);
+            PlayerController.LoadFoodItemDict(lines[5]);
+            PlayerController.LoadStorageItemDict(lines[6]);
 
             //Debug.Log("successfully load Player-data!");
         /*}catch(Exception e){
@@ -118,7 +108,6 @@ public class SaveAndLoadController : MonoBehaviour
             source.WriteLine(PlayerController.playerMoney);
             source.WriteLine(PlayerController.playerGold);
             source.WriteLine(PlayerController.playerXP);
-            source.WriteLine(PlayerController.playerLevel);
             source.WriteLine(PlayerController.gridSize);
             source.WriteLine(PlayerController.getFoodItemDictInfo());
             source.WriteLine(PlayerController.getStorageItemDictInfo());

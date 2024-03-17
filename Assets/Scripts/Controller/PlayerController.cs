@@ -9,14 +9,14 @@ public class PlayerController : MonoBehaviour
     public static int playerMoney;//0
     public static int playerGold;//0
     public static long playerXP;//0
-    public static int playerLevel;//0
     public static int gridSize;//8
 
-    public static int FridgeStoragePlace;//platz im kühlschrank
+    public static int playerLevel;//wird durch xp erzeugt
+    public static int FridgeStoragePlace;//wird durch LoadFoodItemDict erzeugt/ platz im kühlschrank
 
     public static Dictionary<string, int> FoodItemDict = new Dictionary<string, int>();//Empty
-    public static Dictionary<string, int> StorageItemDict = new Dictionary<string, int>();//Empty
-
+    public static Dictionary<string, int> StorageItemDict = new Dictionary<string, int>();//Empty / speicher Informationen welches Objekt und wie oft auf reserve
+ 
 
     //läd liste
     public static void LoadFoodItemDict(string data){
@@ -40,6 +40,13 @@ public class PlayerController : MonoBehaviour
             }
         }
     }
+    public static void LoadLevelByXp(long xp){
+        long val1 = xp / 10;
+        double val2 = Math.Pow(val1 , 0.5);
+        playerLevel = Convert.ToInt32(Math.Floor(val2));
+    }
+
+
 
     //addiert 1 zu einem objekt 
     public static void AddFoodItem(string food){

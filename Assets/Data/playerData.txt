@@ -1,8 +1,7 @@
 JojoEffekt
-5640
+9840
 1018
 3434
-34
 8
-Lettuce:3;Onions:3;Cream:5;Eggs:4;Chocolate:1;Eggplant:2;Minced meat:3;Tomatoes:1;Oranges:4;Pasta:8;Beans:3;Oil:2;Cheese:3;Peas:7;Duck:1
+Lettuce:5;Onions:13;Chocolate:1;Pasta:2
 Empty

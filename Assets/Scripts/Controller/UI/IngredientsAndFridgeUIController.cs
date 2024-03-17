@@ -18,11 +18,15 @@ public class IngredientsUIController : MonoBehaviour
     public GameObject PlayerGoldUI;
     public GameObject ArrowLeft;
     public GameObject ArrowRight;
+    public GameObject BackgroundIngredients;
+    public GameObject BackgroundFridge;
+    public GameObject ShopName;
 
     public List<IngredientItem> IngredientList = new List<IngredientItem>();
     public List<Sprite> SpriteList = new List<Sprite>();
     public int shopSite = 0;
     public int filter = 0;
+    public bool isFridgeOpen = false;//switcher zwischen Fridge und Ingredients
 
 
     public void OpenShop(){
@@ -39,41 +43,44 @@ public class IngredientsUIController : MonoBehaviour
         MainController.GetComponent<MainController>().ActivateBTNs();//aktiviere alle main btns
 
         IngredientList.Clear();
+        shopSite = 0;
+        filter = 0;
+        isFridgeOpen = false;
     }
 
     public void LoadItems(){
         IngredientList.Add(new IngredientItem("Lettuce", "item_19", 30, 0, 0, true, 2, 0));
         IngredientList.Add(new IngredientItem("Onions", "item_13", 60, 0, 0, true, 2, 1));
         IngredientList.Add(new IngredientItem("Tomatoes", "item_02", 90, 0, 0, true, 2, 2));
-        IngredientList.Add(new IngredientItem("Pasta", "item_11", 250, 0, 0, true, 4, 2));
+        IngredientList.Add(new IngredientItem("Pasta", "item_11", 250, 0, 0, true, 4, 3));
         IngredientList.Add(new IngredientItem("Chocolate", "item_29", 300, 0, 0, true, 4, 4));
-        IngredientList.Add(new IngredientItem("Cream", "item_26", 300, 0, 0, true, 1, 4));
-        IngredientList.Add(new IngredientItem("Eggs", "item_23", 400, 0, 0, true, 1, 4));
-        IngredientList.Add(new IngredientItem("Minced meat", "item_17", 400, 0, 0, true, 1, 4));
-        IngredientList.Add(new IngredientItem("Flour", "item_22", 200, 0, 0, true, 4, 4));
-        IngredientList.Add(new IngredientItem("Cheese", "item_32", 320, 0, 0, true, 1, 4));
-        IngredientList.Add(new IngredientItem("Peas", "item_10", 150, 0, 0, true, 2, 4));
-        IngredientList.Add(new IngredientItem("Corn", "item_03", 150, 0, 0, true, 2, 4));
-        IngredientList.Add(new IngredientItem("Pineapple", "item_09", 300, 0, 0, true, 3, 4));
-        IngredientList.Add(new IngredientItem("Oil", "item_14", 300, 0, 0, true, 4, 4));
-        IngredientList.Add(new IngredientItem("Beans", "item_34", 100, 0, 0, true, 2, 4));
-        IngredientList.Add(new IngredientItem("Bacon", "item_36", 300, 0, 0, true, 1, 4));
-        IngredientList.Add(new IngredientItem("Rice", "item_16", 350, 0, 0, true, 2, 4));
-        IngredientList.Add(new IngredientItem("Paprika", "item_37", 450, 0, 0, true, 2, 4));
-        IngredientList.Add(new IngredientItem("Cocktail Cherry", "item_50", 0, 0, 0, true, 5, 4));
-        IngredientList.Add(new IngredientItem("Butter", "item_53", 425, 0, 0, true, 4, 4));
-        IngredientList.Add(new IngredientItem("Potatoes", "item_08", 550, 0, 0, true, 2, 4));
-        IngredientList.Add(new IngredientItem("Duck", "item_48", 1500, 0, 0, true, 1, 4));
-        IngredientList.Add(new IngredientItem("Oranges", "item_45", 0, 1, 0, true, 5, 4));
-        IngredientList.Add(new IngredientItem("Beetroot", "item_33", 400, 0, 0, true, 2, 4));
-        IngredientList.Add(new IngredientItem("Cucumbers", "item_25", 400, 0, 0, true, 2, 4));
-        IngredientList.Add(new IngredientItem("Meat", "item_18", 1500, 0, 0, true, 1, 4));
-        IngredientList.Add(new IngredientItem("Eggplant", "item_24", 100, 0, 0, true, 3, 4));
-        IngredientList.Add(new IngredientItem("Sugar", "item_04", 1000, 0, 0, true, 4, 4));
-        IngredientList.Add(new IngredientItem("Rhubarb", "item_07", 1500, 0, 0, true, 2, 4));
-        IngredientList.Add(new IngredientItem("Garlic", "item_21", 750, 0, 0, true, 2, 4));
-        IngredientList.Add(new IngredientItem("Chicken", "item_31", 404, 0, 0, true, 1, 4));
-        IngredientList.Add(new IngredientItem("Biscuits", "item_49", 404, 0, 0, true, 4, 4));
+        IngredientList.Add(new IngredientItem("Cream", "item_26", 300, 0, 0, true, 1, 5));
+        IngredientList.Add(new IngredientItem("Eggs", "item_23", 400, 0, 0, true, 1, 6));
+        IngredientList.Add(new IngredientItem("Minced meat", "item_17", 400, 0, 0, true, 1, 7));
+        IngredientList.Add(new IngredientItem("Flour", "item_22", 200, 0, 0, true, 4, 8));
+        IngredientList.Add(new IngredientItem("Cheese", "item_32", 320, 0, 0, true, 1, 9));
+        IngredientList.Add(new IngredientItem("Peas", "item_10", 150, 0, 0, true, 2, 10));
+        IngredientList.Add(new IngredientItem("Corn", "item_03", 150, 0, 0, true, 2, 11));
+        IngredientList.Add(new IngredientItem("Pineapple", "item_09", 300, 0, 0, true, 3, 12));
+        IngredientList.Add(new IngredientItem("Oil", "item_14", 300, 0, 0, true, 4, 13));
+        IngredientList.Add(new IngredientItem("Beans", "item_34", 100, 0, 0, true, 2, 14));
+        IngredientList.Add(new IngredientItem("Bacon", "item_36", 300, 0, 0, true, 1, 15));
+        IngredientList.Add(new IngredientItem("Rice", "item_16", 350, 0, 0, true, 2, 16));
+        IngredientList.Add(new IngredientItem("Paprika", "item_37", 450, 0, 0, true, 2, 17));
+        IngredientList.Add(new IngredientItem("Cocktail Cherry", "item_50", 0, 0, 0, true, 5, 18));
+        IngredientList.Add(new IngredientItem("Butter", "item_53", 425, 0, 0, true, 4, 19));
+        IngredientList.Add(new IngredientItem("Potatoes", "item_08", 550, 0, 0, true, 2, 20));
+        IngredientList.Add(new IngredientItem("Duck", "item_48", 1500, 0, 0, true, 1, 21));
+        IngredientList.Add(new IngredientItem("Oranges", "item_45", 0, 1, 0, true, 5, 22));
+        IngredientList.Add(new IngredientItem("Beetroot", "item_33", 400, 0, 0, true, 2, 23));
+        IngredientList.Add(new IngredientItem("Cucumbers", "item_25", 400, 0, 0, true, 2, 24));
+        IngredientList.Add(new IngredientItem("Meat", "item_18", 1500, 0, 0, true, 1, 25));
+        IngredientList.Add(new IngredientItem("Eggplant", "item_24", 100, 0, 0, true, 3, 26));
+        IngredientList.Add(new IngredientItem("Sugar", "item_04", 1000, 0, 0, true, 4, 27));
+        IngredientList.Add(new IngredientItem("Rhubarb", "item_07", 1500, 0, 0, true, 2, 28));
+        IngredientList.Add(new IngredientItem("Garlic", "item_21", 750, 0, 0, true, 2, 29));
+        IngredientList.Add(new IngredientItem("Chicken", "item_31", 404, 0, 0, true, 1, 30));
+        IngredientList.Add(new IngredientItem("Biscuits", "item_49", 404, 0, 0, true, 4, 31));
 
         object[] sprites = Resources.LoadAll("Textures/UI/Ingredients",typeof(Sprite));
         for(int x=0;x<sprites.Length;x++){
@@ -89,16 +96,53 @@ public class IngredientsUIController : MonoBehaviour
         }
 
         List<IngredientItem> builderList = new List<IngredientItem>();
-        if(filter==0){//sucht nach allen items die zuzeit gelden werden können ohne filter
-            foreach(var item in IngredientList){
-                if(item.isActive){
-                    builderList.Add(item);
+        //baut item liste die gerade gerendert werden können
+        if(isFridgeOpen==false){//Fridge items oder Ingredients shop?
+
+            //load shopbg
+            BackgroundIngredients.SetActive(true);
+            BackgroundFridge.SetActive(false);
+            ShopName.GetComponent<TMPro.TextMeshProUGUI>().text = "Ingredients Store";
+
+            if(filter==0){//sucht nach allen items ohne filter
+                foreach(var item in IngredientList){
+                    if(item.isActive){
+                        builderList.Add(item);
+                    }
+                }
+            }else{//sucht nach allen items die geladen werden können mit filter
+                foreach(var item in IngredientList){
+                    if(item.isActive&&item.sortiment==filter){
+                        builderList.Add(item);
+                    }
                 }
             }
-        }else{//sucht nach allen items die geladen werden können mit filter
-            foreach(var item in IngredientList){
-                if(item.isActive&&item.sortiment==filter){
-                    builderList.Add(item);
+        }else{//alle items im fridge laden
+
+            //load SpecialfridgeUI
+            BackgroundIngredients.SetActive(false);
+            BackgroundFridge.SetActive(true);
+            ShopName.GetComponent<TMPro.TextMeshProUGUI>().text = "Fridge";
+
+            if(filter==0){//sucht nach allen items im fridge ohne filter
+                foreach(var itemIL in IngredientList){
+                    foreach(var itemFI in PlayerController.FoodItemDict){
+                        if(itemIL.name.Equals(itemFI.Key)){
+                            if(itemIL.isActive){
+                                builderList.Add(itemIL);
+                            }
+                        }
+                    }
+                }
+            }else{//sucht nach allen items im fridge die geladen werden können mit filter
+                foreach(var itemIL in IngredientList){
+                    foreach(var itemFI in PlayerController.FoodItemDict){
+                        if(itemIL.name.Equals(itemFI.Key)){
+                            if(itemIL.isActive&&itemIL.sortiment==filter){
+                                builderList.Add(itemIL);
+                            }       
+                        }
+                    }
                 }
             }
         }
@@ -144,12 +188,17 @@ public class IngredientsUIController : MonoBehaviour
             ItemController.transform.GetChild(ItemController.transform.childCount-1).gameObject.transform.GetChild(0).gameObject.transform.GetChild(5).gameObject.GetComponent<Button>().interactable = true;
         }
 
-        //guck ob player genug geld und ob platz im kühlschrank ist
-        if(PlayerController.playerGold>=item.priceGold&&PlayerController.playerMoney>=item.priceMoney){
-            if(PlayerController.FridgeStoragePlace<=49){
-                ItemController.transform.GetChild(ItemController.transform.childCount-1).gameObject.transform.GetChild(0).gameObject.transform.GetChild(4).gameObject.GetComponent<Button>().interactable = true;
+        //guck ob player das nötige level hat, genug geld und ob platz im kühlschrank ist und er
+        if(PlayerController.playerLevel>=item.level){
+            if(PlayerController.playerGold>=item.priceGold&&PlayerController.playerMoney>=item.priceMoney){
+                if(PlayerController.FridgeStoragePlace<=49){
+                    ItemController.transform.GetChild(ItemController.transform.childCount-1).gameObject.transform.GetChild(0).gameObject.transform.GetChild(4).gameObject.GetComponent<Button>().interactable = true;
+                }
+            }else{
+                ItemController.transform.GetChild(ItemController.transform.childCount-1).gameObject.transform.GetChild(0).gameObject.transform.GetChild(4).gameObject.GetComponent<Button>().interactable = false;
             }
-        }else{
+        }else{//load lock
+            ItemController.transform.GetChild(ItemController.transform.childCount-1).gameObject.transform.GetChild(0).gameObject.transform.GetChild(9).gameObject.GetComponent<Image>().enabled = true;
             ItemController.transform.GetChild(ItemController.transform.childCount-1).gameObject.transform.GetChild(0).gameObject.transform.GetChild(4).gameObject.GetComponent<Button>().interactable = false;
         }
 
@@ -226,6 +275,14 @@ public class IngredientsUIController : MonoBehaviour
 
     public void ChooseFilter(int number){
         filter = number;
+        shopSite = 0;
+        DeleteItems();
+        BuildShopSite();
+    }
+
+    public void IsFridgeOpen(bool switcher){
+        isFridgeOpen = switcher;
+        filter = 0;
         shopSite = 0;
         DeleteItems();
         BuildShopSite();
