@@ -43,6 +43,7 @@ public class IngredientsUIController : MonoBehaviour
         MainController.GetComponent<MainController>().ActivateBTNs();//aktiviere alle main btns
 
         IngredientList.Clear();
+        SpriteList.Clear();
         shopSite = 0;
         filter = 0;
         isFridgeOpen = false;

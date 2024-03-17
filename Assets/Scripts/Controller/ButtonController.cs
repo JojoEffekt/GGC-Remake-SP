@@ -17,6 +17,10 @@ public class ButtonController : MonoBehaviour
 
             if(hitInfo.Length!=0){
                 MouseHandler(hitInfo);
+                //CONTINUE CHECK das kein shop geöffnet ist
+                //
+                //
+                //
             }
         }
     }

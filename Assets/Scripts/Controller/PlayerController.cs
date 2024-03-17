@@ -47,7 +47,6 @@ public class PlayerController : MonoBehaviour
     }
 
 
-
     //addiert 1 zu einem objekt 
     public static void AddFoodItem(string food){
         if(FoodItemDict.ContainsKey(food)){
@@ -111,6 +110,12 @@ public class PlayerController : MonoBehaviour
         }
         return 0;
     }
+    public static int getStorageItemCount(string itemName){
+        if(StorageItemDict.ContainsKey(itemName)){
+            return StorageItemDict[itemName];
+        }
+        return 0;
+    }
     public static string getFoodItemDictInfo(){
         string info = "";
         foreach (var item in FoodItemDict){
@@ -132,5 +137,12 @@ public class PlayerController : MonoBehaviour
             return info;
         }
         return "Empty";
+    }
+
+
+    //setter
+    public static void setPlayerName(string name){
+        playerName = name;
+        MainController.LoadName(name);
     }
 }

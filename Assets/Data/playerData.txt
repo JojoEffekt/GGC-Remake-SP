@@ -1,7 +1,7 @@
 JojoEffekt
-9840
+9570
 1018
 3434
 8
-Lettuce:5;Onions:13;Chocolate:1;Pasta:2
+Lettuce:5;Onions:13;Chocolate:1;Pasta:2;Tomatoes:3
 Empty

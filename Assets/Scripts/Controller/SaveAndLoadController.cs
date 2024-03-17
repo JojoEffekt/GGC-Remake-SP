@@ -21,7 +21,7 @@ public class SaveAndLoadController : MonoBehaviour
             string[] lines = ReadStream(playerDataFilePath);
 
             //LOAD PLAYERSTATS
-            PlayerController.playerName = lines[0];
+            PlayerController.setPlayerName(lines[0]);
             PlayerController.playerMoney = Int32.Parse(lines[1]);
             PlayerController.playerGold = Int32.Parse(lines[2]);
             PlayerController.playerXP = long.Parse(lines[3]);
