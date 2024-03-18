@@ -4,7 +4,8 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class RebuildUIController : MonoBehaviour
-{   
+{      
+    public GameObject ButtonController;
     public GameObject MainController;
     public GameObject RebuildStore;
 
@@ -86,8 +87,36 @@ public class RebuildUIController : MonoBehaviour
         for(int a=0;a<SpriteList.Count;a++){//lade bild
             if(item.spriteName.Equals(SpriteList[a].name)){
                 ItemController.transform.GetChild(ItemController.transform.childCount-1).gameObject.transform.GetChild(3).gameObject.GetComponent<Image>().overrideSprite = SpriteList[a];
+                //setzt die resolution auf die image größe
+                ItemController.transform.GetChild(ItemController.transform.childCount-1).gameObject.transform.GetChild(3).gameObject.GetComponent<RectTransform>().sizeDelta = new Vector2 (SpriteList[a].rect.width, SpriteList[a].rect.height);
             }
         }
+
+        //lade größe vom bild
+        if(item.sortiment==0){//chair
+            ItemController.transform.GetChild(ItemController.transform.childCount-1).gameObject.transform.GetChild(3).gameObject.GetComponent<RectTransform>().localScale = new Vector2 (0.5f, 0.5f);
+        }else if(item.sortiment==1){//table
+            ItemController.transform.GetChild(ItemController.transform.childCount-1).gameObject.transform.GetChild(3).gameObject.GetComponent<RectTransform>().localScale = new Vector2 (0.4f, 0.4f);
+        }else if(item.sortiment==2){//wall
+            ItemController.transform.GetChild(ItemController.transform.childCount-1).gameObject.transform.GetChild(3).gameObject.GetComponent<RectTransform>().localScale = new Vector2 (0.2f, 0.2f);
+        }else if(item.sortiment==3){//door
+            ItemController.transform.GetChild(ItemController.transform.childCount-1).gameObject.transform.GetChild(3).gameObject.GetComponent<RectTransform>().localScale = new Vector2 (0.2f, 0.2f);
+        }else if(item.sortiment==4){//walldeko
+            ItemController.transform.GetChild(ItemController.transform.childCount-1).gameObject.transform.GetChild(3).gameObject.GetComponent<RectTransform>().localScale = new Vector2 (0.3f, 0.3f);
+        }else if(item.sortiment==5){//floor
+            ItemController.transform.GetChild(ItemController.transform.childCount-1).gameObject.transform.GetChild(3).gameObject.GetComponent<RectTransform>().localScale = new Vector2 (0.4f, 0.4f);
+        }else if(item.sortiment==6){//floordeko
+            ItemController.transform.GetChild(ItemController.transform.childCount-1).gameObject.transform.GetChild(3).gameObject.GetComponent<RectTransform>().localScale = new Vector2 (0.3f, 0.3f);
+        }else if(item.sortiment==7){//oven
+            ItemController.transform.GetChild(ItemController.transform.childCount-1).gameObject.transform.GetChild(3).gameObject.GetComponent<RectTransform>().localScale = new Vector2 (0.4f, 0.4f);
+        }else if(item.sortiment==8){//counter
+            ItemController.transform.GetChild(ItemController.transform.childCount-1).gameObject.transform.GetChild(3).gameObject.GetComponent<RectTransform>().localScale = new Vector2 (0.4f, 0.4f);
+        }else if(item.sortiment==9){//fridge
+            ItemController.transform.GetChild(ItemController.transform.childCount-1).gameObject.transform.GetChild(3).gameObject.GetComponent<RectTransform>().localScale = new Vector2 (0.25f, 0.25f);
+        }else if(item.sortiment==10){//sluhsi
+            ItemController.transform.GetChild(ItemController.transform.childCount-1).gameObject.transform.GetChild(3).gameObject.GetComponent<RectTransform>().localScale = new Vector2 (0.25f, 0.25f);
+        }
+
 
         item.inBackup = PlayerController.getStorageItemCount(item.spriteName);//gucke ob bereits in backup vorhanden
         ItemController.transform.GetChild(ItemController.transform.childCount-1).gameObject.transform.GetChild(5).gameObject.GetComponent<TMPro.TextMeshProUGUI>().text = ""+item.inBackup;
@@ -113,6 +142,12 @@ public class RebuildUIController : MonoBehaviour
             ItemController.transform.GetChild(ItemController.transform.childCount-1).gameObject.transform.GetChild(2).gameObject.GetComponent<Image>().enabled  = true;
             ItemController.transform.GetChild(ItemController.transform.childCount-1).gameObject.transform.GetChild(6).gameObject.GetComponent<TMPro.TextMeshProUGUI>().text = ""+item.priceMoney;
         }
+
+        ItemController.transform.GetChild(ItemController.transform.childCount-1).gameObject.transform.GetChild(3).gameObject.GetComponent<Button>().onClick.AddListener(delegate{BuyItem(item);});
+    }
+
+    public void BuyItem(Object item){
+        ButtonController.GetComponent<ButtonController>().MouseAction = 2;//create obj
     }
 
     public void RightSite(){

@@ -135,7 +135,7 @@ public class ObjectController : MonoBehaviour
     public static void GenerateObjectOnFloor(string type, string objectName, int price, float floorChildCoordCorrectionXA, float floorChildCoordCorrectionYA, float floorChildCoordCorrectionXB, float floorChildCoordCorrectionYB, string floorNameToPlaceOn){
         //übergibt obj data to floor obj, generate new obj, return obj to save in "standardObjectList"
         FloorObject floorObject = getFloorGOFromFloorGOName(floorNameToPlaceOn);
-        if(string.IsNullOrWhiteSpace(floorObject.floorChildType)==true){//wenn floorGameObject schon childgameObject hat, erzeuge nicht
+        if(string.IsNullOrWhiteSpace(floorObject.floorChildType)==true&&checkFloorGONameHasDoor(floorNameToPlaceOn)==false){//wenn floorGameObject schon childgameObject hat, erzeuge nicht
             standardObjectList.Add(floorObject.setChild(type, floorNameToPlaceOn, objectName, price, floorChildCoordCorrectionXA, floorChildCoordCorrectionYA, floorChildCoordCorrectionXB, floorChildCoordCorrectionYB));   
         
             //FloorChildExtraData wird erstellt

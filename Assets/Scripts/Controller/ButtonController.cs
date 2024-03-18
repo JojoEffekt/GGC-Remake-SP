@@ -36,9 +36,11 @@ public class ButtonController : MonoBehaviour
             if(isWallObject(objectName)){
                 //data übergeben
                 GenerateObjectOnWall("Wall_Deko_02_1_", objectName, 1, 0.75f, 1.0f);
+                MouseAction = 0;
             }
             if(isFloorObject(objectName)){
                 GenerateObjectOnFloor("Deko", "Deko_11_1_a", 10, -0.2f, 2.05f, 0.15f, 2.05f, objectName);
+                MouseAction = 0;
             }
         }else if(MouseAction==3){//destroy
             if(isWallObject(objectName)==true){

@@ -9803,6 +9803,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74a2fe1660b7f174cad8b944f4541634, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ButtonController: {fileID: 1996097770}
   MainController: {fileID: 349073842}
   RebuildStore: {fileID: 1822595005}
   ItemController: {fileID: 406793277}
