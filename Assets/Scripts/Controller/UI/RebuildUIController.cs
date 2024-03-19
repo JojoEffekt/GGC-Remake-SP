@@ -147,7 +147,10 @@ public class RebuildUIController : MonoBehaviour
     }
 
     public void BuyItem(Object item){
-        ButtonController.GetComponent<ButtonController>().MouseAction = 2;//create obj
+        if(PlayerController.playerMoney>=item.priceMoney&&PlayerController.playerGold>=item.priceGold){//hat spieler genug geld
+            ButtonController.GetComponent<ButtonController>().MouseAction = 2;//object generierung freigeschaltet
+            ButtonController.GetComponent<ButtonController>().ObjectToCreate = new string[]{item.spriteName, ""+item.priceGold, ""+item.priceMoney};
+        }
     }
 
     public void RightSite(){

@@ -31,7 +31,9 @@ public class ObjectController : MonoBehaviour
                 }
             }
         }else if(wallChildLength == 1){
+            Debug.Log("InstantiateObjectOnWall1");
             if(string.IsNullOrWhiteSpace(wallObject.WallChildName)){
+                Debug.Log("InstantiateObjectOnWall2");
                 //prüfe noch ob, wenn door generiert werden soll, keine vorhanden ist
                 if(checkIfObjectIsDoor(wallChildName)==true){
                     if(checkIfDoorOnWallExists()==false){
@@ -42,9 +44,12 @@ public class ObjectController : MonoBehaviour
                         }
                     }
                 }else{
+                    Debug.Log("InstantiateObjectOnWall3");
                     InstantiateObjectOnWall(wallObject, wallChildCoordCorrectionX, wallChildCoordCorrectionY, wallChildLength, wallChildName);
                     return true;
                 }
+            }else{
+                Debug.Log("wallObject.WallChildName:"+wallObject.WallChildName);
             }
         }
         return false;
