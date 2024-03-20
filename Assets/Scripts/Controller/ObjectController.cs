@@ -31,9 +31,7 @@ public class ObjectController : MonoBehaviour
                 }
             }
         }else if(wallChildLength == 1){
-            Debug.Log("InstantiateObjectOnWall1");
             if(string.IsNullOrWhiteSpace(wallObject.WallChildName)){
-                Debug.Log("InstantiateObjectOnWall2");
                 //prüfe noch ob, wenn door generiert werden soll, keine vorhanden ist
                 if(checkIfObjectIsDoor(wallChildName)==true){
                     if(checkIfDoorOnWallExists()==false){
@@ -44,12 +42,9 @@ public class ObjectController : MonoBehaviour
                         }
                     }
                 }else{
-                    Debug.Log("InstantiateObjectOnWall3");
                     InstantiateObjectOnWall(wallObject, wallChildCoordCorrectionX, wallChildCoordCorrectionY, wallChildLength, wallChildName);
                     return true;
                 }
-            }else{
-                Debug.Log("wallObject.WallChildName:"+wallObject.WallChildName);
             }
         }
         return false;
@@ -116,6 +111,12 @@ public class ObjectController : MonoBehaviour
                 }
             }
         }
+    }
+
+    public static void ChangeDoorOnWall(string doorSpriteName){
+        WallObject wallObject = getWallGOWithDoor();
+        Debug.Log("Door: "+wallObject.wallGameObjectName);
+        //CONTINUE
     }
 
 
@@ -223,6 +224,22 @@ public class ObjectController : MonoBehaviour
 
 
     //getter
+    public static WallObject getWallGOWithDoor(){
+        WallObject obj = null;
+        for(int a=0;a<WallObjectList.Count;a++){
+            if(string.IsNullOrWhiteSpace(WallObjectList[a].WallChildName)==false){
+                if(WallObjectList[a].WallChildName.Equals("placeholder")==false){
+                    string[] split = WallObjectList[a].WallChildName.Split("_");
+                    if(split[1].Equals("Door")){//split ChildSpriteName from WallGO to check if door
+                        return WallObjectList[a];
+                    }
+                }
+            }
+        }
+        return obj;
+    }
+
+
     public static WallObject getWallGOFromWallGOName(string wallGOName){
         WallObject obj = null;
         for(int a=0;a<WallObjectList.Count;a++){

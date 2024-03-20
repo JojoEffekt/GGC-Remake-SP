@@ -50,6 +50,7 @@ public class IngredientsUIController : MonoBehaviour
     }
 
     public void LoadItems(){
+        //string name, string spriteName, int priceMoney, int priceGold, int inFridge, bool isActive, int sortiment, int level
         IngredientList.Add(new IngredientItem("Lettuce", "item_19", 30, 0, 0, true, 2, 0));
         IngredientList.Add(new IngredientItem("Onions", "item_13", 60, 0, 0, true, 2, 1));
         IngredientList.Add(new IngredientItem("Tomatoes", "item_02", 90, 0, 0, true, 2, 2));

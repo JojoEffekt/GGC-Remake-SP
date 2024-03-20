@@ -43,7 +43,7 @@ public class FloorChildExtraDataController : MonoBehaviour
                 }
             }else if(type.Equals("Slushi")){
                 if(listItem.Length>2){
-                    SlushiList.Add(new Slushi(listItem[0], listItem[1], listItem[2], Int32.Parse(listItem[1])));  
+                    SlushiList.Add(new Slushi(listItem[0], listItem[1], listItem[2], Int32.Parse(listItem[3])));  
                 }else{ 
                     SlushiList.Add(new Slushi(listItem[0], listItem[1], null, 0));  
                 }
