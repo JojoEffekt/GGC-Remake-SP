@@ -19,6 +19,9 @@ public class GridController : MonoBehaviour
             ObjectController.GenerateWallObject((a+1)+"-"+0+"-Wall" ,"Wall_09_", 0, null, 0, 0.0f, 0.0f,a+1, 0);
             ObjectController.GenerateWallObject(0+"-"+(a+1)+"-Wall" ,"Wall_09_", 1, null, 0, 0.0f, 0.0f, 0, a+1);
         }
+
+
+        /*
         ObjectController.GenerateObjectOnWall("Wall_Door_01_1_", "6-0-Wall", 1, 0.2f, -0.5f);
         ObjectController.GenerateObjectOnWall("Wall_Door_06_1_", "0-6-Wall", 1, 0.1f, -0.75f);
         ObjectController.GenerateObjectOnWall("Wall_Deko_02_1_", "0-2-Wall", 1, 0.75f, 1.0f);//(floorChildName,WallName,wallChildLength,coordCorrectionX,coordCorrectionY)
@@ -55,6 +58,7 @@ public class GridController : MonoBehaviour
         ObjectController.MoveObjectOnWall("6-0-Wall","8-0-Wall");//(curWallName,newWallName)
         ObjectController.MoveObjectOnWall("6-0-Wall","0-8-Wall");//(curWallName,newWallName)
         ObjectController.MoveObjectOnWall("0-8-Wall","0-1-Wall");//(curWallName,newWallName)
+        */
 
         SaveAndLoadController.SavePlayerData();
     }

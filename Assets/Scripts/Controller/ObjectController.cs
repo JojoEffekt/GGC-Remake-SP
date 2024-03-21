@@ -51,6 +51,16 @@ public class ObjectController : MonoBehaviour
     }
 
     public static void InstantiateObjectOnWall(WallObject obj, float coordCoorX, float coordCoorY, int length, string name){
+
+        //speicher keine placeholder
+        if(string.IsNullOrWhiteSpace(obj.WallChildName)==false){
+            if(obj.WallChildName.Equals("placeholder")==false){
+
+                //Speichert die zu ersetzende Tür
+                PlayerController.AddStorageItem(obj.WallChildName);
+            }
+        }
+
         obj.wallChildCoordCorrectionX = coordCoorX;
         obj.wallChildCoordCorrectionY = coordCoorY;
         obj.wallChildLength = length;
@@ -113,11 +123,50 @@ public class ObjectController : MonoBehaviour
         }
     }
 
-    public static void ChangeDoorOnWall(string doorSpriteName){
+    //verändert die Tür
+    public static void ChangeDoorOnWall(string doorSpriteName, float coordCorX, float coordCorY, int priceGold, int priceMoney){
         WallObject wallObject = getWallGOWithDoor();
-        Debug.Log("Door: "+wallObject.wallGameObjectName);
-        //CONTINUE
+
+        //überprüft das keine Door erkauft wird
+        if(wallObject.WallChildName.Equals(doorSpriteName)==false){
+
+            //Speichert die zu ersetzende Tür
+            PlayerController.AddStorageItem(wallObject.WallChildName);
+
+            //Item wird Abgerechnet
+            PlayerController.playerGold = PlayerController.playerGold - priceGold;
+            PlayerController.playerMoney = PlayerController.playerMoney - priceMoney;
+    
+            //generiere die neue Tür
+            InstantiateObjectOnWall(wallObject, coordCorX, coordCorY, 1, doorSpriteName);
+        }
     }
+
+    //verändert das WallSprite
+    public static void ChangeWallSprite(string wallName, string wallSprite, int priceGold, int priceMoney){
+        WallObject wallObject = getWallGOFromWallGOName(wallName);
+
+        //überprüft das kein sprite doppelt erkauft wird
+        if(wallObject.WallSpriteName.Equals(wallSprite)==false){
+
+            //Speichert die zu ersetzende Wand
+            PlayerController.AddStorageItem(wallObject.WallSpriteName);
+
+            //Item wird Abgerechnet
+            PlayerController.playerGold = PlayerController.playerGold - priceGold;
+            PlayerController.playerMoney = PlayerController.playerMoney - priceMoney;
+    
+            //läd neues Sprite
+            wallObject.WallSpriteName = wallSprite;
+        }
+    }
+
+
+
+
+
+
+
 
 
 
@@ -150,11 +199,21 @@ public class ObjectController : MonoBehaviour
         }
     }
 
-    //setzt ein neues floorSprite
-    public static void NewFloorSprite(string newFloorSpriteName, int floorPrice, string floorGOName){
+    //Generiere ein neues FloorSprite
+    public static void NewFloorSprite(string newFloorSpriteName, int floorPriceMoney, string floorGOName){
         FloorObject floorObject = getFloorGOFromFloorGOName(floorGOName);
-        if(floorObject.floorName.Equals(newFloorSpriteName)==false){//gucke ob FloorGO nicht schon diesen floor hat
-            floorObject.setNewFloorSprite(newFloorSpriteName, floorPrice);
+
+        //gucke ob FloorGO nicht schon diesen floor hat
+        if(floorObject.floorName.Equals(newFloorSpriteName)==false){
+
+            //Speichert den zu ersetzenden Floor
+            PlayerController.AddStorageItem(floorObject.floorName);
+
+            //Generiere das neue FloorSprite
+            floorObject.setNewFloorSprite(newFloorSpriteName, floorPriceMoney);
+
+            //Rechnet den Preis ab
+            PlayerController.playerMoney = PlayerController.playerMoney - floorPriceMoney;
         }
     }
 

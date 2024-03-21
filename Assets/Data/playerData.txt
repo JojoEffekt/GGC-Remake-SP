@@ -1,7 +1,7 @@
-JojoEffekt
-9570
-1018
-3434000
+rzhbufdtzhbug
+506317
+425455
+3543646
 8
-Lettuce:5;Onions:13;Chocolate:1;Pasta:2;Tomatoes:3
 Empty
+Floor_01:7;Floor_02:2;Floor_03:1;Wall_09_:4;Wall_02_:1;Wall_03_1_:1;Wall_04_:1;Wall_03_:1;Wall_Door_04_1_:2;Wall_Door_03_1_:2;Wall_Door_02_1_:3;Wall_Door_01_1_:2;:33

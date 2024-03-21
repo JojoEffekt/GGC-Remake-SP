@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System;
 
 public class RebuildUIController : MonoBehaviour
 {      
@@ -148,8 +149,48 @@ public class RebuildUIController : MonoBehaviour
 
     public void BuyItem(Object item){
         if(PlayerController.playerMoney>=item.priceMoney&&PlayerController.playerGold>=item.priceGold){//hat spieler genug geld
-            ButtonController.GetComponent<ButtonController>().MouseAction = 2;//object generierung freigeschaltet
-            ButtonController.GetComponent<ButtonController>().ObjectToCreate = new string[]{item.spriteName, ""+item.priceGold, ""+item.priceMoney};
+
+            //wenn das item eine tür ist, generiere die tür direkt ohne nutzung von ButtonController
+            if(item.spriteName.Split("_")[0].Equals("Door")){
+                string[] details = new string[]{};
+                if(item.spriteName.Equals("Door_01_a")){
+                    //                     spritename   coordCorX coordCordY goldPrice moneyprice
+                    details = new string[]{"Wall_Door_01_1_", "0,2", "-0,5", "0", "50"};
+                }
+                if(item.spriteName.Equals("Door_02_a")){
+                    details = new string[]{"Wall_Door_02_1_", "0,2", "-0,5", "0", "1100"};
+                }
+                if(item.spriteName.Equals("Door_01_a_1")){
+                    details = new string[]{"Wall_Door_03_1_", "0,5", "-0,3", "15", "0"};
+                }
+                if(item.spriteName.Equals("Door_02_a_1")){
+                    details = new string[]{"Wall_Door_04_1_", "0,2", "-1,0", "5", "0"};
+                }
+                if(item.spriteName.Equals("Door_03_a_1")){
+                    details = new string[]{"Wall_Door_05_1_", "0,2", "-0,65", "3", "0"};
+                }
+                if(item.spriteName.Equals("Door_04_a_1")){
+                    details = new string[]{"Wall_Door_06_1_", "0,2", "-0,9", "0", "20000"};
+                }
+                if(item.spriteName.Equals("Door_05_a_1")){
+                    details = new string[]{"Wall_Door_07_1_", "0,2", "-0,6", "0", "14000"};
+                }
+
+                //tür wird Abgerechnet
+                PlayerController.playerMoney = PlayerController.playerMoney - item.priceMoney;
+                PlayerController.playerGold = PlayerController.playerGold - item.priceGold;
+
+                //Generiert die neue Tür
+                ObjectController.ChangeDoorOnWall(details[0], float.Parse(details[1]), float.Parse(details[2]), Int32.Parse(details[3]), Int32.Parse(details[4]));
+
+                //nach jeder action muss gespeichert werden
+                SaveAndLoadController.SavePlayerData();
+            }else{
+                //item kann nun über ButtonController platziert werden
+                //object zur generierung freigeschaltet
+                ButtonController.GetComponent<ButtonController>().MouseAction = 2;
+                ButtonController.GetComponent<ButtonController>().ObjectToCreate = new string[]{item.spriteName, ""+item.priceGold, ""+item.priceMoney};
+            }
         }
     }
 

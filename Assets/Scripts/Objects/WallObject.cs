@@ -110,6 +110,7 @@ public class WallObject : MonoBehaviour
         GameObject child = WallGameObject.transform.GetChild(0).gameObject;
         child.GetComponent<SpriteRenderer>().sprite = dekoSprite;
         if(dekoSprite!=null){//render collider if dekostrpite existiert
+            Destroy(child.GetComponent<PolygonCollider2D>());//läd polygoncollider neu bei neuem bild
             child.AddComponent(typeof(PolygonCollider2D));
         }else{
             Destroy(child.GetComponent<PolygonCollider2D>());

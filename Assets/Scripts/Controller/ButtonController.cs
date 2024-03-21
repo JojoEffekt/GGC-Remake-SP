@@ -6,7 +6,7 @@ using System;
 
 public class ButtonController : MonoBehaviour
 {
-    public int MouseAction = 0; //0=nothing,1=rotate,2=create,3=remove,4=replace,5=newFloor
+    public int MouseAction = 0; //0=nothing,1=rotate,2=create,3=remove,4=replace
 
     public string ObjectToMove = "";
     public string[] ObjectToCreate;//referenzobjekt(spriteName, goldpreis, moneypreis) wird übergeben und in diesem script zum bekommen der InstantiateDetails benutzt
@@ -30,38 +30,46 @@ public class ButtonController : MonoBehaviour
     public void MouseHandler(RaycastHit2D[] info){
         string objectName = getPrioritizedObjectName(info);
     
-        if(MouseAction==1){//rotate
+        //Rotate Abfrage
+        if(MouseAction==1){
             if(isFloorChildObject(objectName)){
                 RotateFloorChild(objectName);
             }
-        }else if(MouseAction==2){//create
+        //Create Abfrage
+        }else if(MouseAction==2){
             string[] details = getObjectToCreateDetails(ObjectToCreate[0]);//holt sich die infos zum generieren
 
             //guckt welcher type Generiert werden soll
-            if(details[0].Equals("Floor")){//wenn floor 
+            //Type Floor 
+            if(details[0].Equals("Floor")){
                 string floorObj = getFloor(info);
                 if(string.IsNullOrWhiteSpace(floorObj)==false){
+                    //Neuer Floor wird versucht zu Generieren, und Abzurechnen und eingelagert
                     NewFloorSprite(details[1], Int32.Parse(details[2]), floorObj);
                 }
-            }else if(details[0].Equals("Door")){//wenn door (muss nur sprite austauschen)
-            //test
-                ObjectController.ChangeDoorOnWall(details[1]);
-
-
-                
-            }else if(isWallObject(objectName)){
-                if(details.Length!=0){
-                    GenerateObjectOnWall(details[0], objectName, Int32.Parse(details[1]), float.Parse(details[2]), float.Parse(details[3]));
+            //Type Wall
+            }else if(details[0].Equals("Wall")){
+                string wallObj = getWall(info);
+                if(string.IsNullOrWhiteSpace(wallObj)==false){
+                    //Neue wand wird erstellt, Abgerechnet und eingelagert
+                    GenerateNewWallSprite(wallObj, details[1], Int32.Parse(details[2]), Int32.Parse(details[3]));
                 }
+            //Wall Deko
+            }else if(isWallObject(objectName)){
+                //prüft noch auf genügent parameter
+                if(details.Length==6){
+                    //Neue wand wird erstellt, Abgerechnet und eingelagert
+                    GenerateObjectOnWall(details[0], objectName, Int32.Parse(details[1]), float.Parse(details[2]), float.Parse(details[3]), Int32.Parse(details[4]), Int32.Parse(details[5]));
+                }
+            //Type FloorObjects (include Oven, Fridge, FloorDeko etc...)
             }else if(isFloorObject(objectName)){
-                if(details.Length!=0){
+                //prüft noch auf genügent parameter
+                if(details.Length==8){
                     GenerateObjectOnFloor(details[0], details[1], Int32.Parse(details[2]), float.Parse(details[3]), float.Parse(details[4]), float.Parse(details[5]), float.Parse(details[6]), objectName);
                 }
             }
-            //CONTINUE
-            //bei tür muss die tür mir der aktuellen ausgetauscht werden
-            //change wallsprite muss mehtode erstellt werden
 
+            //Kein Handler ist Aktiviert, Nichts kann verändert werden
             MouseAction = 0;//reset
 
         }else if(MouseAction==3){//destroy
@@ -85,12 +93,6 @@ public class ButtonController : MonoBehaviour
             }else{//wenn was anderes angklickt wurde, breche ab
                 ObjectToMove = "";
             }
-        }else if(MouseAction==5){//new Floor
-            string floorObj = getFloor(info);
-            if(string.IsNullOrWhiteSpace(floorObj)==false){
-                Debug.Log("floorObj: "+floorObj);
-                NewFloorSprite("Floor_06_1", 99, floorObj);
-            }
         }
 
         //nach jeder action muss neu gespeichert werden
@@ -109,11 +111,21 @@ public class ButtonController : MonoBehaviour
         ObjectController.RotateObjectOnFloor(objectName);//(floorChildGOName)
     }
 
-    public void GenerateObjectOnWall(string spriteName, string wallName, int wallChildLength, float coordCorrectionX, float coordCorrectionY){
-        ObjectController.GenerateObjectOnWall(spriteName, wallName, wallChildLength, coordCorrectionX, coordCorrectionY);//(floorChildName,WallName,wallChildLength,coordCorrectionX,coordCorrectionY)
+    public void GenerateObjectOnWall(string spriteName, string wallName, int wallChildLength, float coordCorrectionX, float coordCorrectionY, int priceGold, int priceMoney){
+        //(wallchilName,WallName,wallChildLength,coordCorrectionX,coordCorrectionY)
+        //wenn das WallObject generiert wurde, rechne Ab
+        if(ObjectController.GenerateObjectOnWall(spriteName, wallName, wallChildLength, coordCorrectionX, coordCorrectionY)){
+
+            //Abrechnen
+            PlayerController.playerGold = PlayerController.playerGold - priceGold;
+            PlayerController.playerMoney = PlayerController.playerMoney - priceMoney;
+        }
     }
     public void GenerateObjectOnFloor(string type, string spriteName, int price, float coordCoorXA, float coordCoorYA, float coordCoorXB, float coordCoorYB, string wallName){
         ObjectController.GenerateObjectOnFloor(type, spriteName, price, coordCoorXA, coordCoorYA, coordCoorXB, coordCoorYB, wallName);//(type,spriteName,price,coordCoorXA...-coordCoorYB,FloorGameObjectName)
+    }
+    public void GenerateNewWallSprite(string wallName, string spriteName, int priceGold, int priceMoney){
+        ObjectController.ChangeWallSprite(wallName, spriteName, priceGold, priceMoney);
     }
 
     public void MoveObjectOnWall(string wallNameOld, string wallNameNew){
@@ -158,6 +170,19 @@ public class ButtonController : MonoBehaviour
         return objectName;
     }
 
+    public string getWall(RaycastHit2D[] info){//guckt ob beim raycast eine Wall gecatch wurde
+        string objectName = null;
+        for(int a=0;a<info.Length;a++){
+            string[] splitName = info[a].collider.name.Split("-");
+            if(splitName.Length==3){
+                if(splitName[2].Equals("Wall")){
+                    return info[a].collider.name;
+                }
+            }
+        }
+        return objectName;
+    }
+
     public bool isWallObject(string objectName){
         string[] splitName = objectName.Split("-");
         if(splitName[splitName.Length-1].Equals("Wall")){
@@ -186,101 +211,101 @@ public class ButtonController : MonoBehaviour
     public string[] getObjectToCreateDetails(string objName){
         string[] details = new string[]{};
         if(objName.Equals("Wall_Deko_01_a")){
-            //walldeko object        sprite name    length coordCorX coordCorY
-            details = new string[]{"Wall_Deko_01_", "1", "0,75", "1,0"};
+            //walldeko object        sprite name    length coordCorX coordCorY preisgold preismoney
+            details = new string[]{"Wall_Deko_01_", "1", "0,15", "1,0", "0", "800"};
         }
         if(objName.Equals("Wall_Deko_02_a")){
-            details = new string[]{"Wall_Deko_02_", "1", "0,75", "1,0"};
+            details = new string[]{"Wall_Deko_02_", "1", "0,15", "1,0", "0", "400"};
         }
         if(objName.Equals("Wall_Deko_03_a")){
-            details = new string[]{"Wall_Deko_03_", "1", "0,75", "1,0"};
+            details = new string[]{"Wall_Deko_03_", "1", "0,25", "1,0", "4", "0"};
         }
         if(objName.Equals("Wall_Deko_04_a")){
-            details = new string[]{"Wall_Deko_04_", "1", "0,75", "1,0"};
+            details = new string[]{"Wall_Deko_04_", "1", "0,2", "1,0", "5", "0"};
         }
         if(objName.Equals("Wall_Deko_05_a")){
-            details = new string[]{"Wall_Deko_05_", "1", "0,75", "1,0"};
+            details = new string[]{"Wall_Deko_05_", "1", "0,1", "1,0", "0", "700"};
         }
         if(objName.Equals("Wall_Deko_06_a")){
-            details = new string[]{"Wall_Deko_06_", "1", "0,75", "1,0"};
+            details = new string[]{"Wall_Deko_06_", "1", "0,75", "1,0", "0", "11000"};
         }
         if(objName.Equals("Wall_Deko_07_a")){
-            details = new string[]{"Wall_Deko_07_", "1", "0,75", "1,0"};
+            details = new string[]{"Wall_Deko_07_", "1", "0,0", "1,0", "2", "0"};
         }
         if(objName.Equals("Wall_Deko_08_a")){
-            details = new string[]{"Wall_Deko_08_", "1", "0,75", "1,0"};
+            details = new string[]{"Wall_Deko_08_", "1", "0,1", "1,0", "3", "0"};
         }
         if(objName.Equals("Wall_Deko_09_a")){
-            details = new string[]{"Wall_Deko_09_", "1", "0,75", "1,0"};
+            details = new string[]{"Wall_Deko_09_", "3", "1", "1,0", "0", "6000"};
         }
         if(objName.Equals("Wall_Deko_10_a")){
-            details = new string[]{"Wall_Deko_10_", "1", "0,75", "1,0"};
+            details = new string[]{"Wall_Deko_10_", "3", "1,1", "1,0", "0", "8000"};
         }
         if(objName.Equals("Wall_Deko_11_a")){
-            details = new string[]{"Wall_Deko_11_", "1", "0,75", "1,0"};
+            details = new string[]{"Wall_Deko_11_", "3", "1,2", "1,0", "0", "12500"};
         }
         if(objName.Equals("Wall_Deko_12_a")){
-            details = new string[]{"Wall_Deko_12_", "1", "0,75", "1,0"};
+            details = new string[]{"Wall_Deko_12_", "3", "1,3", "1,0", "4", "0"};
         }
         if(objName.Equals("Wall_Deko_13_a")){
-            details = new string[]{"Wall_Deko_13_", "1", "0,75", "1,0"};
+            details = new string[]{"Wall_Deko_13_", "3", "0,75", "1,0", "4", "0"};
         }
         if(objName.Equals("Wall_Deko_14_a")){
-            details = new string[]{"Wall_Deko_14_", "1", "0,75", "1,0"};
+            details = new string[]{"Wall_Deko_14_", "1", "0,0", "1,0", "0", "5000"};
         }
         if(objName.Equals("Wall_Deko_15_a")){
-            details = new string[]{"Wall_Deko_15_", "1", "0,75", "1,0"};
+            details = new string[]{"Wall_Deko_15_", "1", "1,25", "1,0", "0", "10000"};
         }
         if(objName.Equals("Wall_Deko_01_a_1")){
-            details = new string[]{"Wall_Deko_01_1_", "1", "0,75", "1,0"};
+            details = new string[]{"Wall_Deko_01_1_", "1", "0,0", "1,0", "0", "2500"};
         }
         if(objName.Equals("Wall_Deko_02_a_1")){
-            details = new string[]{"Wall_Deko_02_1_", "1", "0,75", "1,0"};
+            details = new string[]{"Wall_Deko_02_1_", "1", "0,75", "1,0", "0", "1500"};
         }
         if(objName.Equals("Wall_Deko_03_a_1")){
-            details = new string[]{"Wall_Deko_03_1_", "1", "0,75", "1,0"};
+            details = new string[]{"Wall_Deko_03_1_", "1", "0,25", "1,0", "0", "500"};
         }
         if(objName.Equals("Wall_Deko_04_a_1")){
-            details = new string[]{"Wall_Deko_04_1_", "1", "0,75", "1,0"};
+            details = new string[]{"Wall_Deko_04_1_", "1", "0,1", "1,0", "0", "7000"};
         }
         if(objName.Equals("Wall_Deko_05_a_1")){
-            details = new string[]{"Wall_Deko_05_1_", "1", "0,75", "1,0"};
+            details = new string[]{"Wall_Deko_05_1_", "3", "1,2", "1,0", "0", "15000"};
         }
         if(objName.Equals("Wall_Deko_06_a_1")){
-            details = new string[]{"Wall_Deko_06_1_", "1", "0,75", "1,0"};
+            details = new string[]{"Wall_Deko_06_1_", "1", "0,25", "1,0", "3", "0"};
         }
         if(objName.Equals("Wall_Deko_07_a_1")){
-            details = new string[]{"Wall_Deko_07_1_", "1", "0,75", "1,0"};
+            details = new string[]{"Wall_Deko_07_1_", "1", "0,1", "1,0", "0", "10000"};
         }
         if(objName.Equals("Wall_Deko_08_a_1")){
-            details = new string[]{"Wall_Deko_08_1_", "1", "0,75", "1,0"};
+            details = new string[]{"Wall_Deko_08_1_", "1", "0,1", "1,0", "999", "0"};//CONTINUE
         }
         if(objName.Equals("Wall_Deko_09_a_1")){
-            details = new string[]{"Wall_Deko_09_1_", "1", "0,75", "1,0"};
+            details = new string[]{"Wall_Deko_09_1_", "1", "0,15", "1,0", "999", "0"};//CONTINUE
         }
         if(objName.Equals("Wall_Deko_10_a_1")){
-            details = new string[]{"Wall_Deko_10_1_", "1", "0,75", "1,0"};
+            details = new string[]{"Wall_Deko_10_1_", "1", "0,4", "1,0", "999", "0"};//CONTINUE
         }
         if(objName.Equals("Wall_Deko_11_a_1")){
-            details = new string[]{"Wall_Deko_11_1_", "1", "0,75", "1,0"};
+            details = new string[]{"Wall_Deko_11_1_", "1", "0,5", "1,0", "999", "0"};//CONTINUE
         }
         if(objName.Equals("Wall_Deko_12_a_1")){
-            details = new string[]{"Wall_Deko_12_1_", "1", "0,75", "1,0"};
+            details = new string[]{"Wall_Deko_12_1_", "1", "0,75", "1,0", "999", "0"};//CONTINUE
         }
         if(objName.Equals("Wall_Deko_13_a_1")){
-            details = new string[]{"Wall_Deko_13_1_", "1", "0,75", "1,0"};
+            details = new string[]{"Wall_Deko_13_1_", "1", "0,2", "1,0", "999", "0"};//CONTINUE
         }
         if(objName.Equals("Wall_Deko_14_a_1")){
-            details = new string[]{"Wall_Deko_14_1_", "1", "0,75", "1,0"};
+            details = new string[]{"Wall_Deko_14_1_", "1", "0,1", "1,0", "4", "0"};
         }
         if(objName.Equals("Wall_Deko_15_a_1")){
-            details = new string[]{"Wall_Deko_15_1_", "1", "0,75", "1,0"};
+            details = new string[]{"Wall_Deko_15_1_", "1", "0,2", "1,0", "2", "0"};
         }
         if(objName.Equals("Wall_Deko_16_a_1")){
-            details = new string[]{"Wall_Deko_16_1_", "1", "0,75", "1,0"};
+            details = new string[]{"Wall_Deko_16_1_", "1", "0,4", "1,0", "5", "0"};
         }
         if(objName.Equals("Wall_Deko_17_a_1")){
-            details = new string[]{"Wall_Deko_17_1_", "1", "0,75", "1,0"};
+            details = new string[]{"Wall_Deko_17_1_", "1", "0,7", "1,0", "5", "0"};
         }
 
 
@@ -505,91 +530,91 @@ public class ButtonController : MonoBehaviour
 
 
         if(objName.Equals("Floor_01")){
-            details = new string[]{"Floor", "Floor_01", "99"};
+            details = new string[]{"Floor", "Floor_01", "20"};
         }
         if(objName.Equals("Floor_02")){
-            details = new string[]{"Floor", "Floor_02", "99"};
+            details = new string[]{"Floor", "Floor_02", "20"};
         }
         if(objName.Equals("Floor_03")){
-            details = new string[]{"Floor", "Floor_03", "99"};
+            details = new string[]{"Floor", "Floor_03", "20"};
         }
         if(objName.Equals("Floor_04")){
-            details = new string[]{"Floor", "Floor_04", "99"};
+            details = new string[]{"Floor", "Floor_04", "100"};
         }
         if(objName.Equals("Floor_05")){
-            details = new string[]{"Floor", "Floor_05", "99"};
+            details = new string[]{"Floor", "Floor_05", "20"};
         }
         if(objName.Equals("Floor_06")){
-            details = new string[]{"Floor", "Floor_06", "99"};
+            details = new string[]{"Floor", "Floor_06", "100"};
         }
         if(objName.Equals("Floor_07")){
-            details = new string[]{"Floor", "Floor_07", "99"};
+            details = new string[]{"Floor", "Floor_07", "100"};
         }
         if(objName.Equals("Floor_08")){
-            details = new string[]{"Floor", "Floor_08", "99"};
+            details = new string[]{"Floor", "Floor_08", "20"};
         }
         if(objName.Equals("Floor_09")){
-            details = new string[]{"Floor", "Floor_09", "99"};
+            details = new string[]{"Floor", "Floor_09", "20"};
         }
         if(objName.Equals("Floor_10")){
-            details = new string[]{"Floor", "Floor_10", "99"};
+            details = new string[]{"Floor", "Floor_10", "20"};
         }
         if(objName.Equals("Floor_11")){
-            details = new string[]{"Floor", "Floor_11", "99"};
+            details = new string[]{"Floor", "Floor_11", "100"};
         }
         if(objName.Equals("Floor_01_1")){
-            details = new string[]{"Floor", "Floor_01_1", "99"};
+            details = new string[]{"Floor", "Floor_01_1", "1000"};
         }
         if(objName.Equals("Floor_02_1")){
-            details = new string[]{"Floor", "Floor_02_1", "99"};
+            details = new string[]{"Floor", "Floor_02_1", "1500"};
         }
         if(objName.Equals("Floor_03_1")){
-            details = new string[]{"Floor", "Floor_03_1", "99"};
+            details = new string[]{"Floor", "Floor_03_1", "2000"};
         }
         if(objName.Equals("Floor_04_1")){
-            details = new string[]{"Floor", "Floor_04_1", "99"};
+            details = new string[]{"Floor", "Floor_04_1", "999"};//CONTINUE
         }
         if(objName.Equals("Floor_05_1")){
-            details = new string[]{"Floor", "Floor_05_1", "99"};
+            details = new string[]{"Floor", "Floor_05_1", "999"};//CONTINUE
         }
         if(objName.Equals("Floor_06_1")){
-            details = new string[]{"Floor", "Floor_06_1", "99"};
+            details = new string[]{"Floor", "Floor_06_1", "999"};//CONTINUE
         }
         if(objName.Equals("Floor_07_1")){
-            details = new string[]{"Floor", "Floor_07_1", "99"};
+            details = new string[]{"Floor", "Floor_07_1", "999"};//CONTINUE
         }
         if(objName.Equals("Floor_08_1")){
-            details = new string[]{"Floor", "Floor_08_1", "99"};
+            details = new string[]{"Floor", "Floor_08_1", "999"};//CONTINUE
         }
         if(objName.Equals("Floor_09_1")){
-            details = new string[]{"Floor", "Floor_09_1", "99"};
+            details = new string[]{"Floor", "Floor_09_1", "999"};//CONTINUE
         }
         if(objName.Equals("Floor_10_1")){
-            details = new string[]{"Floor", "Floor_10_1", "99"};
+            details = new string[]{"Floor", "Floor_10_1", "999"};//CONTINUE
         }
         if(objName.Equals("Floor_11_1")){
-            details = new string[]{"Floor", "Floor_11_1", "99"};
+            details = new string[]{"Floor", "Floor_11_1", "100"};
         }
         if(objName.Equals("Floor_12_1")){
-            details = new string[]{"Floor", "Floor_12_1", "99"};
+            details = new string[]{"Floor", "Floor_12_1", "999"};//CONTINUE
         }
         if(objName.Equals("Floor_13_1")){
-            details = new string[]{"Floor", "Floor_13_1", "99"};
+            details = new string[]{"Floor", "Floor_13_1", "100"};
         }
         if(objName.Equals("Floor_14_1")){
-            details = new string[]{"Floor", "Floor_14_1", "99"};
+            details = new string[]{"Floor", "Floor_14_1", "250"};
         }
         if(objName.Equals("Floor_15_1")){
-            details = new string[]{"Floor", "Floor_15_1", "99"};
+            details = new string[]{"Floor", "Floor_15_1", "999"};//CONTINUE
         }
         if(objName.Equals("Floor_16_1")){
-            details = new string[]{"Floor", "Floor_16_1", "99"};
+            details = new string[]{"Floor", "Floor_16_1", "1000"};
         }
         if(objName.Equals("Floor_17_1")){
-            details = new string[]{"Floor", "Floor_17_1", "99"};
+            details = new string[]{"Floor", "Floor_17_1", "1000"};
         }
         if(objName.Equals("Floor_18_1")){
-            details = new string[]{"Floor", "Floor_18_1", "99"};
+            details = new string[]{"Floor", "Floor_18_1", "1000"};
         }
 
 
@@ -726,62 +751,106 @@ public class ButtonController : MonoBehaviour
 
 
 
-        if(objName.Equals("Door_01_a")){
-            details = new string[]{"Door", "Door_01_a", "10", "0,0", "0,85", "0,0", "0,85"};
+        if(objName.Equals("Wall_01_a")){
+            //                      type    spritename pricegold pricemoney
+            details = new string[]{"Wall", "Wall_01_", "0", "900"};
         }
-        if(objName.Equals("Door_02_a")){
-            details = new string[]{"Door", "Door_02_a", "10", "0,0", "0,85", "0,0", "0,85"};
+        if(objName.Equals("Wall_02_a")){
+            details = new string[]{"Wall", "Wall_02_", "0", "900"};
         }
-        if(objName.Equals("Door_01_a_1")){
-            details = new string[]{"Door", "Door_01_1_a", "10", "0,0", "0,85", "0,0", "0,85"};
+        if(objName.Equals("Wall_03_a")){
+            details = new string[]{"Wall", "Wall_03_", "0", "800"};
         }
-        if(objName.Equals("Door_02_a_1")){
-            details = new string[]{"Door", "Door_02_1_a", "10", "0,0", "0,85", "0,0", "0,85"};
+        if(objName.Equals("Wall_04_a")){
+            details = new string[]{"Wall", "Wall_04_", "0", "20"};
         }
-        if(objName.Equals("Door_03_a_1")){
-            details = new string[]{"Door", "Door_03_1_a", "10", "0,0", "0,85", "0,0", "0,85"};
+        if(objName.Equals("Wall_05_a")){
+            details = new string[]{"Wall", "Wall_05_", "0", "20"};
         }
-        if(objName.Equals("Door_04_a_1")){
-            details = new string[]{"Door", "Door_04_1_a", "10", "0,0", "0,85", "0,0", "0,85"};
+        if(objName.Equals("Wall_06_a")){
+            details = new string[]{"Wall", "Wall_06_", "0", "20"};
         }
-        if(objName.Equals("Door_05_a_1")){
-            details = new string[]{"Door", "Door_05_1_a", "10", "0,0", "0,85", "0,0", "0,85"};
+        if(objName.Equals("Wall_07_a")){
+            details = new string[]{"Wall", "Wall_07_", "0", "20"};
         }
-        /*
-        ObjectList.Add(new Object("Wall_01_a", 900, 0, 0, true, 2, 23));
-        ObjectList.Add(new Object("Wall_02_a", 900, 0, 0, true, 2, 23));
-        ObjectList.Add(new Object("Wall_03_a", 800, 0, 0, true, 2, 23));
-        ObjectList.Add(new Object("Wall_04_a", 20, 0, 0, true, 2, 23));
-        ObjectList.Add(new Object("Wall_05_a", 20, 0, 0, true, 2, 23));
-        ObjectList.Add(new Object("Wall_06_a", 20, 0, 0, true, 2, 23));
-        ObjectList.Add(new Object("Wall_07_a", 20, 0, 0, true, 2, 23));
-        ObjectList.Add(new Object("Wall_08_a", 20, 0, 0, true, 2, 23));
-        ObjectList.Add(new Object("Wall_09_a", 20, 0, 0, true, 2, 23));
-        ObjectList.Add(new Object("Wall_10_a", 20, 0, 0, true, 2, 23));
-        ObjectList.Add(new Object("Wall_11_a", 20, 0, 0, true, 2, 23));
-        ObjectList.Add(new Object("Wall_12_a", 0, 999, 0, true, 2, 23));//CONTINUE
-        ObjectList.Add(new Object("Wall_13_a", 20, 0, 0, true, 2, 23));
-        ObjectList.Add(new Object("Wall_14_a", 20, 0, 0, true, 2, 23));
-        ObjectList.Add(new Object("Wall_15_a", 0, 999, 0, true, 2, 23));//CONTINUE
-        ObjectList.Add(new Object("Wall_16_a", 0, 999, 0, true, 2, 23));//CONTINUE
-        ObjectList.Add(new Object("Wall_17_a", 20, 0, 0, true, 2, 23));
-        ObjectList.Add(new Object("Wall_01_a_1", 1500, 0, 0, true, 2, 23));
-        ObjectList.Add(new Object("Wall_02_a_1", 1000, 0, 0, true, 2, 23));
-        ObjectList.Add(new Object("Wall_03_a_1", 2500, 0, 0, true, 2, 23));
-        ObjectList.Add(new Object("Wall_04_a_1", 7500, 0, 0, true, 2, 23));
-        ObjectList.Add(new Object("Wall_05_a_1", 7000, 0, 0, true, 2, 23));
-        ObjectList.Add(new Object("Wall_06_a_1", 0, 999, 0, true, 2, 23));//CONTINUE
-        ObjectList.Add(new Object("Wall_07_a_1", 0, 999, 0, true, 2, 23));//CONTINUE
-        ObjectList.Add(new Object("Wall_08_a_1", 0, 999, 0, true, 2, 23));//CONTINUE
-        ObjectList.Add(new Object("Wall_09_a_1", 0, 999, 0, true, 2, 23));//CONTINUE
-        ObjectList.Add(new Object("Wall_10_a_1", 0, 999, 0, true, 2, 23));//CONTINUE
-        ObjectList.Add(new Object("Wall_11_a_1", 0, 999, 0, true, 2, 23));//CONTINUE
-        ObjectList.Add(new Object("Wall_12_a_1", 0, 999, 0, true, 2, 23));//CONTINUE
-        ObjectList.Add(new Object("Wall_13_a_1", 0, 999, 0, true, 2, 23));//CONTINUE
-        ObjectList.Add(new Object("Wall_14_a_1", 0, 999, 0, true, 2, 23));//CONTINUE
-        ObjectList.Add(new Object("Wall_15_a_1", 6000, 0, 0, true, 2, 23));
-        ObjectList.Add(new Object("Wall_16_a_1", 7000, 0, 0, true, 2, 23));
-        */
+        if(objName.Equals("Wall_08_a")){
+            details = new string[]{"Wall", "Wall_08_", "0", "20"};
+        }
+        if(objName.Equals("Wall_09_a")){
+            details = new string[]{"Wall", "Wall_09_", "0", "20"};
+        }
+        if(objName.Equals("Wall_10_a")){
+            details = new string[]{"Wall", "Wall_10_", "0", "20"};
+        }
+        if(objName.Equals("Wall_11_a")){
+            details = new string[]{"Wall", "Wall_11_", "0", "20"};
+        }
+        if(objName.Equals("Wall_12_a")){
+            details = new string[]{"Wall", "Wall_12_", "999", "0"};//CONTINUE
+        }
+        if(objName.Equals("Wall_13_a")){
+            details = new string[]{"Wall", "Wall_13_", "0", "20"};
+        }
+        if(objName.Equals("Wall_14_a")){
+            details = new string[]{"Wall", "Wall_14_", "0", "20"};
+        }
+        if(objName.Equals("Wall_15_a")){
+            details = new string[]{"Wall", "Wall_15_", "999", "0"};//CONTINUE
+        }
+        if(objName.Equals("Wall_16_a")){
+            details = new string[]{"Wall", "Wall_16_", "999", "0"};//CONTINUE
+        }
+        if(objName.Equals("Wall_17_a")){
+            details = new string[]{"Wall", "Wall_17_", "0", "20"};
+        }
+        if(objName.Equals("Wall_01_a_1")){
+            details = new string[]{"Wall", "Wall_01_1_", "0", "1500"};
+        }
+        if(objName.Equals("Wall_02_a_1")){
+            details = new string[]{"Wall", "Wall_02_1_", "0", "1000"};
+        }
+        if(objName.Equals("Wall_03_a_1")){
+            details = new string[]{"Wall", "Wall_03_1_", "0", "2500"};
+        }
+        if(objName.Equals("Wall_04_a_1")){
+            details = new string[]{"Wall", "Wall_04_1_", "0", "7500"};
+        }
+        if(objName.Equals("Wall_05_a_1")){
+            details = new string[]{"Wall", "Wall_05_1_", "0", "7000"};
+        }
+        if(objName.Equals("Wall_06_a_1")){
+            details = new string[]{"Wall", "Wall_06_1_", "999", "0"};//CONTINUE
+        }
+        if(objName.Equals("Wall_07_a_1")){
+            details = new string[]{"Wall", "Wall_07_1_", "999", "0"};//CONTINUE
+        }
+        if(objName.Equals("Wall_08_a_1")){
+            details = new string[]{"Wall", "Wall_08_1_", "999", "0"};//CONTINUE
+        }
+        if(objName.Equals("Wall_09_a_1")){
+            details = new string[]{"Wall", "Wall_09_1_", "999", "0"};//CONTINUE
+        }
+        if(objName.Equals("Wall_10_a_1")){
+            details = new string[]{"Wall", "Wall_10_1_", "999", "0"};//CONTINUE
+        }
+        if(objName.Equals("Wall_11_a_1")){
+            details = new string[]{"Wall", "Wall_11_1_", "999", "0"};//CONTINUE
+        }
+        if(objName.Equals("Wall_12_a_1")){
+            details = new string[]{"Wall", "Wall_12_1_", "999", "0"};//CONTINUE
+        }
+        if(objName.Equals("Wall_13_a_1")){
+            details = new string[]{"Wall", "Wall_13_1_", "999", "0"};//CONTINUE
+        }
+        if(objName.Equals("Wall_14_a_1")){
+            details = new string[]{"Wall", "Wall_14_1_", "999", "0"};//CONTINUE
+        }
+        if(objName.Equals("Wall_15_a_1")){
+            details = new string[]{"Wall", "Wall_15_1_", "0", "6000"};
+        }
+        if(objName.Equals("Wall_16_a_1")){
+            details = new string[]{"Wall", "Wall_16_1_", "0", "7000"};
+        }
 
         return details;
     }
