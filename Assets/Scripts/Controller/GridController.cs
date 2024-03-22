@@ -3,22 +3,28 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class GridController : MonoBehaviour
-{
+{   
+    //generiert das grid zum ersten mal, kann dannach von saveandload geladen werden
     public static void GenerateGrid(){
-        //create grid for the first time, after you can load data from saveandload
+
+        //braucht eine gridgröße zum erstmaligen instanziieren
         int gridSize = PlayerController.gridSize;
 
         for(int a=0;a<gridSize;a++){
             for(int b=0;b<gridSize;b++){
-                //create floor
+
+                //Generiert den boden
                 //((a*2)-2.1f)-((b*2)-2),-3.75f+((-b)+1)+((-a)+1)-2
                 ObjectController.GenerateFloorObject((a+"-"+b),"Floor_01", 10, ((a-b)*2)-0.1f, -3.75f-b-a, null, null, null, 0, 0.0f, 0.0f, 0.0f, 0.0f);
                 //floorName, floorPrice, floorCoordX, floorCoordY, floorChildType, floorChildGameObjectName, floorChildName, floorChildPrice, floorChildRotation, floorChildCoordCorrectionXA, floorChildCoordCorrectionYA, floorChildCoordCorrectionXB, floorChildCoordCorrectionYB, typeData
             }
-            //create wall
+            //Generiert die Wände
             ObjectController.GenerateWallObject((a+1)+"-"+0+"-Wall" ,"Wall_09_", 0, null, 0, 0.0f, 0.0f,a+1, 0);
             ObjectController.GenerateWallObject(0+"-"+(a+1)+"-Wall" ,"Wall_09_", 1, null, 0, 0.0f, 0.0f, 0, a+1);
         }
+
+        //Tür muss immer Generiert sein, ansonsten error bei neuem Tür kauf
+        ObjectController.GenerateObjectOnWall("Wall_Door_01_1_", "6-0-Wall", 1, 0.2f, -0.5f);
 
 
         /*
@@ -60,11 +66,12 @@ public class GridController : MonoBehaviour
         ObjectController.MoveObjectOnWall("0-8-Wall","0-1-Wall");//(curWallName,newWallName)
         */
 
+        //speichert die daten
         SaveAndLoadController.SavePlayerData();
     }
 
+    //vergrößert das spielfeld um 1x1
     public static void UpgradeGrid(){
-        //vergrößert das spielfeld um 1x1
         
         int gridSize = PlayerController.gridSize;
         PlayerController.gridSize = PlayerController.gridSize + 1;
@@ -82,6 +89,7 @@ public class GridController : MonoBehaviour
         }
         ObjectController.GenerateFloorObject((gridSize+"-"+gridSize),"Floor_01", 10, ((gridSize-gridSize)*2)-0.1f, -3.75f-gridSize-gridSize, null, null, null, 0, 0.0f, 0.0f, 0.0f, 0.0f);
 
+        //speichert die daten
         SaveAndLoadController.SavePlayerData();
     }
 }

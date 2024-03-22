@@ -1,7 +1,7 @@
 rzhbufdtzhbug
-506317
-425455
+332361
+413373
 3543646
 8
 Empty
-Floor_01:7;Floor_02:2;Floor_03:1;Wall_09_:4;Wall_02_:1;Wall_03_1_:1;Wall_04_:1;Wall_03_:1;Wall_Door_04_1_:2;Wall_Door_03_1_:2;Wall_Door_02_1_:3;Wall_Door_01_1_:2;:33
+Wall_09_:17;Wall_Door_01_1_:2;Wall_Door_02_1_:2;Wall_Door_04_1_:2;Wall_06_:1;Wall_04_:3;Wall_04_1_:1;Wall_05_1_:1

@@ -187,16 +187,22 @@ public class ObjectController : MonoBehaviour
     }
 
     //create object on floor 
-    public static void GenerateObjectOnFloor(string type, string objectName, int price, float floorChildCoordCorrectionXA, float floorChildCoordCorrectionYA, float floorChildCoordCorrectionXB, float floorChildCoordCorrectionYB, string floorNameToPlaceOn){
+    public static bool GenerateObjectOnFloor(string type, string objectName, int priceGold, float floorChildCoordCorrectionXA, float floorChildCoordCorrectionYA, float floorChildCoordCorrectionXB, float floorChildCoordCorrectionYB, string floorNameToPlaceOn){
         //übergibt obj data to floor obj, generate new obj, return obj to save in "standardObjectList"
         FloorObject floorObject = getFloorGOFromFloorGOName(floorNameToPlaceOn);
         if(string.IsNullOrWhiteSpace(floorObject.floorChildType)==true&&checkFloorGONameHasDoor(floorNameToPlaceOn)==false){//wenn floorGameObject schon childgameObject hat, erzeuge nicht
-            standardObjectList.Add(floorObject.setChild(type, floorNameToPlaceOn, objectName, price, floorChildCoordCorrectionXA, floorChildCoordCorrectionYA, floorChildCoordCorrectionXB, floorChildCoordCorrectionYB));   
+            
+            //generiert ein child obj
+            standardObjectList.Add(floorObject.setChild(type, floorNameToPlaceOn, objectName, priceGold, floorChildCoordCorrectionXA, floorChildCoordCorrectionYA, floorChildCoordCorrectionXB, floorChildCoordCorrectionYB));   
         
             //FloorChildExtraData wird erstellt
             FloorChildExtraDataController.InstantiateFCED(type+";"+floorNameToPlaceOn);
             //FloorChildExtraDataController.getInfo();
+
+            //wird benötigt um zu bestätigen ob Object genriert wurde, kann dann abgerechnet werden
+            return true;
         }
+        return false;
     }
 
     //Generiere ein neues FloorSprite

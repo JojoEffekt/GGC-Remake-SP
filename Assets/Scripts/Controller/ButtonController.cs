@@ -65,7 +65,7 @@ public class ButtonController : MonoBehaviour
             }else if(isFloorObject(objectName)){
                 //prüft noch auf genügent parameter
                 if(details.Length==8){
-                    GenerateObjectOnFloor(details[0], details[1], Int32.Parse(details[2]), float.Parse(details[3]), float.Parse(details[4]), float.Parse(details[5]), float.Parse(details[6]), objectName);
+                    GenerateObjectOnFloor(details[0], details[1], Int32.Parse(details[2]), Int32.Parse(details[3]), float.Parse(details[4]), float.Parse(details[5]), float.Parse(details[6]), float.Parse(details[7]), objectName);
                 }
             }
 
@@ -121,8 +121,15 @@ public class ButtonController : MonoBehaviour
             PlayerController.playerMoney = PlayerController.playerMoney - priceMoney;
         }
     }
-    public void GenerateObjectOnFloor(string type, string spriteName, int price, float coordCoorXA, float coordCoorYA, float coordCoorXB, float coordCoorYB, string wallName){
-        ObjectController.GenerateObjectOnFloor(type, spriteName, price, coordCoorXA, coordCoorYA, coordCoorXB, coordCoorYB, wallName);//(type,spriteName,price,coordCoorXA...-coordCoorYB,FloorGameObjectName)
+    public void GenerateObjectOnFloor(string type, string spriteName, int priceGold, int priceMoney, float coordCoorXA, float coordCoorYA, float coordCoorXB, float coordCoorYB, string wallName){
+        //(type,spriteName,price,coordCoorXA...-coordCoorYB,FloorGameObjectName)
+        //wenn das FloorChildObject generiert wurde, rechne Ab
+        if(ObjectController.GenerateObjectOnFloor(type, spriteName, priceGold, coordCoorXA, coordCoorYA, coordCoorXB, coordCoorYB, wallName)){
+
+            //Abrechnen
+            PlayerController.playerGold = PlayerController.playerGold - priceGold;
+            PlayerController.playerMoney = PlayerController.playerMoney - priceMoney;
+        }
     }
     public void GenerateNewWallSprite(string wallName, string spriteName, int priceGold, int priceMoney){
         ObjectController.ChangeWallSprite(wallName, spriteName, priceGold, priceMoney);
@@ -310,222 +317,222 @@ public class ButtonController : MonoBehaviour
 
 
         if(objName.Equals("Counter_01_a")){
-            //counter object       type      sprite name    price coordCorX coordCorY coordCorX coordCorY
-            details = new string[]{"Counter", "Counter_01_a", "10", "0,0", "0,75", "0,0", "0,75"};
+            //counter object       type      sprite name priceGold priceMoney coordCorX coordCorY coordCorX coordCorY
+            details = new string[]{"Counter", "Counter_01_a", "999", "0", "0,0", "0,75", "0,0", "0,75"};//CONTINUE
         }
         if(objName.Equals("Counter_02_a")){
-            details = new string[]{"Counter", "Counter_02_a", "10", "0,0", "0,75", "0,0", "0,75"};
+            details = new string[]{"Counter", "Counter_02_a", "0", "500", "0,0", "0,75", "0,0", "0,75"};
         }
         if(objName.Equals("Counter_03_a")){
-            details = new string[]{"Counter", "Counter_03_a", "10", "0,0", "0,75", "0,0", "0,75"};
+            details = new string[]{"Counter", "Counter_03_a", "999", "0", "0,0", "0,75", "0,0", "0,75"};//CONTINUE
         }
         if(objName.Equals("Counter_04_a")){
-            details = new string[]{"Counter", "Counter_04_a", "10", "0,0", "0,75", "0,0", "0,75"};
+            details = new string[]{"Counter", "Counter_04_a", "999", "0", "0,0", "0,75", "0,0", "0,75"};//CONTINUE
         }
         if(objName.Equals("Counter_05_a")){
-            details = new string[]{"Counter", "Counter_05_a", "10", "0,0", "0,75", "0,0", "0,75"};
+            details = new string[]{"Counter", "Counter_05_a", "0", "1000", "0,0", "0,75", "0,0", "0,75"};
         }
         if(objName.Equals("Counter_06_a")){
-            details = new string[]{"Counter", "Counter_06_a", "10", "0,0", "0,75", "0,0", "0,75"};
+            details = new string[]{"Counter", "Counter_06_a", "0", "500", "0,0", "0,75", "0,0", "0,75"};
         }
         if(objName.Equals("Counter_01_a_1")){
-            details = new string[]{"Counter", "Counter_01_1_a", "10", "0,0", "0,75", "0,0", "0,75"};
+            details = new string[]{"Counter", "Counter_01_1_a", "0", "10000", "0,0", "0,75", "0,0", "0,75"};
         }
         if(objName.Equals("Counter_02_a_1")){
-            details = new string[]{"Counter", "Counter_02_1_a", "10", "0,0", "0,75", "0,0", "0,75"};
+            details = new string[]{"Counter", "Counter_02_1_a", "999", "0", "0,0", "0,75", "0,0", "0,75"};//CONTINUE
         }
         if(objName.Equals("Counter_03_a_1")){
-            details = new string[]{"Counter", "Counter_03_1_a", "10", "0,0", "0,75", "0,0", "0,75"};
+            details = new string[]{"Counter", "Counter_03_1_a", "999", "0", "0,0", "0,75", "0,0", "0,75"};//CONTINUE
         }
         if(objName.Equals("Counter_04_a_1")){
-            details = new string[]{"Counter", "Counter_04_1_a", "10", "0,0", "0,75", "0,0", "0,75"};
+            details = new string[]{"Counter", "Counter_04_1_a", "3", "0", "0,0", "0,75", "0,0", "0,75"};
         }
         if(objName.Equals("Counter_05_a_1")){
-            details = new string[]{"Counter", "Counter_05_1_a", "10", "0,0", "0,75", "0,0", "0,75"};
+            details = new string[]{"Counter", "Counter_05_1_a", "999", "0", "0,0", "0,75", "0,0", "0,75"};//CONTINUE
         }
         if(objName.Equals("Counter_06_a_1")){
-            details = new string[]{"Counter", "Counter_06_1_a", "10", "0,0", "0,75", "0,0", "0,75"};
+            details = new string[]{"Counter", "Counter_06_1_a", "999", "0", "0,0", "0,75", "0,0", "0,75"};//CONTINUE
         }
 
 
 
         if(objName.Equals("Chair_18_a")){
-            //counter object       type      sprite name    price coordCorX coordCorY coordCorX coordCorY
-            details = new string[]{"Chair", "Chair_18_a", "10", "0,0", "0,75", "0,0", "0,75"};
+            //counter object       type      sprite name  priceGold PriceMoney coordCorX coordCorY coordCorX coordCorY
+            details = new string[]{"Chair", "Chair_18_a", "1", "0", "0,0", "0,75", "0,0", "0,75"};
         }
         if(objName.Equals("Chair_01_a")){
-            details = new string[]{"Chair", "Chair_01_a", "10", "0,0", "0,75", "0,0", "0,75"};
+            details = new string[]{"Chair", "Chair_01_a", "0", "100", "0,0", "0,75", "0,0", "0,75"};
         }
         if(objName.Equals("Chair_02_a")){
-            details = new string[]{"Chair", "Chair_02_a", "10", "0,0", "0,75", "0,0", "0,75"};
+            details = new string[]{"Chair", "Chair_02_a", "0", "100", "0,0", "0,75", "0,0", "0,75"};
         }
         if(objName.Equals("Chair_03_a")){
-            details = new string[]{"Chair", "Chair_03_a", "10", "0,0", "0,75", "0,0", "0,75"};
+            details = new string[]{"Chair", "Chair_03_a", "0", "100", "0,0", "0,75", "0,0", "0,75"};
         }
         if(objName.Equals("Chair_04_a")){
-            details = new string[]{"Chair", "Chair_04_a", "10", "0,0", "0,75", "0,0", "0,75"};
+            details = new string[]{"Chair", "Chair_04_a", "0", "100", "0,0", "0,75", "0,0", "0,75"};
         }
         if(objName.Equals("Chair_05_a")){
-            details = new string[]{"Chair", "Chair_05_a", "10", "0,0", "0,75", "0,0", "0,75"};
+            details = new string[]{"Chair", "Chair_05_a", "0", "100", "0,0", "0,75", "0,0", "0,75"};
         }
         if(objName.Equals("Chair_06_a")){
-            details = new string[]{"Chair", "Chair_06_a", "10", "0,0", "0,75", "0,0", "0,75"};
+            details = new string[]{"Chair", "Chair_06_a", "0", "100", "0,0", "0,75", "0,0", "0,75"};
         }
         if(objName.Equals("Chair_12_a")){
-            details = new string[]{"Chair", "Chair_12_a", "10", "0,0", "0,75", "0,0", "0,75"};
+            details = new string[]{"Chair", "Chair_12_a", "0", "1500", "0,0", "0,75", "0,0", "0,75"};
         }
         if(objName.Equals("Chair_13_a")){
-            details = new string[]{"Chair", "Chair_13_a", "10", "0,0", "0,75", "0,0", "0,75"};
+            details = new string[]{"Chair", "Chair_13_a", "0", "2800", "0,0", "0,75", "0,0", "0,75"};
         }
         if(objName.Equals("Chair_14_a")){
-            details = new string[]{"Chair", "Chair_14_a", "10", "0,0", "0,75", "0,0", "0,75"};
+            details = new string[]{"Chair", "Chair_14_a", "0", "2000", "0,0", "0,75", "0,0", "0,75"};
         }
         if(objName.Equals("Chair_15_a")){
-            details = new string[]{"Chair", "Chair_15_a", "10", "0,0", "0,75", "0,0", "0,75"};
+            details = new string[]{"Chair", "Chair_15_a", "0", "1700", "0,0", "0,75", "0,0", "0,75"};
         }
         if(objName.Equals("Chair_16_a")){
-            details = new string[]{"Chair", "Chair_16_a", "10", "0,0", "0,75", "0,0", "0,75"};
+            details = new string[]{"Chair", "Chair_16_a", "0", "1600", "0,0", "0,75", "0,0", "0,75"};
         }
         if(objName.Equals("Chair_17_a")){
-            details = new string[]{"Chair", "Chair_17_a", "10", "0,0", "0,75", "0,0", "0,75"};
+            details = new string[]{"Chair", "Chair_17_a", "0", "9000", "0,0", "0,75", "0,0", "0,75"};
         }
         if(objName.Equals("Chair_01_a_1")){
-            details = new string[]{"Chair", "Chair_01_1_a", "10", "0,0", "0,75", "0,0", "0,75"};
+            details = new string[]{"Chair", "Chair_01_1_a", "1", "0", "0,0", "0,75", "0,0", "0,75"};
         }
         if(objName.Equals("Chair_02_a_1")){
-            details = new string[]{"Chair", "Chair_02_1_a", "10", "0,0", "0,75", "0,0", "0,75"};
+            details = new string[]{"Chair", "Chair_02_1_a", "0", "5000", "0,0", "0,75", "0,0", "0,75"};
         }
         if(objName.Equals("Chair_03_a_1")){
-            details = new string[]{"Chair", "Chair_03_1_a", "10", "0,0", "0,75", "0,0", "0,75"};
+            details = new string[]{"Chair", "Chair_03_1_a", "1", "0", "0,0", "0,75", "0,0", "0,75"};
         }
         if(objName.Equals("Chair_04_a_1")){
-            details = new string[]{"Chair", "Chair_04_1_a", "10", "0,0", "0,75", "0,0", "0,75"};
+            details = new string[]{"Chair", "Chair_04_1_a", "1", "0", "0,0", "0,75", "0,0", "0,75"};
         }
         if(objName.Equals("Chair_05_a_1")){
-            details = new string[]{"Chair", "Chair_05_1_a", "10", "0,0", "0,75", "0,0", "0,75"};
+            details = new string[]{"Chair", "Chair_05_1_a", "0", "4000", "0,0", "0,75", "0,0", "0,75"};
         }
         if(objName.Equals("Chair_06_a_1")){
-            details = new string[]{"Chair", "Chair_06_1_a", "10", "0,0", "0,75", "0,0", "0,75"};
+            details = new string[]{"Chair", "Chair_06_1_a", "999", "0", "0,0", "0,75", "0,0", "0,75"};//CONTINUE
         }
         if(objName.Equals("Chair_07_a_1")){
-            details = new string[]{"Chair", "Chair_07_1_a", "10", "0,0", "0,75", "0,0", "0,75"};
+            details = new string[]{"Chair", "Chair_07_1_a", "999", "0", "0,0", "0,75", "0,0", "0,75"};//CONTINUE
         }
         if(objName.Equals("Chair_08_a_1")){
-            details = new string[]{"Chair", "Chair_08_1_a", "10", "0,0", "0,75", "0,0", "0,75"};
+            details = new string[]{"Chair", "Chair_08_1_a", "999", "0", "0,0", "0,75", "0,0", "0,75"};//CONTINUE
         }
         if(objName.Equals("Chair_09_a_1")){
-            details = new string[]{"Chair", "Chair_09_1_a", "10", "0,0", "0,75", "0,0", "0,75"};
+            details = new string[]{"Chair", "Chair_09_1_a", "0", "2000", "0,0", "0,75", "0,0", "0,75"};
         }
         if(objName.Equals("Chair_10_a_1")){
-            details = new string[]{"Chair", "Chair_10_1_a", "10", "0,0", "0,75", "0,0", "0,75"};
+            details = new string[]{"Chair", "Chair_10_1_a", "0", "3000", "0,0", "0,75", "0,0", "0,75"};
         }
         if(objName.Equals("Chair_11_a_1")){
-            details = new string[]{"Chair", "Chair_11_1_a", "10", "0,0", "0,75", "0,0", "0,75"};
+            details = new string[]{"Chair", "Chair_11_1_a",  "999", "0", "0,0", "0,75", "0,0", "0,75"};//CONTINUE
         }
 
 
 
-        if(objName.Equals("Deko_01_a")){
-            details = new string[]{"Deko", "Deko_01_a", "10", "0,0", "1,75", "0,0", "1,75"};
+        if(objName.Equals("Deko_01_a")){          //priceGold priceMoney
+            details = new string[]{"Deko", "Deko_01_a", "0", "700", "0,0", "1,75", "0,0", "1,75"};
         }
         if(objName.Equals("Deko_02_a")){
-            details = new string[]{"Deko", "Deko_02_a", "10", "0,0", "1,75", "0,0", "1,75"};
+            details = new string[]{"Deko", "Deko_02_a", "3", "0", "0,0", "1,75", "0,0", "1,75"};
         }
         if(objName.Equals("Deko_03_a")){
-            details = new string[]{"Deko", "Deko_03_a", "10", "0,0", "1,75", "0,0", "1,75"};
+            details = new string[]{"Deko", "Deko_03_a", "0", "500", "0,0", "1,75", "0,0", "1,75"};
         }
         if(objName.Equals("Deko_04_a")){
-            details = new string[]{"Deko", "Deko_04_a", "10", "0,0", "1,75", "0,0", "1,75"};
+            details = new string[]{"Deko", "Deko_04_a", "0", "8000", "0,0", "1,75", "0,0", "1,75"};
         }
         if(objName.Equals("Deko_05_a")){
-            details = new string[]{"Deko", "Deko_05_a", "10", "0,0", "1,75", "0,0", "1,75"};
+            details = new string[]{"Deko", "Deko_05_a", "2", "0", "0,0", "1,75", "0,0", "1,75"};
         }
         if(objName.Equals("Deko_06_a")){
-            details = new string[]{"Deko", "Deko_06_a", "10", "0,0", "1,75", "0,0", "1,75"};
+            details = new string[]{"Deko", "Deko_06_a", "999", "0", "0,0", "1,75", "0,0", "1,75"};//CONTINUE
         }
         if(objName.Equals("Deko_07_a")){
-            details = new string[]{"Deko", "Deko_07_a", "10", "0,0", "1,75", "0,0", "1,75"};
+            details = new string[]{"Deko", "Deko_07_a", "0", "20000", "0,0", "1,75", "0,0", "1,75"};
         }
         if(objName.Equals("Deko_08_a")){
-            details = new string[]{"Deko", "Deko_08_a", "10", "0,0", "1,75", "0,0", "1,75"};
+            details = new string[]{"Deko", "Deko_08_a", "0", "1500", "0,0", "1,75", "0,0", "1,75"};
         }
         if(objName.Equals("Deko_09_a")){
-            details = new string[]{"Deko", "Deko_09_a", "10", "0,0", "1,75", "0,0", "1,75"};
+            details = new string[]{"Deko", "Deko_09_a", "3", "0", "0,0", "1,75", "0,0", "1,75"};
         }
         if(objName.Equals("Deko_10_a")){
-            details = new string[]{"Deko", "Deko_10_a", "10", "0,0", "1,75", "0,0", "1,75"};
+            details = new string[]{"Deko", "Deko_10_a", "0", "1750", "0,0", "1,75", "0,0", "1,75"};
         }
         if(objName.Equals("Deko_11_a")){
-            details = new string[]{"Deko", "Deko_11_a", "10", "0,0", "1,75", "0,0", "1,75"};
+            details = new string[]{"Deko", "Deko_11_a", "0", "2000", "0,0", "1,75", "0,0", "1,75"};
         }
         if(objName.Equals("Deko_12_a")){
-            details = new string[]{"Deko", "Deko_12_a", "10", "0,0", "1,75", "0,0", "1,75"};
+            details = new string[]{"Deko", "Deko_12_a", "5", "0", "0,0", "1,75", "0,0", "1,75"};
         }
         if(objName.Equals("Deko_13_a")){
-            details = new string[]{"Deko", "Deko_13_a", "10", "0,0", "1,75", "0,0", "1,75"};
+            details = new string[]{"Deko", "Deko_13_a", "5", "0", "0,0", "1,75", "0,0", "1,75"};
         }
         if(objName.Equals("Deko_14_a")){
-            details = new string[]{"Deko", "Deko_14_a", "10", "0,0", "1,75", "0,0", "1,75"};
+            details = new string[]{"Deko", "Deko_14_a", "3", "0", "0,0", "1,75", "0,0", "1,75"};
         }
         if(objName.Equals("Deko_15_a")){
-            details = new string[]{"Deko", "Deko_15_a", "10", "0,0", "1,75", "0,0", "1,75"};
+            details = new string[]{"Deko", "Deko_15_a", "3", "0", "0,0", "1,75", "0,0", "1,75"};
         }
         if(objName.Equals("Deko_01_a_1")){
-            details = new string[]{"Deko", "Deko_01_1_a", "10", "0,0", "1,75", "0,0", "1,75"};
+            details = new string[]{"Deko", "Deko_01_1_a", "5", "0", "0,0", "1,75", "0,0", "1,75"};
         }
         if(objName.Equals("Deko_02_a_1")){
-            details = new string[]{"Deko", "Deko_02_1_a", "10", "0,0", "1,75", "0,0", "1,75"};
+            details = new string[]{"Deko", "Deko_02_1_a", "5", "0", "0,0", "1,75", "0,0", "1,75"};
         }
         if(objName.Equals("Deko_03_a_1")){
-            details = new string[]{"Deko", "Deko_03_1_a", "10", "0,0", "1,75", "0,0", "1,75"};
+            details = new string[]{"Deko", "Deko_03_1_a", "4", "0", "0,0", "1,75", "0,0", "1,75"};
         }
         if(objName.Equals("Deko_04_a_1")){
-            details = new string[]{"Deko", "Deko_04_1_a", "10", "0,0", "1,75", "0,0", "1,75"};
+            details = new string[]{"Deko", "Deko_04_1_a", "3", "0", "0,0", "1,75", "0,0", "1,75"};
         }
         if(objName.Equals("Deko_05_a_1")){
-            details = new string[]{"Deko", "Deko_05_1_a", "10", "0,0", "1,75", "0,0", "1,75"};
+            details = new string[]{"Deko", "Deko_05_1_a", "3", "0", "0,0", "1,75", "0,0", "1,75"};
         }
         if(objName.Equals("Deko_06_a_1")){
-            details = new string[]{"Deko", "Deko_06_1_a", "10", "0,0", "1,75", "0,0", "1,75"};
+            details = new string[]{"Deko", "Deko_06_1_a", "999", "0", "0,0", "1,75", "0,0", "1,75"};//CONTINUE
         }
         if(objName.Equals("Deko_07_a_1")){
-            details = new string[]{"Deko", "Deko_07_1_a", "10", "0,0", "1,75", "0,0", "1,75"};
+            details = new string[]{"Deko", "Deko_07_1_a", "999", "0", "0,0", "1,75", "0,0", "1,75"};//CONTINUE
         }
         if(objName.Equals("Deko_08_a_1")){
-            details = new string[]{"Deko", "Deko_08_1_a", "10", "0,0", "1,75", "0,0", "1,75"};
+            details = new string[]{"Deko", "Deko_08_1_a", "999", "0", "0,0", "1,75", "0,0", "1,75"};//CONTINUE
         }
         if(objName.Equals("Deko_09_a_1")){
-            details = new string[]{"Deko", "Deko_09_1_a", "10", "0,0", "1,75", "0,0", "1,75"};
+            details = new string[]{"Deko", "Deko_09_1_a", "20", "0", "0,0", "1,75", "0,0", "1,75"};
         }
         if(objName.Equals("Deko_10_a_1")){
-            details = new string[]{"Deko", "Deko_10_1_a", "10", "0,0", "1,75", "0,0", "1,75"};
+            details = new string[]{"Deko", "Deko_10_1_a", "12", "0", "0,0", "1,75", "0,0", "1,75"};
         }
         if(objName.Equals("Deko_11_a_1")){
-            details = new string[]{"Deko", "Deko_11_1_a", "10", "0,0", "1,75", "0,0", "1,75"};
+            details = new string[]{"Deko", "Deko_11_1_a", "3", "0", "0,0", "1,75", "0,0", "1,75"};
         }
         if(objName.Equals("Deko_12_a_1")){
-            details = new string[]{"Deko", "Deko_12_1_a", "10", "0,0", "1,75", "0,0", "1,75"};
+            details = new string[]{"Deko", "Deko_12_1_a", "3", "0", "0,0", "1,75", "0,0", "1,75"};
         }
         if(objName.Equals("Deko_13_a_1")){
-            details = new string[]{"Deko", "Deko_13_1_a", "10", "0,0", "1,75", "0,0", "1,75"};
+            details = new string[]{"Deko", "Deko_13_1_a", "999", "0", "0,0", "1,75", "0,0", "1,75"};//CONTINUE
         }
         if(objName.Equals("Deko_14_a_1")){
-            details = new string[]{"Deko", "Deko_14_1_a", "10", "0,0", "1,75", "0,0", "1,75"};
+            details = new string[]{"Deko", "Deko_14_1_a", "3", "4000", "0,0", "1,75", "0,0", "1,75"};
         }
         if(objName.Equals("Deko_15_a_1")){
-            details = new string[]{"Deko", "Deko_15_1_a", "10", "0,0", "1,75", "0,0", "1,75"};
+            details = new string[]{"Deko", "Deko_15_1_a", "999", "0", "0,0", "1,75", "0,0", "1,75"};//CONTINUE
         }
         if(objName.Equals("Deko_16_a_1")){
-            details = new string[]{"Deko", "Deko_16_1_a", "10", "0,0", "1,75", "0,0", "1,75"};
+            details = new string[]{"Deko", "Deko_16_1_a", "999", "0", "0,0", "1,75", "0,0", "1,75"};//CONTINUE
         }
         if(objName.Equals("Deko_17_a_1")){
-            details = new string[]{"Deko", "Deko_17_1_a", "10", "0,0", "1,75", "0,0", "1,75"};
+            details = new string[]{"Deko", "Deko_17_1_a", "999", "0", "0,0", "1,75", "0,0", "1,75"};//CONTINUE
         }
         if(objName.Equals("Deko_18_a_1")){
-            details = new string[]{"Deko", "Deko_18_1_a", "10", "0,0", "1,75", "0,0", "1,75"};
+            details = new string[]{"Deko", "Deko_18_1_a", "999", "0", "0,0", "1,75", "0,0", "1,75"};//CONTINUE
         }
         if(objName.Equals("Deko_19_a_1")){
-            details = new string[]{"Deko", "Deko_19_1_a", "10", "0,0", "1,75", "0,0", "1,75"};
+            details = new string[]{"Deko", "Deko_19_1_a", "999", "0", "0,0", "1,75", "0,0", "1,75"};//CONTINUE
         }
 
 
@@ -620,133 +627,133 @@ public class ButtonController : MonoBehaviour
 
 
         if(objName.Equals("Fridge_03_a")){
-            details = new string[]{"Fridge", "Fridge_03_a", "10", "0,0", "2,15", "0,0", "2,15"};
+            details = new string[]{"Fridge", "Fridge_03_a", "999", "0", "0,0", "2,15", "0,0", "2,15"};//CONTINUE
         }
         if(objName.Equals("Fridge_01_a_1")){
-            details = new string[]{"Fridge", "Fridge_01_1_a", "10", "0,0", "2,15", "0,0", "2,15"};
+            details = new string[]{"Fridge", "Fridge_01_1_a", "7", "0", "0,0", "2,15", "0,0", "2,15"};
         }
         if(objName.Equals("Fridge_02_a_1")){
-            details = new string[]{"Fridge", "Fridge_02_1_a", "10", "0,0", "2,15", "0,0", "2,15"};
+            details = new string[]{"Fridge", "Fridge_02_1_a", "8", "0", "0,0", "2,15", "0,0", "2,15"};
         }
         if(objName.Equals("Fridge_04_a_1")){
-            details = new string[]{"Fridge", "Fridge_04_1_a", "10", "0,0", "2,15", "0,0", "2,15"};
+            details = new string[]{"Fridge", "Fridge_04_1_a", "4", "0", "0,0", "2,15", "0,0", "2,15"};
         }
         if(objName.Equals("Fridge_05_a_1")){
-            details = new string[]{"Fridge", "Fridge_05_1_a", "10", "0,0", "2,15", "0,0", "2,15"};
+            details = new string[]{"Fridge", "Fridge_05_1_a", "999", "0", "0,0", "2,15", "0,0", "2,15"};//CONTINUE
         }
         if(objName.Equals("Fridge_06_a_1")){
-            details = new string[]{"Fridge", "Fridge_06_1_a", "10", "0,0", "2,15", "0,0", "2,15"};
+            details = new string[]{"Fridge", "Fridge_06_1_a", "6", "0", "0,0", "2,15", "0,0", "2,15"};
         }
         if(objName.Equals("Fridge_07_a_1")){
-            details = new string[]{"Fridge", "Fridge_07_1_a", "10", "0,0", "2,15", "0,0", "2,15"};
+            details = new string[]{"Fridge", "Fridge_07_1_a", "999", "0", "0,0", "2,15", "0,0", "2,15"};//CONTINUE
         }
         if(objName.Equals("Fridge_08_a_1")){
-            details = new string[]{"Fridge", "Fridge_08_1_a", "10", "0,0", "2,15", "0,0", "2,15"};
+            details = new string[]{"Fridge", "Fridge_08_1_a", "4", "0", "0,0", "2,15", "0,0", "2,15"};
         }
 
 
 
         if(objName.Equals("Oven_01_a")){
-            details = new string[]{"Oven", "Oven_01_a", "10", "0,0", "0,85", "0,0", "0,85"};
+            details = new string[]{"Oven", "Oven_01_a", "0", "1000", "0,0", "0,85", "0,0", "0,85"};
         }
         if(objName.Equals("Oven_07_a")){
-            details = new string[]{"Oven", "Oven_07_a", "10", "0,0", "0,85", "0,0", "0,85"};
+            details = new string[]{"Oven", "Oven_07_a", "0", "12000", "0,0", "0,85", "0,0", "0,85"};
         }
         if(objName.Equals("Oven_01_a_1")){
-            details = new string[]{"Oven", "Oven_01_1_a", "10", "0,0", "0,85", "0,0", "0,85"};
+            details = new string[]{"Oven", "Oven_01_1_a", "3", "0", "0,0", "0,85", "0,0", "0,85"};
         }
         if(objName.Equals("Oven_02_a_1")){
-            details = new string[]{"Oven", "Oven_02_1_a", "10", "0,0", "0,85", "0,0", "0,85"};
+            details = new string[]{"Oven", "Oven_02_1_a", "0", "15000", "0,0", "0,85", "0,0", "0,85"};
         }
         if(objName.Equals("Oven_03_a_1")){
-            details = new string[]{"Oven", "Oven_03_1_a", "10", "0,0", "0,85", "0,0", "0,85"};
+            details = new string[]{"Oven", "Oven_03_1_a", "7", "0", "0,0", "0,85", "0,0", "0,85"};
         }
         if(objName.Equals("Oven_04_a_1")){
-            details = new string[]{"Oven", "Oven_04_1_a", "10", "0,0", "0,85", "0,0", "0,85"};
+            details = new string[]{"Oven", "Oven_04_1_a", "999", "0", "0,0", "0,85", "0,0", "0,85"};//CONTINUE
         }
         if(objName.Equals("Oven_05_a_1")){
-            details = new string[]{"Oven", "Oven_05_1_a", "10", "0,0", "0,85", "0,0", "0,85"};
+            details = new string[]{"Oven", "Oven_05_1_a", "4", "0", "0,0", "0,85", "0,0", "0,85"};
         }
         if(objName.Equals("Oven_06_a_1")){
-            details = new string[]{"Oven", "Oven_06_1_a", "10", "0,0", "0,85", "0,0", "0,85"};
+            details = new string[]{"Oven", "Oven_06_1_a", "5", "0", "0,0", "0,85", "0,0", "0,85"};
         }
 
 
 
         if(objName.Equals("Shlushi_a")){
-            details = new string[]{"Slushi", "Shlushi_01_a", "10", "0,0", "2,15", "0,0", "2,15"};
+            details = new string[]{"Slushi", "Shlushi_01_a", "0", "500", "0,0", "2,15", "0,0", "2,15"};
         }
 
 
 
         if(objName.Equals("Table_01_a")){
-            details = new string[]{"Table", "Table_01_a", "10", "0,0", "0,85", "0,0", "0,85"};
+            details = new string[]{"Table", "Table_01_a", "0", "200", "0,0", "0,85", "0,0", "0,85"};
         }
         if(objName.Equals("Table_02_a")){
-            details = new string[]{"Table", "Table_02_a", "10", "0,0", "0,85", "0,0", "0,85"};
+            details = new string[]{"Table", "Table_02_a", "0", "200", "0,0", "0,85", "0,0", "0,85"};
         }
         if(objName.Equals("Table_03_a")){
-            details = new string[]{"Table", "Table_03_a", "10", "0,0", "0,85", "0,0", "0,85"};
+            details = new string[]{"Table", "Table_03_a", "0", "200", "0,0", "0,85", "0,0", "0,85"};
         }
         if(objName.Equals("Table_04_a")){
-            details = new string[]{"Table", "Table_04_a", "10", "0,0", "0,85", "0,0", "0,85"};
+            details = new string[]{"Table", "Table_04_a", "0", "200", "0,0", "0,85", "0,0", "0,85"};
         }
         if(objName.Equals("Table_05_a")){
-            details = new string[]{"Table", "Table_05_a", "10", "0,0", "0,85", "0,0", "0,85"};
+            details = new string[]{"Table", "Table_05_a", "0", "200", "0,0", "0,85", "0,0", "0,85"};
         }
         if(objName.Equals("Table_06_a")){
-            details = new string[]{"Table", "Table_06_a", "10", "0,0", "0,85", "0,0", "0,85"};
+            details = new string[]{"Table", "Table_06_a", "0", "200", "0,0", "0,85", "0,0", "0,85"};
         }
         if(objName.Equals("Table_07_a")){
-            details = new string[]{"Table", "Table_07_a", "10", "0,0", "0,85", "0,0", "0,85"};
+            details = new string[]{"Table", "Table_07_a", "0", "1500", "0,0", "0,85", "0,0", "0,85"};
         }
         if(objName.Equals("Table_08_a")){
-            details = new string[]{"Table", "Table_08_a", "10", "0,0", "0,85", "0,0", "0,85"};
+            details = new string[]{"Table", "Table_08_a", "0", "1500", "0,0", "0,85", "0,0", "0,85"};
         }
         if(objName.Equals("Table_09_a")){
-            details = new string[]{"Table", "Table_09_a", "10", "0,0", "0,85", "0,0", "0,85"};
+            details = new string[]{"Table", "Table_09_a", "0", "2000", "0,0", "0,85", "0,0", "0,85"};
         }
         if(objName.Equals("Table_10_a")){
-            details = new string[]{"Table", "Table_10_a", "10", "0,0", "0,85", "0,0", "0,85"};
+            details = new string[]{"Table", "Table_10_a", "0", "7500", "0,0", "0,85", "0,0", "0,85"};
         }
         if(objName.Equals("Table_11_a")){
-            details = new string[]{"Table", "Table_11_a", "10", "0,0", "0,85", "0,0", "0,85"};
+            details = new string[]{"Table", "Table_11_a", "1", "0", "0,0", "0,85", "0,0", "0,85"};
         }
         if(objName.Equals("Table_12_a")){
-            details = new string[]{"Table", "Table_12_a", "10", "0,0", "0,85", "0,0", "0,85"};
+            details = new string[]{"Table", "Table_12_a", "1", "0", "0,0", "0,85", "0,0", "0,85"};
         }
         if(objName.Equals("Table_01_a_1")){
-            details = new string[]{"Table", "Table_01_1_a", "10", "0,0", "0,85", "0,0", "0,85"};
+            details = new string[]{"Table", "Table_01_1_a", "1", "0", "0,0", "0,85", "0,0", "0,85"};
         }
         if(objName.Equals("Table_02_a_1")){
-            details = new string[]{"Table", "Table_02_1_a", "10", "0,0", "0,85", "0,0", "0,85"};
+            details = new string[]{"Table", "Table_02_1_a", "0", "8000", "0,0", "0,85", "0,0", "0,85"};
         }
         if(objName.Equals("Table_03_a_1")){
-            details = new string[]{"Table", "Table_03_1_a", "10", "0,0", "0,85", "0,0", "0,85"};
+            details = new string[]{"Table", "Table_03_1_a", "2", "0", "0,0", "0,85", "0,0", "0,85"};
         }
         if(objName.Equals("Table_04_a_1")){
-            details = new string[]{"Table", "Table_04_1_a", "10", "0,0", "0,85", "0,0", "0,85"};
+            details = new string[]{"Table", "Table_04_1_a", "999", "0", "0,0", "0,85", "0,0", "0,85"};//CONTINUE
         }
         if(objName.Equals("Table_05_a_1")){
-            details = new string[]{"Table", "Table_05_1_a", "10", "0,0", "0,85", "0,0", "0,85"};
+            details = new string[]{"Table", "Table_05_1_a", "999", "0", "0,0", "0,85", "0,0", "0,85"};//CONTINUE
         }
         if(objName.Equals("Table_06_a_1")){
-            details = new string[]{"Table", "Table_06_1_a", "10", "0,0", "0,85", "0,0", "0,85"};
+            details = new string[]{"Table", "Table_06_1_a", "999", "0", "0,0", "0,85", "0,0", "0,85"};//CONTINUE
         }
         if(objName.Equals("Table_07_a_1")){
-            details = new string[]{"Table", "Table_07_1_a", "10", "0,0", "0,85", "0,0", "0,85"};
+            details = new string[]{"Table", "Table_07_1_a", "3", "0", "0,0", "0,85", "0,0", "0,85"};
         }
         if(objName.Equals("Table_08_a_1")){
-            details = new string[]{"Table", "Table_08_1_a", "10", "0,0", "0,85", "0,0", "0,85"};
+            details = new string[]{"Table", "Table_08_1_a", "2", "0", "0,0", "0,85", "0,0", "0,85"};
         }
         if(objName.Equals("Table_09_a_1")){
-            details = new string[]{"Table", "Table_09_1_a", "10", "0,0", "0,85", "0,0", "0,85"};
+            details = new string[]{"Table", "Table_09_1_a", "2", "0", "0,0", "0,85", "0,0", "0,85"};
         }
         if(objName.Equals("Table_10_a_1")){
-            details = new string[]{"Table", "Table_10_1_a", "10", "0,0", "0,85", "0,0", "0,85"};
+            details = new string[]{"Table", "Table_10_1_a", "999", "0", "0,0", "0,85", "0,0", "0,85"};//CONTINUE
         }
         if(objName.Equals("Table_11_a_1")){
-            details = new string[]{"Table", "Table_11_1_a", "10", "0,0", "0,85", "0,0", "0,85"};
+            details = new string[]{"Table", "Table_11_1_a", "1", "0", "0,0", "0,85", "0,0", "0,85"};
         }
 
 
