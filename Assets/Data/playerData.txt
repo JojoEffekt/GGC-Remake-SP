@@ -1,7 +1,7 @@
-rzhbufdtzhbug
-158497
-407248
-5
+JojoEffekt
+2343
+543543
+534
 8
-Paprika:4;Lettuce:4;Tomatoes:4;Onions:6
-Wall_09_:18;Wall_Door_01_1_:4;Wall_Door_02_1_:4;Wall_Door_04_1_:2;Wall_06_:1;Wall_04_:3;Wall_04_1_:3;Wall_05_1_:1;Wall_Door_07_1_:2;Wall_05_:1;Wall_03_:1;Wall_02_:1;Wall_10_:1;Floor_01:30;Floor_15_1:1;Floor_05_1:5;Wall_Door_06_1_:2;Wall_Door_03_1_:2
+Empty
+Empty

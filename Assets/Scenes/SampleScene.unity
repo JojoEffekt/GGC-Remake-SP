@@ -14906,8 +14906,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MouseAction: 0
+  isRebuildShopOpen: 0
   ObjectToMove: 
   ObjectToCreate: []
+  ItemSettingsPrefab: {fileID: 8337084325947574024, guid: b2a8436246280004b976cb0d76337491, type: 3}
 --- !u!4 &1996097772
 Transform:
   m_ObjectHideFlags: 0

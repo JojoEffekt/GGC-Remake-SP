@@ -7,10 +7,13 @@ using System;
 public class ButtonController : MonoBehaviour
 {
     public int MouseAction = 0; //0=nothing,1=rotate,2=create,3=remove,4=replace
+    public bool isRebuildShopOpen = false;//wenn der rebuild shop offen ist, wahr
 
     public string ObjectToMove = "";
     public string[] ObjectToCreate;//referenzobjekt(spriteName, goldpreis, moneypreis) wird übergeben und in diesem script zum bekommen der InstantiateDetails benutzt
     
+    public GameObject ItemSettingsPrefab; //referenz auf das dynamische UISetting für die Items
+
     //methodes
     void Update(){
         Mouse mouse = Mouse.current;
@@ -29,25 +32,49 @@ public class ButtonController : MonoBehaviour
 
     public void MouseHandler(RaycastHit2D[] info){
         string objectName = getPrioritizedObjectName(info);
-    
+        /*
         //Rotate Abfrage
         if(MouseAction==1){
             if(isFloorChildObject(objectName)){
                 RotateFloorChild(objectName);
             }
-        //Create Abfrage
-        }else if(MouseAction==2){
+        }*/ 
+
+        //rendert die HandlerUI für das jeweilige angeklickte Object
+        if(MouseAction==0&&isRebuildShopOpen==true){
+            //überprüft auf welches angeklickte Object der fokus liegt
+            if(isWallObject(objectName)==true||isFloorChildObject(objectName)==true){
+                Debug.Log("Focus: "+objectName);
+                //ItemSettingUI
+
+
+                //hole die referenz auf das geklickte Object
+                GameObject KlickedObject = GameObject.Find(objectName);
+
+                //generiere für das referenzobject das prefab
+                GameObject prefab = Instantiate(ItemSettingsPrefab, new Vector3(0, 0, 0), Quaternion.identity);
+                prefab.transform.parent = KlickedObject.transform;
+                prefab.transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().sortingOrder = 100;
+                prefab.transform.position = new Vector2(KlickedObject.transform.position.x, KlickedObject.transform.position.y+3);
+
+                //für das prefab gilt: wenn mouseclick nicht eines der prefabbuttons gedrückt wurde, zerstöre es
+                //wenn eines der prefabbtn gedrückt wurde, führe auf das GO aus 
+            }
+        }
+        
+        //Create Object Abfrage
+        if(MouseAction==2){
             string[] details = getObjectToCreateDetails(ObjectToCreate[0]);//holt sich die infos zum generieren
 
             //guckt welcher type Generiert werden soll
-            //Type Floor 
+            //Type Floor , wird replaced
             if(details[0].Equals("Floor")){
                 string floorObj = getFloor(info);
                 if(string.IsNullOrWhiteSpace(floorObj)==false){
                     //Neuer Floor wird versucht zu Generieren, und Abzurechnen und eingelagert
                     NewFloorSprite(details[1], Int32.Parse(details[2]), floorObj);
                 }
-            //Type Wall
+            //Type Wall , wird replaced
             }else if(details[0].Equals("Wall")){
                 string wallObj = getWall(info);
                 if(string.IsNullOrWhiteSpace(wallObj)==false){
@@ -72,7 +99,7 @@ public class ButtonController : MonoBehaviour
             //Kein Handler ist Aktiviert, Nichts kann verändert werden
             MouseAction = 0;//reset
 
-        }else if(MouseAction==3){//destroy
+        }/*else if(MouseAction==3){//destroy
             if(isWallObject(objectName)==true){
                 DestroyObjectOnWall(objectName);
             }
@@ -93,7 +120,7 @@ public class ButtonController : MonoBehaviour
             }else{//wenn was anderes angklickt wurde, breche ab
                 ObjectToMove = "";
             }
-        }
+        }*/
 
         //nach jeder action muss neu gespeichert werden
         SaveAndLoadController.SavePlayerData();

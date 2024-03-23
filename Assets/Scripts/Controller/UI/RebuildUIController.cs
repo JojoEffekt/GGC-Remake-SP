@@ -30,6 +30,10 @@ public class RebuildUIController : MonoBehaviour
         RebuildStore.SetActive(true);//aktiviert UI
         LoadItems();
         RenderShop();
+
+        //Sorgt dafür das ButtonController Weiß das der RebuildShop offen ist
+        ButtonController.GetComponent<ButtonController>().isRebuildShopOpen = true;
+        ButtonController.GetComponent<ButtonController>().MouseAction = 0;
     }
 
     public void CloseShop(){
@@ -43,24 +47,31 @@ public class RebuildUIController : MonoBehaviour
 
         MainController.GetComponent<MainController>().ActivateBTNs();//aktiviere alle main btns
         MainController.GetComponent<MainController>().ActivateUI();//aktiviere UI
+
+        //Sorgt dafür das ButtonController Weiß das der RebuildShop geschlossen ist
+        ButtonController.GetComponent<ButtonController>().isRebuildShopOpen = false;
+        ButtonController.GetComponent<ButtonController>().MouseAction = 0;
     }
 
     public void RenderShop(){
         List<Object> builderList = new List<Object>();
         builderList = ObjectListBuilder();
 
+        //guckt ob der linke pfeil gerendert werden kann
         if(shopSite==0){
             ArrowLeft.SetActive(false);
         }else{
             ArrowLeft.SetActive(true);
         }
 
+        //guckt ob der pfeil nach rechts geladen werden kann, wenn mehr als 5 objecte im shop generiert werden
         if((shopSite+1)*5<builderList.Count){//guckt ob rechter pfeil geladen wird
             ArrowRight.SetActive(true);
         }else{
             ArrowRight.SetActive(false);
         }
 
+        //läd die jeweiligen untergruppen des shops
         switcher1.SetActive(false);
         switcher2.SetActive(false);
         switcher3.SetActive(false);
@@ -74,7 +85,7 @@ public class RebuildUIController : MonoBehaviour
 
 
 
-        //rendert die items
+        //rendert die items der jeweilgen shopseite die gerade aktiv ist
         for(int a=shopSite*5;a<(shopSite*5)+5;a++){
             if(builderList.Count>a){
                 RenderItem(builderList[a], a-(shopSite*5));
