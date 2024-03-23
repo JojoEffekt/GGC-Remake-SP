@@ -99,6 +99,8 @@ public class ButtonController : MonoBehaviour
         SaveAndLoadController.SavePlayerData();
     }
 
+    
+
     public void DestroyObjectOnWall(string objectName){
         ObjectController.DestroyObjectOnWall(objectName);//(WallGOName)
     }
@@ -119,6 +121,9 @@ public class ButtonController : MonoBehaviour
             //Abrechnen
             PlayerController.playerGold = PlayerController.playerGold - priceGold;
             PlayerController.playerMoney = PlayerController.playerMoney - priceMoney;
+
+            //updated die mainUI player stats
+            PlayerController.ReloadPlayerStats();
         }
     }
     public void GenerateObjectOnFloor(string type, string spriteName, int priceGold, int priceMoney, float coordCoorXA, float coordCoorYA, float coordCoorXB, float coordCoorYB, string wallName){
@@ -129,6 +134,9 @@ public class ButtonController : MonoBehaviour
             //Abrechnen
             PlayerController.playerGold = PlayerController.playerGold - priceGold;
             PlayerController.playerMoney = PlayerController.playerMoney - priceMoney;
+
+            //updated die mainUI player stats
+            PlayerController.ReloadPlayerStats();
         }
     }
     public void GenerateNewWallSprite(string wallName, string spriteName, int priceGold, int priceMoney){

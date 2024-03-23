@@ -164,6 +164,9 @@ public class IngredientsUIController : MonoBehaviour
         PlayerFridgeUI.GetComponent<TMPro.TextMeshProUGUI>().text = ""+PlayerController.FridgeStoragePlace;
         PlayerMoneyUI.GetComponent<TMPro.TextMeshProUGUI>().text = ""+PlayerController.playerMoney;
         PlayerGoldUI.GetComponent<TMPro.TextMeshProUGUI>().text = ""+PlayerController.playerGold;
+
+        //updated MainUI player Stats wie xp,gold,level,money
+        PlayerController.ReloadPlayerStats();
     }
 
     public void RenderItem(IngredientItem item, int position){
@@ -228,6 +231,9 @@ public class IngredientsUIController : MonoBehaviour
         PlayerController.playerMoney = PlayerController.playerMoney - item.priceMoney;
         PlayerController.playerGold = PlayerController.playerGold - item.priceGold;
 
+        //updated die mainUI player stats
+        PlayerController.ReloadPlayerStats();
+
         //item PlayerController hinzufügen
         PlayerController.AddFoodItem(item.name);
     	
@@ -245,6 +251,9 @@ public class IngredientsUIController : MonoBehaviour
         if(item.priceGold!=0){
             PlayerController.playerMoney = PlayerController.playerMoney + (item.priceGold*1000);
         }
+
+        //updated die mainUI player stats
+        PlayerController.ReloadPlayerStats();
 
         //item PlayerController hinzufügen
         PlayerController.RemoveFoodItem(item.name);

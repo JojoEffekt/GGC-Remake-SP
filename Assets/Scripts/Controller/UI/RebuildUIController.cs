@@ -180,6 +180,9 @@ public class RebuildUIController : MonoBehaviour
                 PlayerController.playerMoney = PlayerController.playerMoney - item.priceMoney;
                 PlayerController.playerGold = PlayerController.playerGold - item.priceGold;
 
+                //updated die mainUI player stats
+                PlayerController.ReloadPlayerStats();
+
                 //Generiert die neue Tür
                 ObjectController.ChangeDoorOnWall(details[0], float.Parse(details[1]), float.Parse(details[2]), Int32.Parse(details[3]), Int32.Parse(details[4]));
 

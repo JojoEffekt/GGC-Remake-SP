@@ -136,6 +136,9 @@ public class ObjectController : MonoBehaviour
             //Item wird Abgerechnet
             PlayerController.playerGold = PlayerController.playerGold - priceGold;
             PlayerController.playerMoney = PlayerController.playerMoney - priceMoney;
+
+            //updated die mainUI player stats
+            PlayerController.ReloadPlayerStats();
     
             //generiere die neue Tür
             InstantiateObjectOnWall(wallObject, coordCorX, coordCorY, 1, doorSpriteName);
@@ -155,6 +158,9 @@ public class ObjectController : MonoBehaviour
             //Item wird Abgerechnet
             PlayerController.playerGold = PlayerController.playerGold - priceGold;
             PlayerController.playerMoney = PlayerController.playerMoney - priceMoney;
+
+            //updated die mainUI player stats
+            PlayerController.ReloadPlayerStats();
     
             //läd neues Sprite
             wallObject.WallSpriteName = wallSprite;
@@ -220,6 +226,9 @@ public class ObjectController : MonoBehaviour
 
             //Rechnet den Preis ab
             PlayerController.playerMoney = PlayerController.playerMoney - floorPriceMoney;
+
+            //updated die mainUI player stats
+            PlayerController.ReloadPlayerStats();
         }
     }
 
