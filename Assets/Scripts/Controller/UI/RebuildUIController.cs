@@ -51,6 +51,7 @@ public class RebuildUIController : MonoBehaviour
         //Sorgt dafür das ButtonController Weiß das der RebuildShop geschlossen ist
         ButtonController.GetComponent<ButtonController>().isRebuildShopOpen = false;
         ButtonController.GetComponent<ButtonController>().MouseAction = 0;
+        Destroy(ButtonController.GetComponent<ButtonController>().DynamicPrefab);//zerstört SettingsUI fals noch offen
     }
 
     public void RenderShop(){
@@ -129,12 +130,13 @@ public class RebuildUIController : MonoBehaviour
             ItemController.transform.GetChild(ItemController.transform.childCount-1).gameObject.transform.GetChild(3).gameObject.GetComponent<RectTransform>().localScale = new Vector2 (0.25f, 0.25f);
         }
 
-
-        item.inBackup = PlayerController.getStorageItemCount(item.spriteName);//gucke ob bereits in backup vorhanden
+        //gucke ob bereits in backup vorhanden
+        item.inBackup = PlayerController.getStorageItemCount(item.spriteName);
         ItemController.transform.GetChild(ItemController.transform.childCount-1).gameObject.transform.GetChild(5).gameObject.GetComponent<TMPro.TextMeshProUGUI>().text = ""+item.inBackup;
     
         if(PlayerController.playerLevel>=item.level){
-            if(PlayerController.playerGold>=item.priceGold&&PlayerController.playerMoney>=item.priceMoney){
+            //gucke ob player genug geld ODER in backup vorhanden ist
+            if((PlayerController.playerGold>=item.priceGold&&PlayerController.playerMoney>=item.priceMoney)||item.inBackup>0){
                 ItemController.transform.GetChild(ItemController.transform.childCount-1).gameObject.transform.GetChild(3).gameObject.GetComponent<Button>().interactable = true;
             }else{
                 ItemController.transform.GetChild(ItemController.transform.childCount-1).gameObject.transform.GetChild(3).gameObject.GetComponent<Button>().interactable = false;
@@ -159,43 +161,49 @@ public class RebuildUIController : MonoBehaviour
     }
 
     public void BuyItem(Object item){
-        if(PlayerController.playerMoney>=item.priceMoney&&PlayerController.playerGold>=item.priceGold){//hat spieler genug geld
+        //hat spieler genug geld ODER in backup
+        if((PlayerController.playerMoney>=item.priceMoney&&PlayerController.playerGold>=item.priceGold)||item.inBackup>0){
 
             //wenn das item eine tür ist, generiere die tür direkt ohne nutzung von ButtonController
-            if(item.spriteName.Split("_")[0].Equals("Door")){
+            if(item.spriteName.Split("_")[1].Equals("Door")){
                 string[] details = new string[]{};
-                if(item.spriteName.Equals("Door_01_a")){
+                if(item.spriteName.Equals("Wall_Door_01_1_")){
                     //                     spritename   coordCorX coordCordY goldPrice moneyprice
                     details = new string[]{"Wall_Door_01_1_", "0,2", "-0,5", "0", "50"};
                 }
-                if(item.spriteName.Equals("Door_02_a")){
+                if(item.spriteName.Equals("Wall_Door_02_1_")){
                     details = new string[]{"Wall_Door_02_1_", "0,2", "-0,5", "0", "1100"};
                 }
-                if(item.spriteName.Equals("Door_01_a_1")){
+                if(item.spriteName.Equals("Wall_Door_03_1_")){
                     details = new string[]{"Wall_Door_03_1_", "0,5", "-0,3", "15", "0"};
                 }
-                if(item.spriteName.Equals("Door_02_a_1")){
+                if(item.spriteName.Equals("Wall_Door_04_1_")){
                     details = new string[]{"Wall_Door_04_1_", "0,2", "-1,0", "5", "0"};
                 }
-                if(item.spriteName.Equals("Door_03_a_1")){
+                if(item.spriteName.Equals("Wall_Door_05_1_")){
                     details = new string[]{"Wall_Door_05_1_", "0,2", "-0,65", "3", "0"};
                 }
-                if(item.spriteName.Equals("Door_04_a_1")){
+                if(item.spriteName.Equals("Wall_Door_06_1_")){
                     details = new string[]{"Wall_Door_06_1_", "0,2", "-0,9", "0", "20000"};
                 }
-                if(item.spriteName.Equals("Door_05_a_1")){
+                if(item.spriteName.Equals("Wall_Door_07_1_")){
                     details = new string[]{"Wall_Door_07_1_", "0,2", "-0,6", "0", "14000"};
                 }
 
-                //tür wird Abgerechnet
-                PlayerController.playerMoney = PlayerController.playerMoney - item.priceMoney;
-                PlayerController.playerGold = PlayerController.playerGold - item.priceGold;
+                //Generiert die neue Tür, gibt true wiereder wenn geklappt
+                if(ObjectController.ChangeDoorOnWall(details[0], float.Parse(details[1]), float.Parse(details[2]), Int32.Parse(details[3]), Int32.Parse(details[4]))){
+                    //tür wird Abgerechnet wenn tür erstellt
+                    //wenn in backup, rechne erst das ab
+                    if(item.inBackup>0){
+                        PlayerController.RemoveStorageItem(item.spriteName);
+                    }else{
+                        PlayerController.playerMoney = PlayerController.playerMoney - item.priceMoney;
+                        PlayerController.playerGold = PlayerController.playerGold - item.priceGold;
+                    }
+                }
 
                 //updated die mainUI player stats
                 PlayerController.ReloadPlayerStats();
-
-                //Generiert die neue Tür
-                ObjectController.ChangeDoorOnWall(details[0], float.Parse(details[1]), float.Parse(details[2]), Int32.Parse(details[3]), Int32.Parse(details[4]));
 
                 //nach jeder action muss gespeichert werden
                 SaveAndLoadController.SavePlayerData();
@@ -205,6 +213,11 @@ public class RebuildUIController : MonoBehaviour
                 ButtonController.GetComponent<ButtonController>().MouseAction = 2;
                 ButtonController.GetComponent<ButtonController>().ObjectToCreate = new string[]{item.spriteName, ""+item.priceGold, ""+item.priceMoney};
             }
+
+            //muss nach jeder shop aktion neu ausgeführt werder um bsp zu gucken ob der player noch genug geld für objekte hat und entsprechend 
+            //buy buttons ausblenden
+            DeleteItems();
+            RenderShop();
         }
     }
 
@@ -372,18 +385,18 @@ public class RebuildUIController : MonoBehaviour
         ObjectList.Add(new Object("Floor_01_1", 1000, 0, 0, true, 5, 23));
         ObjectList.Add(new Object("Floor_02_1", 1500, 0, 0, true, 5, 23));
         ObjectList.Add(new Object("Floor_03_1", 2000, 0, 0, true, 5, 23));
-        ObjectList.Add(new Object("Floor_04_1", 0, 999, 0, true, 5, 23));//CONTINUE
-        ObjectList.Add(new Object("Floor_05_1", 0, 999, 0, true, 5, 23));//CONTINUE
-        ObjectList.Add(new Object("Floor_06_1", 0, 999, 0, true, 5, 23));//CONTINUE
-        ObjectList.Add(new Object("Floor_07_1", 0, 999, 0, true, 5, 23));//CONTINUE
-        ObjectList.Add(new Object("Floor_08_1", 0, 999, 0, true, 5, 23));//CONTINUE
-        ObjectList.Add(new Object("Floor_09_1", 0, 999, 0, true, 5, 23));//CONTINUE
-        ObjectList.Add(new Object("Floor_10_1", 0, 999, 0, true, 5, 23));//CONTINUE
+        ObjectList.Add(new Object("Floor_04_1", 999, 0, 0, true, 5, 23));//CONTINUE
+        ObjectList.Add(new Object("Floor_05_1", 999, 0, 0, true, 5, 23));//CONTINUE
+        ObjectList.Add(new Object("Floor_06_1", 999, 0, 0, true, 5, 23));//CONTINUE
+        ObjectList.Add(new Object("Floor_07_1", 999, 0, 0, true, 5, 23));//CONTINUE
+        ObjectList.Add(new Object("Floor_08_1", 999, 0, 0, true, 5, 23));//CONTINUE
+        ObjectList.Add(new Object("Floor_09_1", 999, 0, 0, true, 5, 23));//CONTINUE
+        ObjectList.Add(new Object("Floor_10_1", 999, 0, 0, true, 5, 23));//CONTINUE
         ObjectList.Add(new Object("Floor_11_1", 100, 0, 0, true, 5, 23));
-        ObjectList.Add(new Object("Floor_12_1", 0, 999, 0, true, 5, 23));//CONTINUE
+        ObjectList.Add(new Object("Floor_12_1", 999, 0, 0, true, 5, 23));//CONTINUE
         ObjectList.Add(new Object("Floor_13_1", 100, 0, 0, true, 5, 23));
         ObjectList.Add(new Object("Floor_14_1", 250, 0, 0, true, 5, 23));
-        ObjectList.Add(new Object("Floor_15_1", 0, 999, 0, true, 5, 23));//CONTINUE
+        ObjectList.Add(new Object("Floor_15_1", 999, 0, 0, true, 5, 23));//CONTINUE
         ObjectList.Add(new Object("Floor_16_1", 1000, 0, 0, true, 5, 23));
         ObjectList.Add(new Object("Floor_17_1", 1000, 0, 0, true, 5, 23));
         ObjectList.Add(new Object("Floor_18_1", 1000, 0, 0, true, 5, 23));
@@ -466,13 +479,13 @@ public class RebuildUIController : MonoBehaviour
         ObjectList.Add(new Object("Wall_15_a_1", 6000, 0, 0, true, 2, 23));
         ObjectList.Add(new Object("Wall_16_a_1", 7000, 0, 0, true, 2, 23));
 
-        ObjectList.Add(new Object("Door_01_a", 50, 0, 0, true, 3, 23));
-        ObjectList.Add(new Object("Door_02_a", 1100, 0, 0, true, 3, 23));
-        ObjectList.Add(new Object("Door_01_a_1", 0, 15, 0, true, 3, 23));
-        ObjectList.Add(new Object("Door_02_a_1", 0, 5, 0, true, 3, 23));
-        ObjectList.Add(new Object("Door_03_a_1", 0, 3, 0, true, 3, 23));
-        ObjectList.Add(new Object("Door_04_a_1", 20000, 0, 0, true, 3, 23));
-        ObjectList.Add(new Object("Door_05_a_1", 14000, 0, 0, true, 3, 23));
+        ObjectList.Add(new Object("Wall_Door_01_1_", 50, 0, 0, true, 3, 23));
+        ObjectList.Add(new Object("Wall_Door_02_1_", 1100, 0, 0, true, 3, 23));
+        ObjectList.Add(new Object("Wall_Door_03_1_", 0, 15, 0, true, 3, 23));
+        ObjectList.Add(new Object("Wall_Door_04_1_", 0, 5, 0, true, 3, 23));
+        ObjectList.Add(new Object("Wall_Door_05_1_", 0, 3, 0, true, 3, 23));
+        ObjectList.Add(new Object("Wall_Door_06_1_", 20000, 0, 0, true, 3, 23));
+        ObjectList.Add(new Object("Wall_Door_07_1_", 14000, 0, 0, true, 3, 23));
 
         object[] sprites = Resources.LoadAll("Textures/UI/RebuildItems",typeof(Sprite));
         for(int x=0;x<sprites.Length;x++){

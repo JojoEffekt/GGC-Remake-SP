@@ -124,25 +124,18 @@ public class ObjectController : MonoBehaviour
     }
 
     //verändert die Tür
-    public static void ChangeDoorOnWall(string doorSpriteName, float coordCorX, float coordCorY, int priceGold, int priceMoney){
+    public static bool ChangeDoorOnWall(string doorSpriteName, float coordCorX, float coordCorY, int priceGold, int priceMoney){
         WallObject wallObject = getWallGOWithDoor();
 
-        //überprüft das keine Door erkauft wird
+        //überprüft das keine Door doppelt erkauft wird
         if(wallObject.WallChildName.Equals(doorSpriteName)==false){
-
-            //Speichert die zu ersetzende Tür
-            PlayerController.AddStorageItem(wallObject.WallChildName);
-
-            //Item wird Abgerechnet
-            PlayerController.playerGold = PlayerController.playerGold - priceGold;
-            PlayerController.playerMoney = PlayerController.playerMoney - priceMoney;
-
-            //updated die mainUI player stats
-            PlayerController.ReloadPlayerStats();
     
             //generiere die neue Tür
             InstantiateObjectOnWall(wallObject, coordCorX, coordCorY, 1, doorSpriteName);
+
+            return true;
         }
+        return false;
     }
 
     //verändert das WallSprite
@@ -278,8 +271,9 @@ public class ObjectController : MonoBehaviour
     public static void DestroyFloorChild(string childGOName){//(floorChildGameObjectName)
         string floorGOName = getFloorGONameFromChildGOName(childGOName);
 
-        //delete floorChild info von floorGameObject
+        //referenz auf das zu löschende go
         FloorObject floorObject = getFloorGOFromFloorGOName(floorGOName);
+        //delete floorChild info von floorGameObject
         floorObject.DeleteChild();
 
         //delete floorChild von standardObjectList
@@ -288,6 +282,7 @@ public class ObjectController : MonoBehaviour
                 standardObjectList.RemoveAt(b);
             }
         }
+
         //delete floorChild from scene
         Destroy(GameObject.Find(childGOName));
 

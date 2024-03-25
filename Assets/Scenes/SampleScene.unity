@@ -14905,11 +14905,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ffc0cf41dc6dcd247916f6e5e39751f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  RebuildUI: {fileID: 1677363544}
   MouseAction: 0
   isRebuildShopOpen: 0
   ObjectToMove: 
   ObjectToCreate: []
-  ItemSettingsPrefab: {fileID: 8337084325947574024, guid: b2a8436246280004b976cb0d76337491, type: 3}
+  ItemSettingsPrefab: {fileID: 4850165066976858380, guid: b2a8436246280004b976cb0d76337491, type: 3}
+  DynamicPrefab: {fileID: 0}
 --- !u!4 &1996097772
 Transform:
   m_ObjectHideFlags: 0

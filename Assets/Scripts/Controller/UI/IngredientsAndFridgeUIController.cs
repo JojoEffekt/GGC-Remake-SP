@@ -222,6 +222,7 @@ public class IngredientsUIController : MonoBehaviour
             ItemController.transform.GetChild(ItemController.transform.childCount-1).gameObject.transform.GetChild(0).gameObject.transform.GetChild(3).gameObject.GetComponent<TMPro.TextMeshProUGUI>().text = "";
         }
 
+        //gebe items kauf und verkauf funktion
         ItemController.transform.GetChild(ItemController.transform.childCount-1).gameObject.transform.GetChild(0).gameObject.transform.GetChild(4).gameObject.GetComponent<Button>().onClick.AddListener(delegate{BuyItem(item);});
         ItemController.transform.GetChild(ItemController.transform.childCount-1).gameObject.transform.GetChild(0).gameObject.transform.GetChild(5).gameObject.GetComponent<Button>().onClick.AddListener(delegate{SellItem(item);});
     }

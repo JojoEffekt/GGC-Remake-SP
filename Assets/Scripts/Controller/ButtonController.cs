@@ -3,16 +3,21 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using System;
+using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class ButtonController : MonoBehaviour
 {
+    public GameObject RebuildUI;//referenz auf RebuildUIController script
+
     public int MouseAction = 0; //0=nothing,1=rotate,2=create,3=remove,4=replace
     public bool isRebuildShopOpen = false;//wenn der rebuild shop offen ist, wahr
 
     public string ObjectToMove = "";
     public string[] ObjectToCreate;//referenzobjekt(spriteName, goldpreis, moneypreis) wird übergeben und in diesem script zum bekommen der InstantiateDetails benutzt
-    
+
     public GameObject ItemSettingsPrefab; //referenz auf das dynamische UISetting für die Items
+    public GameObject DynamicPrefab; //referenzprefab für das erstellte UIStetting eines items
 
     //methodes
     void Update(){
@@ -20,49 +25,123 @@ public class ButtonController : MonoBehaviour
         if (mouse.leftButton.wasPressedThisFrame){//check if mouse left down
             RaycastHit2D[] hitInfo = Physics2D.RaycastAll(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);//get all objects
 
+            //guckt das irgendwas angeklickt und erfasst wurde
             if(hitInfo.Length!=0){
-                MouseHandler(hitInfo);
-                //CONTINUE CHECK das kein shop geöffnet ist
-                //
-                //
-                //
+                
+                //Überprüft ob Mouse Position nicht über UI ist, damit wird verhindert, dass nicht durch den shop geklickt wird
+                if(EventSystem.current.IsPointerOverGameObject()==false){
+                    
+                    //guckt das rebuild shop offen ist
+                    if(isRebuildShopOpen==true){
+
+                        //objekte könnnen bearbeitet werden
+                        MouseHandler(hitInfo);
+                    }
+                }
             }
         }
     }
 
+    //wird durch SettingsUI benutzt und rotiert gegebenes Objekt
+    public void RotateObjectByUISetting(string name){
+        RotateFloorChild(name);
+
+        //muss nach jeder shop aktion neu ausgeführt werder um bsp zu gucken ob der player noch genug geld für objekte hat und entsprechend 
+        //buy buttons ausblenden
+        RebuildUI.GetComponent<RebuildUIController>().DeleteItems();
+        RebuildUI.GetComponent<RebuildUIController>().RenderShop();
+
+        //nach jeder action muss neu gespeichert werden
+        SaveAndLoadController.SavePlayerData();
+    }
+
+    //wird durch SettingsUI aufgerufen, Lagert Objekt wieder ein 
+    public void StoreObjectByUISetting(string name){
+        if(isWallObject(name)==true){
+            DestroyObjectOnWall(name);
+        }
+        if(isFloorChildObject(name)==true){
+            DestroyFloorChild(name);
+        }
+
+        //schließe ui
+        Destroy(DynamicPrefab);
+
+        //muss nach jeder shop aktion neu ausgeführt werder um bsp zu gucken ob der player noch genug geld für objekte hat und entsprechend 
+        //buy buttons ausblenden
+        RebuildUI.GetComponent<RebuildUIController>().DeleteItems();
+        RebuildUI.GetComponent<RebuildUIController>().RenderShop();
+
+        //nach jeder action muss neu gespeichert werden
+        SaveAndLoadController.SavePlayerData();
+    }
+
+    //wird durch SettingsUI aufgerufen, Replaced Objekt
+    //1te sequenz der replace funktion
+    public void ReplaceObjectByUISetting(string name){
+        //im ersten schritt prüfe ob ein floorChild Object angeklickt wurde
+        if(isFloorChildObject(name)==true){
+            ObjectToMove = name;
+        //im ersten schritt prüfe ob ein wallObject angeklickt wurde
+        }else if(isWallObject(name)==true){
+            ObjectToMove = name;
+        }
+        MouseAction = 4;
+
+        //muss nach jeder shop aktion neu ausgeführt werder um bsp zu gucken ob der player noch genug geld für objekte hat und entsprechend 
+        //buy buttons ausblenden
+        RebuildUI.GetComponent<RebuildUIController>().DeleteItems();
+        RebuildUI.GetComponent<RebuildUIController>().RenderShop();
+
+        //nach jeder action muss neu gespeichert werden
+        SaveAndLoadController.SavePlayerData();
+    }
+
     public void MouseHandler(RaycastHit2D[] info){
         string objectName = getPrioritizedObjectName(info);
-        /*
-        //Rotate Abfrage
-        if(MouseAction==1){
-            if(isFloorChildObject(objectName)){
-                RotateFloorChild(objectName);
-            }
-        }*/ 
+        
+        //zertstört dynamicPrefab damit immer nur 1 existiert
+        //hiermit können einzelaktionen für bestimmte Gameobjecte benutzt werden
+        Destroy(DynamicPrefab);
 
+        //ItemSettingUI
         //rendert die HandlerUI für das jeweilige angeklickte Object
         if(MouseAction==0&&isRebuildShopOpen==true){
             //überprüft auf welches angeklickte Object der fokus liegt
-            if(isWallObject(objectName)==true||isFloorChildObject(objectName)==true){
-                Debug.Log("Focus: "+objectName);
-                //ItemSettingUI
-
-
+            // muss floorchilds sein      oder        wallchild mit sprite    
+            if(isFloorChildObject(objectName)==true||(isWallObject(objectName)&&isWallChildObjectEmpty(objectName)==false)){
+            
                 //hole die referenz auf das geklickte Object
                 GameObject KlickedObject = GameObject.Find(objectName);
 
                 //generiere für das referenzobject das prefab
-                GameObject prefab = Instantiate(ItemSettingsPrefab, new Vector3(0, 0, 0), Quaternion.identity);
-                prefab.transform.parent = KlickedObject.transform;
-                prefab.transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().sortingOrder = 100;
-                prefab.transform.position = new Vector2(KlickedObject.transform.position.x, KlickedObject.transform.position.y+3);
-
-                //für das prefab gilt: wenn mouseclick nicht eines der prefabbuttons gedrückt wurde, zerstöre es
-                //wenn eines der prefabbtn gedrückt wurde, führe auf das GO aus 
+                DynamicPrefab = Instantiate(ItemSettingsPrefab, new Vector3(0, 0, 0), Quaternion.identity);
+                DynamicPrefab.transform.parent = KlickedObject.transform;
+                DynamicPrefab.GetComponent<Canvas>().sortingOrder = 100;
+                DynamicPrefab.transform.position = new Vector2(KlickedObject.transform.position.x, KlickedObject.transform.position.y+3);
+                
+                //guck welche BTNs für welches item generiert werden kann (Wall kein rotate)
+                //Gucke nach Rotatebutton             
+                if(isFloorChildObject(objectName)){
+                    //Gibt einen Btn eine AddListener Funktion die beim drücken eine Methode in ButtonController aktiviert und den ObjectNamen übergibt
+                    DynamicPrefab.transform.GetChild(1).gameObject.SetActive(true);
+                    DynamicPrefab.transform.GetChild(1).gameObject.GetComponent<Button>().onClick.AddListener(delegate{RotateObjectByUISetting(objectName);});
+                }
+                //Gucke nach SellButton       //CONTINUE gucke nach wallChildObject exist
+                if(!isWallChildObjectEmpty(objectName)||isFloorChildObject(objectName)){
+                    DynamicPrefab.transform.GetChild(2).gameObject.SetActive(true);
+                    DynamicPrefab.transform.GetChild(2).gameObject.GetComponent<Button>().onClick.AddListener(delegate{StoreObjectByUISetting(objectName);});
+                }
+                //Gucke nach ReplaceButton       //CONTINUE gucke nach wallChildObject exist
+                if(!isWallChildObjectEmpty(objectName)||isFloorChildObject(objectName)){
+                    DynamicPrefab.transform.GetChild(3).gameObject.SetActive(true);
+                    DynamicPrefab.transform.GetChild(3).gameObject.GetComponent<Button>().onClick.AddListener(delegate{ReplaceObjectByUISetting(objectName);});
+                }
             }
         }
         
         //Create Object Abfrage
+        //wird durch shopkauf aufgerufen
         if(MouseAction==2){
             string[] details = getObjectToCreateDetails(ObjectToCreate[0]);//holt sich die infos zum generieren
 
@@ -99,28 +178,30 @@ public class ButtonController : MonoBehaviour
             //Kein Handler ist Aktiviert, Nichts kann verändert werden
             MouseAction = 0;//reset
 
-        }/*else if(MouseAction==3){//destroy
-            if(isWallObject(objectName)==true){
-                DestroyObjectOnWall(objectName);
-            }
-            if(isFloorChildObject(objectName)==true){
-                DestroyFloorChild(objectName);
-            }
-        }else if(MouseAction==4){//replace
-            if(ObjectToMove.Equals("")==false&&isFloorObject(objectName)==true&&isFloorChildObject(ObjectToMove)==true){//im zweiten schritt prüfe ob ein floorChild Object vorhanden ist
-                MoveObjectOnFloor(ObjectToMove, objectName);                                                            //und ob das neue Object floor ist
+        }
+
+        //replace Object
+        //wird durch dynamicSettingsUI aufgerufen
+        //ist die 2te sequenz der replace funktion
+        if(MouseAction==4){
+            //im zweiten schritt prüfe ob ein floorChild Object vorhanden ist und ob das neue Object floor ist
+            if(ObjectToMove.Equals("")==false&&isFloorObject(objectName)==true&&isFloorChildObject(ObjectToMove)==true){
+                MoveObjectOnFloor(ObjectToMove, objectName);                                                            
                 ObjectToMove = "";
-            }else if(isFloorChildObject(objectName)==true){//im ersten schritt prüfe ob ein floorChild Object angeklickt wurde
-                ObjectToMove = objectName;
+            //im zweiten schritt prüfe ob ein wall Object vorhanden ist und ob das neue Object wall ist
             }else if(ObjectToMove.Equals("")==false&&isWallObject(objectName)==true&&isWallObject(ObjectToMove)==true){
                 MoveObjectOnWall(ObjectToMove,objectName);
                 ObjectToMove = "";
-            }else if(isWallObject(objectName)==true){//im ersten schritt prüfe ob ein wallObject angeklickt wurde
-                ObjectToMove = objectName;
-            }else{//wenn was anderes angklickt wurde, breche ab
-                ObjectToMove = "";
             }
-        }*/
+            //breche replace sequenz ab
+            ObjectToMove = "";
+            MouseAction = 0;
+        }
+
+        //muss nach jeder shop aktion neu ausgeführt werder um bsp zu gucken ob der player noch genug geld für objekte hat und entsprechend 
+        //buy buttons ausblenden
+        RebuildUI.GetComponent<RebuildUIController>().DeleteItems();
+        RebuildUI.GetComponent<RebuildUIController>().RenderShop();
 
         //nach jeder action muss neu gespeichert werden
         SaveAndLoadController.SavePlayerData();
@@ -129,10 +210,48 @@ public class ButtonController : MonoBehaviour
     
 
     public void DestroyObjectOnWall(string objectName){
+
+        //hier wird das object als schon gekauft gespeichert 
+        //speicher als "..."_a
+        string[] spriteName = GameObject.Find(objectName).gameObject.transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().sprite.name.Split("_");
+        if(spriteName.Length == 4){
+            PlayerController.AddStorageItem(spriteName[0]+"_"+spriteName[1]+"_"+spriteName[2]+"_a");
+        }else if(spriteName.Length == 5){
+            PlayerController.AddStorageItem(spriteName[0]+"_"+spriteName[1]+"_"+spriteName[2]+"_a_1");
+        }
+
+        //muss nach jeder shop aktion neu ausgeführt werder um bsp zu gucken ob der player noch genug geld für objekte hat und entsprechend 
+        //buy buttons ausblenden, läd shop neu
+        RebuildUI.GetComponent<RebuildUIController>().DeleteItems();
+        RebuildUI.GetComponent<RebuildUIController>().RenderShop();
+
+        //Anschließend zerstört
         ObjectController.DestroyObjectOnWall(objectName);//(WallGOName)
     }
 
+    //Zerstört Object und speichert das Object im ObjectKatalog
     public void DestroyFloorChild(string objectName){
+
+        //hier wird das object als schon gekauft gespeichert 
+        //speicher als "..."_a
+        string[] spriteName = GameObject.Find(objectName).gameObject.GetComponent<SpriteRenderer>().sprite.name.Split("_");
+        if(spriteName.Length == 3){
+            //slushi als ausnahme
+            if(GameObject.Find(objectName).gameObject.GetComponent<SpriteRenderer>().sprite.name.Equals("Shlushi_01_a")){
+                PlayerController.AddStorageItem(spriteName[0]+"_a");
+            }else{
+                PlayerController.AddStorageItem(spriteName[0]+"_"+spriteName[1]+"_a");
+            }
+        }else if(spriteName.Length == 4){
+            PlayerController.AddStorageItem(spriteName[0]+"_"+spriteName[1]+"_a_1");
+        }
+
+        //muss nach jeder shop aktion neu ausgeführt werder um bsp zu gucken ob der player noch genug geld für objekte hat und entsprechend 
+        //buy buttons ausblenden, läd shop neu
+        RebuildUI.GetComponent<RebuildUIController>().DeleteItems();
+        RebuildUI.GetComponent<RebuildUIController>().RenderShop();
+
+        //Anschließend zerstört
         ObjectController.DestroyFloorChild(objectName);//(FloorChildGOName)
     }
 
@@ -149,6 +268,11 @@ public class ButtonController : MonoBehaviour
             PlayerController.playerGold = PlayerController.playerGold - priceGold;
             PlayerController.playerMoney = PlayerController.playerMoney - priceMoney;
 
+            //muss nach jeder shop aktion neu ausgeführt werder um bsp zu gucken ob der player noch genug geld für objekte hat und entsprechend 
+            //buy buttons ausblenden, läd shop neu
+            RebuildUI.GetComponent<RebuildUIController>().DeleteItems();
+            RebuildUI.GetComponent<RebuildUIController>().RenderShop();
+
             //updated die mainUI player stats
             PlayerController.ReloadPlayerStats();
         }
@@ -162,12 +286,22 @@ public class ButtonController : MonoBehaviour
             PlayerController.playerGold = PlayerController.playerGold - priceGold;
             PlayerController.playerMoney = PlayerController.playerMoney - priceMoney;
 
+            //muss nach jeder shop aktion neu ausgeführt werder um bsp zu gucken ob der player noch genug geld für objekte hat und entsprechend 
+            //buy buttons ausblenden, läd shop neu
+            RebuildUI.GetComponent<RebuildUIController>().DeleteItems();
+            RebuildUI.GetComponent<RebuildUIController>().RenderShop();
+
             //updated die mainUI player stats
             PlayerController.ReloadPlayerStats();
         }
     }
     public void GenerateNewWallSprite(string wallName, string spriteName, int priceGold, int priceMoney){
         ObjectController.ChangeWallSprite(wallName, spriteName, priceGold, priceMoney);
+
+        //muss nach jeder shop aktion neu ausgeführt werder um bsp zu gucken ob der player noch genug geld für objekte hat und entsprechend 
+        //buy buttons ausblenden, läd shop neu
+        RebuildUI.GetComponent<RebuildUIController>().DeleteItems();
+        RebuildUI.GetComponent<RebuildUIController>().RenderShop();
     }
 
     public void MoveObjectOnWall(string wallNameOld, string wallNameNew){
@@ -179,6 +313,11 @@ public class ButtonController : MonoBehaviour
 
     public void NewFloorSprite(string newFloorSpriteName, int floorPrice, string floorGOName){
         ObjectController.NewFloorSprite(newFloorSpriteName, floorPrice, floorGOName);//(newFloorSprite,floorPrice,floorGOName)
+
+        //muss nach jeder shop aktion neu ausgeführt werder um bsp zu gucken ob der player noch genug geld für objekte hat und entsprechend 
+        //buy buttons ausblenden, läd shop neu
+        RebuildUI.GetComponent<RebuildUIController>().DeleteItems();
+        RebuildUI.GetComponent<RebuildUIController>().RenderShop();
     }
     
 
@@ -229,6 +368,19 @@ public class ButtonController : MonoBehaviour
         string[] splitName = objectName.Split("-");
         if(splitName[splitName.Length-1].Equals("Wall")){
             return true;
+        }
+        return false;
+    }
+
+    public bool isWallChildObjectEmpty(string objectName){
+        string[] splitName = objectName.Split("-");
+        if(splitName[splitName.Length-1].Equals("Wall")){
+            GameObject wallGO = GameObject.Find(objectName);
+            
+            //überprüft ob das gameobject kein sprite hat
+            if(Object.ReferenceEquals(wallGO.transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().sprite, null)){
+                return true;
+            }
         }
         return false;
     }

@@ -1,7 +1,7 @@
-JojoEffekt
-2343
-543543
-534
+Jojo
+355
+46745190
+5675675
 8
-Empty
-Empty
+Lettuce:1
+Wall_Door_04_1_:1;Wall_Door_03_1_:1;Chair_06_a:3;Chair_05_a:1
