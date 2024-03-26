@@ -211,7 +211,7 @@ public class RebuildUIController : MonoBehaviour
                 //item kann nun über ButtonController platziert werden
                 //object zur generierung freigeschaltet
                 ButtonController.GetComponent<ButtonController>().MouseAction = 2;
-                ButtonController.GetComponent<ButtonController>().ObjectToCreate = new string[]{item.spriteName, ""+item.priceGold, ""+item.priceMoney};
+                ButtonController.GetComponent<ButtonController>().ObjectToCreate = new string[]{item.spriteName, ""+item.priceGold, ""+item.priceMoney, ""+item.inBackup};
             }
 
             //muss nach jeder shop aktion neu ausgeführt werder um bsp zu gucken ob der player noch genug geld für objekte hat und entsprechend 

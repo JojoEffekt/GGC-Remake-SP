@@ -1,7 +1,7 @@
 Jojo
-355
-46745190
+89
+46727137
 5675675
 8
 Lettuce:1
-Wall_Door_04_1_:1;Wall_Door_03_1_:1;Chair_06_a:3;Chair_05_a:1
+Table_11_a_1:1;Table_11_a:1;Chair_04_a_1:1;Fridge_05_a_1:1

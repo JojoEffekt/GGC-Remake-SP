@@ -97,6 +97,7 @@ public class ButtonController : MonoBehaviour
         SaveAndLoadController.SavePlayerData();
     }
 
+    //GUckt welches Object erstellt wird, anhand dessen, welches Object angeklickt wurde
     public void MouseHandler(RaycastHit2D[] info){
         string objectName = getPrioritizedObjectName(info);
         
@@ -259,14 +260,32 @@ public class ButtonController : MonoBehaviour
         ObjectController.RotateObjectOnFloor(objectName);//(floorChildGOName)
     }
 
+    //generiert ein object auf der Wand und rechnent ab
     public void GenerateObjectOnWall(string spriteName, string wallName, int wallChildLength, float coordCorrectionX, float coordCorrectionY, int priceGold, int priceMoney){
         //(wallchilName,WallName,wallChildLength,coordCorrectionX,coordCorrectionY)
         //wenn das WallObject generiert wurde, rechne Ab
         if(ObjectController.GenerateObjectOnWall(spriteName, wallName, wallChildLength, coordCorrectionX, coordCorrectionY)){
 
-            //Abrechnen
-            PlayerController.playerGold = PlayerController.playerGold - priceGold;
-            PlayerController.playerMoney = PlayerController.playerMoney - priceMoney;
+
+
+            //Item wird Abgerechnet
+            //wenn in backup, rechne erst das ab
+            if(Int32.Parse(ObjectToCreate[3])>0){
+                //guckt nach den richtigen spriteNamen und zieht diesen aus dem backup ab
+                string[] splitString = spriteName.Split("_");
+                if(splitString.Length==4){
+                    //1 item wird aus backup entfernt
+                    PlayerController.RemoveStorageItem(splitString[0]+"_"+splitString[1]+"_"+splitString[2]+"_a");
+                }else if(splitString.Length==5){
+                    PlayerController.RemoveStorageItem(splitString[0]+"_"+splitString[1]+"_"+splitString[2]+"_a_1");
+                }
+            }else{
+                //nicht in backup also rechne normalen preis ab
+                PlayerController.playerMoney = PlayerController.playerMoney - priceMoney;
+                PlayerController.playerGold = PlayerController.playerGold - priceGold;
+            }
+
+
 
             //muss nach jeder shop aktion neu ausgeführt werder um bsp zu gucken ob der player noch genug geld für objekte hat und entsprechend 
             //buy buttons ausblenden, läd shop neu
@@ -277,14 +296,36 @@ public class ButtonController : MonoBehaviour
             PlayerController.ReloadPlayerStats();
         }
     }
+
+    //Generiert ein neues Object auf dem floor
     public void GenerateObjectOnFloor(string type, string spriteName, int priceGold, int priceMoney, float coordCoorXA, float coordCoorYA, float coordCoorXB, float coordCoorYB, string wallName){
         //(type,spriteName,price,coordCoorXA...-coordCoorYB,FloorGameObjectName)
         //wenn das FloorChildObject generiert wurde, rechne Ab
         if(ObjectController.GenerateObjectOnFloor(type, spriteName, priceGold, coordCoorXA, coordCoorYA, coordCoorXB, coordCoorYB, wallName)){
 
-            //Abrechnen
-            PlayerController.playerGold = PlayerController.playerGold - priceGold;
-            PlayerController.playerMoney = PlayerController.playerMoney - priceMoney;
+
+
+
+            //Abrechnen und gucken ob gegebenes Object in backup ist
+            string[] splitName = spriteName.Split("_");
+            if(Int32.Parse(ObjectToCreate[3])>0){
+                if(splitName.Length == 3){
+                    //slushi als ausnahme
+                    if(spriteName.Equals("Shlushi_01_a")){
+                        PlayerController.RemoveStorageItem(splitName[0]+"_a");
+                    }else{
+                        PlayerController.RemoveStorageItem(splitName[0]+"_"+splitName[1]+"_a");
+                    }
+                }else if(splitName.Length == 4){
+                    PlayerController.RemoveStorageItem(splitName[0]+"_"+splitName[1]+"_a_1");
+                }
+            }else{
+                PlayerController.playerGold = PlayerController.playerGold - priceGold;
+                PlayerController.playerMoney = PlayerController.playerMoney - priceMoney;
+            }
+
+
+
 
             //muss nach jeder shop aktion neu ausgeführt werder um bsp zu gucken ob der player noch genug geld für objekte hat und entsprechend 
             //buy buttons ausblenden, läd shop neu
@@ -295,13 +336,37 @@ public class ButtonController : MonoBehaviour
             PlayerController.ReloadPlayerStats();
         }
     }
-    public void GenerateNewWallSprite(string wallName, string spriteName, int priceGold, int priceMoney){
-        ObjectController.ChangeWallSprite(wallName, spriteName, priceGold, priceMoney);
 
-        //muss nach jeder shop aktion neu ausgeführt werder um bsp zu gucken ob der player noch genug geld für objekte hat und entsprechend 
-        //buy buttons ausblenden, läd shop neu
-        RebuildUI.GetComponent<RebuildUIController>().DeleteItems();
-        RebuildUI.GetComponent<RebuildUIController>().RenderShop();
+    //Verändert die hintergrundTextur der Wand
+    public void GenerateNewWallSprite(string wallName, string spriteName, int priceGold, int priceMoney){
+
+        //wenn wall gechanged wurde
+        if(ObjectController.ChangeWallSprite(wallName, spriteName, priceGold, priceMoney)){
+
+            //Item wird Abgerechnet
+            //wenn in backup, rechne erst das ab
+            if(Int32.Parse(ObjectToCreate[3])>0){
+                //guckt nach den richtigen spriteNamen und zieht diesen aus dem backup ab
+                string[] splitString = spriteName.Split("_");
+                if(splitString.Length==3){
+                    PlayerController.RemoveStorageItem(splitString[0]+"_"+splitString[1]+"_a");
+                }else if(splitString.Length==4){
+                    PlayerController.RemoveStorageItem(splitString[0]+"_"+splitString[1]+"_a_1");
+                }
+            }else{
+                //nicht in backup also rechne normalen preis ab
+                PlayerController.playerMoney = PlayerController.playerMoney - priceMoney;
+                PlayerController.playerGold = PlayerController.playerGold - priceGold;
+            }
+
+            //muss nach jeder shop aktion neu ausgeführt werder um bsp zu gucken ob der player noch genug geld für objekte hat und entsprechend 
+            //buy buttons ausblenden, läd shop neu
+            RebuildUI.GetComponent<RebuildUIController>().DeleteItems();
+            RebuildUI.GetComponent<RebuildUIController>().RenderShop();
+
+            //updated die mainUI player stats
+            PlayerController.ReloadPlayerStats();
+        }
     }
 
     public void MoveObjectOnWall(string wallNameOld, string wallNameNew){
@@ -311,13 +376,26 @@ public class ButtonController : MonoBehaviour
         ObjectController.MoveObjectOnFloor(objectName, floorName);//(floorChildGameObjectName,floorGameObjectName(neuer platz))
     }
 
+    //verändert die boden textur
     public void NewFloorSprite(string newFloorSpriteName, int floorPrice, string floorGOName){
-        ObjectController.NewFloorSprite(newFloorSpriteName, floorPrice, floorGOName);//(newFloorSprite,floorPrice,floorGOName)
+        if(ObjectController.NewFloorSprite(newFloorSpriteName, floorPrice, floorGOName)){//(newFloorSprite,floorPrice,floorGOName)
 
-        //muss nach jeder shop aktion neu ausgeführt werder um bsp zu gucken ob der player noch genug geld für objekte hat und entsprechend 
-        //buy buttons ausblenden, läd shop neu
-        RebuildUI.GetComponent<RebuildUIController>().DeleteItems();
-        RebuildUI.GetComponent<RebuildUIController>().RenderShop();
+            //Item wird Abgerechnet
+            //wenn in backup, rechne erst das ab
+            if(Int32.Parse(ObjectToCreate[3])>0){
+                PlayerController.RemoveStorageItem(newFloorSpriteName);
+            }else{
+                PlayerController.playerMoney = PlayerController.playerMoney - floorPrice;
+            }
+
+            //updated die mainUI player stats
+            PlayerController.ReloadPlayerStats();
+
+            //muss nach jeder shop aktion neu ausgeführt werder um bsp zu gucken ob der player noch genug geld für objekte hat und entsprechend 
+            //buy buttons ausblenden, läd shop neu
+            RebuildUI.GetComponent<RebuildUIController>().DeleteItems();
+            RebuildUI.GetComponent<RebuildUIController>().RenderShop();
+        }
     }
     
 

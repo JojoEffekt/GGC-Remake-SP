@@ -139,25 +139,34 @@ public class ObjectController : MonoBehaviour
     }
 
     //verändert das WallSprite
-    public static void ChangeWallSprite(string wallName, string wallSprite, int priceGold, int priceMoney){
+    public static bool ChangeWallSprite(string wallName, string wallSprite, int priceGold, int priceMoney){
         WallObject wallObject = getWallGOFromWallGOName(wallName);
 
         //überprüft das kein sprite doppelt erkauft wird
         if(wallObject.WallSpriteName.Equals(wallSprite)==false){
 
             //Speichert die zu ersetzende Wand
-            PlayerController.AddStorageItem(wallObject.WallSpriteName);
+            string[] splitString = wallObject.WallSpriteName.Split("_");
+            if(splitString.Length==3){
+                PlayerController.AddStorageItem(splitString[0]+"_"+splitString[1]+"_a");
+            }else if(splitString.Length==4){
+                PlayerController.AddStorageItem(splitString[0]+"_"+splitString[1]+"_a_1");
+            }
 
-            //Item wird Abgerechnet
-            PlayerController.playerGold = PlayerController.playerGold - priceGold;
-            PlayerController.playerMoney = PlayerController.playerMoney - priceMoney;
+            
+            //PlayerController.playerGold = PlayerController.playerGold - priceGold;
+            //PlayerController.playerMoney = PlayerController.playerMoney - priceMoney;
 
             //updated die mainUI player stats
             PlayerController.ReloadPlayerStats();
     
             //läd neues Sprite
             wallObject.WallSpriteName = wallSprite;
+
+            return true;
         }
+
+        return false;
     }
 
 
@@ -205,7 +214,7 @@ public class ObjectController : MonoBehaviour
     }
 
     //Generiere ein neues FloorSprite
-    public static void NewFloorSprite(string newFloorSpriteName, int floorPriceMoney, string floorGOName){
+    public static bool NewFloorSprite(string newFloorSpriteName, int floorPriceMoney, string floorGOName){
         FloorObject floorObject = getFloorGOFromFloorGOName(floorGOName);
 
         //gucke ob FloorGO nicht schon diesen floor hat
@@ -217,12 +226,10 @@ public class ObjectController : MonoBehaviour
             //Generiere das neue FloorSprite
             floorObject.setNewFloorSprite(newFloorSpriteName, floorPriceMoney);
 
-            //Rechnet den Preis ab
-            PlayerController.playerMoney = PlayerController.playerMoney - floorPriceMoney;
-
-            //updated die mainUI player stats
-            PlayerController.ReloadPlayerStats();
+            return true;
         }
+
+        return false;
     }
 
     //rotiert obj on floor obj
