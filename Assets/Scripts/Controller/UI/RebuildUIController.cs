@@ -128,16 +128,27 @@ public class RebuildUIController : MonoBehaviour
             ItemController.transform.GetChild(ItemController.transform.childCount-1).gameObject.transform.GetChild(3).gameObject.GetComponent<RectTransform>().localScale = new Vector2 (0.25f, 0.25f);
         }else if(item.sortiment==10){//sluhsi
             ItemController.transform.GetChild(ItemController.transform.childCount-1).gameObject.transform.GetChild(3).gameObject.GetComponent<RectTransform>().localScale = new Vector2 (0.25f, 0.25f);
+        }else if(item.sortiment==11){//expansion
+            ItemController.transform.GetChild(ItemController.transform.childCount-1).gameObject.transform.GetChild(3).gameObject.GetComponent<RectTransform>().localScale = new Vector2 (0.25f, 0.25f);
         }
 
         //gucke ob bereits in backup vorhanden
         item.inBackup = PlayerController.getStorageItemCount(item.spriteName);
         ItemController.transform.GetChild(ItemController.transform.childCount-1).gameObject.transform.GetChild(5).gameObject.GetComponent<TMPro.TextMeshProUGUI>().text = ""+item.inBackup;
-    
+        
+
+        //gucke ob player das nötige level hat
         if(PlayerController.playerLevel>=item.level){
-            //gucke ob player genug geld ODER in backup vorhanden ist
-            if((PlayerController.playerGold>=item.priceGold&&PlayerController.playerMoney>=item.priceMoney)||item.inBackup>0){
-                ItemController.transform.GetChild(ItemController.transform.childCount-1).gameObject.transform.GetChild(3).gameObject.GetComponent<Button>().interactable = true;
+
+            //gucke ob player überhaupt noch bestimmte objecttypen platzieren darf
+            if(PlayerController.getObjectLimiterDictInfoForObject(item.spriteName.Split("_")[0])>0){
+                
+                //gucke ob player genug geld ODER in backup vorhanden ist
+                if((PlayerController.playerGold>=item.priceGold&&PlayerController.playerMoney>=item.priceMoney)||item.inBackup>0){
+                    ItemController.transform.GetChild(ItemController.transform.childCount-1).gameObject.transform.GetChild(3).gameObject.GetComponent<Button>().interactable = true;
+                }else{
+                    ItemController.transform.GetChild(ItemController.transform.childCount-1).gameObject.transform.GetChild(3).gameObject.GetComponent<Button>().interactable = false;
+                }
             }else{
                 ItemController.transform.GetChild(ItemController.transform.childCount-1).gameObject.transform.GetChild(3).gameObject.GetComponent<Button>().interactable = false;
             }
@@ -487,6 +498,25 @@ public class RebuildUIController : MonoBehaviour
         ObjectList.Add(new Object("Wall_Door_06_1_", 20000, 0, 0, true, 3, 23));
         ObjectList.Add(new Object("Wall_Door_07_1_", 14000, 0, 0, true, 3, 23));
 
+        ObjectList.Add(new Object("8x8", 0, 5, 0, true, 11, 0));
+        ObjectList.Add(new Object("8x8", 1000, 0, 0, true, 11, 3));
+        ObjectList.Add(new Object("9x9", 0, 10, 0, true, 11, 0));
+        ObjectList.Add(new Object("9x9", 10000, 5, 0, true, 11, 10));
+        ObjectList.Add(new Object("10x10", 0, 20, 0, true, 11, 0));
+        ObjectList.Add(new Object("10x10", 30000, 0, 0, true, 11, 15));
+        ObjectList.Add(new Object("11x11", 0, 30, 0, true, 11, 0));
+        ObjectList.Add(new Object("11x11", 100000, 10, 0, true, 11, 20));
+        ObjectList.Add(new Object("12x12", 0, 40, 0, true, 11, 0));
+        ObjectList.Add(new Object("12x12", 200000, 0, 0, true, 11, 25));
+        ObjectList.Add(new Object("13x13", 0, 50, 0, true, 11, 0));
+        ObjectList.Add(new Object("13x13", 1000000, 20, 0, true, 11, 35));
+        ObjectList.Add(new Object("14x14", 0, 60, 0, true, 11, 0));
+        ObjectList.Add(new Object("14x14", 2000000, 0, 0, true, 11, 45));
+        ObjectList.Add(new Object("15x15", 0, 70, 0, true, 11, 0));
+        ObjectList.Add(new Object("15x15", 4000000, 30, 0, true, 11, 60));
+        ObjectList.Add(new Object("16x16", 0, 80, 0, true, 11, 0));
+        ObjectList.Add(new Object("16x16", 8000000, 30, 0, true, 11, 75));
+
         object[] sprites = Resources.LoadAll("Textures/UI/RebuildItems",typeof(Sprite));
         for(int x=0;x<sprites.Length;x++){
            	SpriteList.Add((Sprite)sprites[x]);
@@ -506,7 +536,7 @@ public class Object{
     public int priceGold { get; set; }
     public int inBackup { get; set; }
     public bool isActive { get; set; }
-    public int sortiment { get; set; }//0=chair,1=table,2=wall,3=door,4=walldeko,5=floor,6=deko,7=oven,8=counter,9=fridge,10=toaster,11=expansion
+    public int sortiment { get; set; }//0=chair,1=table,2=wall,3=door,4=walldeko,5=floor,6=deko,7=oven,8=counter,9=fridge,10=slushi,11=expansion
     public int level { get; set; }
     public Object(string spriteName, int priceMoney, int priceGold, int inBackup, bool isActive, int sortiment, int level){
         this.spriteName = spriteName;

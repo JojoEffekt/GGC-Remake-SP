@@ -13,7 +13,19 @@ public class PlayerController : MonoBehaviour
     public static int gridSize;//8
     public static Dictionary<string, int> FoodItemDict = new Dictionary<string, int>();//Empty
     public static Dictionary<string, int> StorageItemDict = new Dictionary<string, int>();//Empty / speicher Informationen welches Objekt und wie oft auf reserve
+    public static Dictionary<string, int> ObjectLimiterDict = new Dictionary<string, int>();//Oven:3;Fridge:1;Counter:2;Slushi:1 / speicher wieviele Fridges,Counter,Oven and Slushies you can place
 
+    /*  
+    JojoEffekt
+    1500
+    10
+    100
+    8
+    Empty
+    Empty
+    Oven:3;Fridge:1;Counter:2;Slushi:1
+    */
+     
     public static int playerLevel;//wird durch xp erzeugt
     public static int FridgeStoragePlace;//wird durch LoadFoodItemDict erzeugt/ platz im kühlschrank
     
@@ -81,6 +93,16 @@ public class PlayerController : MonoBehaviour
             for(int a=0;a<items.Length;a++){
                 string[] pair = items[a].Split(":");
                 StorageItemDict.Add(pair[0], Int32.Parse(pair[1]));
+            }
+        }
+    }
+    public static void LoadObjectLimiterDict(string data){
+        data = data.Trim();
+        string[] items = data.Split(";");
+        if(!data.Equals("Empty")){
+            for(int a=0;a<items.Length;a++){
+                string[] pair = items[a].Split(":");
+                ObjectLimiterDict.Add(pair[0], Int32.Parse(pair[1]));
             }
         }
     }
@@ -200,6 +222,51 @@ public class PlayerController : MonoBehaviour
             return info;
         }
         return "Empty";
+    }
+    public static string getObjectLimiterDictInfo(){
+        string info = "";
+        foreach (var item in ObjectLimiterDict){
+            info += item.Key+":"+item.Value+";";
+        }
+        if(info!=""){
+            info = info.Remove(info.Length - 1, 1);
+            return info;
+        }
+        return "Oven:3;Fridge:1;Counter:2;Slushi:1";
+    }
+
+    //gibt die anzahl der noch möglich zu platzierenden Objekte für ein Objecttyp wieder
+    public static int getObjectLimiterDictInfoForObject(string objectType){
+
+        //kriegt die nummer der max. möglich zu platzierenden objecte
+        int typeMaxAnzahl = 0;
+        if(ObjectLimiterDict.ContainsKey(objectType)){
+            typeMaxAnzahl = ObjectLimiterDict[objectType];
+        }else{
+            return 99999;
+        }
+
+        int AnzahlAufSpielfeld = 0;
+
+        //vergleiche die zahl mit der bereits existierenden anzahl auf dem spielfeld
+        for(int a=0;a<gridSize;a++){
+            for(int b=0;b<gridSize;b++){
+               
+                //suche jedes childFloor object in der Scene
+                if(GameObject.Find(a+"-"+b+"-Child")!=null){
+                    string childName = GameObject.Find(a+"-"+b+"-Child").gameObject.GetComponent<SpriteRenderer>().sprite.name;
+                    string[] splitName = childName.Split("_");
+
+                    //gucke obj childFloor object der gesuchte type ist
+                    if(splitName[0].Equals(objectType)){
+                        AnzahlAufSpielfeld = AnzahlAufSpielfeld + 1;
+                    }
+                }
+            }
+        }
+
+        //gibt die anzahl der noch zu platzierenden objekte wieder
+        return typeMaxAnzahl-AnzahlAufSpielfeld;
     }
 
 

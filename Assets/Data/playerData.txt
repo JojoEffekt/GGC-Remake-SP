@@ -1,7 +1,8 @@
 Jojo
 89
-46727137
+46726129
 5675675
 8
 Lettuce:1
-Table_11_a_1:1;Table_11_a:1;Chair_04_a_1:1;Fridge_05_a_1:1
+Table_11_a_1:1;Table_11_a:1;Chair_04_a_1:1;Fridge_05_a_1:2;Chair_06_a:4;Oven_03_a_1:1;Chair_18_a:4;Deko_02_a:1;Oven_01_a_1:2
+Oven:3;Fridge:1;Counter:2;Slushi:1
