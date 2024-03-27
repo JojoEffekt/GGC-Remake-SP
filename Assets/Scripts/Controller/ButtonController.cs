@@ -107,6 +107,7 @@ public class ButtonController : MonoBehaviour
 
         //ItemSettingUI
         //rendert die HandlerUI für das jeweilige angeklickte Object
+        //Replace, Sell, Rotate
         if(MouseAction==0&&isRebuildShopOpen==true){
             //überprüft auf welches angeklickte Object der fokus liegt
             // muss floorchilds sein      oder        wallchild mit sprite    
@@ -128,12 +129,15 @@ public class ButtonController : MonoBehaviour
                     DynamicPrefab.transform.GetChild(1).gameObject.SetActive(true);
                     DynamicPrefab.transform.GetChild(1).gameObject.GetComponent<Button>().onClick.AddListener(delegate{RotateObjectByUISetting(objectName);});
                 }
-                //Gucke nach SellButton       //CONTINUE gucke nach wallChildObject exist
+                //Gucke nach SellButton 
                 if(!isWallChildObjectEmpty(objectName)||isFloorChildObject(objectName)){
-                    DynamicPrefab.transform.GetChild(2).gameObject.SetActive(true);
-                    DynamicPrefab.transform.GetChild(2).gameObject.GetComponent<Button>().onClick.AddListener(delegate{StoreObjectByUISetting(objectName);});
+                    //object darf nicht Door sein
+                    if(!isWallDoorObject(objectName)){
+                        DynamicPrefab.transform.GetChild(2).gameObject.SetActive(true);
+                        DynamicPrefab.transform.GetChild(2).gameObject.GetComponent<Button>().onClick.AddListener(delegate{StoreObjectByUISetting(objectName);});
+                    }
                 }
-                //Gucke nach ReplaceButton       //CONTINUE gucke nach wallChildObject exist
+                //Gucke nach ReplaceButton     
                 if(!isWallChildObjectEmpty(objectName)||isFloorChildObject(objectName)){
                     DynamicPrefab.transform.GetChild(3).gameObject.SetActive(true);
                     DynamicPrefab.transform.GetChild(3).gameObject.GetComponent<Button>().onClick.AddListener(delegate{ReplaceObjectByUISetting(objectName);});
@@ -458,6 +462,22 @@ public class ButtonController : MonoBehaviour
             //überprüft ob das gameobject kein sprite hat
             if(Object.ReferenceEquals(wallGO.transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().sprite, null)){
                 return true;
+            }
+        }
+        return false;
+    }
+
+    public bool isWallDoorObject(string objectName){
+        //find alle wall objecte in der scene und gucke ob unterobject wall ist
+        string[] splitName = objectName.Split("-");
+        if(splitName[splitName.Length-1].Equals("Wall")){
+            GameObject wallGO = GameObject.Find(objectName);
+            
+            //überprüft ob das gameobject unterobject ein sprite hat
+            if(!Object.ReferenceEquals(wallGO.transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().sprite, null)){
+                if(wallGO.transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().sprite.name.Split("_")[1].Equals("Door")){
+                    return true;
+                }
             }
         }
         return false;

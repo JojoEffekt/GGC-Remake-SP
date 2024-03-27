@@ -95,6 +95,8 @@ public class RebuildUIController : MonoBehaviour
     }
 
     public void RenderItem(Object item, int position){
+
+        //erstellt prefab
         Instantiate(ItemPrefab, new Vector2((position*195)+570, 110), Quaternion.identity, ItemController.transform);
 
         for(int a=0;a<SpriteList.Count;a++){//lade bild
@@ -218,6 +220,29 @@ public class RebuildUIController : MonoBehaviour
 
                 //nach jeder action muss gespeichert werden
                 SaveAndLoadController.SavePlayerData();
+            
+            //gucke ob expansion gekauft wurde
+            }else if(item.spriteName.Split("_")[0].Equals("Expansion")){
+
+                //lösche expansion für gold und money
+                string itemDoubleName = item.spriteName;
+                ObjectList.Remove(item);
+                //hole item referenz für gleichnamiges object und lösche
+                for(int a=0;a<ObjectList.Count;a++){
+                    if(ObjectList[a].spriteName.Equals(itemDoubleName)){
+                        ObjectList.RemoveAt(a);
+                    }
+                }
+
+                //rechne ab
+                PlayerController.playerMoney = PlayerController.playerMoney - item.priceMoney;
+                PlayerController.playerGold = PlayerController.playerGold - item.priceGold;
+
+                //expandiere grid
+                GridController.UpgradeGrid();
+
+                //aktuallisiere stats
+                PlayerController.ReloadPlayerStats();
             }else{
                 //item kann nun über ButtonController platziert werden
                 //object zur generierung freigeschaltet
@@ -498,24 +523,43 @@ public class RebuildUIController : MonoBehaviour
         ObjectList.Add(new Object("Wall_Door_06_1_", 20000, 0, 0, true, 3, 23));
         ObjectList.Add(new Object("Wall_Door_07_1_", 14000, 0, 0, true, 3, 23));
 
-        ObjectList.Add(new Object("8x8", 0, 5, 0, true, 11, 0));
-        ObjectList.Add(new Object("8x8", 1000, 0, 0, true, 11, 3));
-        ObjectList.Add(new Object("9x9", 0, 10, 0, true, 11, 0));
-        ObjectList.Add(new Object("9x9", 10000, 5, 0, true, 11, 10));
-        ObjectList.Add(new Object("10x10", 0, 20, 0, true, 11, 0));
-        ObjectList.Add(new Object("10x10", 30000, 0, 0, true, 11, 15));
-        ObjectList.Add(new Object("11x11", 0, 30, 0, true, 11, 0));
-        ObjectList.Add(new Object("11x11", 100000, 10, 0, true, 11, 20));
-        ObjectList.Add(new Object("12x12", 0, 40, 0, true, 11, 0));
-        ObjectList.Add(new Object("12x12", 200000, 0, 0, true, 11, 25));
-        ObjectList.Add(new Object("13x13", 0, 50, 0, true, 11, 0));
-        ObjectList.Add(new Object("13x13", 1000000, 20, 0, true, 11, 35));
-        ObjectList.Add(new Object("14x14", 0, 60, 0, true, 11, 0));
-        ObjectList.Add(new Object("14x14", 2000000, 0, 0, true, 11, 45));
-        ObjectList.Add(new Object("15x15", 0, 70, 0, true, 11, 0));
-        ObjectList.Add(new Object("15x15", 4000000, 30, 0, true, 11, 60));
-        ObjectList.Add(new Object("16x16", 0, 80, 0, true, 11, 0));
-        ObjectList.Add(new Object("16x16", 8000000, 30, 0, true, 11, 75));
+        //instantziert nur, wenn das upgrade noch nicht gekauft wurde
+        if(PlayerController.gridSize<8){
+            ObjectList.Add(new Object("Expansion_8x8", 0, 5, 0, true, 11, 0));
+            ObjectList.Add(new Object("Expansion_8x8", 1000, 0, 0, true, 11, 3));
+        }
+        if(PlayerController.gridSize<9){
+            ObjectList.Add(new Object("Expansion_9x9", 0, 10, 0, true, 11, 0));
+            ObjectList.Add(new Object("Expansion_9x9", 10000, 5, 0, true, 11, 10));
+        }
+        if(PlayerController.gridSize<10){
+            ObjectList.Add(new Object("Expansion_10x10", 0, 20, 0, true, 11, 0));
+            ObjectList.Add(new Object("Expansion_10x10", 30000, 0, 0, true, 11, 15));
+        }
+        if(PlayerController.gridSize<11){
+            ObjectList.Add(new Object("Expansion_11x11", 0, 30, 0, true, 11, 0));
+            ObjectList.Add(new Object("Expansion_11x11", 100000, 10, 0, true, 11, 20));
+        }
+        if(PlayerController.gridSize<12){
+            ObjectList.Add(new Object("Expansion_12x12", 0, 40, 0, true, 11, 0));
+            ObjectList.Add(new Object("Expansion_12x12", 200000, 0, 0, true, 11, 25));
+        }
+        if(PlayerController.gridSize<13){
+            ObjectList.Add(new Object("Expansion_13x13", 0, 50, 0, true, 11, 0));
+            ObjectList.Add(new Object("Expansion_13x13", 1000000, 20, 0, true, 11, 35));
+        }
+        if(PlayerController.gridSize<14){
+            ObjectList.Add(new Object("Expansion_14x14", 0, 60, 0, true, 11, 0));
+            ObjectList.Add(new Object("Expansion_14x14", 2000000, 0, 0, true, 11, 45));
+        }
+        if(PlayerController.gridSize<15){
+            ObjectList.Add(new Object("Expansion_15x15", 0, 70, 0, true, 11, 0));
+            ObjectList.Add(new Object("Expansion_15x15", 4000000, 30, 0, true, 11, 60));
+        }
+        if(PlayerController.gridSize<16){
+            ObjectList.Add(new Object("Expansion_16x16", 0, 80, 0, true, 11, 0));
+            ObjectList.Add(new Object("Expansion_16x16", 8000000, 30, 0, true, 11, 75));
+        }
 
         object[] sprites = Resources.LoadAll("Textures/UI/RebuildItems",typeof(Sprite));
         for(int x=0;x<sprites.Length;x++){
