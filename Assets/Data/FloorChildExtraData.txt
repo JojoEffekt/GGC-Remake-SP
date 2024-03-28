@@ -1,8 +1,8 @@
-Chair;10-3;True
-Chair;7-8;True
-Counter;10-12;True;;0
-Counter;11-11;True;;0
-Oven;5-12;0;;0;;
-Oven;12-9;0;;0;;
-Oven;7-14;0;;0;;
-Slushi;15-0;;0
+Chair;8-6;True
+Chair;7-5;True
+Counter;9-6;True;;0
+Counter;8-4;True;;0
+Oven;7-6;0;;0;;
+Oven;5-6;0;;0;;
+Oven;6-6;0;;0;;
+Slushi;7-3;;0

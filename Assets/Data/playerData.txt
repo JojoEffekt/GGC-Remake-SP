@@ -1,8 +1,8 @@
 Jojo
-2750
-46723054
+2310
+46723049
 5675675
 16
-Lettuce:6
+Lettuce:6;Eggplant:2;Oranges:5
 Oven_03_a_1:2;Chair_18_a:1;Oven_01_a:1;Shlushi_a:3
 Oven:3;Fridge:1;Counter:2;Shlushi:1
