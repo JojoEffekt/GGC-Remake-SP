@@ -142,19 +142,35 @@ public class RebuildUIController : MonoBehaviour
         //gucke ob player das nötige level hat
         if(PlayerController.playerLevel>=item.level){
 
-            //gucke ob player überhaupt noch bestimmte objecttypen platzieren darf
+            //gucke ob player überhaupt noch bestimmte objecttypen platzieren darf (Oven, fridge etc)
             if(PlayerController.getObjectLimiterDictInfoForObject(item.spriteName.Split("_")[0])>0){
                 
                 //gucke ob player genug geld ODER in backup vorhanden ist
                 if((PlayerController.playerGold>=item.priceGold&&PlayerController.playerMoney>=item.priceMoney)||item.inBackup>0){
-                    ItemController.transform.GetChild(ItemController.transform.childCount-1).gameObject.transform.GetChild(3).gameObject.GetComponent<Button>().interactable = true;
+                    
+                    //es darf nur die kleinste Griderweiterung gekauft werden, heißt die größeren müssen gesperrt sein solange nicht die kleinste gekauft wurden
+                    if(item.spriteName.Split("_")[0].Equals("Expansion")){
+                        if(isLowestExpansionItem(item.spriteName)){
+
+                            //kleinstes ExpansionItem, kann gekauft werden
+                            ItemController.transform.GetChild(ItemController.transform.childCount-1).gameObject.transform.GetChild(3).gameObject.GetComponent<Button>().interactable = true;
+                        }else{
+                            ItemController.transform.GetChild(ItemController.transform.childCount-1).gameObject.transform.GetChild(3).gameObject.GetComponent<Button>().interactable = false;
+                        }
+                    }else{
+
+                        //andere objecte können gekauft werden
+                        ItemController.transform.GetChild(ItemController.transform.childCount-1).gameObject.transform.GetChild(3).gameObject.GetComponent<Button>().interactable = true;
+                    }   
                 }else{
                     ItemController.transform.GetChild(ItemController.transform.childCount-1).gameObject.transform.GetChild(3).gameObject.GetComponent<Button>().interactable = false;
                 }
             }else{
                 ItemController.transform.GetChild(ItemController.transform.childCount-1).gameObject.transform.GetChild(3).gameObject.GetComponent<Button>().interactable = false;
             }
-        }else{//load lock
+        }else{
+            
+            //load lock
             ItemController.transform.GetChild(ItemController.transform.childCount-1).gameObject.transform.GetChild(7).gameObject.GetComponent<Image>().enabled = true;
             ItemController.transform.GetChild(ItemController.transform.childCount-1).gameObject.transform.GetChild(3).gameObject.GetComponent<Button>().interactable = false;
         }
@@ -571,6 +587,23 @@ public class RebuildUIController : MonoBehaviour
         for(int a=ItemController.transform.childCount-1;a>=0;a--){
             Destroy(ItemController.transform.GetChild(a).gameObject);
         }
+    }
+
+    //suche in der Objectliste nach einem expansionItem was kleiner als das übergebene ist, wenn ja -> nicht das kleinste
+    public bool isLowestExpansionItem(string name){
+        string[] splitNumber = name.Split("x");
+
+        //splitte jeden item name und suche nach expansion, wenn gefunden suche nach der größer der expnasion
+        foreach(Object item in ObjectList){
+            if(item.spriteName.Split("_")[0].Equals("Expansion")){
+                
+                //gucke ob das gefundene item kleiner ist
+                if(Int32.Parse(item.spriteName.Split("x")[2])<Int32.Parse(splitNumber[2])){
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 }
 

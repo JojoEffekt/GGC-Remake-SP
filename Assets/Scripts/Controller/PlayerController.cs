@@ -20,10 +20,10 @@ public class PlayerController : MonoBehaviour
     1500
     10
     100
-    8
+    7
     Empty
     Empty
-    Oven:3;Fridge:1;Counter:2;Slushi:1
+    Oven:3;Fridge:1;Counter:2;Shlushi:1
     */
      
     public static int playerLevel;//wird durch xp erzeugt

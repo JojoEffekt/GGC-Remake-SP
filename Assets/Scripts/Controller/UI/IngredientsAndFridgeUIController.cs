@@ -30,10 +30,15 @@ public class IngredientsUIController : MonoBehaviour
 
 
     public void OpenShop(){
-        IngredientsStore.SetActive(true);//aktiviert UI
+        
+        //überprfüe ob der shop nicht schon aktiviert ist, ansonsten lade shop
+        if(IngredientsStore.activeInHierarchy==false){
 
-        LoadItems();
-        BuildShopSite();
+            IngredientsStore.SetActive(true);//aktiviert UI
+
+            LoadItems();
+            BuildShopSite();
+        }
     }
 
     public void CloseShop(){

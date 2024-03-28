@@ -1,8 +1,8 @@
 Jojo
-69
-46725772
+2750
+46723054
 5675675
-11
-Lettuce:1
-Table_11_a_1:1;Table_11_a:1;Chair_04_a_1:1;Fridge_05_a_1:2;Chair_06_a:3;Oven_03_a_1:1;Deko_02_a:1;Oven_01_a_1:2;Wall_09_a:1;Wall_Door_01_a_1:1
-Oven:3;Fridge:1;Counter:2;Slushi:1
+16
+Lettuce:6
+Oven_03_a_1:2;Chair_18_a:1;Oven_01_a:1;Shlushi_a:3
+Oven:3;Fridge:1;Counter:2;Shlushi:1

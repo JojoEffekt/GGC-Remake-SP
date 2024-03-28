@@ -9,6 +9,8 @@ using UnityEngine.UI;
 public class ButtonController : MonoBehaviour
 {
     public GameObject RebuildUI;//referenz auf RebuildUIController script
+    public GameObject MainController;//referenz auf MainController script
+    public GameObject IngredientsAndFridgeUIController; //referenz auf IngredientsAndFridgeUIController script
 
     public int MouseAction = 0; //0=nothing,1=rotate,2=create,3=remove,4=replace
     public bool isRebuildShopOpen = false;//wenn der rebuild shop offen ist, wahr
@@ -36,6 +38,11 @@ public class ButtonController : MonoBehaviour
 
                         //objekte könnnen bearbeitet werden
                         MouseHandler(hitInfo);
+                    }else{
+                    //wenn nicht, gucke ob Oven, Counter, Fridge oder Slushi angeklickt wurde
+
+                        //objekte könnnen angeklickt werden
+                        MouseHandler2(hitInfo);
                     }
                 }
             }
@@ -97,7 +104,7 @@ public class ButtonController : MonoBehaviour
         SaveAndLoadController.SavePlayerData();
     }
 
-    //GUckt welches Object erstellt wird, anhand dessen, welches Object angeklickt wurde
+    //Guckt welches Object erstellt wird, anhand dessen, welches Object angeklickt wurde
     public void MouseHandler(RaycastHit2D[] info){
         string objectName = getPrioritizedObjectName(info);
         
@@ -401,6 +408,37 @@ public class ButtonController : MonoBehaviour
             RebuildUI.GetComponent<RebuildUIController>().RenderShop();
         }
     }
+
+
+
+
+
+
+    //Wenn RebuilShop nicht geöffnet ist
+    //gucke auf welche objecte geklickt wurde
+    public void MouseHandler2(RaycastHit2D[] info){
+        string objectName = getPrioritizedObjectName(info);
+
+        //gucke ob es ein Floor child object ist
+        if(isFloorChildObject(objectName)){
+            //gucke ob angeklicktes object Fridge,Oven,Counter oder Slushi ist
+            if(getTypeFromObject(objectName).Equals("Fridge")){
+
+                //öffne fridge
+                //MainController.buttonPressed(1) //öffnet ingredientsstore 
+                //IngredientsAndFridgeUIController.IsFridgeOpen(true) //öffnet fridge
+                MainController.GetComponent<MainController>().buttonPressed(1);
+                IngredientsAndFridgeUIController.GetComponent<IngredientsUIController>().IsFridgeOpen(true);
+
+            }else if(getTypeFromObject(objectName).Equals("Oven")){
+                //öffne gerichteshop
+            }else if(getTypeFromObject(objectName).Equals("Counter")){
+                //zeige anzahl der gerichte auf counter
+            }else if(getTypeFromObject(objectName).Equals("Slushi")){
+                //öffne slushi shop
+            }
+        }   
+    }
     
 
 
@@ -444,6 +482,22 @@ public class ButtonController : MonoBehaviour
             }
         }
         return objectName;
+    }
+
+    //guckt welcher typ der übergebene string ist
+    public string getTypeFromObject(string name){
+        GameObject gameObject = GameObject.Find(name);
+        string spriteType = gameObject.GetComponent<SpriteRenderer>().sprite.name.Split("_")[0];
+        if(spriteType.Equals("Fridge")){
+            return "Fridge";
+        }else if(spriteType.Equals("Oven")){
+            return "Oven";
+        }else if(spriteType.Equals("Shlushi")){
+            return "Slushi";
+        }else if(spriteType.Equals("Counter")){
+            return "Counter";
+        }
+        return "None";
     }
 
     public bool isWallObject(string objectName){
@@ -966,7 +1020,7 @@ public class ButtonController : MonoBehaviour
 
 
         if(objName.Equals("Shlushi_a")){
-            details = new string[]{"Slushi", "Shlushi_01_a", "0", "500", "0,0", "2,15", "0,0", "2,15"};
+            details = new string[]{"Slushi", "Shlushi_01_a", "0", "500", "0,1", "2,70", "0,1", "2,70"};
         }
 
 
