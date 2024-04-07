@@ -1,5 +1,16 @@
 Chair;8-6;True
 Chair;7-5;True
+Chair;11-9;True
+Chair;7-10;True
+Chair;7-11;True
+Chair;7-12;True
+Chair;7-13;True
+Chair;7-14;True
+Table;8-10;True
+Table;8-11;True
+Table;8-12;True
+Table;8-13;True
+Table;8-14;True
 Counter;9-6;True;;0
 Counter;8-4;True;;0
 Oven;7-6;0;;0;;

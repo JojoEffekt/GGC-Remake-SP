@@ -174,6 +174,8 @@ public class IngredientsUIController : MonoBehaviour
         PlayerController.ReloadPlayerStats();
     }
 
+
+    //rendert die items
     public void RenderItem(IngredientItem item, int position){
         if(position<=3){
             Instantiate(ItemPrefab, new Vector2((position*200)+970, 530), Quaternion.identity, ItemController.transform);
