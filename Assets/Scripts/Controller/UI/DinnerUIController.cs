@@ -128,6 +128,7 @@ public class DinnerUIController : MonoBehaviour
         //ladet die ingredient list
         //bestimmt den slot des jeweiligen items
         int counter = 8;//ist für child gameobject verantwortlich
+        bool isCookable = true;//wird benutzt um zu schauen ob dinner cookable ist
     	for(int c=0;c<IngredientsSpriteList.Count;c++){
             foreach(var ingredient in item.infoIngredients){
                 if(ingredient.Key.Equals(IngredientsSpriteList[c].name)){
@@ -141,12 +142,8 @@ public class DinnerUIController : MonoBehaviour
                     if(PlayerController.getFoodItemCount(Transform(IngredientsSpriteList[c].name))<ingredient.Value){
                         prefab.transform.GetChild(0).gameObject.transform.GetChild(counter).gameObject.GetComponent<Image>().color = Color.grey;
                         
-                        //CONTINUE delegate
-
-                    }else{//wenn nicht, verändere den "Kochen" btn zu "shop" btn
-                        
-                        //CONTINUE delegate
-
+                        //zeigt cook zeichen an
+                        isCookable = false;
                     }
 
 
@@ -155,6 +152,17 @@ public class DinnerUIController : MonoBehaviour
                     counter ++;
                 }
             }
+        }
+
+        //guckt ob das istem cookable ist, anhand ob alle igredients vorhanden sind
+        //delegiert das passende event für den jeweiligen btn
+        if(isCookable){
+            prefab.transform.GetChild(1).gameObject.transform.GetChild(0).gameObject.GetComponent<Image>().overrideSprite = UISpriteList[9];
+
+            //delegate cook CONITNUE
+        }else{
+            //delegate open ingredient
+            prefab.transform.GetChild(1).gameObject.transform.GetChild(0).gameObject.GetComponent<Button>().onClick.AddListener(delegate{OpenIngredientShop();});
         }
 
         //generiert den Dinner namen
@@ -318,6 +326,12 @@ public class DinnerUIController : MonoBehaviour
         UISpriteList.Clear();
         IngredientsSpriteList.Clear();
         shopSite = 0;
+    }
+
+    //schließt den dinnershop und öffnet dafür den ingredientshop
+    public void OpenIngredientShop(){
+        CloseShop();
+        MainController.GetComponent<MainController>().buttonPressed(1);
     }
 }
 
