@@ -44,6 +44,10 @@ public class DinnerUIController : MonoBehaviour
     public int shopSite = 0;
 
 
+    //ist eine globale referenz damit das zu kochende item erhalten werden kann wenn er gekocht werden soll
+    public static DinnerItem DinnerToCook;
+
+
     //öffnet den shop und läd die items
     public void OpenShop(){
         
@@ -146,6 +150,11 @@ public class DinnerUIController : MonoBehaviour
                         isCookable = false;
                     }
 
+                    //guckt ob das gericht überhaupt gekocht werden kann, dann lock ingredients egal ob vorhanden
+                    if(item.level>PlayerController.playerLevel){
+                        prefab.transform.GetChild(0).gameObject.transform.GetChild(counter).gameObject.GetComponent<Image>().color = Color.grey;
+                    }
+
 
                     //generiert die stückanzahl
                     prefab.transform.GetChild(2).gameObject.transform.GetChild(counter-3).gameObject.GetComponent<TMPro.TextMeshProUGUI>().text = ""+ingredient.Value;
@@ -154,15 +163,27 @@ public class DinnerUIController : MonoBehaviour
             }
         }
 
-        //guckt ob das istem cookable ist, anhand ob alle igredients vorhanden sind
         //delegiert das passende event für den jeweiligen btn
-        if(isCookable){
+        if(item.level>PlayerController.playerLevel){
+            //lock dinner wenn playerlevel nicht erreicht ist
+            //buy btn
             prefab.transform.GetChild(1).gameObject.transform.GetChild(0).gameObject.GetComponent<Image>().overrideSprite = UISpriteList[9];
+            prefab.transform.GetChild(1).gameObject.transform.GetChild(0).gameObject.GetComponent<Image>().color = Color.grey;
 
-            //delegate cook CONITNUE
+            //lock btn
+            prefab.transform.GetChild(0).gameObject.transform.GetChild(14).gameObject.SetActive(true);
+
         }else{
-            //delegate open ingredient
-            prefab.transform.GetChild(1).gameObject.transform.GetChild(0).gameObject.GetComponent<Button>().onClick.AddListener(delegate{OpenIngredientShop();});
+            //guckt ob das istem cookable ist, anhand ob alle igredients vorhanden sind
+            if(isCookable){
+                prefab.transform.GetChild(1).gameObject.transform.GetChild(0).gameObject.GetComponent<Image>().overrideSprite = UISpriteList[9];
+
+                //delegate cook CONITNUE
+                 prefab.transform.GetChild(1).gameObject.transform.GetChild(0).gameObject.GetComponent<Button>().onClick.AddListener(delegate{CookDinner(item);});
+            }else{
+                //delegate open ingredient
+                prefab.transform.GetChild(1).gameObject.transform.GetChild(0).gameObject.GetComponent<Button>().onClick.AddListener(delegate{OpenIngredientShop();});
+            }
         }
 
         //generiert den Dinner namen
@@ -198,14 +219,14 @@ public class DinnerUIController : MonoBehaviour
 
     //läd die gleichbleibenden DinnerItems, danach können die counter der jeweiligen gerichte geladen werden
     public void LoadItems(){
-        //                               name       spriteName    type       Dinnertype    level                                                                                                            infoIngredients                           Superzutat                                stars
+        //                               name       spriteName        Dinnertype       type        level                                                                                                            infoIngredients                           Superzutat                                stars
         //DinnerItemList.Add(new DinnerItem("","","","",0,new Dictionary<string ,string>(){{"number",""},{"time",""},{"moneyPerItem",""},{"xp",""},{"moneyPerItemSI",""},{"xpSI",""}},new Dictionary<string ,int>(){{"",}},new Dictionary<string ,int>(){{"",}},new Dictionary<string ,int>(){{"",},{"",},{"",}}));
-        DinnerItemList.Add(new DinnerItem("Garden Salad","Dinner_18_04","type_vegetable","background_dinner",0,new Dictionary<string ,string>(){{"number","10"},{"time","3"},{"moneyPerItem","24"},{"xp","5"},{"moneyPerItemSI","0"},{"xpSI","0"}},new Dictionary<string ,int>(){{"item_02",1},{"item_13",1},{"item_19",1}},new Dictionary<string ,int>(){{"0",0}},new Dictionary<string ,int>(){{"bronze_star_icon",0},{"silver_star_icon",0},{"gold_star_icon",0}}));
-        DinnerItemList.Add(new DinnerItem("Tomatosoup","Dinner_02_04","type_soup","background_dinner",0,new Dictionary<string ,string>(){{"number","40"},{"time","10"},{"moneyPerItem","14"},{"xp","16"},{"moneyPerItemSI","0"},{"xpSI","0"}},new Dictionary<string ,int>(){{"item_02",1},{"item_13",1},{"item_26",1}},new Dictionary<string ,int>(){{"0",0}},new Dictionary<string ,int>(){{"bronze_star_icon",0},{"silver_star_icon",0},{"gold_star_icon",0}}));
-        DinnerItemList.Add(new DinnerItem("Omelette","Dinner_55_04","type_burger","background_dinner",0,new Dictionary<string ,string>(){{"number","5"},{"time","1"},{"moneyPerItem","100"},{"xp","2"},{"moneyPerItemSI","0"},{"xpSI","0"}},new Dictionary<string ,int>(){{"item_23",1}},new Dictionary<string ,int>(){{"0",0}},new Dictionary<string ,int>(){{"bronze_star_icon",0},{"silver_star_icon",0},{"gold_star_icon",0}}));
-        DinnerItemList.Add(new DinnerItem("Mousse au Chocolat","Dinner_20_04","type_candy","background_dinner",0,new Dictionary<string ,string>(){{"number","390"},{"time","180"},{"moneyPerItem","4"},{"xp","259"},{"moneyPerItemSI","0"},{"xpSI","0"}},new Dictionary<string ,int>(){{"item_23",1},{"item_29",1},{"item_26",1}},new Dictionary<string ,int>(){{"0",0}},new Dictionary<string ,int>(){{"bronze_star_icon",0},{"silver_star_icon",0},{"gold_star_icon",0}}));
-        DinnerItemList.Add(new DinnerItem("Spaghetti Bolognese","Dinner_06_04","type_main","background_dinner",0,new Dictionary<string ,string>(){{"number","1040"},{"time","540"},{"moneyPerItem","1"},{"xp","624"},{"moneyPerItemSI","0"},{"xpSI","0"}},new Dictionary<string ,int>(){{"item_11",1},{"item_17",1},{"item_02",1}},new Dictionary<string ,int>(){{"item_35",1}},new Dictionary<string ,int>(){{"bronze_star_icon",0},{"silver_star_icon",0},{"gold_star_icon",0}}));
-        DinnerItemList.Add(new DinnerItem("Hamburger","Dinner_17_04","type_burger","background_dinner",0,new Dictionary<string ,string>(){{"number","130"},{"time","60"},{"moneyPerItem","7"},{"xp","97"},{"moneyPerItemSI","0"},{"xpSI","0"}},new Dictionary<string ,int>(){{"item_17",1},{"item_02",1},{"item_22",1}},new Dictionary<string ,int>(){{"item_30",1}},new Dictionary<string ,int>(){{"bronze_star_icon",0},{"silver_star_icon",0},{"gold_star_icon",0}}));
+        DinnerItemList.Add(new DinnerItem("Garden Salad","Dinner_18_04","type_vegetable","background_dinner",1,new Dictionary<string ,string>(){{"number","10"},{"time","3"},{"moneyPerItem","24"},{"xp","5"},{"moneyPerItemSI","0"},{"xpSI","0"}},new Dictionary<string ,int>(){{"item_02",1},{"item_13",1},{"item_19",1}},new Dictionary<string ,int>(){{"0",0}},new Dictionary<string ,int>(){{"bronze_star_icon",0},{"silver_star_icon",0},{"gold_star_icon",0}}));
+        DinnerItemList.Add(new DinnerItem("Tomatosoup","Dinner_02_04","type_soup","background_dinner",2,new Dictionary<string ,string>(){{"number","40"},{"time","10"},{"moneyPerItem","14"},{"xp","16"},{"moneyPerItemSI","0"},{"xpSI","0"}},new Dictionary<string ,int>(){{"item_02",1},{"item_13",1},{"item_26",1}},new Dictionary<string ,int>(){{"0",0}},new Dictionary<string ,int>(){{"bronze_star_icon",0},{"silver_star_icon",0},{"gold_star_icon",0}}));
+        DinnerItemList.Add(new DinnerItem("Omelette","Dinner_55_04","type_burger","background_dinner",3,new Dictionary<string ,string>(){{"number","5"},{"time","1"},{"moneyPerItem","100"},{"xp","2"},{"moneyPerItemSI","0"},{"xpSI","0"}},new Dictionary<string ,int>(){{"item_23",1}},new Dictionary<string ,int>(){{"0",0}},new Dictionary<string ,int>(){{"bronze_star_icon",0},{"silver_star_icon",0},{"gold_star_icon",0}}));
+        DinnerItemList.Add(new DinnerItem("Mousse au Chocolat","Dinner_20_04","type_candy","background_dinner",4,new Dictionary<string ,string>(){{"number","390"},{"time","180"},{"moneyPerItem","4"},{"xp","259"},{"moneyPerItemSI","0"},{"xpSI","0"}},new Dictionary<string ,int>(){{"item_23",1},{"item_29",1},{"item_26",1}},new Dictionary<string ,int>(){{"0",0}},new Dictionary<string ,int>(){{"bronze_star_icon",0},{"silver_star_icon",0},{"gold_star_icon",0}}));
+        DinnerItemList.Add(new DinnerItem("Spaghetti Bolognese","Dinner_06_04","type_main","background_dinner",5,new Dictionary<string ,string>(){{"number","1040"},{"time","540"},{"moneyPerItem","1"},{"xp","624"},{"moneyPerItemSI","0"},{"xpSI","0"}},new Dictionary<string ,int>(){{"item_11",1},{"item_17",1},{"item_02",1}},new Dictionary<string ,int>(){{"item_35",1}},new Dictionary<string ,int>(){{"bronze_star_icon",0},{"silver_star_icon",0},{"gold_star_icon",0}}));
+        DinnerItemList.Add(new DinnerItem("Hamburger","Dinner_17_04","type_burger","background_dinner",6,new Dictionary<string ,string>(){{"number","130"},{"time","60"},{"moneyPerItem","7"},{"xp","97"},{"moneyPerItemSI","0"},{"xpSI","0"}},new Dictionary<string ,int>(){{"item_17",1},{"item_02",1},{"item_22",1}},new Dictionary<string ,int>(){{"item_30",1}},new Dictionary<string ,int>(){{"bronze_star_icon",0},{"silver_star_icon",0},{"gold_star_icon",0}}));
 
         //läd die referenzbilder
         object[] sprites = Resources.LoadAll("Textures/UI/Dinner_",typeof(Sprite));
@@ -332,6 +353,15 @@ public class DinnerUIController : MonoBehaviour
     public void OpenIngredientShop(){
         CloseShop();
         MainController.GetComponent<MainController>().buttonPressed(1);
+    }
+
+    //wird im shop durch cook btn aufgerufen und übergibt das zu kochende dinner
+    public void CookDinner(DinnerItem item){
+        
+        //macht das zu kochende item global verfügbar
+        DinnerToCook = item;
+
+        Debug.Log("Cook: "+item.name);
     }
 }
 

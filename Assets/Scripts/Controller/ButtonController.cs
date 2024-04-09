@@ -431,7 +431,12 @@ public class ButtonController : MonoBehaviour
                 IngredientsAndFridgeUIController.GetComponent<IngredientsUIController>().IsFridgeOpen(true);
 
             }else if(getTypeFromObject(objectName).Equals("Oven")){
-                //öffne gerichteshop
+                //öffne gerichteshop wenn der player zum oven moven kann
+                //move player zum oven
+                //öffne dinnershop
+                //kann diesen oven bedienen
+                //CONTINUE
+                
             }else if(getTypeFromObject(objectName).Equals("Counter")){
                 //zeige anzahl der gerichte auf counter
             }else if(getTypeFromObject(objectName).Equals("Slushi")){
@@ -439,6 +444,9 @@ public class ButtonController : MonoBehaviour
             }
         }   
     }
+
+
+
     
 
 
