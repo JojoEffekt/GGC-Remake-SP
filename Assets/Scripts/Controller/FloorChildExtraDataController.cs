@@ -70,7 +70,7 @@ public class FloorChildExtraDataController : MonoBehaviour
         return false;
     }
 
-    public static void DeleteFECD(string floorChildGOName){
+    public static void DeleteFCED(string floorChildGOName){
         string floorGOName = getFloorGONameFromFloorChildGOName(floorChildGOName);
 
         for(int a=0;a<ChairList.Count;a++){
@@ -100,7 +100,7 @@ public class FloorChildExtraDataController : MonoBehaviour
         }
     }
 
-    public static void CloneFECD(string oldFloorChildGOName, string newFloorGOName){
+    public static void CloneFCED(string oldFloorChildGOName, string newFloorGOName){
         //sucht anhand des GONamen das Object und erzeugt ein neues Objekt mit übegebenden werten
         oldFloorChildGOName = getFloorGONameFromFloorChildGOName(oldFloorChildGOName);
 

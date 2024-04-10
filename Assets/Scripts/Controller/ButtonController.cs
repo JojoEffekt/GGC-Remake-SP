@@ -436,6 +436,17 @@ public class ButtonController : MonoBehaviour
                 //öffne dinnershop
                 //kann diesen oven bedienen
                 //CONTINUE
+
+                //guck ob gekocht werden kann
+                if(DinnerUIController.DinnerToCook!=null){
+                    Debug.Log("cook");
+
+                //wenn nicht öffne denn dinner shop
+                }else{
+                    MainController.GetComponent<MainController>().buttonPressed(3);
+                }
+
+
                 
             }else if(getTypeFromObject(objectName).Equals("Counter")){
                 //zeige anzahl der gerichte auf counter

@@ -264,7 +264,7 @@ public class ObjectController : MonoBehaviour
 
                         //floorChildExtraData
                         //muss vor GenerateObjectOnFloor(...) passieren, da hier das FCED geklont wird und nicht neu ohne werte erzeugt wird
-                        FloorChildExtraDataController.CloneFECD(floorChildGameObjectName, newFloorGameObjectName);
+                        FloorChildExtraDataController.CloneFCED(floorChildGameObjectName, newFloorGameObjectName);
 
                         GenerateObjectOnFloor(floorChildInfoItems[5],floorChildInfoItems[7],Int32.Parse(floorChildInfoItems[8]),float.Parse(floorChildInfoItems[9]),float.Parse(floorChildInfoItems[10]),float.Parse(floorChildInfoItems[11]),float.Parse(floorChildInfoItems[12]),newFloorGameObjectName);
                         DestroyFloorChild(floorChildGameObjectName);
@@ -294,7 +294,7 @@ public class ObjectController : MonoBehaviour
         Destroy(GameObject.Find(childGOName));
 
         //floorChildExtraData wird entfernt
-        FloorChildExtraDataController.DeleteFECD(childGOName);
+        FloorChildExtraDataController.DeleteFCED(childGOName);
     }
 
 

@@ -361,7 +361,7 @@ public class DinnerUIController : MonoBehaviour
         //macht das zu kochende item global verfügbar
         DinnerToCook = item;
 
-        Debug.Log("Cook: "+item.name);
+        //Debug.Log("Cook: "+item.name);
     }
 }
 
