@@ -361,7 +361,8 @@ public class DinnerUIController : MonoBehaviour
         //macht das zu kochende item global verfügbar
         DinnerToCook = item;
 
-        //Debug.Log("Cook: "+item.name);
+        //schließt den dinner shop
+        CloseShop();
     }
 }
 

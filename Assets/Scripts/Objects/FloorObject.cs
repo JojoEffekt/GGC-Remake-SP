@@ -28,6 +28,9 @@ public class FloorObject : MonoBehaviour
     private Sprite floorSprite;
     private Sprite floorChildSprite;
 
+    //beinhaltet die instanziierten GOs in der Scene
+    public GameObject FloorHandler;
+
     //contructor
     public FloorObject(string floorGameObjectName, string floorName, int floorPrice, float floorCoordX, float floorCoordY, string floorChildType, string floorChildGameObjectName, string floorChildName, int floorChildPrice, float floorChildCoordCorrectionXA, float floorChildCoordCorrectionYA, float floorChildCoordCorrectionXB, float floorChildCoordCorrectionYB){
         this.floorGameObjectName = floorGameObjectName;
@@ -44,11 +47,14 @@ public class FloorObject : MonoBehaviour
         this.floorChildCoordCorrectionXB = floorChildCoordCorrectionXB;
         this.floorChildCoordCorrectionYB = floorChildCoordCorrectionYB;
 
+        //läd die referenz auf das ParentObj
+        FloorHandler = GameObject.Find("FloorObjectsHandler");
+
         LoadAssets();
         setFloorSpriteFromList();
         
         //generate UI
-        FloorGameObject = Instantiate(FloorPrefab, new Vector2(floorCoordX,floorCoordY), Quaternion.identity);
+        FloorGameObject = Instantiate(FloorPrefab, new Vector2(floorCoordX,floorCoordY), Quaternion.identity, FloorHandler.transform);
         FloorGameObject.name = floorGameObjectName;
         FloorGameObject.AddComponent(typeof(PolygonCollider2D));
         setFloorSprite();

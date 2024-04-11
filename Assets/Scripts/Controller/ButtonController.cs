@@ -106,6 +106,8 @@ public class ButtonController : MonoBehaviour
 
     //Guckt welches Object erstellt wird, anhand dessen, welches Object angeklickt wurde
     public void MouseHandler(RaycastHit2D[] info){
+        LabyrinthBuilder.GenerateGrid();
+
         string objectName = getPrioritizedObjectName(info);
         
         //zertstört dynamicPrefab damit immer nur 1 existiert
@@ -431,15 +433,29 @@ public class ButtonController : MonoBehaviour
                 IngredientsAndFridgeUIController.GetComponent<IngredientsUIController>().IsFridgeOpen(true);
 
             }else if(getTypeFromObject(objectName).Equals("Oven")){
-                //öffne gerichteshop wenn der player zum oven moven kann
+                
+                //öffne sonst gerichteshop wenn der player zum oven moven kann
                 //move player zum oven
                 //öffne dinnershop
                 //kann diesen oven bedienen
                 //CONTINUE
 
-                //guck ob gekocht werden kann
+                //guck ob Dinner im shop angeklickt wurde
                 if(DinnerUIController.DinnerToCook!=null){
-                    Debug.Log("cook");
+                    
+                    //gucke ob oven frei ist
+                    //CONTINUE
+                    
+                    //übergebe den oven namen, coord und die FCED
+                    //             Oven       Koordinaten                                  int foodStep,         string foodSprite,                     int foodCount,                      string dateStart, string dateEnd
+                    string data = "Oven;"+objectName.Split("-")[0]+"-"+objectName.Split("-")[1]+";"+1+";"+DinnerUIController.DinnerToCook.spriteName+";"+DinnerUIController.DinnerToCook.info["number"]+";heute;morgen";
+                    Debug.Log("cook: " + objectName + " : " + data);
+
+                    //verändere das FCED von dem angeklickten oven
+                    FloorChildExtraDataController.ChangeFCEDData(data);
+
+                    //speichert die daten
+                    SaveAndLoadController.SavePlayerData();
 
                 //wenn nicht öffne denn dinner shop
                 }else{
