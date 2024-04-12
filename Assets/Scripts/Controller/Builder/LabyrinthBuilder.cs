@@ -6,48 +6,196 @@ using System;
 public class LabyrinthBuilder : MonoBehaviour
 {
     /*
-    
-        /\
-       /\/\
-    Y /\/\/\ X
-     / .... \
-    /        \
+
+    coord[x,y]=:
+
+          0,0
+           /\
+          /\/\
+       Y /\/\/\ X
+        / .... \
+    y,0/        \0,x
     
     */
 
+    //beinhaltet die aktuellen mapdaten wo sich der spieler bewegen kann
+    public static int[,] gridMap { get; set; }
+
     //makiert die position wo die tür steht
-    public static int[] startPos = new int[]{1,1};
+    public static int[] doorPos { get; set; }
+
+
+
+    public static void LabyrinthManager(){
+        GenerateGrid();
+
+        List<string> unsortedPath = getPath(new int[]{0,6}, new int[]{6,6});
+        if(unsortedPath.Count!=0){
+            Debug.Log("found! ShortestPath:");
+
+
+
+            //beginnt beim ende und hört beim anfang auf
+            int[] curPos = new int[]{6,6};
+            int step = Int32.Parse(unsortedPath[unsortedPath.Count-1].Split(":")[2]);
+            Debug.Log(curPos[0]+":"+curPos[1]+" step: "+step);
+
+            for(int a=0;a<unsortedPath.Count;a++){
+                for(int b=0;b<unsortedPath.Count;b++){
+                    //Debug.Log("Search neighbour from: "+curPos[0]+":"+curPos[1]+" step: "+step);
+                    if(Int32.Parse(unsortedPath[b].Split(":")[0])==curPos[0]&&Int32.Parse(unsortedPath[b].Split(":")[1])-1==curPos[1]&&Int32.Parse(unsortedPath[b].Split(":")[2])==(step-1)){
+                        Debug.Log(unsortedPath[b]);
+                        step = step - 1;
+                        curPos[0] = Int32.Parse(unsortedPath[b].Split(":")[0]);
+                        curPos[1] = Int32.Parse(unsortedPath[b].Split(":")[1]);
+                    }
+                    if(Int32.Parse(unsortedPath[b].Split(":")[0])-1==curPos[0]&&Int32.Parse(unsortedPath[b].Split(":")[1])==curPos[1]&&Int32.Parse(unsortedPath[b].Split(":")[2])==(step-1)){
+                        Debug.Log(unsortedPath[b]);
+                        step = step - 1;
+                        curPos[0] = Int32.Parse(unsortedPath[b].Split(":")[0]);
+                        curPos[1] = Int32.Parse(unsortedPath[b].Split(":")[1]);
+                    }
+                    if(Int32.Parse(unsortedPath[b].Split(":")[0])==curPos[0]&&Int32.Parse(unsortedPath[b].Split(":")[1])+1==curPos[1]&&Int32.Parse(unsortedPath[b].Split(":")[2])==(step-1)){
+                        Debug.Log(unsortedPath[b]);
+                        step = step - 1;
+                        curPos[0] = Int32.Parse(unsortedPath[b].Split(":")[0]);
+                        curPos[1] = Int32.Parse(unsortedPath[b].Split(":")[1]);
+                    }
+                    if(Int32.Parse(unsortedPath[b].Split(":")[0])+1==curPos[0]&&Int32.Parse(unsortedPath[b].Split(":")[1])==curPos[1]&&Int32.Parse(unsortedPath[b].Split(":")[2])==(step-1)){
+                        Debug.Log(unsortedPath[b]);
+                        step = step - 1;
+                        curPos[0] = Int32.Parse(unsortedPath[b].Split(":")[0]);
+                        curPos[1] = Int32.Parse(unsortedPath[b].Split(":")[1]);
+                    }
+                }
+            }
+        }else{
+            Debug.Log("nope");
+        }
+    }
+
+
 
     //erstellt das grid indem der player laufen darf
     //muss nach jeder veränderung des Spielfeldes aufgerufen werden
     public static void GenerateGrid(){
 
-        startPos = FindDoor();
-        Debug.Log(startPos[0]+":"+startPos[1]);
+        //aktuelle eingangs position für bsp npc generierung
+        doorPos = FindDoorPos();
 
         //erstellt die grid größe
         int gridSize = PlayerController.gridSize;
-        int[,] gridMap = new int[gridSize,gridSize]; 
+        gridMap = new int[gridSize,gridSize]; 
 
         //sucht alle FloorChildObjecte in der scene und markiert diese in der gridMap
         GameObject[] allObjects = UnityEngine.Object.FindObjectsOfType<GameObject>();
         foreach(GameObject item in allObjects){
             string[] split = item.name.Split("-");
             if(split.Length==3&&split[2].Equals("Child")){
+
                 //1=Object, cant walk there, makiert die position wo der spieler nicht laufen darf
                 gridMap[Int32.Parse(split[0]),Int32.Parse(split[1])] = 1;
             }
         }
-
-        for(int a=0;a<gridSize;a++){
-            for(int b=0;b<gridSize;b++){
-                Debug.Log(a+":"+b+"; "+gridMap[a,b]);
-            }
-        }
     }
 
-    //sucht die startPos anhander der Tür an der Wand
-    public static int[] FindDoor(){
+
+    //sucht den path anhand eines start und end punktes, returnt leere list bei fehler
+    public static List<string> getPath(int[] startPos, int[] endPos){
+
+        //spielfeldgröße
+        int gridSize = PlayerController.gridSize;
+
+        //zählt bei wievielen schritten
+        int step = 0;
+
+        //beinhaltet die möglichen position mit den jeweiligen stepcounter (x,y,step)
+        List<string> positions = new List<string>();
+
+        //guckt ob die startposition möglich ist
+        if(gridMap[startPos[0],startPos[1]]==1){
+            return positions;
+        }
+        //guckt ob die endposition möglich ist
+        if(gridMap[endPos[0],endPos[1]]==1){
+            return positions;
+        }
+
+
+        //startet den zyklus mit der startpos
+        positions.Add(startPos[0]+":"+(startPos[1])+":"+step);
+
+        //die anzahl den flächen des aktuellen spielfelds(x^2 ist max mögliche anzahl an zu gehenden felder)
+        for(int a=0;a<gridSize*gridSize;a++){
+
+            //gehe alle positions in positionlist durch
+            for(int b=0;b<positions.Count;b++){
+
+                //sucht nur die nachbarn von positions mit der aktuellen stepPos zahl 
+                if(Int32.Parse(positions[b].Split(":")[2])==step){
+
+                    //suche nachbar über aktuelle pos
+                    if(FindNeighbour(Int32.Parse(positions[b].Split(":")[0]),Int32.Parse(positions[b].Split(":")[1])-1,positions)){
+                        positions.Add(Int32.Parse(positions[b].Split(":")[0])+":"+(Int32.Parse(positions[b].Split(":")[1])-1)+":"+(step+1));
+                    }
+                    //suche nachbar rechts von aktuelle pos
+                    if(FindNeighbour(Int32.Parse(positions[b].Split(":")[0])-1,Int32.Parse(positions[b].Split(":")[1]),positions)){
+                        positions.Add((Int32.Parse(positions[b].Split(":")[0])-1)+":"+Int32.Parse(positions[b].Split(":")[1])+":"+(step+1));
+                    }
+                    //suche nachbar unter aktuelle pos
+                    if(FindNeighbour(Int32.Parse(positions[b].Split(":")[0]),Int32.Parse(positions[b].Split(":")[1])+1,positions)){
+                        positions.Add(Int32.Parse(positions[b].Split(":")[0])+":"+(Int32.Parse(positions[b].Split(":")[1])+1)+":"+(step+1));
+                    }
+                    //suche nachbar links von aktuelle pos
+                    if(FindNeighbour(Int32.Parse(positions[b].Split(":")[0])+1,Int32.Parse(positions[b].Split(":")[1]),positions)){
+                        positions.Add((Int32.Parse(positions[b].Split(":")[0])+1)+":"+Int32.Parse(positions[b].Split(":")[1])+":"+(step+1));
+                    }
+                }
+            }
+
+            //gucke ob zielPos erreicht wurde
+            foreach(var item in positions){
+                if(Int32.Parse(item.Split(":")[0])==endPos[0]&&Int32.Parse(item.Split(":")[1])==endPos[1]){
+
+                    //möglicher weg gefunden, gib zurück!
+                    return positions;
+                }
+            }
+
+            //stepPos muss um 1 erhöht werden, da alle nachbarn von den position mit der aktuellen stzepAnzahl gefunden wurden
+            step = step + 1;
+        }
+
+        //kein weg wurde gefunden, gib leere liste zurück
+        positions.Clear();
+        return positions;
+    }
+
+    //guckt ob das gegebene feld frei ist und noch nicht in der positions liste vorhanden ist
+    public static bool FindNeighbour(int x, int y, List<string> list){
+
+        //guckt ob feld existiert
+        if(x>=0&&x<PlayerController.gridSize&&y>=0&&y<PlayerController.gridSize){
+
+            //guckt ob feld frei ist
+            if(gridMap[x,y]==0){
+
+                //guck ob der neighbour schon in der positions list ist
+                foreach(var item in list){
+                    if(Int32.Parse(item.Split(":")[0])==x&&Int32.Parse(item.Split(":")[1])==y){
+                        return false;
+                    }
+                }
+
+                //ist begehbar und nicht in der liste vorhanden
+                return true;
+            }
+        }
+        return false;
+    }
+
+    //sucht die DoorPos anhander der Tür an der Wand
+    public static int[] FindDoorPos(){
         int[] pos = new int[]{0,0}; 
         GameObject[] allObjects = UnityEngine.Object.FindObjectsOfType<GameObject>();
         foreach(GameObject item in allObjects){

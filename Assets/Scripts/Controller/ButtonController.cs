@@ -106,7 +106,8 @@ public class ButtonController : MonoBehaviour
 
     //Guckt welches Object erstellt wird, anhand dessen, welches Object angeklickt wurde
     public void MouseHandler(RaycastHit2D[] info){
-        LabyrinthBuilder.GenerateGrid();
+        //TESTSSSSSSSSSSSSSSSSSSSSSSSSSSSSS
+        LabyrinthBuilder.LabyrinthManager();
 
         string objectName = getPrioritizedObjectName(info);
         
