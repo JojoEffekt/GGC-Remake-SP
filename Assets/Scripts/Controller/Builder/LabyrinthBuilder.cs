@@ -27,50 +27,22 @@ public class LabyrinthBuilder : MonoBehaviour
 
 
     public static void LabyrinthManager(){
+
+        //generiert das aktuelle grid und findet die DoorPos
         GenerateGrid();
 
-        List<string> unsortedPath = getPath(new int[]{0,6}, new int[]{6,6});
-        if(unsortedPath.Count!=0){
-            Debug.Log("found! ShortestPath:");
+        //sucht Potenzielle wege anhand von start- endPos
+        List<string> unsortedPath = getPathData(new int[]{0,6}, new int[]{6,6});
 
+        //sucht den kürzesten pfad
+        List<string> shortestPath = getShortestPath(unsortedPath, new int[]{6,6});
 
-
-            //beginnt beim ende und hört beim anfang auf
-            int[] curPos = new int[]{6,6};
-            int step = Int32.Parse(unsortedPath[unsortedPath.Count-1].Split(":")[2]);
-            Debug.Log(curPos[0]+":"+curPos[1]+" step: "+step);
-
-            for(int a=0;a<unsortedPath.Count;a++){
-                for(int b=0;b<unsortedPath.Count;b++){
-                    //Debug.Log("Search neighbour from: "+curPos[0]+":"+curPos[1]+" step: "+step);
-                    if(Int32.Parse(unsortedPath[b].Split(":")[0])==curPos[0]&&Int32.Parse(unsortedPath[b].Split(":")[1])-1==curPos[1]&&Int32.Parse(unsortedPath[b].Split(":")[2])==(step-1)){
-                        Debug.Log(unsortedPath[b]);
-                        step = step - 1;
-                        curPos[0] = Int32.Parse(unsortedPath[b].Split(":")[0]);
-                        curPos[1] = Int32.Parse(unsortedPath[b].Split(":")[1]);
-                    }
-                    if(Int32.Parse(unsortedPath[b].Split(":")[0])-1==curPos[0]&&Int32.Parse(unsortedPath[b].Split(":")[1])==curPos[1]&&Int32.Parse(unsortedPath[b].Split(":")[2])==(step-1)){
-                        Debug.Log(unsortedPath[b]);
-                        step = step - 1;
-                        curPos[0] = Int32.Parse(unsortedPath[b].Split(":")[0]);
-                        curPos[1] = Int32.Parse(unsortedPath[b].Split(":")[1]);
-                    }
-                    if(Int32.Parse(unsortedPath[b].Split(":")[0])==curPos[0]&&Int32.Parse(unsortedPath[b].Split(":")[1])+1==curPos[1]&&Int32.Parse(unsortedPath[b].Split(":")[2])==(step-1)){
-                        Debug.Log(unsortedPath[b]);
-                        step = step - 1;
-                        curPos[0] = Int32.Parse(unsortedPath[b].Split(":")[0]);
-                        curPos[1] = Int32.Parse(unsortedPath[b].Split(":")[1]);
-                    }
-                    if(Int32.Parse(unsortedPath[b].Split(":")[0])+1==curPos[0]&&Int32.Parse(unsortedPath[b].Split(":")[1])==curPos[1]&&Int32.Parse(unsortedPath[b].Split(":")[2])==(step-1)){
-                        Debug.Log(unsortedPath[b]);
-                        step = step - 1;
-                        curPos[0] = Int32.Parse(unsortedPath[b].Split(":")[0]);
-                        curPos[1] = Int32.Parse(unsortedPath[b].Split(":")[1]);
-                    }
-                }
+        if(shortestPath.Count!=0){
+            foreach(string item in shortestPath){
+                Debug.Log(item);
             }
         }else{
-            Debug.Log("nope");
+            Debug.Log("error!");
         }
     }
 
@@ -99,9 +71,8 @@ public class LabyrinthBuilder : MonoBehaviour
         }
     }
 
-
     //sucht den path anhand eines start und end punktes, returnt leere list bei fehler
-    public static List<string> getPath(int[] startPos, int[] endPos){
+    public static List<string> getPathData(int[] startPos, int[] endPos){
 
         //spielfeldgröße
         int gridSize = PlayerController.gridSize;
@@ -192,6 +163,58 @@ public class LabyrinthBuilder : MonoBehaviour
             }
         }
         return false;
+    }
+
+    //sucht den kürzesten weg anhand von unsortierten daten
+    public static List<string> getShortestPath(List<string> unsortedPath, int[] endPos){
+
+        //beinhaltet die fertigen daten
+        List<string> shortestPath = new List<string>();
+
+        //guckt ob überhaupt daten vorhanden sind
+        if(unsortedPath.Count!=0){
+
+            //beginnt beim ende und hört beim anfang auf
+            int[] curPos = endPos;
+            int step = Int32.Parse(unsortedPath[unsortedPath.Count-1].Split(":")[2]);
+
+            //speichert die endposition
+            shortestPath.Add(endPos[0]+":"+endPos[1]+":"+step);
+
+            //sucht ein feld umliegend von der curPos mit step = step-1 als bei der curPos, speicher diesen wert und beginne von neuem bis step 0 gefunden wurde(anfang)
+            for(int a=0;a<unsortedPath.Count;a++){
+                for(int b=0;b<unsortedPath.Count;b++){
+                    if(Int32.Parse(unsortedPath[b].Split(":")[0])==curPos[0]&&Int32.Parse(unsortedPath[b].Split(":")[1])-1==curPos[1]&&Int32.Parse(unsortedPath[b].Split(":")[2])==(step-1)){
+                        shortestPath.Add(unsortedPath[b]);
+                        step = step - 1;
+                        curPos[0] = Int32.Parse(unsortedPath[b].Split(":")[0]);
+                        curPos[1] = Int32.Parse(unsortedPath[b].Split(":")[1]);
+                    }
+                    if(Int32.Parse(unsortedPath[b].Split(":")[0])-1==curPos[0]&&Int32.Parse(unsortedPath[b].Split(":")[1])==curPos[1]&&Int32.Parse(unsortedPath[b].Split(":")[2])==(step-1)){
+                        shortestPath.Add(unsortedPath[b]);
+                        step = step - 1;
+                        curPos[0] = Int32.Parse(unsortedPath[b].Split(":")[0]);
+                        curPos[1] = Int32.Parse(unsortedPath[b].Split(":")[1]);
+                    }
+                    if(Int32.Parse(unsortedPath[b].Split(":")[0])==curPos[0]&&Int32.Parse(unsortedPath[b].Split(":")[1])+1==curPos[1]&&Int32.Parse(unsortedPath[b].Split(":")[2])==(step-1)){
+                        shortestPath.Add(unsortedPath[b]);
+                        step = step - 1;
+                        curPos[0] = Int32.Parse(unsortedPath[b].Split(":")[0]);
+                        curPos[1] = Int32.Parse(unsortedPath[b].Split(":")[1]);
+                    }
+                    if(Int32.Parse(unsortedPath[b].Split(":")[0])+1==curPos[0]&&Int32.Parse(unsortedPath[b].Split(":")[1])==curPos[1]&&Int32.Parse(unsortedPath[b].Split(":")[2])==(step-1)){
+                        shortestPath.Add(unsortedPath[b]);
+                        step = step - 1;
+                        curPos[0] = Int32.Parse(unsortedPath[b].Split(":")[0]);
+                        curPos[1] = Int32.Parse(unsortedPath[b].Split(":")[1]);
+                    }
+                }
+            }
+        }
+
+        //gibt die list in gedrheter ordnung zurück
+        shortestPath.Reverse();
+        return shortestPath;
     }
 
     //sucht die DoorPos anhander der Tür an der Wand
