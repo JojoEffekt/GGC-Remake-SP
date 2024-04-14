@@ -19,9 +19,8 @@ public class PlayerMovementController : MonoBehaviour
     public static int[] doorPos { get; set; }
 
 
-
-    public static List<string> ppath = new List<string>();
-    public bool test = true;
+    //enthält den aktuell zu gehenden weg für den spieler
+    public static List<string> playerPath = new List<string>();
 
     //switcher ob der player sich gerade bewegt
     public static bool isPlayerInMove = false;
@@ -30,10 +29,7 @@ public class PlayerMovementController : MonoBehaviour
     public static void MovePlayer(int[] newPos){
 
         //wenn der spieler nicht in bewegung ist
-        if(isPlayerInMove==false){
-
-            //spieler wird bewegt, kann nicht neue position bekommen bis aktueller path walk abgeschlossen ist
-            isPlayerInMove = true;
+        if(playerPath.Count==0){
 
             //wenn keine playerPos vorhanden ist, gehe davon aus das der spieler an der tür steht
             if(curPlayerPos==null){
@@ -41,39 +37,49 @@ public class PlayerMovementController : MonoBehaviour
                 doorPos = FindDoorPos();
                 curPlayerPos = doorPos;
             }
-    
-            //erhält die zu laufende path liste anhand der start und end pos
-            List<string> path = LabyrinthBuilder.LabyrinthManager(curPlayerPos, newPos);
-            ppath = path;
 
-            /*if(path.Count!=0){
-                foreach(string item in path){
-                    //StartCoroutine(Fade(item));
-                    CoroutinePawn.Instance.StartCoroutine(Fade(item));
-                }
-            }else{
-                Debug.Log("error!");
-            }*/
+            //erhält die zu laufende path liste anhand der start und end pos
+            playerPath = LabyrinthBuilder.LabyrinthManager(curPlayerPos, newPos);
+            Debug.Log("new path!: "+playerPath.Count);
         }
     }
 
     void Update(){
-        if(ppath.Count!=0&&test==true){
-            test=false;
-            StartCoroutine(Fade(ppath));
+        if(playerPath.Count!=0&&isPlayerInMove==false){
+            isPlayerInMove = true;
+            StartCoroutine(MovePlayerToPos());
         }
     }
 
-    IEnumerator Fade(List<string> pos){
-        while(pos.Count!=0){
-            yield return new WaitForSeconds(1);
-            string objName = pos[0].Split(":")[0]+"-"+pos[0].Split(":")[1];
-            Debug.Log("Move To: "+objName);
+    //bewegt den spieler zur gewünschten stelle
+    IEnumerator MovePlayerToPos(){
+
+        string objName = "";
+
+        //für jede positiuon in der liste
+        while(playerPath.Count!=0){
+
+            //die schrittdauer
+            yield return new WaitForSeconds(0.5f);
+            objName = playerPath[0].Split(":")[0]+"-"+playerPath[0].Split(":")[1];
+            Debug.Log("Move To: "+objName+" : "+playerPath.Count);
+
+            //Spieler muss an sein umfeld angepasst werden, (SortingOrder)
+            //CONTINUE
+
+            //platziert den spieler auf die neue position
             PlayerCharacter.transform.position  = new Vector2(GameObject.Find(objName).transform.position.x, GameObject.Find(objName).transform.position.y+3.5f);    
-            pos.RemoveAt(0);
+            
+            //löscht das gegangene element aus der liste
+            playerPath.RemoveAt(0);
         }
 
-        Debug.Log("Destination:");
+        //beim beenden der aktuellen position wird die letzte position die neue player pos
+        curPlayerPos = new int[]{Int32.Parse(objName.Split("-")[0]), Int32.Parse(objName.Split("-")[1])};
+        Debug.Log("Destination: "+curPlayerPos[0]+":"+curPlayerPos[1]);
+
+        //spieler steht still, coroutine freigegeben
+        isPlayerInMove = false;
     }
 
     //sucht den spieler und platziert ihn bei laden des spiels an der tür
