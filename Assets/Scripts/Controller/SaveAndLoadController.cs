@@ -98,6 +98,7 @@ public class SaveAndLoadController : MonoBehaviour
         /*}catch(Exception e){
             Debug.Log("error, failed to load Wall/Floor-data!");
         }*/
+        PlayerMovementController.LoadPlayer();
     }
 
     public static void SavePlayerData(){

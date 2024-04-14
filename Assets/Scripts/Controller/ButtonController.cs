@@ -106,8 +106,6 @@ public class ButtonController : MonoBehaviour
 
     //Guckt welches Object erstellt wird, anhand dessen, welches Object angeklickt wurde
     public void MouseHandler(RaycastHit2D[] info){
-        //TESTSSSSSSSSSSSSSSSSSSSSSSSSSSSSS
-        LabyrinthBuilder.LabyrinthManager();
 
         string objectName = getPrioritizedObjectName(info);
         
@@ -417,9 +415,11 @@ public class ButtonController : MonoBehaviour
 
 
 
-    //Wenn RebuilShop nicht geöffnet ist
+    //Wenn RebuildShop nicht geöffnet ist
     //gucke auf welche objecte geklickt wurde
     public void MouseHandler2(RaycastHit2D[] info){
+
+        //sucht das priorisierte item
         string objectName = getPrioritizedObjectName(info);
 
         //gucke ob es ein Floor child object ist
@@ -470,7 +470,11 @@ public class ButtonController : MonoBehaviour
             }else if(getTypeFromObject(objectName).Equals("Slushi")){
                 //öffne slushi shop
             }
-        }   
+        //Floor angeklickt, Gucke ob der Spieler sich bewegen kann
+        }else if(isFloorObject(objectName)){
+            //übergibt die angeklickte position an den movementcontroller
+            PlayerMovementController.MovePlayer(new int[]{Int32.Parse(objectName.Split("-")[0]),Int32.Parse(objectName.Split("-")[1])});
+        }
     }
 
 

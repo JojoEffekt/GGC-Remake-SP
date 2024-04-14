@@ -21,29 +21,22 @@ public class LabyrinthBuilder : MonoBehaviour
     //beinhaltet die aktuellen mapdaten wo sich der spieler bewegen kann
     public static int[,] gridMap { get; set; }
 
-    //makiert die position wo die tür steht
-    public static int[] doorPos { get; set; }
 
 
-
-    public static void LabyrinthManager(){
+    //managed die die eingegebenen coords und sucht ein path
+    public static List<string> LabyrinthManager(int[] startPos, int[] endPos){
 
         //generiert das aktuelle grid und findet die DoorPos
         GenerateGrid();
 
         //sucht Potenzielle wege anhand von start- endPos
-        List<string> unsortedPath = getPathData(new int[]{0,6}, new int[]{6,6});
+        List<string> unsortedPath = getPathData(startPos, endPos);
 
         //sucht den kürzesten pfad
-        List<string> shortestPath = getShortestPath(unsortedPath, new int[]{6,6});
+        List<string> shortestPath = getShortestPath(unsortedPath, endPos);
 
-        if(shortestPath.Count!=0){
-            foreach(string item in shortestPath){
-                Debug.Log(item);
-            }
-        }else{
-            Debug.Log("error!");
-        }
+        //gibt den weg zurück
+        return shortestPath;
     }
 
 
@@ -51,9 +44,6 @@ public class LabyrinthBuilder : MonoBehaviour
     //erstellt das grid indem der player laufen darf
     //muss nach jeder veränderung des Spielfeldes aufgerufen werden
     public static void GenerateGrid(){
-
-        //aktuelle eingangs position für bsp npc generierung
-        doorPos = FindDoorPos();
 
         //erstellt die grid größe
         int gridSize = PlayerController.gridSize;
@@ -215,31 +205,5 @@ public class LabyrinthBuilder : MonoBehaviour
         //gibt die list in gedrheter ordnung zurück
         shortestPath.Reverse();
         return shortestPath;
-    }
-
-    //sucht die DoorPos anhander der Tür an der Wand
-    public static int[] FindDoorPos(){
-        int[] pos = new int[]{0,0}; 
-        GameObject[] allObjects = UnityEngine.Object.FindObjectsOfType<GameObject>();
-        foreach(GameObject item in allObjects){
-            string[] split = item.name.Split("-");
-            if(split.Length==3&&split[2].Equals("Wall")){
-                if(!Object.ReferenceEquals(item.GetComponent<SpriteRenderer>().sprite, null)){
-                    string[] spriteName = item.GetComponent<SpriteRenderer>().sprite.name.Split("_");
-                    if(spriteName.Length>1){
-                        if(spriteName[1].Equals("Door")){
-                            if(Int32.Parse(item.name.Split("-")[0])!=0){
-                                pos[0] = Int32.Parse(item.name.Split("-")[0])-1;
-                                pos[1] = Int32.Parse(item.name.Split("-")[1]);
-                            }else{
-                                pos[0] = Int32.Parse(item.name.Split("-")[0]);
-                                pos[1] = Int32.Parse(item.name.Split("-")[1])-1;
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        return pos;
     }
 }
