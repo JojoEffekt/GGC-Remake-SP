@@ -11,6 +11,9 @@ Table;6-4;True
 Table;6-3;True
 Table;6-2;True
 Table;4-6;True
+Table;0-0;True
+Table;1-1;True
+Table;0-8;True
 Counter;4-3;True;;0
 Counter;4-4;True;;0
 Oven;4-0;0;;0;;

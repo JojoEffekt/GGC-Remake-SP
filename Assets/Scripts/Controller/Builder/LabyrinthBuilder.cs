@@ -35,6 +35,11 @@ public class LabyrinthBuilder : MonoBehaviour
         //sucht den kürzesten pfad
         List<string> shortestPath = getShortestPath(unsortedPath, endPos);
 
+        //wenn ein weg gefunden wurde, lösche die stelle an der der spieler steht
+        if(shortestPath.Count!=0){
+            shortestPath.RemoveAt(0);
+        }
+
         //gibt den weg zurück
         return shortestPath;
     }

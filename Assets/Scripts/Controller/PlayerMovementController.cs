@@ -40,7 +40,6 @@ public class PlayerMovementController : MonoBehaviour
 
             //erhält die zu laufende path liste anhand der start und end pos
             playerPath = LabyrinthBuilder.LabyrinthManager(curPlayerPos, newPos);
-            Debug.Log("new path!: "+playerPath.Count);
         }
     }
 
@@ -69,7 +68,11 @@ public class PlayerMovementController : MonoBehaviour
 
             //platziert den spieler auf die neue position
             PlayerCharacter.transform.position  = new Vector2(GameObject.Find(objName).transform.position.x, GameObject.Find(objName).transform.position.y+3.5f);    
-            
+            //set sorting Order auf die der anderen floorChild obj (floorx+floory+1=SO)
+            for(int a=0;a<PlayerCharacter.transform.childCount;a++){
+                PlayerCharacter.transform.GetChild(a).gameObject.GetComponent<SpriteRenderer>().sortingOrder = Int32.Parse(playerPath[0].Split(":")[0])+Int32.Parse(playerPath[0].Split(":")[1])+1;
+            }
+
             //löscht das gegangene element aus der liste
             playerPath.RemoveAt(0);
         }
@@ -90,6 +93,11 @@ public class PlayerMovementController : MonoBehaviour
 
         //platziert den spieler an der tür
         PlayerCharacter.transform.position = new Vector2(GameObject.Find(FindDoorPos()[0]+"-"+FindDoorPos()[1]).transform.position.x, GameObject.Find(FindDoorPos()[0]+"-"+FindDoorPos()[1]).transform.position.y+3.5f);
+
+        //rendert den spieler auf die richtige ebene
+        for(int a=0;a<PlayerCharacter.transform.childCount;a++){
+            PlayerCharacter.transform.GetChild(a).gameObject.GetComponent<SpriteRenderer>().sortingOrder = FindDoorPos()[0]+FindDoorPos()[1]+1;
+        }
     }
 
     //sucht die DoorPos anhander der Tür an der Wand
