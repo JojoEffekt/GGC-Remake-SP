@@ -9,7 +9,7 @@ public class PlayerMovementController : MonoBehaviour
     public static GameObject PlayerCharacter;
 
 
-    //aktuelle spieler position
+    //position auf die der spieler STEHT 
     public static int[] curPlayerPos { get; set; }
 
     //enthält die position zu der sich der spieler bewegen soll
@@ -24,6 +24,17 @@ public class PlayerMovementController : MonoBehaviour
 
     //switcher ob der player sich gerade bewegt
     public static bool isPlayerInMove = false;
+
+
+    //EXPERIMENTAL
+    //ist für die laufgeschwindigkeit abhänig von der zeit zuständig
+    public float timer;
+
+    //aktuell zu belaufendes FloorObject
+    public string objName;
+
+    //aktuelle spieler position WÄHREND des laufens
+    static Vector3 curDynPlayerPos;
 
     //wird aufgerufen wenn eine neue position angeklickt wurde
     public static void MovePlayer(int[] newPos){
@@ -40,49 +51,70 @@ public class PlayerMovementController : MonoBehaviour
 
             //erhält die zu laufende path liste anhand der start und end pos
             playerPath = LabyrinthBuilder.LabyrinthManager(curPlayerPos, newPos);
+
+
+
+            curDynPlayerPos = PlayerCharacter.transform.position;
         }
     }
 
     void Update(){
-        if(playerPath.Count!=0&&isPlayerInMove==false){
+
+        //sorgt für eine flüssige bewegung
+        timer += Time.deltaTime * 1.5F;
+
+        //solange der PlayerPath schritte beinhaltet die noch nicht gegangen wurden...
+        if(playerPath.Count!=0){
+
+            //spieler läuft
             isPlayerInMove = true;
-            StartCoroutine(MovePlayerToPos());
+
+            //sucht das aktuell zu belaufende floorObj in der Scene
+            objName = playerPath[0].Split(":")[0]+"-"+playerPath[0].Split(":")[1];
+
+            //bewegt den spieler "grob"
+            PlayerCharacter.transform.position = Vector3.Lerp(curDynPlayerPos, GameObject.Find(objName).gameObject.transform.position, timer);
+
+            //render den spieler richtig auf dem spielfeld, sowie anim.
+            PlayerRender();
+            
+            //floorObj wurde belaufen, zerstöre das element und übergebe die DynPlayerPos
+            if(PlayerCharacter.transform.position==GameObject.Find(objName).gameObject.transform.position){
+                playerPath.RemoveAt(0);
+                timer = 0;
+                curDynPlayerPos = PlayerCharacter.transform.position;
+            }
+
+            if(GameObject.Find(objName).gameObject.transform.position.x<PlayerCharacter.transform.position.x){
+                if(GameObject.Find(objName).gameObject.transform.position.y<PlayerCharacter.transform.position.y){
+                    Debug.Log("links unten");
+                }else{
+                    Debug.Log("links oben");
+                }
+            }else{
+                if(GameObject.Find(objName).gameObject.transform.position.y<PlayerCharacter.transform.position.y){
+                    Debug.Log("rechts unten");
+                }else{
+                    Debug.Log("rechts oben");
+                }
+            }
+        //spieler kann nichtmehr laufen
+        }else if(playerPath.Count==0&&isPlayerInMove==true){
+
+            //beim beenden der aktuellen position wird die letzte position die neue player pos
+            curPlayerPos = new int[]{Int32.Parse(objName.Split("-")[0]), Int32.Parse(objName.Split("-")[1])};
+        
+            //spieler ist am ende angekommen, sorge dafür, das dieses statement erst wieder nach neuer spielerbewegung abgerufen wird
+            isPlayerInMove = false;
         }
     }
 
-    //bewegt den spieler zur gewünschten stelle
-    IEnumerator MovePlayerToPos(){
-
-        string objName = "";
-
-        //für jede positiuon in der liste
-        while(playerPath.Count!=0){
-
-            //die schrittdauer
-            yield return new WaitForSeconds(0.5f);
-            objName = playerPath[0].Split(":")[0]+"-"+playerPath[0].Split(":")[1];
-            Debug.Log("Move To: "+objName+" : "+playerPath.Count);
-
-            //Spieler muss an sein umfeld angepasst werden, (SortingOrder)
-            //CONTINUE
-
-            //platziert den spieler auf die neue position
-            PlayerCharacter.transform.position  = new Vector2(GameObject.Find(objName).transform.position.x, GameObject.Find(objName).transform.position.y+3.5f);    
-            //set sorting Order auf die der anderen floorChild obj (floorx+floory+1=SO)
-            for(int a=0;a<PlayerCharacter.transform.childCount;a++){
-                PlayerCharacter.transform.GetChild(a).gameObject.GetComponent<SpriteRenderer>().sortingOrder = Int32.Parse(playerPath[0].Split(":")[0])+Int32.Parse(playerPath[0].Split(":")[1])+1;
-            }
-
-            //löscht das gegangene element aus der liste
-            playerPath.RemoveAt(0);
+    //rendert spieler richtig und animiert den laufschritt
+    public void PlayerRender(){
+        //set sorting Order auf die der anderen floorChild obj (floorx+floory+1=SO)
+        for(int a=0;a<PlayerCharacter.transform.childCount;a++){
+            PlayerCharacter.transform.GetChild(a).gameObject.GetComponent<SpriteRenderer>().sortingOrder = Int32.Parse(playerPath[0].Split(":")[0])+Int32.Parse(playerPath[0].Split(":")[1])+1;
         }
-
-        //beim beenden der aktuellen position wird die letzte position die neue player pos
-        curPlayerPos = new int[]{Int32.Parse(objName.Split("-")[0]), Int32.Parse(objName.Split("-")[1])};
-        Debug.Log("Destination: "+curPlayerPos[0]+":"+curPlayerPos[1]);
-
-        //spieler steht still, coroutine freigegeben
-        isPlayerInMove = false;
     }
 
     //sucht den spieler und platziert ihn bei laden des spiels an der tür
@@ -92,11 +124,12 @@ public class PlayerMovementController : MonoBehaviour
         PlayerCharacter = GameObject.Find("Player");
 
         //platziert den spieler an der tür
-        PlayerCharacter.transform.position = new Vector2(GameObject.Find(FindDoorPos()[0]+"-"+FindDoorPos()[1]).transform.position.x, GameObject.Find(FindDoorPos()[0]+"-"+FindDoorPos()[1]).transform.position.y+3.5f);
+        PlayerCharacter.transform.position = new Vector2(GameObject.Find(FindDoorPos()[0]+"-"+FindDoorPos()[1]).transform.position.x, GameObject.Find(FindDoorPos()[0]+"-"+FindDoorPos()[1]).transform.position.y);
 
         //rendert den spieler auf die richtige ebene
         for(int a=0;a<PlayerCharacter.transform.childCount;a++){
             PlayerCharacter.transform.GetChild(a).gameObject.GetComponent<SpriteRenderer>().sortingOrder = FindDoorPos()[0]+FindDoorPos()[1]+1;
+            PlayerCharacter.transform.GetChild(a).gameObject.transform.position = new Vector3(PlayerCharacter.transform.GetChild(a).gameObject.transform.position.x, PlayerCharacter.transform.GetChild(a).gameObject.transform.position.y+3.5f, PlayerCharacter.transform.GetChild(a).gameObject.transform.position.z);     
         }
     }
 

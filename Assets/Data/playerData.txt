@@ -1,8 +1,8 @@
 Jojo
-7428
+7328
 46722614
 5487000
 16
 Lettuce:6;Eggplant:2;Oranges:5;Onions:2;Tomatoes:2;Cream:1;Chocolate:1;Pasta:1;Minced meat:1
-Chair_02_a:1;Oven_01_a:2;Shlushi_a:3;Floor_01:13
+Chair_02_a:1;Oven_01_a:2;Shlushi_a:3;Floor_01:13;Chair_06_a:1
 Oven:3;Fridge:1;Counter:2;Shlushi:1
