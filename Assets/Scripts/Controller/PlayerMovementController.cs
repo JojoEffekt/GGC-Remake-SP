@@ -2,11 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using UnityEngine.UI;
+using System.IO;
+using System.Collections;
 
 public class PlayerMovementController : MonoBehaviour
 {
     //Player GO Refezenz
     public static GameObject PlayerCharacter;
+
+    //beinhaltet alle playerSprites
+    public static List<Sprite> SpriteList = new List<Sprite>();
 
 
     //position auf die der spieler STEHT 
@@ -25,8 +31,6 @@ public class PlayerMovementController : MonoBehaviour
     //switcher ob der player sich gerade bewegt
     public static bool isPlayerInMove = false;
 
-
-    //EXPERIMENTAL
     //ist für die laufgeschwindigkeit abhänig von der zeit zuständig
     public float timer;
 
@@ -35,6 +39,9 @@ public class PlayerMovementController : MonoBehaviour
 
     //aktuelle spieler position WÄHREND des laufens
     static Vector3 curDynPlayerPos;
+
+    //EXPERIMENTAL
+    public int walkAnim = 0; //0=none,1=idle in cur state,2=right...
 
     //wird aufgerufen wenn eine neue position angeklickt wurde
     public static void MovePlayer(int[] newPos){
@@ -51,8 +58,6 @@ public class PlayerMovementController : MonoBehaviour
 
             //erhält die zu laufende path liste anhand der start und end pos
             playerPath = LabyrinthBuilder.LabyrinthManager(curPlayerPos, newPos);
-
-
 
             curDynPlayerPos = PlayerCharacter.transform.position;
         }
@@ -85,17 +90,28 @@ public class PlayerMovementController : MonoBehaviour
                 curDynPlayerPos = PlayerCharacter.transform.position;
             }
 
+            //instanziiert einmalig die Coroutine solange bis der spieler fertig gelaufen ist
+            if(walkAnim==0){
+                walkAnim=1;
+                StartCoroutine(Anim());
+            }
+
+            //bestimmt die PlayerAnim
             if(GameObject.Find(objName).gameObject.transform.position.x<PlayerCharacter.transform.position.x){
                 if(GameObject.Find(objName).gameObject.transform.position.y<PlayerCharacter.transform.position.y){
-                    Debug.Log("links unten");
+                    //links unten
+                    walkAnim=2;
                 }else{
-                    Debug.Log("links oben");
+                    //links oben
+                    walkAnim=3;
                 }
             }else{
                 if(GameObject.Find(objName).gameObject.transform.position.y<PlayerCharacter.transform.position.y){
-                    Debug.Log("rechts unten");
+                    //rechts unten
+                    walkAnim=4;
                 }else{
-                    Debug.Log("rechts oben");
+                    //rechts oben
+                    walkAnim=5;
                 }
             }
         //spieler kann nichtmehr laufen
@@ -106,6 +122,21 @@ public class PlayerMovementController : MonoBehaviour
         
             //spieler ist am ende angekommen, sorge dafür, das dieses statement erst wieder nach neuer spielerbewegung abgerufen wird
             isPlayerInMove = false;
+
+            //deactivate walkAnim
+            walkAnim = 0;
+        }
+    }
+
+    //steuert die lauf animation für den spieler
+    IEnumerator Anim(){
+        while(walkAnim!=0){
+            //links unten  (front_left)
+            if(walkAnim==2){
+                
+            }
+            Debug.Log("idle: "+walkAnim);
+            yield return new WaitForSeconds(1.0F);
         }
     }
 
@@ -120,6 +151,8 @@ public class PlayerMovementController : MonoBehaviour
     //sucht den spieler und platziert ihn bei laden des spiels an der tür
     public static void LoadPlayer(){
 
+        LoadSprites();
+
         //sucht die spieler UI
         PlayerCharacter = GameObject.Find("Player");
 
@@ -131,6 +164,34 @@ public class PlayerMovementController : MonoBehaviour
             PlayerCharacter.transform.GetChild(a).gameObject.GetComponent<SpriteRenderer>().sortingOrder = FindDoorPos()[0]+FindDoorPos()[1]+1;
             PlayerCharacter.transform.GetChild(a).gameObject.transform.position = new Vector3(PlayerCharacter.transform.GetChild(a).gameObject.transform.position.x, PlayerCharacter.transform.GetChild(a).gameObject.transform.position.y+3.5f, PlayerCharacter.transform.GetChild(a).gameObject.transform.position.z);     
         }
+    }
+
+    //läd jedes sprite für die playerAnim (1728 stück)
+    public static void LoadSprites(){
+        //definiert die parentOrdner
+        string[] superOrdner = new string[]{"Girl","Boy"};
+
+        //für jeden parent Ordner...
+        foreach(string suDir in superOrdner){
+
+            //...suche alle unterOrdnerNamen
+            List<string> chDirs = new List<string>();
+            foreach(string folder in Directory.GetDirectories(Application.dataPath+"/Resources/Textures/Player/"+suDir)){
+                chDirs.Add(new DirectoryInfo(folder).Name);
+            }
+            
+            //für jeden unterOrdner in der unterOrdnerList...
+            foreach(string chDir in chDirs){
+
+                //lade alle sprites in den unterOrdner
+                object[] sprites = Resources.LoadAll("Textures/Player/"+suDir+"/"+chDir,typeof(Sprite));
+                for(int x=0;x<sprites.Length;x++){
+                    SpriteList.Add((Sprite)sprites[x]);
+                }
+            }
+        }
+
+        //Debug.Log("Load "+SpriteList.Count+" Sprites");
     }
 
     //sucht die DoorPos anhander der Tür an der Wand
