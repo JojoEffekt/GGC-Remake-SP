@@ -44,24 +44,24 @@ public class PlayerMovementController : MonoBehaviour
     public int walkAnim = 0; //0=none,1=idle in cur state,2=right...
 
     //beinhalten die sprites für die playerAnim
-    public List<Sprite> FaceBoy = new List<Sprite>();
-    public List<Sprite> HairBoy = new List<Sprite>();
-    public List<Sprite> HairOverlayBoy = new List<Sprite>();
-    public List<Sprite> LegBoy = new List<Sprite>();
-    public List<Sprite> LegOverlayBoy = new List<Sprite>();
-    public List<Sprite> SkinBoy = new List<Sprite>();
-    public List<Sprite> SkinOverlayBoy = new List<Sprite>();
-    public List<Sprite> TshirtBoy = new List<Sprite>();
-    public List<Sprite> TshirtOverlayBoy = new List<Sprite>();
-    public List<Sprite> FaceGirl = new List<Sprite>();
-    public List<Sprite> HairGirl = new List<Sprite>();
-    public List<Sprite> HairOverlayGirl = new List<Sprite>();
-    public List<Sprite> LegGirl = new List<Sprite>();
-    public List<Sprite> LegOverlayGirl = new List<Sprite>();
-    public List<Sprite> SkinGirl = new List<Sprite>();
-    public List<Sprite> SkinOverlayGirl = new List<Sprite>();
-    public List<Sprite> TshirtGirl = new List<Sprite>();
-    public List<Sprite> TshirtOverlayGirl = new List<Sprite>();
+    public static List<Sprite> FaceBoy = new List<Sprite>();
+    public static List<Sprite> HairBoy = new List<Sprite>();
+    public static List<Sprite> HairOverlayBoy = new List<Sprite>();
+    public static List<Sprite> LegBoy = new List<Sprite>();
+    public static List<Sprite> LegOverlayBoy = new List<Sprite>();
+    public static List<Sprite> SkinBoy = new List<Sprite>();
+    public static List<Sprite> SkinOverlayBoy = new List<Sprite>();
+    public static List<Sprite> TshirtBoy = new List<Sprite>();
+    public static List<Sprite> TshirtOverlayBoy = new List<Sprite>();
+    public static List<Sprite> FaceGirl = new List<Sprite>();
+    public static List<Sprite> HairGirl = new List<Sprite>();
+    public static List<Sprite> HairOverlayGirl = new List<Sprite>();
+    public static List<Sprite> LegGirl = new List<Sprite>();
+    public static List<Sprite> LegOverlayGirl = new List<Sprite>();
+    public static List<Sprite> SkinGirl = new List<Sprite>();
+    public static List<Sprite> SkinOverlayGirl = new List<Sprite>();
+    public static List<Sprite> TshirtGirl = new List<Sprite>();
+    public static List<Sprite> TshirtOverlayGirl = new List<Sprite>();
 
     //wird aufgerufen wenn eine neue position angeklickt wurde
     public static void MovePlayer(int[] newPos){
@@ -149,32 +149,150 @@ public class PlayerMovementController : MonoBehaviour
     }
 
     //steuert die lauf animation für den spieler
-    IEnumerator Anim(){
+    public IEnumerator Anim(){
         while(walkAnim!=0){
             //links unten  (front_left)
             if(walkAnim==2){
-                
-                if(/*isBoy*/){
-                    for(int int a=0;a<7;a++){
-                        FaceBoy
-                        HairBoy
+                PlayerCharacter.transform.GetChild(1).gameObject.transform.localPosition = new Vector3(0.178f,1.657f,-0.02f);
+                PlayerCharacter.transform.GetChild(2).gameObject.transform.localPosition = new Vector3(0.263f,3.437f,-0.02f);
+                PlayerCharacter.transform.GetChild(3).gameObject.transform.localPosition = new Vector3(0.263f,3.406f,-0.01f);
+                PlayerCharacter.transform.GetChild(4).gameObject.transform.localPosition = new Vector3(-0.153f,2.719f,-0.01f);
+                PlayerCharacter.transform.GetChild(5).gameObject.transform.localPosition = new Vector3(-0.22f,0.38f,-0.01f);
+                PlayerCharacter.transform.GetChild(6).gameObject.transform.localPosition = new Vector3(-0.023f,2.643f,-0.01f);
+                PlayerCharacter.transform.GetChild(7).gameObject.transform.localPosition = new Vector3(0.185f,1.655f,-0.01f);
+                PlayerCharacter.transform.GetChild(8).gameObject.transform.localPosition = new Vector3(-0.023f,2.642f,0f);
+                PlayerCharacter.transform.GetChild(9).gameObject.transform.localPosition = new Vector3(-0.115f,0.672f,0f);
+                //if(true){//Player.isBoy==true
+                    for(int a=1;a<7;a++){
+                        PlayerCharacter.transform.GetChild(1).gameObject.GetComponent<SpriteRenderer>().sprite = TshirtOverlayBoy[80+a];
+                        PlayerCharacter.transform.GetChild(2).gameObject.GetComponent<SpriteRenderer>().sprite = HairOverlayBoy[80+a];
+                        PlayerCharacter.transform.GetChild(3).gameObject.GetComponent<SpriteRenderer>().sprite = HairBoy[80+a];
+                        PlayerCharacter.transform.GetChild(4).gameObject.GetComponent<SpriteRenderer>().sprite = FaceBoy[80+a];
+                        PlayerCharacter.transform.GetChild(5).gameObject.GetComponent<SpriteRenderer>().sprite = LegOverlayBoy[80+a];
+                        PlayerCharacter.transform.GetChild(6).gameObject.GetComponent<SpriteRenderer>().sprite = SkinOverlayBoy[80+a];
+                        PlayerCharacter.transform.GetChild(7).gameObject.GetComponent<SpriteRenderer>().sprite = TshirtBoy[80+a];
+                        PlayerCharacter.transform.GetChild(8).gameObject.GetComponent<SpriteRenderer>().sprite = SkinBoy[80+a];
+                        PlayerCharacter.transform.GetChild(9).gameObject.GetComponent<SpriteRenderer>().sprite = LegBoy[80+a];
+                        yield return new WaitForSeconds(0.2F);
                     }
-                }else{
-
-                }
+                    PlayerCharacter.transform.GetChild(1).gameObject.GetComponent<SpriteRenderer>().sprite = TshirtOverlayBoy[80];
+                    PlayerCharacter.transform.GetChild(2).gameObject.GetComponent<SpriteRenderer>().sprite = HairOverlayBoy[80];
+                    PlayerCharacter.transform.GetChild(3).gameObject.GetComponent<SpriteRenderer>().sprite = HairBoy[80];
+                    PlayerCharacter.transform.GetChild(4).gameObject.GetComponent<SpriteRenderer>().sprite = FaceBoy[80];
+                    PlayerCharacter.transform.GetChild(5).gameObject.GetComponent<SpriteRenderer>().sprite = LegOverlayBoy[80];
+                    PlayerCharacter.transform.GetChild(6).gameObject.GetComponent<SpriteRenderer>().sprite = SkinOverlayBoy[80];
+                    PlayerCharacter.transform.GetChild(7).gameObject.GetComponent<SpriteRenderer>().sprite = TshirtBoy[80];
+                    PlayerCharacter.transform.GetChild(8).gameObject.GetComponent<SpriteRenderer>().sprite = SkinBoy[80];
+                    PlayerCharacter.transform.GetChild(9).gameObject.GetComponent<SpriteRenderer>().sprite = LegBoy[80];
+                //}
 
             //links oben  
             }else if(walkAnim==3){
+                PlayerCharacter.transform.GetChild(1).gameObject.transform.localPosition = new Vector3(0.178f,1.657f,-0.05f);
+                PlayerCharacter.transform.GetChild(2).gameObject.transform.localPosition = new Vector3(0.263f,3.437f,-0.07f);
+                PlayerCharacter.transform.GetChild(3).gameObject.transform.localPosition = new Vector3(0.263f,3.406f,-0.06f);
+                PlayerCharacter.transform.GetChild(4).gameObject.transform.localPosition = new Vector3(-0.153f,2.719f,-0.01f);
+                PlayerCharacter.transform.GetChild(5).gameObject.transform.localPosition = new Vector3(-0.22f,0.38f,-0.01f);
+                PlayerCharacter.transform.GetChild(6).gameObject.transform.localPosition = new Vector3(-0.023f,2.643f,-0.03f);
+                PlayerCharacter.transform.GetChild(7).gameObject.transform.localPosition = new Vector3(0.185f,1.655f,-0.04f);
+                PlayerCharacter.transform.GetChild(8).gameObject.transform.localPosition = new Vector3(-0.023f,2.642f,-0.02f);
+                PlayerCharacter.transform.GetChild(9).gameObject.transform.localPosition = new Vector3(-0.115f,0.672f,0f);
+                //if(true){//Player.isBoy==true
+                    for(int a=1;a<7;a++){
+                        PlayerCharacter.transform.GetChild(1).gameObject.GetComponent<SpriteRenderer>().sprite = TshirtOverlayBoy[64+a];
+                        PlayerCharacter.transform.GetChild(2).gameObject.GetComponent<SpriteRenderer>().sprite = HairOverlayBoy[64+a];
+                        PlayerCharacter.transform.GetChild(3).gameObject.GetComponent<SpriteRenderer>().sprite = HairBoy[64+a];
+                        PlayerCharacter.transform.GetChild(4).gameObject.GetComponent<SpriteRenderer>().sprite = FaceBoy[64+a];
+                        PlayerCharacter.transform.GetChild(5).gameObject.GetComponent<SpriteRenderer>().sprite = LegOverlayBoy[64+a];
+                        PlayerCharacter.transform.GetChild(6).gameObject.GetComponent<SpriteRenderer>().sprite = SkinOverlayBoy[64+a];
+                        PlayerCharacter.transform.GetChild(7).gameObject.GetComponent<SpriteRenderer>().sprite = TshirtBoy[64+a];
+                        PlayerCharacter.transform.GetChild(8).gameObject.GetComponent<SpriteRenderer>().sprite = SkinBoy[64+a];
+                        PlayerCharacter.transform.GetChild(9).gameObject.GetComponent<SpriteRenderer>().sprite = LegBoy[64+a];
+                        yield return new WaitForSeconds(0.2F);
+                    }
+                    PlayerCharacter.transform.GetChild(1).gameObject.GetComponent<SpriteRenderer>().sprite = TshirtOverlayBoy[71];
+                    PlayerCharacter.transform.GetChild(2).gameObject.GetComponent<SpriteRenderer>().sprite = HairOverlayBoy[71];
+                    PlayerCharacter.transform.GetChild(3).gameObject.GetComponent<SpriteRenderer>().sprite = HairBoy[71];
+                    PlayerCharacter.transform.GetChild(4).gameObject.GetComponent<SpriteRenderer>().sprite = FaceBoy[71];
+                    PlayerCharacter.transform.GetChild(5).gameObject.GetComponent<SpriteRenderer>().sprite = LegOverlayBoy[71];
+                    PlayerCharacter.transform.GetChild(6).gameObject.GetComponent<SpriteRenderer>().sprite = SkinOverlayBoy[71];
+                    PlayerCharacter.transform.GetChild(7).gameObject.GetComponent<SpriteRenderer>().sprite = TshirtBoy[71];
+                    PlayerCharacter.transform.GetChild(8).gameObject.GetComponent<SpriteRenderer>().sprite = SkinBoy[71];
+                    PlayerCharacter.transform.GetChild(9).gameObject.GetComponent<SpriteRenderer>().sprite = LegBoy[71];
+                //}
                 
             //rechts unten
             }else if(walkAnim==4){
-                
+                PlayerCharacter.transform.GetChild(1).gameObject.transform.localPosition = new Vector3(-0.058f,1.617f,-0.03f);
+                PlayerCharacter.transform.GetChild(2).gameObject.transform.localPosition = new Vector3(-0.134f,3.314f,-0.03f);
+                PlayerCharacter.transform.GetChild(3).gameObject.transform.localPosition = new Vector3(-0.137f,3.34f,-0.02f);
+                PlayerCharacter.transform.GetChild(4).gameObject.transform.localPosition = new Vector3(0.258f,2.691f,-0.01f);
+                PlayerCharacter.transform.GetChild(5).gameObject.transform.localPosition = new Vector3(0.3399f,0.3809f,-0.01f);
+                PlayerCharacter.transform.GetChild(6).gameObject.transform.localPosition = new Vector3(0.143f,2.611f,-0.01f);
+                PlayerCharacter.transform.GetChild(7).gameObject.transform.localPosition = new Vector3(-0.062f,1.616f,-0.02f);
+                PlayerCharacter.transform.GetChild(8).gameObject.transform.localPosition = new Vector3(0.143f,2.602f,0f);
+                PlayerCharacter.transform.GetChild(9).gameObject.transform.localPosition = new Vector3(0.24f,0.63f,0f);
+               //if(true){//Player.isBoy==true
+                    for(int a=1;a<7;a++){
+                        PlayerCharacter.transform.GetChild(1).gameObject.GetComponent<SpriteRenderer>().sprite = TshirtOverlayBoy[88+a];
+                        PlayerCharacter.transform.GetChild(2).gameObject.GetComponent<SpriteRenderer>().sprite = HairOverlayBoy[88+a];
+                        PlayerCharacter.transform.GetChild(3).gameObject.GetComponent<SpriteRenderer>().sprite = HairBoy[88+a];
+                        PlayerCharacter.transform.GetChild(4).gameObject.GetComponent<SpriteRenderer>().sprite = FaceBoy[88+a];
+                        PlayerCharacter.transform.GetChild(5).gameObject.GetComponent<SpriteRenderer>().sprite = LegOverlayBoy[88+a];
+                        PlayerCharacter.transform.GetChild(6).gameObject.GetComponent<SpriteRenderer>().sprite = SkinOverlayBoy[88+a];
+                        PlayerCharacter.transform.GetChild(7).gameObject.GetComponent<SpriteRenderer>().sprite = TshirtBoy[88+a];
+                        PlayerCharacter.transform.GetChild(8).gameObject.GetComponent<SpriteRenderer>().sprite = SkinBoy[88+a];
+                        PlayerCharacter.transform.GetChild(9).gameObject.GetComponent<SpriteRenderer>().sprite = LegBoy[88+a];
+                        yield return new WaitForSeconds(0.2F);
+                    }
+                    PlayerCharacter.transform.GetChild(1).gameObject.GetComponent<SpriteRenderer>().sprite = TshirtOverlayBoy[88];
+                    PlayerCharacter.transform.GetChild(2).gameObject.GetComponent<SpriteRenderer>().sprite = HairOverlayBoy[88];
+                    PlayerCharacter.transform.GetChild(3).gameObject.GetComponent<SpriteRenderer>().sprite = HairBoy[88];
+                    PlayerCharacter.transform.GetChild(4).gameObject.GetComponent<SpriteRenderer>().sprite = FaceBoy[88];
+                    PlayerCharacter.transform.GetChild(5).gameObject.GetComponent<SpriteRenderer>().sprite = LegOverlayBoy[88];
+                    PlayerCharacter.transform.GetChild(6).gameObject.GetComponent<SpriteRenderer>().sprite = SkinOverlayBoy[88];
+                    PlayerCharacter.transform.GetChild(7).gameObject.GetComponent<SpriteRenderer>().sprite = TshirtBoy[88];
+                    PlayerCharacter.transform.GetChild(8).gameObject.GetComponent<SpriteRenderer>().sprite = SkinBoy[88];
+                    PlayerCharacter.transform.GetChild(9).gameObject.GetComponent<SpriteRenderer>().sprite = LegBoy[88];
+                //} 
             //rechts oben
             }else if(walkAnim==5){
-                
+                PlayerCharacter.transform.GetChild(1).gameObject.transform.localPosition = new Vector3(-0.079f,1.747f,-0.05f);
+                PlayerCharacter.transform.GetChild(2).gameObject.transform.localPosition = new Vector3(-0.136f,3.497f,-0.07f);
+                PlayerCharacter.transform.GetChild(3).gameObject.transform.localPosition = new Vector3(-0.136f,3.4659f,-0.06f);
+                PlayerCharacter.transform.GetChild(4).gameObject.transform.localPosition = new Vector3(-0.282f,2.719f,-0.01f);
+                PlayerCharacter.transform.GetChild(5).gameObject.transform.localPosition = new Vector3(0.336f,0.46f,-0.04f);
+                PlayerCharacter.transform.GetChild(6).gameObject.transform.localPosition = new Vector3(0.131f,2.731f,-0.03f);
+                PlayerCharacter.transform.GetChild(7).gameObject.transform.localPosition = new Vector3(-0.073f,1.745f,-0.04f);
+                PlayerCharacter.transform.GetChild(8).gameObject.transform.localPosition = new Vector3(0.131f,2.731f,-0.02f);
+                PlayerCharacter.transform.GetChild(9).gameObject.transform.localPosition = new Vector3(0.234f,0.754f,-0.03f);
+                //if(true){//Player.isBoy==true
+                    for(int a=1;a<7;a++){
+                        PlayerCharacter.transform.GetChild(1).gameObject.GetComponent<SpriteRenderer>().sprite = TshirtOverlayBoy[72+a];
+                        PlayerCharacter.transform.GetChild(2).gameObject.GetComponent<SpriteRenderer>().sprite = HairOverlayBoy[72+a];
+                        PlayerCharacter.transform.GetChild(3).gameObject.GetComponent<SpriteRenderer>().sprite = HairBoy[72+a];
+                        PlayerCharacter.transform.GetChild(4).gameObject.GetComponent<SpriteRenderer>().sprite = FaceBoy[72+a];
+                        PlayerCharacter.transform.GetChild(5).gameObject.GetComponent<SpriteRenderer>().sprite = LegOverlayBoy[72+a];
+                        PlayerCharacter.transform.GetChild(6).gameObject.GetComponent<SpriteRenderer>().sprite = SkinOverlayBoy[72+a];
+                        PlayerCharacter.transform.GetChild(7).gameObject.GetComponent<SpriteRenderer>().sprite = TshirtBoy[72+a];
+                        PlayerCharacter.transform.GetChild(8).gameObject.GetComponent<SpriteRenderer>().sprite = SkinBoy[72+a];
+                        PlayerCharacter.transform.GetChild(9).gameObject.GetComponent<SpriteRenderer>().sprite = LegBoy[72+a];
+                        yield return new WaitForSeconds(0.2F);
+                    }
+                    PlayerCharacter.transform.GetChild(1).gameObject.GetComponent<SpriteRenderer>().sprite = TshirtOverlayBoy[72];
+                    PlayerCharacter.transform.GetChild(2).gameObject.GetComponent<SpriteRenderer>().sprite = HairOverlayBoy[72];
+                    PlayerCharacter.transform.GetChild(3).gameObject.GetComponent<SpriteRenderer>().sprite = HairBoy[72];
+                    PlayerCharacter.transform.GetChild(4).gameObject.GetComponent<SpriteRenderer>().sprite = FaceBoy[72];
+                    PlayerCharacter.transform.GetChild(5).gameObject.GetComponent<SpriteRenderer>().sprite = LegOverlayBoy[72];
+                    PlayerCharacter.transform.GetChild(6).gameObject.GetComponent<SpriteRenderer>().sprite = SkinOverlayBoy[72];
+                    PlayerCharacter.transform.GetChild(7).gameObject.GetComponent<SpriteRenderer>().sprite = TshirtBoy[72];
+                    PlayerCharacter.transform.GetChild(8).gameObject.GetComponent<SpriteRenderer>().sprite = SkinBoy[72];
+                    PlayerCharacter.transform.GetChild(9).gameObject.GetComponent<SpriteRenderer>().sprite = LegBoy[72];
+                //}
             }
+
             Debug.Log("idle: "+walkAnim);
-            yield return new WaitForSeconds(1.0F);
+            yield return new WaitForSeconds(0.1F);
         }
     }
 
