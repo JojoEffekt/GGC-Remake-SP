@@ -40,8 +40,28 @@ public class PlayerMovementController : MonoBehaviour
     //aktuelle spieler position WÄHREND des laufens
     static Vector3 curDynPlayerPos;
 
-    //EXPERIMENTAL
+    //bestimmt die LaufAnimation des spielers 
     public int walkAnim = 0; //0=none,1=idle in cur state,2=right...
+
+    //beinhalten die sprites für die playerAnim
+    public List<Sprite> FaceBoy = new List<Sprite>();
+    public List<Sprite> HairBoy = new List<Sprite>();
+    public List<Sprite> HairOverlayBoy = new List<Sprite>();
+    public List<Sprite> LegBoy = new List<Sprite>();
+    public List<Sprite> LegOverlayBoy = new List<Sprite>();
+    public List<Sprite> SkinBoy = new List<Sprite>();
+    public List<Sprite> SkinOverlayBoy = new List<Sprite>();
+    public List<Sprite> TshirtBoy = new List<Sprite>();
+    public List<Sprite> TshirtOverlayBoy = new List<Sprite>();
+    public List<Sprite> FaceGirl = new List<Sprite>();
+    public List<Sprite> HairGirl = new List<Sprite>();
+    public List<Sprite> HairOverlayGirl = new List<Sprite>();
+    public List<Sprite> LegGirl = new List<Sprite>();
+    public List<Sprite> LegOverlayGirl = new List<Sprite>();
+    public List<Sprite> SkinGirl = new List<Sprite>();
+    public List<Sprite> SkinOverlayGirl = new List<Sprite>();
+    public List<Sprite> TshirtGirl = new List<Sprite>();
+    public List<Sprite> TshirtOverlayGirl = new List<Sprite>();
 
     //wird aufgerufen wenn eine neue position angeklickt wurde
     public static void MovePlayer(int[] newPos){
@@ -134,6 +154,24 @@ public class PlayerMovementController : MonoBehaviour
             //links unten  (front_left)
             if(walkAnim==2){
                 
+                if(/*isBoy*/){
+                    for(int int a=0;a<7;a++){
+                        FaceBoy
+                        HairBoy
+                    }
+                }else{
+
+                }
+
+            //links oben  
+            }else if(walkAnim==3){
+                
+            //rechts unten
+            }else if(walkAnim==4){
+                
+            //rechts oben
+            }else if(walkAnim==5){
+                
             }
             Debug.Log("idle: "+walkAnim);
             yield return new WaitForSeconds(1.0F);
@@ -168,30 +206,100 @@ public class PlayerMovementController : MonoBehaviour
 
     //läd jedes sprite für die playerAnim (1728 stück)
     public static void LoadSprites(){
-        //definiert die parentOrdner
-        string[] superOrdner = new string[]{"Girl","Boy"};
 
-        //für jeden parent Ordner...
-        foreach(string suDir in superOrdner){
+        //beinhaltet die geladenen sprites
+        object[] spriteList = new object[]{};
 
-            //...suche alle unterOrdnerNamen
-            List<string> chDirs = new List<string>();
-            foreach(string folder in Directory.GetDirectories(Application.dataPath+"/Resources/Textures/Player/"+suDir)){
-                chDirs.Add(new DirectoryInfo(folder).Name);
-            }
-            
-            //für jeden unterOrdner in der unterOrdnerList...
-            foreach(string chDir in chDirs){
-
-                //lade alle sprites in den unterOrdner
-                object[] sprites = Resources.LoadAll("Textures/Player/"+suDir+"/"+chDir,typeof(Sprite));
-                for(int x=0;x<sprites.Length;x++){
-                    SpriteList.Add((Sprite)sprites[x]);
-                }
-            }
+        //beinhaltet temporär die geladene sprite liste
+        spriteList = Resources.LoadAll("Textures/Player/Boy/face_boy",typeof(Sprite));
+        foreach(object obj in spriteList){
+           	FaceBoy.Add((Sprite)obj);
         }
 
-        //Debug.Log("Load "+SpriteList.Count+" Sprites");
+        spriteList = Resources.LoadAll("Textures/Player/Boy/hair_boy",typeof(Sprite));
+        foreach(object obj in spriteList){
+           	HairBoy.Add((Sprite)obj);
+        }
+
+        spriteList = Resources.LoadAll("Textures/Player/Boy/hair_overlay_boy",typeof(Sprite));
+        foreach(object obj in spriteList){
+           	HairOverlayBoy.Add((Sprite)obj);
+        }
+
+        spriteList = Resources.LoadAll("Textures/Player/Boy/leg_boy",typeof(Sprite));
+        foreach(object obj in spriteList){
+           	LegBoy.Add((Sprite)obj);
+        }
+
+        spriteList = Resources.LoadAll("Textures/Player/Boy/leg_overlay_boy",typeof(Sprite));
+        foreach(object obj in spriteList){
+           	LegOverlayBoy.Add((Sprite)obj);
+        }
+
+        spriteList = Resources.LoadAll("Textures/Player/Boy/skin_boy",typeof(Sprite));
+        foreach(object obj in spriteList){
+           	SkinBoy.Add((Sprite)obj);
+        }
+
+        spriteList = Resources.LoadAll("Textures/Player/Boy/skin_overlay_boy",typeof(Sprite));
+        foreach(object obj in spriteList){
+           	SkinOverlayBoy.Add((Sprite)obj);
+        }
+
+        spriteList = Resources.LoadAll("Textures/Player/Boy/tshirt_boy",typeof(Sprite));
+        foreach(object obj in spriteList){
+           	TshirtBoy.Add((Sprite)obj);
+        }
+
+        spriteList = Resources.LoadAll("Textures/Player/Boy/tshirt_overlay_boy",typeof(Sprite));
+        foreach(object obj in spriteList){
+           	TshirtOverlayBoy.Add((Sprite)obj);
+        }
+
+        spriteList = Resources.LoadAll("Textures/Player/Girl/face_girl",typeof(Sprite));
+        foreach(object obj in spriteList){
+           	FaceGirl.Add((Sprite)obj);
+        }
+
+        spriteList = Resources.LoadAll("Textures/Player/Girl/hair_girl",typeof(Sprite));
+        foreach(object obj in spriteList){
+           	HairGirl.Add((Sprite)obj);
+        }
+
+        spriteList = Resources.LoadAll("Textures/Player/Girl/hair_overlay_girl",typeof(Sprite));
+        foreach(object obj in spriteList){
+           	HairOverlayGirl.Add((Sprite)obj);
+        }
+
+        spriteList = Resources.LoadAll("Textures/Player/Girl/leg_girl",typeof(Sprite));
+        foreach(object obj in spriteList){
+           	LegGirl.Add((Sprite)obj);
+        }
+
+        spriteList = Resources.LoadAll("Textures/Player/Girl/leg_overlay_girl",typeof(Sprite));
+        foreach(object obj in spriteList){
+           	LegOverlayGirl.Add((Sprite)obj);
+        }
+
+        spriteList = Resources.LoadAll("Textures/Player/Girl/skin_girl",typeof(Sprite));
+        foreach(object obj in spriteList){
+           	SkinGirl.Add((Sprite)obj);
+        }
+
+        spriteList = Resources.LoadAll("Textures/Player/Girl/skin_overlay_girl",typeof(Sprite));
+        foreach(object obj in spriteList){
+           	SkinOverlayGirl.Add((Sprite)obj);
+        }
+
+        spriteList = Resources.LoadAll("Textures/Player/Girl/tshirt_girl",typeof(Sprite));
+        foreach(object obj in spriteList){
+           	TshirtGirl.Add((Sprite)obj);
+        }
+
+        spriteList = Resources.LoadAll("Textures/Player/Girl/tshirt_overlay_girl",typeof(Sprite));
+        foreach(object obj in spriteList){
+           	TshirtOverlayGirl.Add((Sprite)obj);
+        }
     }
 
     //sucht die DoorPos anhander der Tür an der Wand
