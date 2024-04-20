@@ -4933,6 +4933,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   timer: 0
   objName: 
+  lastWalkedObjName: 
   walkAnim: 0
 --- !u!1 &705018490
 GameObject:
@@ -5830,12 +5831,12 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 046fa60f40fe2dc45b0608d237b2d4d4, type: 3}
+  m_Sprite: {fileID: 21300000, guid: b1de8ff8da7ce6a468bb10b97311d06b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 2.6, y: 2.15}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
