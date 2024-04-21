@@ -9,17 +9,19 @@ public class PlayerCharBuilder : MonoBehaviour
     public GameObject PlayerPrefab;
 
     //beinhaltet alle hüte
-    public List<Sprite> SpriteListHat = new List<Sprite>();
+    public static List<Sprite> SpriteListHat = new List<Sprite>();
+
+    public static Player player;
 
     //läd bilder und instanziiert den char
-    public void Intizialisierer(){
+    //kriegt die daten aus dem PlayerController script das bei start vom save&load script die daten konvertiert
+    public static void Intizialisierer(Dictionary<string,string> PlayerDict){
         LoadSprites();
 
-        //sitzen stehen laufen
-        //links vorne rechts unten
+        player = new Player(bool.Parse(PlayerDict["Gender"]),PlayerDict["Hat"],PlayerDict["Face"],PlayerDict["Hair"],PlayerDict["HairOverlay"],PlayerDict["Leg"],PlayerDict["LegOverlay"],PlayerDict["Skin"],PlayerDict["SkinOverlay"],PlayerDict["Tshirt"],PlayerDict["TshirtOverlay"]);
     }
 
-    public void LoadSprites(){
+    public static void LoadSprites(){
         object[] sprites = Resources.LoadAll("Textures/Player/Hat",typeof(Sprite));
         for(int x=0;x<sprites.Length;x++){
            	SpriteListHat.Add((Sprite)sprites[x]);

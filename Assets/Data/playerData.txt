@@ -1,8 +1,9 @@
 Jojo
-2328
+2228
 46721615
 5487000
 16
 Lettuce:6;Eggplant:2;Oranges:5;Onions:2;Tomatoes:2;Cream:1;Chocolate:1;Pasta:1;Minced meat:1
 Oven_01_a:2;Shlushi_a:2;Floor_01:13;Chair_06_a:1
 Oven:3;Fridge:1;Counter:2;Shlushi:1
+Gender:true;Hat:255-255-255-255;Face:255-255-255-255;Hair:255-255-255-255;HairOverlay:255-255-255-255;Leg:255-255-255-255;LegOverlay:255-255-255-255;Skin:255-255-255-255;SkinOverlay:255-255-255-255;Tshirt:255-255-255-255;TshirtOverlay:255-255-255-255

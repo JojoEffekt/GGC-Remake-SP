@@ -30,6 +30,7 @@ public class SaveAndLoadController : MonoBehaviour
             PlayerController.LoadFoodItemDict(lines[5]);
             PlayerController.LoadStorageItemDict(lines[6]);
             PlayerController.LoadObjectLimiterDict(lines[7]);
+            PlayerController.LoadPlayerDict(lines[8]);
 
             //Debug.Log("successfully load Player-data!");
         /*}catch(Exception e){
@@ -114,6 +115,7 @@ public class SaveAndLoadController : MonoBehaviour
             source.WriteLine(PlayerController.getFoodItemDictInfo());
             source.WriteLine(PlayerController.getStorageItemDictInfo());
             source.WriteLine(PlayerController.getObjectLimiterDictInfo());
+            source.WriteLine(PlayerController.getPlayerDictInfo());
             
             source.Close();
             //Debug.Log("successfully save Player-data!");

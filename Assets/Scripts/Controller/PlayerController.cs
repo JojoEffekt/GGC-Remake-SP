@@ -14,6 +14,7 @@ public class PlayerController : MonoBehaviour
     public static Dictionary<string, int> FoodItemDict = new Dictionary<string, int>();//Empty
     public static Dictionary<string, int> StorageItemDict = new Dictionary<string, int>();//Empty / speicher Informationen welches Objekt und wie oft auf reserve
     public static Dictionary<string, int> ObjectLimiterDict = new Dictionary<string, int>();//Oven:3;Fridge:1;Counter:2;Slushi:1 / speicher wieviele Fridges,Counter,Oven and Slushies you can place
+    public static Dictionary<string, string> PlayerDict = new Dictionary<string, string>();//Gender:true;Hat:255-255-255-255;Face:255-255-255-255;Hair255-255-255-255;HairOverlay255-255-255-255;Leg255-255-255-255;LegOverlay255-255-255-255;Skin255-255-255-255;SkinOverlay255-255-255-255;Tshirt255-255-255-255;TshirtOverlay:255-255-255-255 /speichert die informationen der kleidung und gender (gender true=boy)
 
     /*  
     JojoEffekt
@@ -24,6 +25,7 @@ public class PlayerController : MonoBehaviour
     Empty
     Empty
     Oven:3;Fridge:1;Counter:2;Shlushi:1
+    Gender:true;Hat:255-255-255-255;Face:255-255-255-255;Hair:255-255-255-255;HairOverlay:255-255-255-255;Leg:255-255-255-255;LegOverlay:255-255-255-255;Skin:255-255-255-255;SkinOverlay:255-255-255-255;Tshirt:255-255-255-255;TshirtOverlay:255-255-255-255
     */
      
     public static int playerLevel;//wird durch xp erzeugt
@@ -107,6 +109,19 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    //baut ein dict mit der gespeicherten infos über das spieler aussehen
+    //generiert spieler char
+    public static void LoadPlayerDict(string data){
+        //CONTINUE save failback
+        data = data.Trim();
+        string[] items = data.Split(";");
+        for(int a=0;a<items.Length;a++){
+            string[] pair = items[a].Split(":");
+            PlayerDict.Add(pair[0], pair[1]);
+        }
+
+        PlayerCharBuilder.Intizialisierer(PlayerDict);
+    }
 
 
     //addiert 1 zu einem objekt 
@@ -267,6 +282,19 @@ public class PlayerController : MonoBehaviour
 
         //gibt die anzahl der noch zu platzierenden objekte wieder
         return typeMaxAnzahl-AnzahlAufSpielfeld;
+    }
+
+    //gibt die aktuellen playerChar daten zurück
+    public static string getPlayerDictInfo(){
+        string info = "";
+        foreach (var item in PlayerDict){
+            info += item.Key+":"+item.Value+";";
+        }
+        if(info!=""){
+            info = info.Remove(info.Length - 1, 1);
+            return info;
+        }
+        return "Gender:true;Hat:255-255-255-255;Face:255-255-255-255;Hair:255-255-255-255;HairOverlay:255-255-255-255;Leg:255-255-255-255;LegOverlay:255-255-255-255;Skin:255-255-255-255;SkinOverlay:255-255-255-255;Tshirt:255-255-255-255;TshirtOverlay:255-255-255-255";
     }
 
 

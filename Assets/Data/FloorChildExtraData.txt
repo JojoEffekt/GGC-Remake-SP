@@ -1,9 +1,10 @@
-Chair;6-1;True
 Chair;2-6;True
 Chair;2-5;True
 Chair;2-4;True
 Chair;2-2;True
 Chair;6-6;True
+Chair;6-0;True
+Chair;8-4;True
 Table;3-2;True
 Table;1-4;True
 Table;0-2;True
