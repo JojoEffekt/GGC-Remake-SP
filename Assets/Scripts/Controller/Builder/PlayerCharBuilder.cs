@@ -18,6 +18,7 @@ public class PlayerCharBuilder : MonoBehaviour
     public static void Intizialisierer(Dictionary<string,string> PlayerDict){
         LoadSprites();
 
+        //läd daten als referenz
         player = new Player(bool.Parse(PlayerDict["Gender"]),PlayerDict["Hat"],PlayerDict["Face"],PlayerDict["Hair"],PlayerDict["HairOverlay"],PlayerDict["Leg"],PlayerDict["LegOverlay"],PlayerDict["Skin"],PlayerDict["SkinOverlay"],PlayerDict["Tshirt"],PlayerDict["TshirtOverlay"]);
     }
 
