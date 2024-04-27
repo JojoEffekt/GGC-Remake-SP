@@ -593,7 +593,6 @@ public class PlayerMovementController : MonoBehaviour
             PlayerCharacter.transform.GetChild(9).gameObject.transform.localPosition = new Vector3(-0.023f,1.05f,0f);
 
             PlayerCharacter.transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().sprite = Hat[1];
-            PlayerCharacter.transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().color = new Color(0,1,0,1); 
             PlayerCharacter.transform.GetChild(1).gameObject.GetComponent<SpriteRenderer>().sprite = TshirtOverlayGirl[80];
             PlayerCharacter.transform.GetChild(2).gameObject.GetComponent<SpriteRenderer>().sprite = HairOverlayGirl[80];
             PlayerCharacter.transform.GetChild(3).gameObject.GetComponent<SpriteRenderer>().sprite = HairGirl[80];

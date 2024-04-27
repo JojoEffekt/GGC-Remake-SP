@@ -111,8 +111,8 @@ public class PlayerController : MonoBehaviour
 
     //baut ein dict mit der gespeicherten infos über das spieler aussehen
     //generiert spieler char
+    //ACHTUNG dict wird zur laufzeit nicht aktualisiert
     public static void LoadPlayerDict(string data){
-        //CONTINUE save failback
         data = data.Trim();
         string[] items = data.Split(";");
         for(int a=0;a<items.Length;a++){
@@ -285,16 +285,9 @@ public class PlayerController : MonoBehaviour
     }
 
     //gibt die aktuellen playerChar daten zurück
+    //nicht vom dict sonder direct von der instanz
     public static string getPlayerDictInfo(){
-        string info = "";
-        foreach (var item in PlayerDict){
-            info += item.Key+":"+item.Value+";";
-        }
-        if(info!=""){
-            info = info.Remove(info.Length - 1, 1);
-            return info;
-        }
-        return "Gender:true;Hat:255-255-255-255;Face:255-255-255-255;Hair:255-255-255-255;HairOverlay:255-255-255-255;Leg:255-255-255-255;LegOverlay:255-255-255-255;Skin:255-255-255-255;SkinOverlay:255-255-255-255;Tshirt:255-255-255-255;TshirtOverlay:255-255-255-255";
+        return PlayerCharBuilder.player.getPlayerInfo();
     }
 
 
