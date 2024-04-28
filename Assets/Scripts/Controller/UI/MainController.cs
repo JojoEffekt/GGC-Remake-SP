@@ -8,11 +8,13 @@ public class MainController : MonoBehaviour
     public Button IngredientsBTN; //1
     public Button RebuildBTN; //2
     public Button DinnerBTN; //3
+    public Button PlayerUIBTN; // 4
 
     public GameObject MainShop; //UI Elemente
     public GameObject IngredientsStore;
     public GameObject RebuildStore;
     public GameObject DinnerStore;
+    public GameObject PlayerUIStore;
 
     public static void LoadName(string name){
         GameObject Main = GameObject.Find("UI/Main");
@@ -27,6 +29,8 @@ public class MainController : MonoBehaviour
             DeactivateUI();
         }else if(btnNumber==3){//open DinnerShop
             DinnerStore.GetComponent<DinnerUIController>().OpenShop();
+        }else if(btnNumber==4){//open Player Design
+            PlayerUIStore.GetComponent<PlayerUIController>().OpenShop();
         }
 
         DeactivateBTNs();
@@ -36,6 +40,7 @@ public class MainController : MonoBehaviour
         IngredientsBTN.interactable = false;
         RebuildBTN.interactable = false;
         DinnerBTN.interactable = false;
+        PlayerUIBTN.interactable = false;
     }
     public void DeactivateUI(){
         MainShop.SetActive(false);
@@ -45,6 +50,7 @@ public class MainController : MonoBehaviour
         IngredientsBTN.interactable = true;
         RebuildBTN.interactable = true;
         DinnerBTN.interactable = true;
+        PlayerUIBTN.interactable = true;
     }
     public void ActivateUI(){
         MainShop.SetActive(true);
