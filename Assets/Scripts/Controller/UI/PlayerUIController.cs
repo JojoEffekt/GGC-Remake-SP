@@ -18,16 +18,36 @@ public class PlayerUIController : MonoBehaviour
 
     //parent object unter dem alle prefabs erzeugt werden
     public GameObject ColorBTNPrefabHandler;
-    
 
+
+    //enthält die einzelnen teile des beispielChars
+    public GameObject GirlChar;
+
+    //enthält die einzelnen teile des beispielChars
+    public GameObject BoyChar;
+
+    
+    //beinhaltet alle farben für die hairColor
+    public float[,] hairColor = new float[,]{{0.94f,0.87f,0.58f},{0.97f,0.81f,0.35f}};
+
+    //beinhaltet alle farben für die skinColor
     public float[,] skinColor = new float[,]{{0.94f,0.77f,0.61f},{0.92f,0.68f,0.49f}};
 
-    //wird durch anklicken des jeweiligen "körperteils" verändert (0=null,1=boy,2=girl,3=hair,4=skin,..)
-    public int currentPlayerPiece = 0;
+    //beinhaltet alle farben für die tshirtColor
+    public float[,] tshirtColor = new float[,]{{0.26f,0.32f,0.31f},{0.77f,0.78f,0.81f}};
+
+    //beinhaltet alle farben für die hoseColor
+    public float[,] hoseColor = new float[,]{{0.26f,0.32f,0.31f},{0.77f,0.78f,0.81f}};
+
     
     //öffnet den shop und läd die items
     public void OpenShop(){
+
+        //aktiviert UI
         PlayerUIShop.SetActive(true);
+
+        //rendert den spieler namen in die UI
+        PlayerUIShop.transform.GetChild(0).gameObject.transform.GetChild(1).gameObject.GetComponent<TMPro.TextMeshProUGUI>().text = PlayerController.playerName;
     }
 
 
@@ -35,23 +55,145 @@ public class PlayerUIController : MonoBehaviour
     //für jede verschiedene skinFarbe, render ein gegebenes objekt
     public void RenderAllColorsForCurrentPiece(int num){
 
+        //löscht erstmal alle prefabObjekte die noch vorhanden sein könnten
+        DeleteAllPrefabs();
+
+        //Gender Boy
+        if(num==1){
+            GirlChar.SetActive(false);
+            BoyChar.SetActive(true);
+        }
+
+        //Gender Girl
+        if(num==2){
+            GirlChar.SetActive(true);
+            BoyChar.SetActive(false);
+        }
+
+        //hairColor
+        if(num==3){
+            for(int a=0;a<hairColor.Length/3;a++){
+
+                //erzeuge für jedes farbtrippel ein farbobject btn
+                RenderBtn(a, new float[]{hairColor[a,0],hairColor[a,1],hairColor[a,2]}, num);
+            }
+        }
+
         //skinColor
         if(num==4){
             for(int a=0;a<skinColor.Length/3;a++){
 
                 //erzeuge für jedes farbtrippel ein farbobject btn
-                RenderBtn(a, new float[]{skinColor[a,0],skinColor[a,1],skinColor[a,2]});
+                RenderBtn(a, new float[]{skinColor[a,0],skinColor[a,1],skinColor[a,2]}, num);
+            }
+        }
+
+        //tshirtColor
+        if(num==5){
+            for(int a=0;a<tshirtColor.Length/3;a++){
+
+                //erzeuge für jedes farbtrippel ein farbobject btn
+                RenderBtn(a, new float[]{tshirtColor[a,0],tshirtColor[a,1],tshirtColor[a,2]}, num);
+            }
+        }
+
+        //hoseColor
+        if(num==6){
+            for(int a=0;a<hoseColor.Length/3;a++){
+
+                //erzeuge für jedes farbtrippel ein farbobject btn
+                RenderBtn(a, new float[]{hoseColor[a,0],hoseColor[a,1],hoseColor[a,2]}, num);
             }
         }
     }
 
-    private void RenderBtn(int BtnNum, float[] color){
-        GameObject Btn = Instantiate(ColorBTNPrefab, new Vector2(1250, 740+(BtnNum*-47)), Quaternion.identity, ColorBTNPrefabHandler.transform);
-        Btn.transform.GetChild(0).gameObject.GetComponent<Image>().color = new Color(color[0],color[1],color[2],1);
+    //erzeugt die möglichen ColorBtns des jeweiligen körperteils
+    private void RenderBtn(int BtnNum, float[] color, int type){
+
+        //rendert color Object an die entsprechende stelle
+        if(BtnNum>10){
+            GameObject Btn = Instantiate(ColorBTNPrefab, new Vector2(1300, 740+((BtnNum-11)*-47)), Quaternion.identity, ColorBTNPrefabHandler.transform);
+            
+            //rendert farbe als object
+            Btn.transform.GetChild(0).gameObject.GetComponent<Image>().color = new Color(color[0],color[1],color[2],1);
+
+            //delegiert den zu übergebenden wert bei kauf
+            Btn.transform.GetChild(1).gameObject.GetComponent<Button>().onClick.AddListener(delegate{SelectBtn(color,type);});
+        }else{
+            GameObject Btn = Instantiate(ColorBTNPrefab, new Vector2(1250, 740+(BtnNum*-47)), Quaternion.identity, ColorBTNPrefabHandler.transform);
+            
+            //rendert farbe als object
+            Btn.transform.GetChild(0).gameObject.GetComponent<Image>().color = new Color(color[0],color[1],color[2],1);
+
+            //delegiert den zu übergebenden wert bei kauf
+            Btn.transform.GetChild(1).gameObject.GetComponent<Button>().onClick.AddListener(delegate{SelectBtn(color,type);});
+        }
+    }
+
+    //wählt zufällige werte aus
+    public void GenerateRndmChar(){
+
+        //generiere eine zufällige zahl für jedes körperteil und deren anzahl an colors
+        System.Random rnd = new System.Random();
+
+        //erzeugt eine random zahl und übergibt von der ColorListe den farb wert und erzeugt die farbe für das körperteil
+        int hairColorRndm = rnd.Next(0, hairColor.Length/3);
+        SelectBtn(new float[]{hairColor[hairColorRndm,0],hairColor[hairColorRndm,1],hairColor[hairColorRndm,2]},3);
+
+        int skinColorRndm = rnd.Next(0, skinColor.Length/3);
+        SelectBtn(new float[]{skinColor[skinColorRndm,0],skinColor[skinColorRndm,1],skinColor[skinColorRndm,2]},4);
+
+        int tshirtColorRndm = rnd.Next(0, tshirtColor.Length/3);
+        SelectBtn(new float[]{tshirtColor[tshirtColorRndm,0],tshirtColor[tshirtColorRndm,1],tshirtColor[tshirtColorRndm,2]},5);
+
+        int hoseColorRndm = rnd.Next(0, hoseColor.Length/3);
+        SelectBtn(new float[]{hoseColor[hoseColorRndm,0],hoseColor[hoseColorRndm,1],hoseColor[hoseColorRndm,2]},6);
+    }
+
+    //die funktion die benutzt wird um die farbe eines körperteils zu ändern
+    //ändert das pre layout
+    private void SelectBtn(float[] color, int type){
+        
+        //hairColor
+        if(type==3){
+            GirlChar.transform.GetChild(2).gameObject.GetComponent<Image>().color = new Color(color[0],color[1],color[2],1f);
+            BoyChar.transform.GetChild(6).gameObject.GetComponent<Image>().color = new Color(color[0],color[1],color[2],1f);
+        }
+
+        //skinColor
+        if(type==4){
+            GirlChar.transform.GetChild(0).gameObject.GetComponent<Image>().color = new Color(color[0],color[1],color[2],1f);
+            BoyChar.transform.GetChild(2).gameObject.GetComponent<Image>().color = new Color(color[0],color[1],color[2],1f);
+        }
+
+        //tshirtColor
+        if(type==5){
+            GirlChar.transform.GetChild(7).gameObject.GetComponent<Image>().color = new Color(color[0],color[1],color[2],1f);
+            BoyChar.transform.GetChild(4).gameObject.GetComponent<Image>().color = new Color(color[0],color[1],color[2],1f);
+        }
+
+        //hoseColor
+        if(type==6){
+            GirlChar.transform.GetChild(6).gameObject.GetComponent<Image>().color = new Color(color[0],color[1],color[2],1f);
+            BoyChar.transform.GetChild(0).gameObject.GetComponent<Image>().color = new Color(color[0],color[1],color[2],1f);
+        }
+    }
+
+    //bestätige die auswahl
+    //übergebe die neuen werte an den spieler char
+
+    //löscht alle objecte in den PrefabHandler
+    private void DeleteAllPrefabs(){
+        for(int a=ColorBTNPrefabHandler.transform.childCount-1;a>=0;a--){
+            Destroy(ColorBTNPrefabHandler.transform.GetChild(a).gameObject);
+        }
     }
 
     //schließt den shop wieder und aktiviert damit wieder die anderen UI elemente
     public void CloseShop(){
+
+        //löscht erstmal alle prefabObjekte die noch vorhanden sein könnten
+        DeleteAllPrefabs();
 
         //schließt die UI
         PlayerUIShop.SetActive(false);

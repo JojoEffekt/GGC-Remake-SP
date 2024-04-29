@@ -1682,7 +1682,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 182273526}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1792971845}
+        m_TargetAssemblyTypeName: PlayerUIController, Assembly-CSharp
+        m_MethodName: RenderAllColorsForCurrentPiece
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 2
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &182273526
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6659,6 +6671,7 @@ RectTransform:
   - {fileID: 1881354257}
   - {fileID: 1497576269}
   - {fileID: 790449440}
+  - {fileID: 819967033}
   m_Father: {fileID: 2133160484}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -7837,12 +7850,12 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 819967032}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.3, y: 0.3, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1665294056}
+  m_Father: {fileID: 741530946}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -8187,7 +8200,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 847192789}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1792971845}
+        m_TargetAssemblyTypeName: PlayerUIController, Assembly-CSharp
+        m_MethodName: RenderAllColorsForCurrentPiece
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 1
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &847192789
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8526,7 +8551,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 850414644}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1792971845}
+        m_TargetAssemblyTypeName: PlayerUIController, Assembly-CSharp
+        m_MethodName: RenderAllColorsForCurrentPiece
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 5
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &850414644
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11979,7 +12016,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1162971480}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1792971845}
+        m_TargetAssemblyTypeName: PlayerUIController, Assembly-CSharp
+        m_MethodName: GenerateRndmChar
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1162971480
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12264,7 +12313,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1189031257}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1792971845}
+        m_TargetAssemblyTypeName: PlayerUIController, Assembly-CSharp
+        m_MethodName: RenderAllColorsForCurrentPiece
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 6
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1189031257
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16568,7 +16629,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1946894384}
-  - {fileID: 819967033}
   - {fileID: 700239983}
   m_Father: {fileID: 741530946}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -16913,7 +16973,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1688282712}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1792971845}
+        m_TargetAssemblyTypeName: PlayerUIController, Assembly-CSharp
+        m_MethodName: RenderAllColorsForCurrentPiece
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 3
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1688282712
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18787,7 +18859,8 @@ MonoBehaviour:
   MainController: {fileID: 349073842}
   ColorBTNPrefab: {fileID: 4499468330203565177, guid: 31fc22b673b0c464da1528412b967482, type: 3}
   ColorBTNPrefabHandler: {fileID: 790449439}
-  currentPlayerPiece: 0
+  GirlChar: {fileID: 1881354256}
+  BoyChar: {fileID: 1497576268}
 --- !u!4 &1792971846
 Transform:
   m_ObjectHideFlags: 0
@@ -22554,8 +22627,8 @@ Transform:
   - {fileID: 2022447592}
   - {fileID: 1822595009}
   - {fileID: 1026675101}
-  - {fileID: 920360880}
   - {fileID: 741530946}
+  - {fileID: 920360880}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1660057539 &9223372036854775807
