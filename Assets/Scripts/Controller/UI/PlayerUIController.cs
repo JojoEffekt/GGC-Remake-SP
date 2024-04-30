@@ -34,10 +34,18 @@ public class PlayerUIController : MonoBehaviour
     public float[,] skinColor = new float[,]{{0.94f,0.77f,0.61f},{0.92f,0.68f,0.49f}};
 
     //beinhaltet alle farben für die tshirtColor
-    public float[,] tshirtColor = new float[,]{{0.26f,0.32f,0.31f},{0.77f,0.78f,0.81f}};
+    public float[,] tshirtColor = new float[,]{{0.26f,0.32f,0.31f},{0.77f,0.78f,0.81f},{0.f,0.f,0.f}};
 
     //beinhaltet alle farben für die hoseColor
-    public float[,] hoseColor = new float[,]{{0.26f,0.32f,0.31f},{0.77f,0.78f,0.81f}};
+    public float[,] hoseColor = new float[,]{{0.26f,0.32f,0.31f},{0.77f,0.78f,0.81f},{0.f,0.f,0.f}};
+
+
+    //temporäre variablen die die angeklickten werte enthalten
+    private bool tempGender; //true=boy, false=girl
+    private float[] tempHair;
+    private float[] tempSkin;
+    private float[] tempTshirt;
+    private float[] tempHose;
 
     
     //öffnet den shop und läd die items
@@ -62,12 +70,14 @@ public class PlayerUIController : MonoBehaviour
         if(num==1){
             GirlChar.SetActive(false);
             BoyChar.SetActive(true);
+            tempGender=true;
         }
 
         //Gender Girl
         if(num==2){
             GirlChar.SetActive(true);
             BoyChar.SetActive(false);
+            tempGender=false;
         }
 
         //hairColor
@@ -158,29 +168,73 @@ public class PlayerUIController : MonoBehaviour
         if(type==3){
             GirlChar.transform.GetChild(2).gameObject.GetComponent<Image>().color = new Color(color[0],color[1],color[2],1f);
             BoyChar.transform.GetChild(6).gameObject.GetComponent<Image>().color = new Color(color[0],color[1],color[2],1f);
+            tempHair=color;
         }
 
         //skinColor
         if(type==4){
             GirlChar.transform.GetChild(0).gameObject.GetComponent<Image>().color = new Color(color[0],color[1],color[2],1f);
             BoyChar.transform.GetChild(2).gameObject.GetComponent<Image>().color = new Color(color[0],color[1],color[2],1f);
+            tempSkin=color;
         }
 
         //tshirtColor
         if(type==5){
             GirlChar.transform.GetChild(7).gameObject.GetComponent<Image>().color = new Color(color[0],color[1],color[2],1f);
             BoyChar.transform.GetChild(4).gameObject.GetComponent<Image>().color = new Color(color[0],color[1],color[2],1f);
+            tempTshirt=color;
         }
 
         //hoseColor
         if(type==6){
             GirlChar.transform.GetChild(6).gameObject.GetComponent<Image>().color = new Color(color[0],color[1],color[2],1f);
             BoyChar.transform.GetChild(0).gameObject.GetComponent<Image>().color = new Color(color[0],color[1],color[2],1f);
+            tempHose=color;
         }
     }
 
     //bestätige die auswahl
     //übergebe die neuen werte an den spieler char
+    public void ConfirmNewDress(){
+
+        //überprüfe ob der spieler genug gold hat
+        if(PlayerController.playerGold>0){
+
+            //bool um zu gucken ob überhaupt was angeklickt wurde (prevent unwanted spending)
+            bool isDressChange = false;
+
+            //rechne ab
+            PlayerController.playerGold = PlayerController.playerGold - 1;
+
+            //schließe shop
+            CloseShop();
+
+            //übergebe die neuen daten dem spielerCharbuilder
+            PlayerCharBuilder.player.setGender(tempGender);
+
+            if(tempHair!=null){
+                PlayerCharBuilder.player.setHair(tempHair[0],tempHair[1],tempHair[2],1);
+                isDressChange=true;
+            }
+            if(tempSkin!=null){
+                PlayerCharBuilder.player.setSkin(tempSkin[0],tempSkin[1],tempSkin[2],1);
+                isDressChange=true;
+            }
+            if(tempTshirt!=null){
+                PlayerCharBuilder.player.setTshirt(tempTshirt[0],tempTshirt[1],tempTshirt[2],1);
+                isDressChange=true;
+            }
+            if(tempHose!=null){
+                PlayerCharBuilder.player.setLeg(tempHose[0],tempHose[1],tempHose[2],1);
+                isDressChange=true;
+            }
+
+            //rechne ab
+            if(isDressChange==true){
+                PlayerController.playerGold = PlayerController.playerGold - 1;
+            }
+        }
+    }
 
     //löscht alle objecte in den PrefabHandler
     private void DeleteAllPrefabs(){

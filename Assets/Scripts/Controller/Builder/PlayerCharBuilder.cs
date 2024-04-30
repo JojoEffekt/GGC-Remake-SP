@@ -21,8 +21,9 @@ public class PlayerCharBuilder : MonoBehaviour
         //läd daten als referenz
         player = new Player(bool.Parse(PlayerDict["Gender"]),PlayerDict["Hat"],PlayerDict["Face"],PlayerDict["Hair"],PlayerDict["HairOverlay"],PlayerDict["Leg"],PlayerDict["LegOverlay"],PlayerDict["Skin"],PlayerDict["SkinOverlay"],PlayerDict["Tshirt"],PlayerDict["TshirtOverlay"]);
 
-        player.setFace(0.1f,1f,0.5f,1);
-        player.setTshirt(0.9f,0.1f,0.9f,1);
+        //temp testing
+        //player.setFace(0.1f,1f,0.5f,1);
+        //player.setTshirt(0.9f,0.1f,0.9f,1);
     }
 
     public static void LoadSprites(){
@@ -60,6 +61,14 @@ public class Player
         this.skin_overlay = new float[]{float.Parse(skin_overlay.Split("-")[0]),float.Parse(skin_overlay.Split("-")[1]),float.Parse(skin_overlay.Split("-")[2]),float.Parse(skin_overlay.Split("-")[3])};
         this.tshirt = new float[]{float.Parse(tshirt.Split("-")[0]),float.Parse(tshirt.Split("-")[1]),float.Parse(tshirt.Split("-")[2]),float.Parse(tshirt.Split("-")[3])};
         this.tshirt_overlay = new float[]{float.Parse(tshirt_overlay.Split("-")[0]),float.Parse(tshirt_overlay.Split("-")[1]),float.Parse(tshirt_overlay.Split("-")[2]),float.Parse(tshirt_overlay.Split("-")[3])};
+    
+        UpdatePlayerColor();
+    }
+
+    //update gender
+    public void setGender(bool val){
+        this.gender = val;
+        UpdatePlayerColor();
     }
 
     //setzte neuen farbwert für das gesicht
@@ -119,6 +128,10 @@ public class Player
         //sucht die spieler UI
         GameObject PlayerCharacter = GameObject.Find("Player");
 
+        //CONTINUE 
+        //RELOAD PLAYER GENDER ETC
+
+        //color
         PlayerCharacter.transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().color = new Color(hat[0],hat[1],hat[2],hat[3]);
         PlayerCharacter.transform.GetChild(1).gameObject.GetComponent<SpriteRenderer>().color = new Color(tshirt_overlay[0],tshirt_overlay[1],tshirt_overlay[2],tshirt_overlay[3]); 
         PlayerCharacter.transform.GetChild(2).gameObject.GetComponent<SpriteRenderer>().color = new Color(hair_overlay[0],hair_overlay[1],hair_overlay[2],hair_overlay[3]); 
