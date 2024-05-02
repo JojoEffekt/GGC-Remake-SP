@@ -232,6 +232,9 @@ public class PlayerUIController : MonoBehaviour
             //rechne ab
             if(isDressChange==true){
                 PlayerController.playerGold = PlayerController.playerGold - 1;
+
+                //nach jeder action muss neu gespeichert werden
+                SaveAndLoadController.SavePlayerData();
             }
         }
     }

@@ -8,36 +8,21 @@ public class PlayerCharBuilder : MonoBehaviour
     //referenz auf den spieler
     public GameObject PlayerPrefab;
 
-    //beinhaltet alle hüte
-    public static List<Sprite> SpriteListHat = new List<Sprite>();
-
     public static Player player;
 
     //läd bilder und instanziiert den char
     //kriegt die daten aus dem PlayerController script das bei start vom save&load script die daten konvertiert
     public static void Intizialisierer(Dictionary<string,string> PlayerDict){
-        LoadSprites();
 
         //läd daten als referenz
         player = new Player(bool.Parse(PlayerDict["Gender"]),PlayerDict["Hat"],PlayerDict["Face"],PlayerDict["Hair"],PlayerDict["HairOverlay"],PlayerDict["Leg"],PlayerDict["LegOverlay"],PlayerDict["Skin"],PlayerDict["SkinOverlay"],PlayerDict["Tshirt"],PlayerDict["TshirtOverlay"]);
-
-        //temp testing
-        //player.setFace(0.1f,1f,0.5f,1);
-        //player.setTshirt(0.9f,0.1f,0.9f,1);
-    }
-
-    public static void LoadSprites(){
-        object[] sprites = Resources.LoadAll("Textures/Player/Hat",typeof(Sprite));
-        for(int x=0;x<sprites.Length;x++){
-           	SpriteListHat.Add((Sprite)sprites[x]);
-        }
     }
 }
 
 //constructor für den skin
 public class Player 
 {
-    public bool gender { get; set; }                //true = male, false = female
+    public bool gender { get; set; }                 //true = male, false = female
     public float[] hat { get; set; }                 //farbe für das jeweilige sprite
     public float[] face { get; set; }                //farbe für das jeweilige sprite
     public float[] hair { get; set; }                //farbe für das jeweilige sprite
@@ -61,7 +46,7 @@ public class Player
         this.skin_overlay = new float[]{float.Parse(skin_overlay.Split("-")[0]),float.Parse(skin_overlay.Split("-")[1]),float.Parse(skin_overlay.Split("-")[2]),float.Parse(skin_overlay.Split("-")[3])};
         this.tshirt = new float[]{float.Parse(tshirt.Split("-")[0]),float.Parse(tshirt.Split("-")[1]),float.Parse(tshirt.Split("-")[2]),float.Parse(tshirt.Split("-")[3])};
         this.tshirt_overlay = new float[]{float.Parse(tshirt_overlay.Split("-")[0]),float.Parse(tshirt_overlay.Split("-")[1]),float.Parse(tshirt_overlay.Split("-")[2]),float.Parse(tshirt_overlay.Split("-")[3])};
-    
+
         UpdatePlayerColor();
     }
 

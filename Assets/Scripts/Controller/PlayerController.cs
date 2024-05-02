@@ -14,7 +14,7 @@ public class PlayerController : MonoBehaviour
     public static Dictionary<string, int> FoodItemDict = new Dictionary<string, int>();//Empty
     public static Dictionary<string, int> StorageItemDict = new Dictionary<string, int>();//Empty / speicher Informationen welches Objekt und wie oft auf reserve
     public static Dictionary<string, int> ObjectLimiterDict = new Dictionary<string, int>();//Oven:3;Fridge:1;Counter:2;Slushi:1 / speicher wieviele Fridges,Counter,Oven and Slushies you can place
-    public static Dictionary<string, string> PlayerDict = new Dictionary<string, string>();//Gender:true;Hat:255-255-255-255;Face:255-255-255-255;Hair255-255-255-255;HairOverlay255-255-255-255;Leg255-255-255-255;LegOverlay255-255-255-255;Skin255-255-255-255;SkinOverlay255-255-255-255;Tshirt255-255-255-255;TshirtOverlay:255-255-255-255 /speichert die informationen der kleidung und gender (gender true=boy)
+    public static Dictionary<string, string> PlayerDict = new Dictionary<string, string>();//Gender:true;Hat:1-1-1-1;Face:1-1-1-1;Hair:1-1-1-1;HairOverlay:1-1-1-1;Leg:1-1-1-1;LegOverlay:1-1-1-1;Skin:1-1-1-1;SkinOverlay:1-1-1-1;Tshirt:1-1-1-1;TshirtOverlay:1-1-1-1 /speichert die informationen der kleidung und gender (gender true=boy)
 
     /*  
     JojoEffekt
@@ -25,7 +25,7 @@ public class PlayerController : MonoBehaviour
     Empty
     Empty
     Oven:3;Fridge:1;Counter:2;Shlushi:1
-    Gender:true;Hat:255-255-255-255;Face:255-255-255-255;Hair:255-255-255-255;HairOverlay:255-255-255-255;Leg:255-255-255-255;LegOverlay:255-255-255-255;Skin:255-255-255-255;SkinOverlay:255-255-255-255;Tshirt:255-255-255-255;TshirtOverlay:255-255-255-255
+    Gender:true;Hat:1-1-1-1;Face:1-1-1-1;Hair:1-1-1-1;HairOverlay:1-1-1-1;Leg:1-1-1-1;LegOverlay:1-1-1-1;Skin:1-1-1-1;SkinOverlay:1-1-1-1;Tshirt:1-1-1-1;TshirtOverlay:1-1-1-1
     */
      
     public static int playerLevel;//wird durch xp erzeugt
