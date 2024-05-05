@@ -21,7 +21,7 @@ Table;8-5;True
 Table;8-6;True
 Counter;4-3;True;;0
 Counter;4-4;True;;0
-Oven;4-0;0;;0;;
-Oven;4-1;0;;0;;
-Oven;4-2;0;;0;;
+Oven;4-0;1;Dinner_18_04;10;heute;morgen
+Oven;4-2;1;Dinner_18_04;10;heute;morgen
+Oven;4-1;1;Dinner_18_04;10;heute;morgen
 Slushi;1-8;;0
