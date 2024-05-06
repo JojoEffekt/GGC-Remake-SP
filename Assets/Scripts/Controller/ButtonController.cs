@@ -21,6 +21,8 @@ public class ButtonController : MonoBehaviour
     public GameObject ItemSettingsPrefab; //referenz auf das dynamische UISetting für die Items
     public GameObject DynamicPrefab; //referenzprefab für das erstellte UIStetting eines items
 
+    public static bool DinnerUIShopOpenByOven = false; //wird auf true gesetzt, wenn ein oven anklickt wurde, sorgt dafür das item cook btn sichtbar werden kann
+
     //methodes
     void Update(){
         Mouse mouse = Mouse.current;
@@ -440,28 +442,33 @@ public class ButtonController : MonoBehaviour
                 //öffne dinnershop
                 //kann diesen oven bedienen
                 //CONTINUE
+                    
+                //gucke ob oven frei ist /else öffne den shop NICHT
+                //CONTINUE
 
-                //guck ob Dinner im shop angeklickt wurde
-                if(DinnerUIController.DinnerToCook!=null){
+
                     
-                    //gucke ob oven frei ist
-                    //CONTINUE
-                    
+                    //TEMP OFFLINE
                     //übergebe den oven namen, coord und die FCED
                     //             Oven       Koordinaten                                  int foodStep,         string foodSprite,                     int foodCount,                      string dateStart, string dateEnd
-                    string data = "Oven;"+objectName.Split("-")[0]+"-"+objectName.Split("-")[1]+";"+1+";"+DinnerUIController.DinnerToCook.spriteName+";"+DinnerUIController.DinnerToCook.info["number"]+";heute;morgen";
-                    Debug.Log("cook: " + objectName + " : " + data);
+                    //string data = "Oven;"+objectName.Split("-")[0]+"-"+objectName.Split("-")[1]+";"+1+";"+DinnerUIController.DinnerToCook.spriteName+";"+DinnerUIController.DinnerToCook.info["number"]+";heute;morgen";
+                    //Debug.Log("cook: " + objectName + " : " + data);
 
                     //verändere das FCED von dem angeklickten oven
-                    FloorChildExtraDataController.ChangeFCEDData(data);
+                    //FloorChildExtraDataController.ChangeFCEDData(data);
 
                     //speichert die daten
-                    SaveAndLoadController.SavePlayerData();
+                    //SaveAndLoadController.SavePlayerData();
+
+                //speichert vorübergehend den objektnamen des angeklcikten ovens auf dem gekocht werden soll
+                DinnerController.ovenToCookOnByOpenDinnerShopUI = objectName;
 
                 //wenn nicht öffne denn dinner shop
-                }else{
-                    MainController.GetComponent<MainController>().buttonPressed(3);
-                }
+                //shop kann buy btn generieren
+                DinnerUIShopOpenByOven = true;
+
+                //öffne shop
+                MainController.GetComponent<MainController>().buttonPressed(3);
 
 
                 

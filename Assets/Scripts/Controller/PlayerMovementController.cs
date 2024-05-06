@@ -153,6 +153,8 @@ public class PlayerMovementController : MonoBehaviour
 
             //deactivate walkAnim
             walkAnim = 0;
+
+            Debug.Log("Spieler ist am ende angekommen!");
         }
     }
 

@@ -43,11 +43,6 @@ public class DinnerUIController : MonoBehaviour
     //bestimmt die aktuelle shopseite
     public int shopSite = 0;
 
-
-    //ist eine globale referenz damit das zu kochende item erhalten werden kann wenn er gekocht werden soll
-    public static DinnerItem DinnerToCook;
-
-
     //öffnet den shop und läd die items
     public void OpenShop(){
         
@@ -163,28 +158,37 @@ public class DinnerUIController : MonoBehaviour
             }
         }
 
-        //delegiert das passende event für den jeweiligen btn
-        if(item.level>PlayerController.playerLevel){
-            //lock dinner wenn playerlevel nicht erreicht ist
-            //buy btn
-            prefab.transform.GetChild(1).gameObject.transform.GetChild(0).gameObject.GetComponent<Image>().overrideSprite = UISpriteList[9];
-            prefab.transform.GetChild(1).gameObject.transform.GetChild(0).gameObject.GetComponent<Image>().color = Color.grey;
+        //guckt ob der itemshop über die normale UI oder über ein oven geöffnet wurde
+        //wenn über oven geöffnet, dann kann der cookable btn generiert werden
+        if(ButtonController.DinnerUIShopOpenByOven==true){
 
-            //lock btn
-            prefab.transform.GetChild(0).gameObject.transform.GetChild(14).gameObject.SetActive(true);
+            //buy/shop btn aktivieren
+            prefab.transform.GetChild(1).gameObject.transform.GetChild(0).gameObject.SetActive(true);
 
-        }else{
-            //guckt ob das istem cookable ist, anhand ob alle igredients vorhanden sind
-            if(isCookable){
-                prefab.transform.GetChild(1).gameObject.transform.GetChild(0).gameObject.GetComponent<Image>().overrideSprite = UISpriteList[9];
+            //delegiert das passende event für den jeweiligen btn
+            if(item.level>PlayerController.playerLevel){
+                //kein btn genrieren
+                prefab.transform.GetChild(1).gameObject.transform.GetChild(0).gameObject.SetActive(false);
 
-                //delegate cook CONITNUE
-                 prefab.transform.GetChild(1).gameObject.transform.GetChild(0).gameObject.GetComponent<Button>().onClick.AddListener(delegate{CookDinner(item);});
+                //lock btn generieren
+                prefab.transform.GetChild(0).gameObject.transform.GetChild(14).gameObject.SetActive(true);
+
             }else{
-                //delegate open ingredient
-                prefab.transform.GetChild(1).gameObject.transform.GetChild(0).gameObject.GetComponent<Button>().onClick.AddListener(delegate{OpenIngredientShop();});
+                //guckt ob das item cookable ist, anhand ob alle igredients vorhanden sind
+                if(isCookable){
+                    prefab.transform.GetChild(1).gameObject.transform.GetChild(0).gameObject.GetComponent<Image>().overrideSprite = UISpriteList[9];
+
+                    //delegate cook item
+                    prefab.transform.GetChild(1).gameObject.transform.GetChild(0).gameObject.GetComponent<Button>().onClick.AddListener(delegate{CookDinner(item);});
+                }else{
+                    //delegate open ingredient
+                    prefab.transform.GetChild(1).gameObject.transform.GetChild(0).gameObject.GetComponent<Button>().onClick.AddListener(delegate{OpenIngredientShop();});
+                }
             }
-        }
+        //ansonsten generiere keine btns
+        }else{
+            prefab.transform.GetChild(1).gameObject.transform.GetChild(0).gameObject.SetActive(false);
+        } 
 
         //generiert den Dinner namen
         prefab.transform.GetChild(2).gameObject.transform.GetChild(0).gameObject.GetComponent<TMPro.TextMeshProUGUI>().text = item.name;
@@ -396,6 +400,9 @@ public class DinnerUIController : MonoBehaviour
         UISpriteList.Clear();
         IngredientsSpriteList.Clear();
         shopSite = 0;
+
+        //sorgt dafür das der on/off switch für den cook btn ausgestellt wird
+        ButtonController.DinnerUIShopOpenByOven = false;
     }
 
     //schließt den dinnershop und öffnet dafür den ingredientshop
@@ -406,9 +413,9 @@ public class DinnerUIController : MonoBehaviour
 
     //wird im shop durch cook btn aufgerufen und übergibt das zu kochende dinner
     public void CookDinner(DinnerItem item){
-        
-        //macht das zu kochende item global verfügbar
-        DinnerToCook = item;
+
+        //übergebe das zu kochende item an DinnerController
+        DinnerController.CookNewDinnerOnOven(item);
 
         //schließt den dinner shop
         CloseShop();
