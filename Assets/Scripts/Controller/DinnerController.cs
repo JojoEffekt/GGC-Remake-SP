@@ -38,12 +38,27 @@ public class DinnerController : MonoBehaviour
         string rechts = ""+x+"-"+(y-1);
         string unten = ""+(x+1)+"-"+y;
         string links = ""+x+"-"+(y+1);
-        //CONINUE
+        string[] suroundingPositions = new string[]{oben, rechts, unten, links};
+
         //gucke ob umliegende floors existieren
-        //gucke ob der floor ein child auf sich drauf hat
-        //wenn nicht -> PlayerMovementController.MovePlayer(new int[]{x,y}); und gucken ob true ist
-        //wenn nicht loop
+        foreach(string nearbyObj in suroundingPositions){
+
+            //GameObj existiert
+            if(Gameobject.Find(nearbyObj)){
+
+                //Floorobject existiert nicht
+                if(!Gameobject.Find(nearbyObj+"-Child")){
+                    
+                    //starte playermovement
+                    if(PlayerMovementController.MovePlayer(new int[]{Int32.Parse(nearbyObj.Split("-")[0]),Int32.Parse(nearbyObj.Split("-")[1])})){
         
+                        //break loop und continue
+                        return true;
+                    }
+                }
+            }
+        }
+        //cooking abbrechen
         return false;
     }
 }

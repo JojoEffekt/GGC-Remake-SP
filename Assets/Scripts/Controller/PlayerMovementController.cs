@@ -85,6 +85,28 @@ public class PlayerMovementController : MonoBehaviour
 
             curDynPlayerPos = PlayerCharacter.transform.position;
         }
+
+        /*
+        FÜR DINNERCOOK
+        list mit 1 weg: guck ob nur eine coord in der liste ist, dann muss spieler nicht bewegt werden
+                        aber kann tzrdm cooken 
+        0 weg:  kann nicht begeht werden, cook abbrechen
+        >1:     liste muss abgelaufen werden und dann muit cook weitermachen
+
+        prüfe bei playerpath getter
+        if(playerPath.Length==1){
+            gericht kochen (weil spieler schon auf der richtigen position steht)
+            return true;
+        }else{
+            //irgendwo anders abfangen wann spieler am ziel ist
+            return true;
+        }
+        return false;
+
+        return einbauen um zu gucken ob speiler sich überhaupt bewegen kann oder 
+        wenn pos 1 ist, an der identischen stelle steht
+        FÜR DINNERCONTROLLER
+        */
     }
 
     void Update(){
