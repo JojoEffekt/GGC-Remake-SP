@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class DinnerController : MonoBehaviour
 {
@@ -15,11 +16,10 @@ public class DinnerController : MonoBehaviour
     //beinhaltet die schritte die zum erstellen eines dinners gebraucht werden
     //wird aufgerufen wenn im DinnerUIShop auf CookBtn gedrückt wird
     public static void CookNewDinnerOnOven(DinnerItem item){
-        Debug.Log("on "+ovenToCookOnByOpenDinnerShopUI+": "+item.name);
 
         //spieler soll zum oven gehen
         if(SearchForPositionNearTheClickedOven()){
-            //CONTINUE
+            Debug.Log("der "+item.name+" kann auf "+ovenToCookOnByOpenDinnerShopUI+" gekocht werden");
         }
 
         //wenn angekommen, rechne gericht zutaten aus dem fridge ab
@@ -31,6 +31,7 @@ public class DinnerController : MonoBehaviour
     //sucht nach einer nebenstehenden positionen des oven
     //gibt false wieder wenn nichts gefunden
     public static bool SearchForPositionNearTheClickedOven(){
+
         //sucht nach einer freien position oben, rechts, unten, links vom oven
         int x = Int32.Parse(ovenToCookOnByOpenDinnerShopUI.Split("-")[0]);
         int y = Int32.Parse(ovenToCookOnByOpenDinnerShopUI.Split("-")[1]);
@@ -44,21 +45,21 @@ public class DinnerController : MonoBehaviour
         foreach(string nearbyObj in suroundingPositions){
 
             //GameObj existiert
-            if(Gameobject.Find(nearbyObj)){
+            if(GameObject.Find(nearbyObj)){
 
                 //Floorobject existiert nicht
-                if(!Gameobject.Find(nearbyObj+"-Child")){
+                if(!GameObject.Find(nearbyObj+"-Child")){
                     
-                    //starte playermovement
+                    //starte playermovement und gucke ob der spieler dahin laufen kann
                     if(PlayerMovementController.MovePlayer(new int[]{Int32.Parse(nearbyObj.Split("-")[0]),Int32.Parse(nearbyObj.Split("-")[1])})){
-        
-                        //break loop und continue
+                        
+                        //spieler kann zum oven gehen
                         return true;
                     }
                 }
             }
         }
-        //cooking abbrechen
+        //cooking abbrechen, fals oven versperrt
         return false;
     }
 }

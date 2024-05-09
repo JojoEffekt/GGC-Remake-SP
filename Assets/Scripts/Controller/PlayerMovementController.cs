@@ -68,7 +68,7 @@ public class PlayerMovementController : MonoBehaviour
     public static List<Sprite> TshirtOverlayGirl = new List<Sprite>();
 
     //wird aufgerufen wenn eine neue position angeklickt wurde
-    public static void MovePlayer(int[] newPos){
+    public static bool MovePlayer(int[] newPos){
 
         //wenn der spieler nicht in bewegung ist
         if(playerPath.Count==0){
@@ -84,29 +84,14 @@ public class PlayerMovementController : MonoBehaviour
             playerPath = LabyrinthBuilder.LabyrinthManager(curPlayerPos, newPos);
 
             curDynPlayerPos = PlayerCharacter.transform.position;
-        }
 
-        /*
-        FÜR DINNERCOOK
-        list mit 1 weg: guck ob nur eine coord in der liste ist, dann muss spieler nicht bewegt werden
-                        aber kann tzrdm cooken 
-        0 weg:  kann nicht begeht werden, cook abbrechen
-        >1:     liste muss abgelaufen werden und dann muit cook weitermachen
-
-        prüfe bei playerpath getter
-        if(playerPath.Length==1){
-            gericht kochen (weil spieler schon auf der richtigen position steht)
-            return true;
-        }else{
-            //irgendwo anders abfangen wann spieler am ziel ist
-            return true;
+            //damit wird überprüft ob eine Bewegung des spieler durchgeführt wird
+            if(playerPath.Count!=0){
+                return true;
+            }
         }
+        //wenn der spieler nicht zu der gegebenen koordinate gehen kann
         return false;
-
-        return einbauen um zu gucken ob speiler sich überhaupt bewegen kann oder 
-        wenn pos 1 ist, an der identischen stelle steht
-        FÜR DINNERCONTROLLER
-        */
     }
 
     void Update(){
