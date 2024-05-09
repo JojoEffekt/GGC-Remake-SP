@@ -18,7 +18,7 @@ Table;5-6;True
 Table;8-5;True
 Table;8-6;True
 Table;4-1;True
-Table;5-2;True
+Table;7-2;True
 Counter;4-3;True;;0
 Counter;4-4;True;;0
 Oven;4-0;1;Dinner_18_04;10;heute;morgen
