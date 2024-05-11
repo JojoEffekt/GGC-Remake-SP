@@ -21,56 +21,27 @@ public class DinnerController : MonoBehaviour
         if(!SearchForPositionNearTheClickedOven()){
             return false;
         }
+        
         Debug.Log("der "+item.name+" kann auf "+ovenToCookOnByOpenDinnerShopUI+" gekocht werden");
 
-        foreach(var ingredient in item.infoIngredients){
-            Debug.Log(ingredient.Key+":"+item.infoIngredients[ingredient.Key]);
-
-            //CONTINUE item_01 to lettuce umwandeln und nach anzahler der stücke entfernen
-            PlayerController.RemoveFoodItem(ingredient.Key);
-            /*
-
-            IngredientList.Add(new IngredientItem("Lettuce", "item_19", 30, 0, 0, true, 2, 0));//CONTINUE Level
-        IngredientList.Add(new IngredientItem("Onions", "item_13", 60, 0, 0, true, 2, 1));//CONTINUE Level
-        IngredientList.Add(new IngredientItem("Tomatoes", "item_02", 90, 0, 0, true, 2, 2));//CONTINUE Level
-        IngredientList.Add(new IngredientItem("Pasta", "item_11", 250, 0, 0, true, 4, 3));//CONTINUE Level
-        IngredientList.Add(new IngredientItem("Chocolate", "item_29", 300, 0, 0, true, 4, 4));//CONTINUE Level
-        IngredientList.Add(new IngredientItem("Cream", "item_26", 300, 0, 0, true, 1, 5));//CONTINUE Level
-        IngredientList.Add(new IngredientItem("Eggs", "item_23", 400, 0, 0, true, 1, 6));//CONTINUE Level
-        IngredientList.Add(new IngredientItem("Minced meat", "item_17", 400, 0, 0, true, 1, 7));//CONTINUE Level
-        IngredientList.Add(new IngredientItem("Flour", "item_22", 200, 0, 0, true, 4, 8));//CONTINUE Level
-        IngredientList.Add(new IngredientItem("Cheese", "item_32", 320, 0, 0, true, 1, 9));//CONTINUE Level
-        IngredientList.Add(new IngredientItem("Peas", "item_10", 150, 0, 0, true, 2, 10));//CONTINUE Level
-        IngredientList.Add(new IngredientItem("Corn", "item_03", 150, 0, 0, true, 2, 11));//CONTINUE Level
-        IngredientList.Add(new IngredientItem("Pineapple", "item_09", 300, 0, 0, true, 3, 12));//CONTINUE Level
-        IngredientList.Add(new IngredientItem("Oil", "item_14", 300, 0, 0, true, 4, 13));//CONTINUE Level
-        IngredientList.Add(new IngredientItem("Beans", "item_34", 100, 0, 0, true, 2, 14));//CONTINUE Level
-        IngredientList.Add(new IngredientItem("Bacon", "item_36", 300, 0, 0, true, 1, 15));//CONTINUE Level
-        IngredientList.Add(new IngredientItem("Rice", "item_16", 350, 0, 0, true, 2, 16));//CONTINUE Level
-        IngredientList.Add(new IngredientItem("Paprika", "item_37", 450, 0, 0, true, 2, 17));//CONTINUE Level
-        IngredientList.Add(new IngredientItem("Cocktail Cherry", "item_50", 0, 0, 0, true, 5, 18));//CONTINUE Level
-        IngredientList.Add(new IngredientItem("Butter", "item_53", 425, 0, 0, true, 4, 19));//CONTINUE Level
-        IngredientList.Add(new IngredientItem("Potatoes", "item_08", 550, 0, 0, true, 2, 20));//CONTINUE Level
-        IngredientList.Add(new IngredientItem("Duck", "item_48", 1500, 0, 0, true, 1, 21));//CONTINUE Level
-        IngredientList.Add(new IngredientItem("Oranges", "item_45", 0, 1, 0, true, 5, 22));//CONTINUE Level
-        IngredientList.Add(new IngredientItem("Beetroot", "item_33", 400, 0, 0, true, 2, 23));//CONTINUE Level
-        IngredientList.Add(new IngredientItem("Cucumbers", "item_25", 400, 0, 0, true, 2, 24));//CONTINUE Level
-        IngredientList.Add(new IngredientItem("Meat", "item_18", 1500, 0, 0, true, 1, 25));//CONTINUE Level
-        IngredientList.Add(new IngredientItem("Eggplant", "item_24", 100, 0, 0, true, 3, 12));
-        IngredientList.Add(new IngredientItem("Sugar", "item_04", 1000, 0, 0, true, 4, 13));
-        IngredientList.Add(new IngredientItem("Rhubarb", "item_07", 1500, 0, 0, true, 2, 28));//CONTINUE Level
-        IngredientList.Add(new IngredientItem("Garlic", "item_21", 750, 0, 0, true, 2, 29));//CONTINUE Level
-        IngredientList.Add(new IngredientItem("Chicken", "item_31", 404, 0, 0, true, 1, 30));//CONTINUE Level
-        IngredientList.Add(new IngredientItem("Biscuits", "item_49", 404, 0, 0, true, 4, 31));//CONTINUE Level
-
-            */
+        //entfernt die items für das dinner aus dem fridge
+        if(!RemoveIngredients(item)){
+            return false;
         }
 
+        
+        
+        //erzeuge die DinnerUI auf dem oven,
+        /*
+        set FCED
+        dinner prefab auf oven erzeugen
+        die einzelnen schritte des jeweiligen gerichtes abgehen (für jedes item einmal klicken)
+        -> jeden klick auf prefab registrieren und eins weiter springen
 
-        //wenn angekommen, rechne gericht zutaten aus dem fridge ab
-        
-        
-        //erzeuge die DinnerUI auf dem oven, 
+        wenn fertig, dinner erzeugen und dauerhaft zeit gegenrechnen
+
+        */
+
         //beginne mit zubereitungsschritten
         //FCED change erzeugen(wie gemacht wird, ist in buttonController)
         return true;
@@ -109,5 +80,123 @@ public class DinnerController : MonoBehaviour
         }
         //cooking abbrechen, fals oven versperrt
         return false;
+    }
+
+    //entfernt die ingredients aus dem kühlschrank
+    public static bool RemoveIngredients(DinnerItem item){
+
+        //für jedes item für das dinner entferne es aus dem kühlschrank
+        foreach(var ingredient in item.infoIngredients){
+            Debug.Log(ingredient.Key+":"+item.infoIngredients[ingredient.Key]);
+
+            //entfernt die entsprechende anzahl des jeweiligen items
+            for(int a=0;a<item.infoIngredients[ingredient.Key];a++){
+                PlayerController.RemoveFoodItem(IngredientDict(ingredient.Key));
+            }
+        }
+        return true;
+    }
+
+    //wandelt "item_23" in ein ingredient um und gibt es zurück
+    public static string IngredientDict(string item){
+        string ingredient="";
+
+        if(item.Equals("item_19")){
+            ingredient="Lettuce";
+        }
+        if(item.Equals("item_13")){
+            ingredient="Onions";
+        }
+        if(item.Equals("item_02")){
+            ingredient="Tomatoes";
+        }
+        if(item.Equals("item_11")){
+            ingredient="Pasta";
+        }
+        if(item.Equals("item_29")){
+            ingredient="Chocolate";
+        }
+        if(item.Equals("item_26")){
+            ingredient="Cream";
+        }
+        if(item.Equals("item_23")){
+            ingredient="Eggs";
+        }
+        if(item.Equals("item_17")){
+            ingredient="Minced";
+        }
+        if(item.Equals("item_22")){
+            ingredient="Flour";
+        }
+        if(item.Equals("item_32")){
+            ingredient="Cheese";
+        }
+        if(item.Equals("item_10")){
+            ingredient="Peas";
+        }
+        if(item.Equals("item_03")){
+            ingredient="Corn";
+        }
+        if(item.Equals("item_09")){
+            ingredient="Pineapple";
+        }
+        if(item.Equals("item_14")){
+            ingredient="Oil";
+        }
+        if(item.Equals("item_34")){
+            ingredient="Beans";
+        }
+        if(item.Equals("item_36")){
+            ingredient="Bacon";
+        }
+        if(item.Equals("item_16")){
+            ingredient="Rice";
+        }
+        if(item.Equals("item_37")){
+            ingredient="Paprika";
+        }
+        if(item.Equals("item_50")){
+            ingredient="Cocktail Cherry";
+        }
+        if(item.Equals("item_53")){
+            ingredient="Butter";
+        }
+        if(item.Equals("item_08")){
+            ingredient="Potatoes";
+        }
+        if(item.Equals("item_48")){
+            ingredient="Duck";
+        }
+        if(item.Equals("item_45")){
+            ingredient="Oranges";
+        }
+        if(item.Equals("item_33")){
+            ingredient="Beetroot";
+        }
+        if(item.Equals("item_25")){
+            ingredient="Cucumbers";
+        }
+        if(item.Equals("item_18")){
+            ingredient="Meat";
+        }
+        if(item.Equals("item_24")){
+            ingredient="Eggplant";
+        }
+        if(item.Equals("item_04")){
+            ingredient="Sugar";
+        }
+        if(item.Equals("item_07")){
+            ingredient="Rhubarb";
+        }
+        if(item.Equals("item_21")){
+            ingredient="Garlic";
+        }
+        if(item.Equals("item_31")){
+            ingredient="Chicken";
+        }
+        if(item.Equals("item_49")){
+            ingredient="Biscuits";
+        }
+        return ingredient;
     }
 }
