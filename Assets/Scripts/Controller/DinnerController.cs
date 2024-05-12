@@ -22,7 +22,7 @@ public class DinnerController : MonoBehaviour
             return false;
         }
         
-        Debug.Log("der "+item.name+" kann auf "+ovenToCookOnByOpenDinnerShopUI+" gekocht werden");
+        //Debug.Log("der "+item.name+" kann auf "+ovenToCookOnByOpenDinnerShopUI+" gekocht werden");
 
         //entfernt die items für das dinner aus dem fridge
         if(!RemoveIngredients(item)){
@@ -41,9 +41,19 @@ public class DinnerController : MonoBehaviour
         wenn fertig, dinner erzeugen und dauerhaft zeit gegenrechnen
 
         */
+        //baut den FCED string und übergibt ihn zum speichern
+        //CONTINUE stepanzahl muss aus den gesamten ingredients errechnet werden
+        string data = "Oven;"+ovenToCookOnByOpenDinnerShopUI.Split("-")[0]+"-"+ovenToCookOnByOpenDinnerShopUI.Split("-")[1]+";"+1+";"+item.name+";"+item.info["number"]+";heute;morgen";
+        Debug.Log("cook: "+item.name+" : "+data);
 
-        //beginne mit zubereitungsschritten
-        //FCED change erzeugen(wie gemacht wird, ist in buttonController)
+        //verändere das FCED von dem angeklickten oven, wenn ein neues dinner erstellt wird
+        FloorChildExtraDataController.ChangeFCEDData(data);
+
+
+
+        //nach jeder action muss neu gespeichert werden
+        SaveAndLoadController.SavePlayerData();
+
         return true;
     }
 
@@ -87,7 +97,8 @@ public class DinnerController : MonoBehaviour
 
         //für jedes item für das dinner entferne es aus dem kühlschrank
         foreach(var ingredient in item.infoIngredients){
-            Debug.Log(ingredient.Key+":"+item.infoIngredients[ingredient.Key]);
+            
+            //Debug.Log(ingredient.Key+":"+item.infoIngredients[ingredient.Key]);
 
             //entfernt die entsprechende anzahl des jeweiligen items
             for(int a=0;a<item.infoIngredients[ingredient.Key];a++){

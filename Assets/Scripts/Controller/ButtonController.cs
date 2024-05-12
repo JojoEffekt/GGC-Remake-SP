@@ -436,31 +436,14 @@ public class ButtonController : MonoBehaviour
                 IngredientsAndFridgeUIController.GetComponent<IngredientsUIController>().IsFridgeOpen(true);
 
             }else if(getTypeFromObject(objectName).Equals("Oven")){
+
+                //CONTINUE 
+                //guck ob nicht schon ein gericht auf dem oven angebaut wurde
+                //-> check for FCED != 0 tempstep
+
                 
-                //öffne sonst gerichteshop wenn der player zum oven moven kann
-                //move player zum oven
-                //öffne dinnershop
-                //kann diesen oven bedienen
-                //CONTINUE
-                    
-                //gucke ob oven frei ist /else öffne den shop NICHT
-                //CONTINUE
-
-
-                    
-                    //TEMP OFFLINE
-                    //übergebe den oven namen, coord und die FCED
-                    //             Oven       Koordinaten                                  int foodStep,         string foodSprite,                     int foodCount,                      string dateStart, string dateEnd
-                    //string data = "Oven;"+objectName.Split("-")[0]+"-"+objectName.Split("-")[1]+";"+1+";"+DinnerUIController.DinnerToCook.spriteName+";"+DinnerUIController.DinnerToCook.info["number"]+";heute;morgen";
-                    //Debug.Log("cook: " + objectName + " : " + data);
-
-                    //verändere das FCED von dem angeklickten oven
-                    //FloorChildExtraDataController.ChangeFCEDData(data);
-
-                    //speichert die daten
-                    //SaveAndLoadController.SavePlayerData();
-
-                //speichert vorübergehend den objektnamen des angeklcikten ovens auf dem gekocht werden soll
+                //öffne sonst gerichteshop und generiere die Cookbtns
+                //speichert vorübergehend den objektnamen des angeklickten ovens auf dem gekocht werden soll
                 DinnerController.ovenToCookOnByOpenDinnerShopUI = objectName;
 
                 //wenn nicht öffne denn dinner shop
