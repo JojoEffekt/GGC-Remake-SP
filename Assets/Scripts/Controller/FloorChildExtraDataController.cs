@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using System.IO;
 
 public class FloorChildExtraDataController : MonoBehaviour
 {
@@ -189,28 +190,67 @@ public class FloorChildExtraDataController : MonoBehaviour
     }
 
 
-    //CONTINUE
     //gibt die stepAnzahl für ein Oven FCED wieder
-    public static int getOvenStep(string gameObject){
-        int step = 0;
+    public int getOvenStep(string gameObject){
 
-        string item = LoadFCED(gameObject)
-        if(get stepanazhl){
-            //wenn string empty return -1 als abbruch
+        //holt das FCED vom oven aus der gespeicherten .txt datei
+        string item = LoadOvenFCED(gameObject);
+
+        //gucke ob kein leerer string übergeben wurde
+        if(item.Length==0){
+            //gibt -1 zurück um zu wissen das irgendwas nicht stimmt
             return -1;
-        }else{
-            step = anzahl;
         }
-        //get stepanazhl
-        //sucht 
-        return step;
+
+        //überprüft die stepanzahl die auf dem oven "liegt"
+        if(Int32.Parse(item.Split(";")[2])!=0){
+            //wenn string empty("") return 0 damit man weiß das der oven frei ist
+            //gibt die stepAnzahl zurück
+            return Int32.Parse(item.Split(";")[2]);
+        }
+
+        //string ist empty bzw. ==0 also gib 0 zurück
+        return 0;
     }
 
-    public static string LoadFCED(){
-        //läd die FCED
-        //guckt ob das object existiert
+    //läd die FCED und sucht nach object
+    public string LoadOvenFCED(string gameObject){
+
         string item = "";
+
+        //läd die FCED
+        try{
+            if(File.Exists(Application.dataPath+"/Data/"+SaveAndLoadController.wallDataFilePath)==true&&File.Exists(Application.dataPath+"/Data/"+SaveAndLoadController.floorDataFilePath)==true&&File.Exists(Application.dataPath+"/Data/"+SaveAndLoadController.floorChildExtraDataFilePath)==true){
+                string[] lines = ReadStream(SaveAndLoadController.floorChildExtraDataFilePath);
+
+                for(int a=0;a<lines.Length-1;a++){
+                    string[] lineItem = lines[a].Split(";");
+
+                    //ist item oven?
+                    if(lineItem[0].Equals("Oven")){
+
+                        //gucke ob es das gesuchte gameObject ist
+                        if(lineItem[1].Equals(gameObject.Split("-")[0]+"-"+gameObject.Split("-")[1])){
+                            item = lines[a];
+                        }
+                    }
+                }
+            }
+        }catch{
+            return item;
+        }
+
+        //guckt ob das object existiert
         return item;
+    }
+
+    //ließt den inhalt der datei aus ud gibt sie zurück
+    private string[] ReadStream(string pathFile){
+        StreamReader source = new StreamReader(Application.dataPath + "/Data/" + pathFile);
+        string fileContents = source.ReadToEnd();
+        source.Close();
+        string[] lines = fileContents.Split("\n"[0]);
+        return lines;
     }
 
 

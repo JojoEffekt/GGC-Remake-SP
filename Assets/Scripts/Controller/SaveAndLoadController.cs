@@ -6,10 +6,10 @@ using System;
 
 public class SaveAndLoadController : MonoBehaviour
 {
-    private static string playerDataFilePath = "playerData.txt";
-    private static string wallDataFilePath = "WallData.txt";
-    private static string floorDataFilePath = "FloorData.txt";
-    private static string floorChildExtraDataFilePath = "FloorChildExtraData.txt";
+    public static string playerDataFilePath = "playerData.txt";
+    public static string wallDataFilePath = "WallData.txt";
+    public static string floorDataFilePath = "FloorData.txt";
+    public static string floorChildExtraDataFilePath = "FloorChildExtraData.txt";
 
     void Start()
     {
