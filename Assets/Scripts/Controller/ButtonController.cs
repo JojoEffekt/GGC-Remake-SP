@@ -12,6 +12,8 @@ public class ButtonController : MonoBehaviour
     public GameObject MainController;//referenz auf MainController script
     public GameObject IngredientsAndFridgeUIController; //referenz auf IngredientsAndFridgeUIController script
 
+    public GameObject FCEDController; //referenz auf das FloorChildExtraData Script 
+
     public int MouseAction = 0; //0=nothing,1=rotate,2=create,3=remove,4=replace
     public bool isRebuildShopOpen = false;//wenn der rebuild shop offen ist, wahr
 
@@ -417,7 +419,7 @@ public class ButtonController : MonoBehaviour
 
 
 
-    //Wenn RebuildShop nicht geöffnet ist
+    //Wenn RebuildShop nicht geöffnet ist, empfängt alle mouseclicks
     //gucke auf welche objecte geklickt wurde
     public void MouseHandler2(RaycastHit2D[] info){
 
@@ -438,23 +440,27 @@ public class ButtonController : MonoBehaviour
             }else if(getTypeFromObject(objectName).Equals("Oven")){
 
                 //CONTINUE 
-                //guck ob nicht schon ein gericht auf dem oven angebaut wurde
-                //-> check for FCED != 0 tempstep
-
+                //guck ob nicht schon ein gericht auf dem oven angebaut wurde (wenn step = 0, dann kein gericht auf oven)
+                if(FCEDController.GetComponent<FloorChildExtraDataController>().getOvenStep(objectName)!=0){
                 
-                //öffne sonst gerichteshop und generiere die Cookbtns
-                //speichert vorübergehend den objektnamen des angeklickten ovens auf dem gekocht werden soll
-                DinnerController.ovenToCookOnByOpenDinnerShopUI = objectName;
+                //kein gericht, also öffne oven shop
+                }else{
 
-                //wenn nicht öffne denn dinner shop
-                //shop kann buy btn generieren
-                DinnerUIShopOpenByOven = true;
+                    
+                    //öffne sonst gerichteshop und generiere die Cookbtns
+                    //speichert vorübergehend den objektnamen des angeklickten ovens auf dem gekocht werden soll
+                    DinnerController.ovenToCookOnByOpenDinnerShopUI = objectName;
 
-                //öffne shop
-                MainController.GetComponent<MainController>().buttonPressed(3);
+                    //wenn nicht öffne denn dinner shop
+                    //shop kann buy btn generieren
+                    DinnerUIShopOpenByOven = true;
 
-
+                    //öffne shop
+                    MainController.GetComponent<MainController>().buttonPressed(3);
+                }
                 
+
+
             }else if(getTypeFromObject(objectName).Equals("Counter")){
                 //zeige anzahl der gerichte auf counter
             }else if(getTypeFromObject(objectName).Equals("Slushi")){

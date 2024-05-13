@@ -188,6 +188,32 @@ public class FloorChildExtraDataController : MonoBehaviour
         Debug.Log("");
     }
 
+
+    //CONTINUE
+    //gibt die stepAnzahl für ein Oven FCED wieder
+    public static int getOvenStep(string gameObject){
+        int step = 0;
+
+        string item = LoadFCED(gameObject)
+        if(get stepanazhl){
+            //wenn string empty return -1 als abbruch
+            return -1;
+        }else{
+            step = anzahl;
+        }
+        //get stepanazhl
+        //sucht 
+        return step;
+    }
+
+    public static string LoadFCED(){
+        //läd die FCED
+        //guckt ob das object existiert
+        string item = "";
+        return item;
+    }
+
+
     public static string getFloorGONameFromFloorChildGOName(string floorChildGOName){
         string[] name = floorChildGOName.Split("-");
         return name[0]+"-"+name[1];
