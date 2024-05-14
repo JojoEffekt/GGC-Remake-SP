@@ -442,24 +442,22 @@ public class ButtonController : MonoBehaviour
                 //CONTINUE 
                 //guck ob nicht schon ein gericht auf dem oven angebaut wurde (wenn step = 0, dann kein gericht auf oven)
                 int stepAnzahl = FCEDController.GetComponent<FloorChildExtraDataController>().getOvenStep(objectName);
+                //gehe zum oven und fertige dinner step an
                 if(stepAnzahl>0){
-                    Debug.Log("StepAnzahl: "+stepAnzahl);
+                    Debug.Log("Reduce StepValue: "+stepAnzahl);
 
-                    //CONTINUE stepAnzahl soll abgearbeitet werden...
-                    //spieler soll zum oven gehen 
-                    //step anzahl um -1 reduzieren
-                    //UI beim dinner cooking updaten
-
-                    //EXPERIMENTAL
-                    DinnerControlller.ReduceStepCount_SendPlayer(objectName, stepAnzahl);
+                    //wenn der spieler zu den oven gehen kann um das dinn er anzufertigen, dann speicher den oven namen
+                    if(DinnerController.ReduceStepCount_SendPlayer(objectName, stepAnzahl)){
+                        DinnerController.ReduceCount_ovenClickedOn = objectName;
+                    }
 
                 //kein gericht, also öffne oven shop
                 }else{
-                    Debug.Log("Öffne shop weil: "+stepAnzahl);
+                    Debug.Log("Öffne Shop: "+stepAnzahl);
                     
                     //öffne sonst gerichteshop und generiere die Cookbtns
                     //speichert vorübergehend den objektnamen des angeklickten ovens auf dem gekocht werden soll
-                    DinnerController.ovenToCookOnByOpenDinnerShopUI = objectName;
+                    DinnerController.CookDinner_ovenClickedOn = objectName;
 
                     //wenn nicht öffne denn dinner shop
                     //shop kann buy btn generieren

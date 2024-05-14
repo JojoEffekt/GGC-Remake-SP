@@ -10,8 +10,12 @@ public class DinnerController : MonoBehaviour
 
 
     //speicher den objectnamen von den angeklickten oven auf den gekocht werden soll
-    //wird bei anklicken auf einen oven gespeichert
-    public static string ovenToCookOnByOpenDinnerShopUI;
+    //wird bei anklicken auf einen oven gespeichert, wenn der oven frei ist
+    public static string CookDinner_ovenClickedOn;
+
+    //speicher den objectnamen von den angeklickten oven auf den das gericht fertig gestellt werden soll
+    //wird bei anklicken auf einen oven gespeichert, wenn es ein diner FCED hat
+    public static string ReduceCount_ovenClickedOn;
 
     //switcher ob spieler gerade in bewegung ist und darauf gewartet wird das
     //der spieler am ende ankommt
@@ -22,13 +26,12 @@ public class DinnerController : MonoBehaviour
     public static bool CookNewDinnerOnOven(DinnerItem item){
 
         //abbruch wenn der spieler nicht zum oven gehen kann
-        if(!SearchForPositionNearTheClickOnObject(ovenToCookOnByOpenDinnerShopUI)){
+        if(!SearchForPositionNearTheClickOnObject(CookDinner_ovenClickedOn)){
             return false;
         }
         
         //zählt die anzahl der ingredients
         int IngredientsCount = CountIngredients(item);
-        Debug.Log("Anzahl der items zum abrechnen: "+IngredientsCount);
 
         //entfernt die items für das dinner aus dem fridge
         if(!RemoveIngredients(item)){
@@ -37,11 +40,18 @@ public class DinnerController : MonoBehaviour
 
         //baut den FCED string und übergibt ihn zum speichern
         //CONTINUE stepanzahl muss aus den gesamten ingredients errechnet werden
-        string data = "Oven;"+ovenToCookOnByOpenDinnerShopUI.Split("-")[0]+"-"+ovenToCookOnByOpenDinnerShopUI.Split("-")[1]+";"+IngredientsCount+";"+item.name+";"+item.info["number"]+";heute;morgen";
+        string data = "Oven;"+CookDinner_ovenClickedOn.Split("-")[0]+"-"+CookDinner_ovenClickedOn.Split("-")[1]+";"+IngredientsCount+";"+item.name+";"+item.info["number"]+";heute;morgen";
         Debug.Log("cook: "+item.name+" : "+data);
 
         //verändere das FCED von dem angeklickten oven, wenn ein neues dinner erstellt wird
         FloorChildExtraDataController.ChangeFCEDData(data);
+
+
+        //CONTINUE
+        /*
+        erzeuge ein prefab
+        suche das prefabsprite anhand des namens des dinners (1 stage)
+        */
 
 
         //nach jeder action muss neu gespeichert werden
@@ -233,17 +243,25 @@ public class DinnerController : MonoBehaviour
             //spieler läuft los
             isWaitForPlayerToStop = true;
         }
+
+        Debug.Log("player goto oven to reduce value");
         
         return true;
     }
 
     //dinner auf oven wird fortgesetzt
     public static bool ReduceStepCount_UI(){
+
+        Debug.Log("reduce stepValue: "+ReduceCount_ovenClickedOn);
         //CONTINUE
-        //...
-        //wenn spieler am oven ist, (muss überprüfen wann genau spieler am oven angekommen ist)
         //-> step-1
         //-> ui updaten 
-        //change FCED
+        /*
+        prefab ui updaten indem das dinnerobject aus FCED ausgelesen wird und die nächste cookingphase gesucht wird
+        (die ingredients müssen nacherinander erscheinen bzw generiert werden)
+        //kleine loopzeit für die bearbeitung
+        */
+        //change FCED und speichern
+        return true;
     }
 }

@@ -462,11 +462,11 @@ public class RebuildUIController : MonoBehaviour
         ObjectList.Add(new Object("Fridge_07_a_1", 0, 999, 0, true, 9, 23));//CONTINUE
         ObjectList.Add(new Object("Fridge_08_a_1", 0, 4, 0, true, 9, 23));
 
-        ObjectList.Add(new Object("Oven_01_a", 1000, 0, 0, true, 7, 23));
-        ObjectList.Add(new Object("Oven_07_a", 12000, 0, 0, true, 7, 23));
-        ObjectList.Add(new Object("Oven_01_a_1", 0, 3, 0, true, 7, 23));
-        ObjectList.Add(new Object("Oven_02_a_1", 15000, 0, 0, true, 7, 23));
-        ObjectList.Add(new Object("Oven_03_a_1", 0, 7, 0, true, 7, 23));
+        ObjectList.Add(new Object("Oven_01_a", 1000, 0, 0, true, 7, 10));
+        ObjectList.Add(new Object("Oven_07_a", 12000, 0, 0, true, 7, 10));
+        ObjectList.Add(new Object("Oven_01_a_1", 0, 3, 0, true, 7, 10));
+        ObjectList.Add(new Object("Oven_02_a_1", 15000, 0, 0, true, 7, 10));
+        ObjectList.Add(new Object("Oven_03_a_1", 0, 7, 0, true, 7, 10));
         ObjectList.Add(new Object("Oven_04_a_1", 0, 999, 0, true, 7, 23));//CONTINUE
         ObjectList.Add(new Object("Oven_05_a_1", 0, 4, 0, true, 7, 23));
         ObjectList.Add(new Object("Oven_06_a_1", 0, 5, 0, true, 7, 23));

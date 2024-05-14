@@ -149,7 +149,7 @@ public class PlayerMovementController : MonoBehaviour
                     walkAnim=5;
                 }
             }
-        //spieler kann nichtmehr laufen
+        //spieler kann nichtmehr laufen und ist angekommen
         }else if(playerPath.Count==0&&isPlayerInMove==true){
 
             //beim beenden der aktuellen position wird die letzte position die neue player pos
@@ -161,7 +161,7 @@ public class PlayerMovementController : MonoBehaviour
             //deactivate walkAnim
             walkAnim = 0;
 
-            Debug.Log("Spieler ist am ende angekommen!");
+            //Debug.Log("Spieler ist am ende angekommen!");
 
             //ist für Dinnerontroller wichtig (StepAnzahl FCED / dinner "anbauen")
             //wird benutzt um abzufragen ob darauf gewartet wird wenn der spieler zu einem
