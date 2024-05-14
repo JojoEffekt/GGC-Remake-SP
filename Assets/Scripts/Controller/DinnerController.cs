@@ -13,42 +13,35 @@ public class DinnerController : MonoBehaviour
     //wird bei anklicken auf einen oven gespeichert
     public static string ovenToCookOnByOpenDinnerShopUI;
 
+    //switcher ob spieler gerade in bewegung ist und darauf gewartet wird das
+    //der spieler am ende ankommt
+    public static bool isWaitForPlayerToStop = false;
+
     //beinhaltet die schritte die zum erstellen eines dinners gebraucht werden
     //wird aufgerufen wenn im DinnerUIShop auf CookBtn gedrückt wird
     public static bool CookNewDinnerOnOven(DinnerItem item){
 
         //abbruch wenn der spieler nicht zum oven gehen kann
-        if(!SearchForPositionNearTheClickedOven()){
+        if(!SearchForPositionNearTheClickOnObject(ovenToCookOnByOpenDinnerShopUI)){
             return false;
         }
         
-        //Debug.Log("der "+item.name+" kann auf "+ovenToCookOnByOpenDinnerShopUI+" gekocht werden");
+        //zählt die anzahl der ingredients
+        int IngredientsCount = CountIngredients(item);
+        Debug.Log("Anzahl der items zum abrechnen: "+IngredientsCount);
 
         //entfernt die items für das dinner aus dem fridge
         if(!RemoveIngredients(item)){
             return false;
         }
 
-        
-        
-        //erzeuge die DinnerUI auf dem oven,
-        /*
-        set FCED
-        dinner prefab auf oven erzeugen
-        die einzelnen schritte des jeweiligen gerichtes abgehen (für jedes item einmal klicken)
-        -> jeden klick auf prefab registrieren und eins weiter springen
-
-        wenn fertig, dinner erzeugen und dauerhaft zeit gegenrechnen
-
-        */
         //baut den FCED string und übergibt ihn zum speichern
         //CONTINUE stepanzahl muss aus den gesamten ingredients errechnet werden
-        string data = "Oven;"+ovenToCookOnByOpenDinnerShopUI.Split("-")[0]+"-"+ovenToCookOnByOpenDinnerShopUI.Split("-")[1]+";"+1+";"+item.name+";"+item.info["number"]+";heute;morgen";
+        string data = "Oven;"+ovenToCookOnByOpenDinnerShopUI.Split("-")[0]+"-"+ovenToCookOnByOpenDinnerShopUI.Split("-")[1]+";"+IngredientsCount+";"+item.name+";"+item.info["number"]+";heute;morgen";
         Debug.Log("cook: "+item.name+" : "+data);
 
         //verändere das FCED von dem angeklickten oven, wenn ein neues dinner erstellt wird
         FloorChildExtraDataController.ChangeFCEDData(data);
-
 
 
         //nach jeder action muss neu gespeichert werden
@@ -59,11 +52,11 @@ public class DinnerController : MonoBehaviour
 
     //sucht nach einer nebenstehenden positionen des oven
     //gibt false wieder wenn nichts gefunden
-    public static bool SearchForPositionNearTheClickedOven(){
+    public static bool SearchForPositionNearTheClickOnObject(string ObjectToMoveOn){
 
         //sucht nach einer freien position oben, rechts, unten, links vom oven
-        int x = Int32.Parse(ovenToCookOnByOpenDinnerShopUI.Split("-")[0]);
-        int y = Int32.Parse(ovenToCookOnByOpenDinnerShopUI.Split("-")[1]);
+        int x = Int32.Parse(ObjectToMoveOn.Split("-")[0]);
+        int y = Int32.Parse(ObjectToMoveOn.Split("-")[1]);
         string oben = ""+(x-1)+"-"+y;
         string rechts = ""+x+"-"+(y-1);
         string unten = ""+(x+1)+"-"+y;
@@ -91,6 +84,21 @@ public class DinnerController : MonoBehaviour
         //cooking abbrechen, fals oven versperrt
         return false;
     }
+
+    //zählt die anzahl der ingredients die für das item benötigt werden um später als
+    //stepAnzahl benutzt werden
+    public static int CountIngredients(DinnerItem item){
+        int count = 0;
+
+        foreach(var ingredient in item.infoIngredients){
+
+            for(int a=0;a<item.infoIngredients[ingredient.Key];a++){
+
+                count = count + 1;
+            }
+        }
+        return count;
+    } 
 
     //entfernt die ingredients aus dem kühlschrank
     public static bool RemoveIngredients(DinnerItem item){
@@ -209,5 +217,33 @@ public class DinnerController : MonoBehaviour
             ingredient="Biscuits";
         }
         return ingredient;
+    }
+
+
+
+    //lässt den spieler zu einer position schicken und erstellt eine warteanfrage
+    //indem darauf gewartet wird, das der spieler an der position angekommen ist
+    //und daraufhin in PlayerMovementController weitergemacht wird
+    public static bool ReduceStepCount_SendPlayer(string objectName, int stepCount){
+
+        //gucke ob spieler zum oven laufen kann
+        if(!SearchForPositionNearTheClickOnObject(objectName)){
+            return false;
+        }else{
+            //spieler läuft los
+            isWaitForPlayerToStop = true;
+        }
+        
+        return true;
+    }
+
+    //dinner auf oven wird fortgesetzt
+    public static bool ReduceStepCount_UI(){
+        //CONTINUE
+        //...
+        //wenn spieler am oven ist, (muss überprüfen wann genau spieler am oven angekommen ist)
+        //-> step-1
+        //-> ui updaten 
+        //change FCED
     }
 }

@@ -450,6 +450,9 @@ public class ButtonController : MonoBehaviour
                     //step anzahl um -1 reduzieren
                     //UI beim dinner cooking updaten
 
+                    //EXPERIMENTAL
+                    DinnerControlller.ReduceStepCount_SendPlayer(objectName, stepAnzahl);
+
                 //kein gericht, also öffne oven shop
                 }else{
                     Debug.Log("Öffne shop weil: "+stepAnzahl);

@@ -162,6 +162,16 @@ public class PlayerMovementController : MonoBehaviour
             walkAnim = 0;
 
             Debug.Log("Spieler ist am ende angekommen!");
+
+            //ist für Dinnerontroller wichtig (StepAnzahl FCED / dinner "anbauen")
+            //wird benutzt um abzufragen ob darauf gewartet wird wenn der spieler zu einem
+            //objekt gehen soll und danach aktion folgt
+            if(DinnerController.isWaitForPlayerToStop){
+                DinnerController.isWaitForPlayerToStop = false;
+
+                //spieler ist am ziel
+                DinnerController.ReduceStepCount_UI();
+            }
         }
     }
 
