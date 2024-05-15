@@ -9,6 +9,9 @@ public class DinnerController : MonoBehaviour
     //und sorgt dafür das die gericht zubereitet, abgeholt und serviert werden können
 
 
+    //referanz auf den FCEDController-GameObject bei dem das FECD script attached ist
+    public GameObject FCEDController;
+
     //speicher den objectnamen von den angeklickten oven auf den gekocht werden soll
     //wird bei anklicken auf einen oven gespeichert, wenn der oven frei ist
     public static string CookDinner_ovenClickedOn;
@@ -261,7 +264,20 @@ public class DinnerController : MonoBehaviour
         (die ingredients müssen nacherinander erscheinen bzw generiert werden)
         //kleine loopzeit für die bearbeitung
         */
-        //change FCED und speichern
+
+
+        //baut den FCED string und übergibt ihn zum speichern
+        //CONTINUE stepanzahl muss aus den gesamten ingredients errechnet werden#endregion
+        int stepAnzahl = FCEDController.GetComponent<FloorChildExtraDataController>().getOvenStep(objectName);
+        //hole die andren FCED irgendwoher-> string data = "Oven;"+ReduceCount_ovenClickedOn.Split("-")[0]+"-"+ReduceCount_ovenClickedOn.Split("-")[1]+";"+stepAnzahl-1+";"+item.name+";"+item.info["number"]+";heute;morgen";
+        Debug.Log("cook: "+item.name+" : "+data);
+
+        //verändere das FCED von dem angeklickten oven, wenn ein neues dinner erstellt wird
+        FloorChildExtraDataController.ChangeFCEDData(data);
+
+        //nach jeder action muss neu gespeichert werden
+        SaveAndLoadController.SavePlayerData();
+
         return true;
     }
 }
