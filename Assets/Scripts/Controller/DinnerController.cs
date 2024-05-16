@@ -42,8 +42,10 @@ public class DinnerController : MonoBehaviour
         }
 
         //baut den FCED string und übergibt ihn zum speichern
-        //CONTINUE stepanzahl muss aus den gesamten ingredients errechnet werden
-        string data = "Oven;"+CookDinner_ovenClickedOn.Split("-")[0]+"-"+CookDinner_ovenClickedOn.Split("-")[1]+";"+IngredientsCount+";"+item.name+";"+item.info["number"]+";heute;morgen";
+        //rechne zeit aus
+        DateTime startDate = DateTime.Now;
+        DateTime endDate = startDate.Add(Int32.Parse(item.info["time"]));
+        string data = "Oven;"+CookDinner_ovenClickedOn.Split("-")[0]+"-"+CookDinner_ovenClickedOn.Split("-")[1]+";"+IngredientsCount+";"+item.name+";"+item.info["number"]+";"+startDate+";"+endDate;
         Debug.Log("cook: "+item.name+" : "+data);
 
         //verändere das FCED von dem angeklickten oven, wenn ein neues dinner erstellt wird
@@ -268,9 +270,11 @@ public class DinnerController : MonoBehaviour
 
         //baut den FCED string und übergibt ihn zum speichern
         //CONTINUE stepanzahl muss aus den gesamten ingredients errechnet werden#endregion
-        int stepAnzahl = FCEDController.GetComponent<FloorChildExtraDataController>().getOvenStep(objectName);
-        //hole die andren FCED irgendwoher-> string data = "Oven;"+ReduceCount_ovenClickedOn.Split("-")[0]+"-"+ReduceCount_ovenClickedOn.Split("-")[1]+";"+stepAnzahl-1+";"+item.name+";"+item.info["number"]+";heute;morgen";
-        Debug.Log("cook: "+item.name+" : "+data);
+        int stepAnzahl = FCEDController.GetComponent<FloorChildExtraDataController>().getOvenStep(ReduceCount_ovenClickedOn);
+        string[] ovenFCED = FCEDController.GetComponent<FloorChildExtraDataController>().LoadOvenFCED(ReduceCount_ovenClickedOn).Split(";");
+        //hole die andren FCED irgendwoher-> 
+        string data = "Oven;"+ovenFCED[1]+";"+stepAnzahl-1+";"+ovenFCED[3]+";"+ovenFCED[4]+";"+ovenFCED[5]+";"+ovenFCED[6];
+        Debug.Log("cook: "+stepAnzahl+"-1 : "+data);
 
         //verändere das FCED von dem angeklickten oven, wenn ein neues dinner erstellt wird
         FloorChildExtraDataController.ChangeFCEDData(data);

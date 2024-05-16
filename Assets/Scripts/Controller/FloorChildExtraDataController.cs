@@ -240,7 +240,6 @@ public class FloorChildExtraDataController : MonoBehaviour
             return item;
         }
 
-        //guckt ob das object existiert
         return item;
     }
 
