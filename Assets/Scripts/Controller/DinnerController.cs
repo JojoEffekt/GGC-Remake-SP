@@ -44,7 +44,9 @@ public class DinnerController : MonoBehaviour
         //baut den FCED string und übergibt ihn zum speichern
         //rechne zeit aus
         DateTime startDate = DateTime.Now;
-        DateTime endDate = startDate.Add(Int32.Parse(item.info["time"]));
+        //fügt die minutenanzahl zu dem start datum hinzu sodas, das enddatum errechnet werden kann
+        DateTime endDate = startDate.Add(TimeSpan.FromMinutes(Int32.Parse(item.info["time"])));
+
         string data = "Oven;"+CookDinner_ovenClickedOn.Split("-")[0]+"-"+CookDinner_ovenClickedOn.Split("-")[1]+";"+IngredientsCount+";"+item.name+";"+item.info["number"]+";"+startDate+";"+endDate;
         Debug.Log("cook: "+item.name+" : "+data);
 
@@ -248,18 +250,13 @@ public class DinnerController : MonoBehaviour
             //spieler läuft los
             isWaitForPlayerToStop = true;
         }
-
-        Debug.Log("player goto oven to reduce value");
         
         return true;
     }
 
     //dinner auf oven wird fortgesetzt
     public static bool ReduceStepCount_UI(){
-
-        Debug.Log("reduce stepValue: "+ReduceCount_ovenClickedOn);
         //CONTINUE
-        //-> step-1
         //-> ui updaten 
         /*
         prefab ui updaten indem das dinnerobject aus FCED ausgelesen wird und die nächste cookingphase gesucht wird
@@ -269,15 +266,22 @@ public class DinnerController : MonoBehaviour
 
 
         //baut den FCED string und übergibt ihn zum speichern
-        //CONTINUE stepanzahl muss aus den gesamten ingredients errechnet werden#endregion
-        int stepAnzahl = FCEDController.GetComponent<FloorChildExtraDataController>().getOvenStep(ReduceCount_ovenClickedOn);
-        string[] ovenFCED = FCEDController.GetComponent<FloorChildExtraDataController>().LoadOvenFCED(ReduceCount_ovenClickedOn).Split(";");
-        //hole die andren FCED irgendwoher-> 
-        string data = "Oven;"+ovenFCED[1]+";"+stepAnzahl-1+";"+ovenFCED[3]+";"+ovenFCED[4]+";"+ovenFCED[5]+";"+ovenFCED[6];
-        Debug.Log("cook: "+stepAnzahl+"-1 : "+data);
+        int stepAnzahl = FloorChildExtraDataController.getOvenStep(ReduceCount_ovenClickedOn);
 
-        //verändere das FCED von dem angeklickten oven, wenn ein neues dinner erstellt wird
-        FloorChildExtraDataController.ChangeFCEDData(data);
+        //wenn die stepanzahl bei 100 ist => Dinner ist fertig, starte servierung auf tresen ansonsten fertige dinner weiter an
+        if(stepAnzahl==100){  
+
+        }else{
+            
+            string[] ovenFCED = FloorChildExtraDataController.LoadOvenFCED(ReduceCount_ovenClickedOn).Split(";");
+            
+            //updated die FCED und reduziert den stepcounter
+            string data = "Oven;"+ovenFCED[1]+";"+(stepAnzahl-1)+";"+ovenFCED[3]+";"+ovenFCED[4]+";"+ovenFCED[5]+";"+ovenFCED[6];
+            Debug.Log("Reduce to: "+stepAnzahl+"-1 : "+data);
+
+            //verändere das FCED von dem angeklickten oven, wenn ein neues dinner erstellt wird
+            FloorChildExtraDataController.ChangeFCEDData(data); 
+        }
 
         //nach jeder action muss neu gespeichert werden
         SaveAndLoadController.SavePlayerData();

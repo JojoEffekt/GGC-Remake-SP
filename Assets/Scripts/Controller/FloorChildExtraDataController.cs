@@ -191,7 +191,7 @@ public class FloorChildExtraDataController : MonoBehaviour
 
 
     //gibt die stepAnzahl für ein Oven FCED wieder
-    public int getOvenStep(string gameObject){
+    public static int getOvenStep(string gameObject){
 
         //holt das FCED vom oven aus der gespeicherten .txt datei
         string item = LoadOvenFCED(gameObject);
@@ -214,7 +214,7 @@ public class FloorChildExtraDataController : MonoBehaviour
     }
 
     //läd die FCED und sucht nach object
-    public string LoadOvenFCED(string gameObject){
+    public static string LoadOvenFCED(string gameObject){
 
         string item = "";
 
@@ -244,7 +244,7 @@ public class FloorChildExtraDataController : MonoBehaviour
     }
 
     //ließt den inhalt der datei aus ud gibt sie zurück
-    private string[] ReadStream(string pathFile){
+    private static string[] ReadStream(string pathFile){
         StreamReader source = new StreamReader(Application.dataPath + "/Data/" + pathFile);
         string fileContents = source.ReadToEnd();
         source.Close();
