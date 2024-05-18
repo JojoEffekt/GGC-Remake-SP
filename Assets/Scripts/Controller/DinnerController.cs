@@ -42,7 +42,7 @@ public class DinnerController : MonoBehaviour
         }
 
         //baut den FCED string und übergibt ihn zum speichern
-        string data = "Oven;"+CookDinner_ovenClickedOn.Split("-")[0]+"-"+CookDinner_ovenClickedOn.Split("-")[1]+";"+IngredientsCount+";"+item.name+";"+item.info["number"]+";"+null+";"+null;
+        string data = "Oven;"+CookDinner_ovenClickedOn.Split("-")[0]+"-"+CookDinner_ovenClickedOn.Split("-")[1]+";"+IngredientsCount+";"+item.name+";"+item.info["number"]+";"+null+";"+item.info["time"];
         Debug.Log("cook: "+item.name+" : "+data);
 
         //verändere das FCED von dem angeklickten oven, wenn ein neues dinner erstellt wird
@@ -286,16 +286,16 @@ public class DinnerController : MonoBehaviour
                 //Gericht fängt an zu kochen, starte mit der aktuellen zeit
                 DateTime startDate = DateTime.Now;
                 //fügt die minutenanzahl zu dem start datum hinzu sodas, das enddatum errechnet werden kann
-                DateTime endDate = startDate.Add(TimeSpan.FromMinutes(Int32.Parse(item.info["time"])));
+                DateTime endDate = startDate.Add(TimeSpan.FromMinutes(Int32.Parse(ovenFCED[6])));
 
-                string data = "Oven;"+CookDinner_ovenClickedOn.Split("-")[0]+"-"+CookDinner_ovenClickedOn.Split("-")[1]+";"+stepAnzahl+";"+item.name+";"+item.info["number"]+";"+startDate+";"+endDate;
+                data = "Oven;"+ovenFCED[1]+";"+stepAnzahl+";"+ovenFCED[3]+";"+ovenFCED[4]+";"+startDate+";"+ovenFCED[6];
             
             //stepanzahl wird reduziert und weiter zubereitet
             }else{
                 data = "Oven;"+ovenFCED[1]+";"+(stepAnzahl-1)+";"+ovenFCED[3]+";"+ovenFCED[4]+";"+ovenFCED[5]+";"+ovenFCED[6];
                 Debug.Log("Reduce to: "+stepAnzahl+" : "+data);
 
-                StartCoroutine(UpdateDinnerUI());
+                //StartCoroutine(UpdateDinnerUI());
             }
 
             //verändere das FCED von dem angeklickten oven, wenn ein neues dinner erstellt wird

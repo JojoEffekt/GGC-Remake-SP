@@ -1,9 +1,9 @@
 JojoEffekt
-15320
+15050
 8
 100000
 16
-Empty
-Oven_03_a_1:1
+Tomatoes:1
+Oven_03_a_1:1;Oven_01_a:1;Oven_01_a_1:1
 Oven:3;Fridge:1;Counter:2;Shlushi:1
 Gender:False;Hat:1-1-1-1;Face:1-1-1-1-;Hair:1-1-1-1-;HairOverlay:1-1-1-1-;Leg:0,33-0,54-0,33-1-;LegOverlay:1-1-1-1-;Skin:0,81-0,53-0,36-1-;SkinOverlay:1-1-1-1-;Tshirt:0,81-0,55-0,77-1-;TshirtOverlay:1-1-1-1

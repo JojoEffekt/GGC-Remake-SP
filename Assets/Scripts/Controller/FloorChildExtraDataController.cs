@@ -38,9 +38,9 @@ public class FloorChildExtraDataController : MonoBehaviour
                 }
             }else if(type.Equals("Oven")){
                 if(listItem.Length>2){
-                    OvenList.Add(new Oven(listItem[0], listItem[1], Int32.Parse(listItem[2]), listItem[3], Int32.Parse(listItem[4]), listItem[5], listItem[6]));   
+                    OvenList.Add(new Oven(listItem[0], listItem[1], Int32.Parse(listItem[2]), listItem[3], Int32.Parse(listItem[4]), listItem[5],  Int32.Parse(listItem[6])));   
                 }else{
-                    OvenList.Add(new Oven(listItem[0], listItem[1], 0, null, 0, null, null));
+                    OvenList.Add(new Oven(listItem[0], listItem[1], 0, null, 0, null, 0));
                 }
             }else if(type.Equals("Slushi")){
                 if(listItem.Length>2){
@@ -154,7 +154,7 @@ public class FloorChildExtraDataController : MonoBehaviour
             counter.setData(Convert.ToBoolean(listItem[2]), listItem[3], Int32.Parse(listItem[4]));
         }else if(type.Equals("Oven")){
             Oven oven = getOven(listItem[1]);
-            oven.setData(Int32.Parse(listItem[2]), listItem[3], Int32.Parse(listItem[4]), listItem[5], listItem[6]);
+            oven.setData(Int32.Parse(listItem[2]), listItem[3], Int32.Parse(listItem[4]), listItem[5], Int32.Parse(listItem[6]));
         }else if(type.Equals("Slushi")){
             Slushi slushi = getSlushi(listItem[1]);
             slushi.setData(listItem[2], Int32.Parse(listItem[2]));
@@ -329,25 +329,25 @@ public class Oven{
     public string foodSprite { get; set; }
     public int foodCount { get; set; }
     public string dateStart { get; set; }
-    public string dateEnd { get; set; }
-    public Oven(string type, string gameObjectName, int foodStep, string foodSprite, int foodCount, string dateStart, string dateEnd){
+    public int time { get; set; }
+    public Oven(string type, string gameObjectName, int foodStep, string foodSprite, int foodCount, string dateStart, int time){
         this.type = type;
         this.gameObjectName = gameObjectName;
-        this.foodStep = foodStep;//0 = empty, 1 = in Proccess, 2 = ready, 3 = dirty
+        this.foodStep = foodStep;//100 = onProcess, 0 = empty oven
         this.foodSprite = foodSprite;
         this.foodCount = foodCount;
         this.dateStart = dateStart;
-        this.dateEnd = dateEnd;
+        this.time = time;
     }
     public string getData(){
-        return type+";"+gameObjectName+";"+foodStep+";"+foodSprite+";"+foodCount+";"+dateStart+";"+dateEnd;
+        return type+";"+gameObjectName+";"+foodStep+";"+foodSprite+";"+foodCount+";"+dateStart+";"+time;
     }
-    public void setData(int foodStep, string foodSprite, int foodCount, string dateStart, string dateEnd){
+    public void setData(int foodStep, string foodSprite, int foodCount, string dateStart, int time){
         this.foodStep = foodStep;
         this.foodSprite = foodSprite;
         this.foodCount = foodCount;
         this.dateStart = dateStart;
-        this.dateEnd = dateEnd;
+        this.time = time;
     }
 
     //methode zum Instanziierung der sprites bei Zutaten hinzufügen
