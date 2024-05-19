@@ -445,6 +445,8 @@ public class ButtonController : MonoBehaviour
                 //gehe zum oven und fertige dinner step an
                 if(stepAnzahl>0){
 
+                    //Debug.Log("gericht auf oven, gehe zum oven [ButtonController] "+objectName);
+
                     //wenn der spieler zu den oven gehen kann um das dinn er anzufertigen, dann speicher den oven namen
                     if(DinnerController.ReduceStepCount_SendPlayer(objectName, stepAnzahl)){
                         DinnerController.ReduceCount_ovenClickedOn = objectName;
@@ -452,6 +454,8 @@ public class ButtonController : MonoBehaviour
 
                 //kein gericht auf dem oven, also öffne oven shop
                 }else{
+                    
+                    //Debug.Log("kein gericht auf oven, öffne shop [ButtonController] "+objectName);
                     
                     //öffne sonst gerichteshop und generiere die Cookbtns
                     //speichert vorübergehend den objektnamen des angeklickten ovens auf dem gekocht werden soll
