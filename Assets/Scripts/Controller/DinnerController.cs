@@ -8,9 +8,8 @@ public class DinnerController : MonoBehaviour
     //managed die gerichte die gerade auf den öfen gekocht werden
     //und sorgt dafür das die gericht zubereitet, abgeholt und serviert werden können
 
-
-    //referanz auf den FCEDController-GameObject bei dem das FECD script attached ist
-    public GameObject FCEDController;
+    //gameobject dass das DinnerAnim script enthält
+    public static GameObject DinnerAnim;
 
     //speicher den objectnamen von den angeklickten oven auf den gekocht werden soll
     //wird bei anklicken auf einen oven gespeichert, wenn der oven frei ist
@@ -273,14 +272,19 @@ public class DinnerController : MonoBehaviour
         //wenn die stepanzahl bei 100 ist => Dinner ist fertig, starte servierung auf tresen ansonsten fertige dinner weiter an
         if(stepAnzahl==100){
 
+            //datum wann das gericht "angebaut" wurde
             DateTime startDate = DateTime.Parse(ovenFCED[5]);
-            //DateTime endDate = startDate;
+
+            //berechne den endzeitpunkt an dem das gericht fertig ist
             DateTime endDate = startDate.AddMinutes(Int32.Parse(ovenFCED[6]));
-            Debug.Log(startDate+" : "+endDate+" : "+Int32.Parse(ovenFCED[6]));
 
-            Debug.Log("isDinnerReady: "+(DateTime.Now>endDate)+" [DinnerController]  jetzt:"+DateTime.Now+"     fertig:"+endDate);
+            //essen ist fertig
+            if(DateTime.Now>endDate){
 
-            
+                Debug.Log("essen fertig!, serviere essen");
+                //CONTINUE
+                //serviere zum tresen
+            }
 
         }else{
             //wenn stepanzahl in diesem prozess auf 0 geht, dann ist das gericht fertig zubereitet und es wird auf 100 gesetzt 
@@ -305,7 +309,9 @@ public class DinnerController : MonoBehaviour
 
                 Debug.Log("Reduce: "+(stepAnzahl-1)+" : "+data+" [DinnerController]");
 
-                //StartCoroutine(UpdateDinnerUI());
+                //spielt die Dinner animation ab
+                DinnerAnim = GameObject.Find("DinnerAnim");
+                DinnerAnim.GetComponent<DinnerAnim>().Controller();
             }
         }
 
@@ -316,10 +322,5 @@ public class DinnerController : MonoBehaviour
         SaveAndLoadController.SavePlayerData();
 
         return true;
-    }
-
-    //aktualisiert die Ui den anzufertigen dinners
-    public static void UpdateDinnerUI(){
-        
     }
 }
