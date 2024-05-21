@@ -5,17 +5,24 @@ using System;
 
 public class DinnerAnim : MonoBehaviour
 {
-    public bool isDinnerAnim = true;
+    public int dinnerAnim = 0; //0=idle, 1=inAnim, 2=ExitAnim
 
-    public bool Controller(){
+    public void Controller(){
         StartCoroutine(UpdateDinnerUI());
+    }
+
+    public void Update(){
+        if(dinnerAnim==2){
+            dinnerAnim = 0;
+            //Debug.Log("Anim Fertig!");
+        }
     }
 
     //aktualisiert die Ui den anzufertigen dinners
     public IEnumerator UpdateDinnerUI(){
-        isDinnerAnim = true;
+        //Debug.Log("Anim Start!");
+        dinnerAnim = 1;
         yield return new WaitForSeconds(1f);
-        Debug.Log("1sec gewartet!");
-        isDinnerAnim = false;
+        dinnerAnim = 2;
     }
 }

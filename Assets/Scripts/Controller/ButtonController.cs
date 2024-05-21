@@ -13,6 +13,7 @@ public class ButtonController : MonoBehaviour
     public GameObject IngredientsAndFridgeUIController; //referenz auf IngredientsAndFridgeUIController script
 
     public GameObject FCEDController; //referenz auf das FloorChildExtraData Script 
+    public GameObject DinnerAnim;//referenz auf das DinnerAnim Script
 
     public int MouseAction = 0; //0=nothing,1=rotate,2=create,3=remove,4=replace
     public bool isRebuildShopOpen = false;//wenn der rebuild shop offen ist, wahr
@@ -439,38 +440,43 @@ public class ButtonController : MonoBehaviour
 
             }else if(getTypeFromObject(objectName).Equals("Oven")){
 
-                //guck ob nicht schon ein gericht auf dem oven angebaut wurde (wenn step = 0, dann kein gericht auf oven)
-                int stepAnzahl = FloorChildExtraDataController.getOvenStep(objectName);
+                //überprüft ob aktuell eine animation im gang ist
+                //spieler darf erst fortfahren wenn keine animation im gang ist (0=idle)
+                if(DinnerAnim.GetComponent<DinnerAnim>().dinnerAnim==0){
+                    //Debug.Log("keine Animation, prüfe weiter!");
+            
+                    //guck ob nicht schon ein gericht auf dem oven angebaut wurde (wenn step = 0, dann kein gericht auf oven)
+                    int stepAnzahl = FloorChildExtraDataController.getOvenStep(objectName);
 
-                //gehe zum oven und fertige dinner step an
-                if(stepAnzahl>0){
+                    //gehe zum oven und fertige dinner step an
+                    if(stepAnzahl>0){
 
-                    //Debug.Log("gericht auf oven, gehe zum oven [ButtonController] "+objectName);
+                        //Debug.Log("gericht auf oven, gehe zum oven [ButtonController] "+objectName);
 
-                    //wenn der spieler zu den oven gehen kann um das dinn er anzufertigen, dann speicher den oven namen
-                    if(DinnerController.ReduceStepCount_SendPlayer(objectName, stepAnzahl)){
-                        DinnerController.ReduceCount_ovenClickedOn = objectName;
+                        //wenn der spieler zu den oven gehen kann um das dinner anzufertigen, dann speicher den oven namen
+                        if(DinnerController.ReduceStepCount_SendPlayer(objectName, stepAnzahl)){
+                            DinnerController.ReduceCount_ovenClickedOn = objectName;
+                        }
+
+                    //kein gericht auf dem oven, also öffne oven shop
+                    }else{
+
+                        //Debug.Log("kein gericht auf oven, öffne shop [ButtonController] "+objectName);
+
+                        //öffne sonst gerichteshop und generiere die Cookbtns
+                        //speichert vorübergehend den objektnamen des angeklickten ovens auf dem gekocht werden soll
+                        DinnerController.CookDinner_ovenClickedOn = objectName;
+
+                        //wenn nicht öffne denn dinner shop
+                        //shop kann buy btn generieren
+                        DinnerUIShopOpenByOven = true;
+
+                        //öffne shop
+                        MainController.GetComponent<MainController>().buttonPressed(3);
                     }
-
-                //kein gericht auf dem oven, also öffne oven shop
                 }else{
-                    
-                    //Debug.Log("kein gericht auf oven, öffne shop [ButtonController] "+objectName);
-                    
-                    //öffne sonst gerichteshop und generiere die Cookbtns
-                    //speichert vorübergehend den objektnamen des angeklickten ovens auf dem gekocht werden soll
-                    DinnerController.CookDinner_ovenClickedOn = objectName;
-
-                    //wenn nicht öffne denn dinner shop
-                    //shop kann buy btn generieren
-                    DinnerUIShopOpenByOven = true;
-
-                    //öffne shop
-                    MainController.GetComponent<MainController>().buttonPressed(3);
+                    //Debug.Log("Anim im gang, kann nicht starten!");
                 }
-                
-
-
             }else if(getTypeFromObject(objectName).Equals("Counter")){
                 //zeige anzahl der gerichte auf counter
             }else if(getTypeFromObject(objectName).Equals("Slushi")){

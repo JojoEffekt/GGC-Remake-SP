@@ -23,6 +23,11 @@ public class DinnerController : MonoBehaviour
     //der spieler am ende ankommt
     public static bool isWaitForPlayerToStop = false;
 
+    //bei der initialisierung des scripts wird die referenz geholt
+    public void Start(){
+        DinnerAnim = GameObject.Find("DinnerAnim");
+    }
+
     //beinhaltet die schritte die zum erstellen eines dinners gebraucht werden
     //wird aufgerufen wenn im DinnerUIShop auf CookBtn gedrückt wird
     public static bool CookNewDinnerOnOven(DinnerItem item){
@@ -282,6 +287,11 @@ public class DinnerController : MonoBehaviour
             if(DateTime.Now>endDate){
 
                 Debug.Log("essen fertig!, serviere essen");
+
+                //spielt die Dinner animation ab
+                //sperrt weitere handlungen da Animation pflicht ist!
+                DinnerAnim.GetComponent<DinnerAnim>().Controller();
+
                 //CONTINUE
                 //serviere zum tresen
             }
@@ -300,6 +310,10 @@ public class DinnerController : MonoBehaviour
                 data = "Oven;"+ovenFCED[1]+";"+stepAnzahl+";"+ovenFCED[3]+";"+ovenFCED[4]+";"+startDate+";"+ovenFCED[6];
 
                 Debug.Log("essen fängt an zu kochen! [DinnerController]");
+
+                //spielt die Dinner animation ab
+                //sperrt weitere handlungen da Animation pflicht ist!
+                DinnerAnim.GetComponent<DinnerAnim>().Controller();
             
             //stepanzahl wird reduziert und weiter zubereitet
             }else{
@@ -310,7 +324,7 @@ public class DinnerController : MonoBehaviour
                 Debug.Log("Reduce: "+(stepAnzahl-1)+" : "+data+" [DinnerController]");
 
                 //spielt die Dinner animation ab
-                DinnerAnim = GameObject.Find("DinnerAnim");
+                //sperrt weitere handlungen da Animation pflicht ist!
                 DinnerAnim.GetComponent<DinnerAnim>().Controller();
             }
         }

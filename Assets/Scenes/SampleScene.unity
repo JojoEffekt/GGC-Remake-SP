@@ -21003,6 +21003,7 @@ MonoBehaviour:
   MainController: {fileID: 349073842}
   IngredientsAndFridgeUIController: {fileID: 872153698}
   FCEDController: {fileID: 451021081}
+  DinnerAnim: {fileID: 2123416856}
   MouseAction: 0
   isRebuildShopOpen: 0
   ObjectToMove: 
@@ -22799,6 +22800,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e30cfaea10e29ab4cb4e16558dc6cd49, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  dinnerAnim: 0
 --- !u!1 &2124681910
 GameObject:
   m_ObjectHideFlags: 0
