@@ -23,5 +23,5 @@ Counter;4-3;True;;0
 Counter;4-4;True;;0
 Oven;4-0;100;Garden Salad;10;21.05.2024 22:11:48;3
 Oven;4-1;100;Garden Salad;10;21.05.2024 22:12:04;3
-Oven;4-2;100;Garden Salad;10;21.05.2024 22:11:57;3
+Oven;7-0;3;Garden Salad;10;;3
 Slushi;1-8;;0

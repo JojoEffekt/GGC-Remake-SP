@@ -11,6 +11,9 @@ public class DinnerController : MonoBehaviour
     //gameobject dass das DinnerAnim script enthält
     public static GameObject DinnerAnim;
 
+    //enthält das dinnerPrefab was auf dem oven erzeugt wird
+    public static GameObject DinnerOnOvenPrefab;
+
     //speicher den objectnamen von den angeklickten oven auf den gekocht werden soll
     //wird bei anklicken auf einen oven gespeichert, wenn der oven frei ist
     public static string CookDinner_ovenClickedOn;
@@ -25,7 +28,11 @@ public class DinnerController : MonoBehaviour
 
     //bei der initialisierung des scripts wird die referenz geholt
     public void Start(){
+        //läd ein script
         DinnerAnim = GameObject.Find("DinnerAnim");
+    
+        //läd das dinnerPrefab
+        DinnerOnOvenPrefab = (GameObject)Resources.Load("Prefabs/DinnerOnOvenPrefab", typeof(GameObject));
     }
 
     //beinhaltet die schritte die zum erstellen eines dinners gebraucht werden
@@ -53,11 +60,8 @@ public class DinnerController : MonoBehaviour
         FloorChildExtraDataController.ChangeFCEDData(data);
 
 
-        //CONTINUE
-        /*
-        erzeuge ein prefab
-        suche das prefabsprite anhand des namens des dinners (1 stage)
-        */
+        //erzeuge ein prefab auf dem oven
+        CreateDinnerPrefabOnOven(CookDinner_ovenClickedOn);
 
 
         //nach jeder action muss neu gespeichert werden
@@ -336,5 +340,29 @@ public class DinnerController : MonoBehaviour
         SaveAndLoadController.SavePlayerData();
 
         return true;
+    }
+
+    //erzeugt das anzubereitende dinner auf dem oven
+    public static void CreateDinnerPrefabOnOven(string oven){
+
+        //suche die koordianten vom oven
+        float[] coords = new float[]{GameObject.Find(oven).gameObject.transform.position.x, GameObject.Find(oven).gameObject.transform.position.y};
+        
+        //erzeuge das prefab
+        Debug.Log("Erzeuge prefab!: "+coords[0]+":"+coords[1]);
+        GameObject prefab = Instantiate(DinnerOnOvenPrefab, new Vector3(coords[0], coords[1], 0), Quaternion.identity);
+        prefab.transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().sortingOrder = GameObject.Find(oven).gameObject.GetComponent<SpriteRenderer>().sortingOrder + 1;
+    
+        //CONTINUE
+        //suche das zu erzeugende gericht
+        //suche aus liste
+        //listeneintrag in bild umwandeln
+        //generieren
+        //1 item zum abrechen raussuchen
+    }
+
+    //erzeugt die nächste prepare stufe für das dinner auf dem oven
+    public static void UpdateDinnerOnOvenImg(){
+        
     }
 }
