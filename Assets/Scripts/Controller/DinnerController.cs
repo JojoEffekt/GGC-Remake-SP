@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using UnityEngine.UI;
 
 public class DinnerController : MonoBehaviour
 {
@@ -13,6 +14,9 @@ public class DinnerController : MonoBehaviour
 
     //enthält das dinnerPrefab was auf dem oven erzeugt wird
     public static GameObject DinnerOnOvenPrefab;
+
+    //dieses object enthält die Dinners auf den verschiedenen öfen
+    public static GameObject DinnerOnOvenHandler;
 
     //speicher den objectnamen von den angeklickten oven auf den gekocht werden soll
     //wird bei anklicken auf einen oven gespeichert, wenn der oven frei ist
@@ -26,6 +30,9 @@ public class DinnerController : MonoBehaviour
     //der spieler am ende ankommt
     public static bool isWaitForPlayerToStop = false;
 
+    //beinhaltet die dinnersprites
+    public static List<Sprite> sprites = new List<Sprite>();
+
     //bei der initialisierung des scripts wird die referenz geholt
     public void Start(){
         //läd ein script
@@ -33,6 +40,15 @@ public class DinnerController : MonoBehaviour
     
         //läd das dinnerPrefab
         DinnerOnOvenPrefab = (GameObject)Resources.Load("Prefabs/DinnerOnOvenPrefab", typeof(GameObject));
+
+        //sucht den ovenObjectHandler
+        DinnerOnOvenHandler = GameObject.Find("DinnerOnOvens");
+
+        //läd die dinnersprites
+        object[] spriteList = Resources.LoadAll("Textures/Dinner", typeof(Sprite));
+        foreach(object obj in spriteList){
+            sprites.Add((Sprite)obj);
+        }    
     }
 
     //beinhaltet die schritte die zum erstellen eines dinners gebraucht werden
@@ -61,7 +77,7 @@ public class DinnerController : MonoBehaviour
 
 
         //erzeuge ein prefab auf dem oven
-        CreateDinnerPrefabOnOven(CookDinner_ovenClickedOn);
+        CreateDinnerPrefabOnOven(CookDinner_ovenClickedOn, item.name);
 
 
         //nach jeder action muss neu gespeichert werden
@@ -279,7 +295,7 @@ public class DinnerController : MonoBehaviour
         string data = "";
 
         //wenn die stepanzahl bei 100 ist => Dinner ist fertig, starte servierung auf tresen ansonsten fertige dinner weiter an
-        if(stepAnzahl==100){
+        if(stepAnzahl==100&&ovenFCED.Length>1){
 
             //datum wann das gericht "angebaut" wurde
             DateTime startDate = DateTime.Parse(ovenFCED[5]);
@@ -300,7 +316,7 @@ public class DinnerController : MonoBehaviour
                 //serviere zum tresen
             }
 
-        }else{
+        }else if(ovenFCED.Length>1){
             //wenn stepanzahl in diesem prozess auf 0 geht, dann ist das gericht fertig zubereitet und es wird auf 100 gesetzt 
             if((stepAnzahl-1)==0){
 
@@ -343,26 +359,74 @@ public class DinnerController : MonoBehaviour
     }
 
     //erzeugt das anzubereitende dinner auf dem oven
-    public static void CreateDinnerPrefabOnOven(string oven){
+    public static void CreateDinnerPrefabOnOven(string oven, string dinner){
 
         //suche die koordianten vom oven
         float[] coords = new float[]{GameObject.Find(oven).gameObject.transform.position.x, GameObject.Find(oven).gameObject.transform.position.y};
-        
+        //wandelt das dinner in den spritenamen das in den files liegt
+        string dinnerName = getDinnerName(dinner);
+        float[] dinnerCoords = getDinnerCoords(dinner);
+        Sprite dinnerSprite = getSprite(dinnerName);
+
         //erzeuge das prefab
-        Debug.Log("Erzeuge prefab!: "+coords[0]+":"+coords[1]);
-        GameObject prefab = Instantiate(DinnerOnOvenPrefab, new Vector3(coords[0], coords[1], 0), Quaternion.identity);
+        GameObject prefab = Instantiate(DinnerOnOvenPrefab, new Vector3(coords[0]+dinnerCoords[0], coords[1]+dinnerCoords[1], 0), Quaternion.identity, DinnerOnOvenHandler.transform);
         prefab.transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().sortingOrder = GameObject.Find(oven).gameObject.GetComponent<SpriteRenderer>().sortingOrder + 1;
-    
-        //CONTINUE
-        //suche das zu erzeugende gericht
-        //suche aus liste
-        //listeneintrag in bild umwandeln
-        //generieren
-        //1 item zum abrechen raussuchen
+        prefab.transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().sprite = dinnerSprite;
     }
 
     //erzeugt die nächste prepare stufe für das dinner auf dem oven
     public static void UpdateDinnerOnOvenImg(){
         
+    }
+
+    //wandelt das dinner in das spritenamen item um
+    public static string getDinnerName(string dinner){
+        string item = "";
+
+        if(dinner.Equals("Garden Salad")){
+            item = "Dinner_18_01";
+        }
+        if(dinner.Equals("Tomatosoup")){
+            item = "Dinner_02_01";
+        }
+        if(dinner.Equals("Omelette")){
+            item = "Dinner_55_01";
+        }
+        if(dinner.Equals("Mousse au Chocolat")){
+            item = "Dinner_20_01";
+        }
+
+        return item;
+    }
+
+    //gibt die coords des jeweiligen dinner auf den oven wieder
+    public static float[] getDinnerCoords(string dinner){
+        float[] coords = null;
+
+        if(dinner.Equals("Garden Salad")){
+            coords = new float[]{0.0f, 1.4f};
+        }
+        if(dinner.Equals("Tomatosoup")){
+            coords = new float[]{-0.02f, 1.45f};
+        }
+        if(dinner.Equals("Omelette")){
+            coords = new float[]{0.3f, 1.4f};
+        }
+        if(dinner.Equals("Mousse au Chocolat")){
+            coords = new float[]{-0.03f, 1.875f};
+        }
+
+        return coords;
+    }
+
+    //sucht das passende sprite anhand des namen
+    public static Sprite getSprite(string item){
+        Sprite sprite = null;
+        foreach(Sprite obj in sprites){
+            if(obj.name.Equals(item)){
+                sprite = obj;
+            }
+        }
+        return sprite;
     }
 }
