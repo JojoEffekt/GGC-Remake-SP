@@ -21,7 +21,7 @@ Table;8-6;True
 Table;1-0;True
 Counter;4-3;True;;0
 Counter;4-4;True;;0
-Oven;4-0;3;Garden Salad;10;;3
-Oven;8-1;100;Mousse au Chocolat;390;23.05.2024 21:31:41;180
-Oven;8-0;3;Tomatosoup;40;;10
+Oven;3-0;3;Cheese Plate;390;;180
+Oven;3-1;3;Garden Salad;10;;3
+Oven;4-2;1;Omelette;5;;1
 Slushi;1-8;;0

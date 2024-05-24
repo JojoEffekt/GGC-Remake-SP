@@ -33,6 +33,9 @@ public class DinnerController : MonoBehaviour
     //beinhaltet die dinnersprites
     public static List<Sprite> sprites = new List<Sprite>();
 
+    //beinhaltet die ingredientsprites
+    public static List<Sprite> ingredientsSprites = new List<Sprite>();
+
     //bei der initialisierung des scripts wird die referenz geholt
     public void Start(){
         //läd ein script
@@ -48,6 +51,12 @@ public class DinnerController : MonoBehaviour
         object[] spriteList = Resources.LoadAll("Textures/Dinner", typeof(Sprite));
         foreach(object obj in spriteList){
             sprites.Add((Sprite)obj);
+        }    
+
+        //läd die dinnersprites
+        object[] IngSpriteList = Resources.LoadAll("Textures/UI/Ingredients", typeof(Sprite));
+        foreach(object obj in IngSpriteList){
+            ingredientsSprites.Add((Sprite)obj);
         }    
     }
 
@@ -129,7 +138,8 @@ public class DinnerController : MonoBehaviour
         foreach(var ingredient in item.infoIngredients){
 
             for(int a=0;a<item.infoIngredients[ingredient.Key];a++){
-
+                
+                Debug.Log(":: "+ingredient.Key);
                 count = count + 1;
             }
         }
@@ -395,6 +405,18 @@ public class DinnerController : MonoBehaviour
         if(dinner.Equals("Mousse au Chocolat")){
             item = "Dinner_20_01";
         }
+        if(dinner.Equals("Spaghetti Bolognese")){
+            item = "Dinner_06_01";
+        }
+        if(dinner.Equals("Cheese Plate")){
+            item = "Dinner_22_01";
+        }
+        if(dinner.Equals("Hamburger")){
+            item = "Dinner_17_01";
+        }
+        if(dinner.Equals("Mixed Salad")){
+            item = "Dinner_12_01";
+        }
 
         return item;
     }
@@ -414,6 +436,18 @@ public class DinnerController : MonoBehaviour
         }
         if(dinner.Equals("Mousse au Chocolat")){
             coords = new float[]{-0.03f, 1.875f};
+        }
+        if(dinner.Equals("Spaghetti Bolognese")){
+            coords = new float[]{0.0f, 1.0f};
+        }
+        if(dinner.Equals("Cheese Plate")){
+            coords = new float[]{0.0f, 1.0f};
+        }
+        if(dinner.Equals("Hamburger")){
+            coords = new float[]{0.0f, 1.0f};
+        }
+        if(dinner.Equals("Mixed Salad")){
+            coords = new float[]{0.0f, 1.0f};
         }
 
         return coords;
