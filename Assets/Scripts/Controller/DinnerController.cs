@@ -86,7 +86,7 @@ public class DinnerController : MonoBehaviour
 
 
         //erzeuge ein prefab auf dem oven
-        CreateDinnerPrefabOnOven(CookDinner_ovenClickedOn, item.name);
+        CreateDinnerPrefabOnOven(CookDinner_ovenClickedOn, item.name, IngredientsCount);
 
 
         //nach jeder action muss neu gespeichert werden
@@ -139,7 +139,6 @@ public class DinnerController : MonoBehaviour
 
             for(int a=0;a<item.infoIngredients[ingredient.Key];a++){
                 
-                Debug.Log(":: "+ingredient.Key);
                 count = count + 1;
             }
         }
@@ -369,7 +368,7 @@ public class DinnerController : MonoBehaviour
     }
 
     //erzeugt das anzubereitende dinner auf dem oven
-    public static void CreateDinnerPrefabOnOven(string oven, string dinner){
+    public static void CreateDinnerPrefabOnOven(string oven, string dinner, int step){
 
         //suche die koordianten vom oven
         float[] coords = new float[]{GameObject.Find(oven).gameObject.transform.position.x, GameObject.Find(oven).gameObject.transform.position.y};
@@ -382,6 +381,10 @@ public class DinnerController : MonoBehaviour
         GameObject prefab = Instantiate(DinnerOnOvenPrefab, new Vector3(coords[0]+dinnerCoords[0], coords[1]+dinnerCoords[1], 0), Quaternion.identity, DinnerOnOvenHandler.transform);
         prefab.transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().sortingOrder = GameObject.Find(oven).gameObject.GetComponent<SpriteRenderer>().sortingOrder + 1;
         prefab.transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().sprite = dinnerSprite;
+
+        //rendert ingredient auf dinner 
+        prefab.transform.GetChild(1).gameObject.GetComponent<SpriteRenderer>().sprite = getIngredientSprite(getIngredientsForDinner(dinner).Split(";")[step-1]);
+        prefab.transform.GetChild(1).gameObject.GetComponent<SpriteRenderer>().sortingOrder = GameObject.Find(oven).gameObject.GetComponent<SpriteRenderer>().sortingOrder + 1;
     }
 
     //erzeugt die nächste prepare stufe für das dinner auf dem oven
@@ -453,10 +456,54 @@ public class DinnerController : MonoBehaviour
         return coords;
     }
 
-    //sucht das passende sprite anhand des namen
+    //gibt die liste an zutaten für das dinner wieder um
+    //beim zubereiten die richtiger zutat anzuzeigen
+    public static string getIngredientsForDinner(string dinner){
+        string list = "";
+
+        if(dinner.Equals("Garden Salad")){
+            list = "item_02;item_13;item_19";
+        }
+        if(dinner.Equals("Tomatosoup")){
+            list = "";
+        }
+        if(dinner.Equals("Omelette")){
+            list = "";
+        }
+        if(dinner.Equals("Mousse au Chocolat")){
+            list = "";
+        }
+        if(dinner.Equals("Spaghetti Bolognese")){
+            list = "";
+        }
+        if(dinner.Equals("Cheese Plate")){
+            list = "";
+        }
+        if(dinner.Equals("Hamburger")){
+            list = "";
+        }
+        if(dinner.Equals("Mixed Salad")){
+            list = "";
+        }
+
+        return list;
+    }
+
+    //sucht das passende sprite anhand des namen für das dinner
     public static Sprite getSprite(string item){
         Sprite sprite = null;
         foreach(Sprite obj in sprites){
+            if(obj.name.Equals(item)){
+                sprite = obj;
+            }
+        }
+        return sprite;
+    }
+
+    //sucht das passende sprite anhand des namen für das ingredient
+    public static Sprite getIngredientSprite(string item){
+        Sprite sprite = null;
+        foreach(Sprite obj in ingredientsSprites){
             if(obj.name.Equals(item)){
                 sprite = obj;
             }
