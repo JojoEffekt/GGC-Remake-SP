@@ -352,6 +352,9 @@ public class DinnerController : MonoBehaviour
 
                 Debug.Log("Reduce: "+(stepAnzahl-1)+" : "+data+" [DinnerController]");
 
+                //verändere das ingredient auf dem oven
+                UpdateDinnerOnOvenImg((ovenFCED[1]+"-Child-Dinner"), ovenFCED[3], stepAnzahl);
+
                 //spielt die Dinner animation ab
                 //sperrt weitere handlungen da Animation pflicht ist!
                 DinnerAnim.GetComponent<DinnerAnim>().Controller();
@@ -379,6 +382,7 @@ public class DinnerController : MonoBehaviour
 
         //erzeuge das prefab
         GameObject prefab = Instantiate(DinnerOnOvenPrefab, new Vector3(coords[0]+dinnerCoords[0], coords[1]+dinnerCoords[1], 0), Quaternion.identity, DinnerOnOvenHandler.transform);
+        prefab.name = oven+"-Dinner";
         prefab.transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().sortingOrder = GameObject.Find(oven).gameObject.GetComponent<SpriteRenderer>().sortingOrder + 1;
         prefab.transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().sprite = dinnerSprite;
 
@@ -388,8 +392,13 @@ public class DinnerController : MonoBehaviour
     }
 
     //erzeugt die nächste prepare stufe für das dinner auf dem oven
-    public static void UpdateDinnerOnOvenImg(){
+    public static void UpdateDinnerOnOvenImg(string oven, string dinner, int step){
         
+        //suche den das prefab auf  dem oven anhand des oven floorchild namen
+        GameObject prefab = GameObject.Find(oven);
+
+        //rendert ingredient auf dinner 
+        prefab.transform.GetChild(1).gameObject.GetComponent<SpriteRenderer>().sprite = getIngredientSprite(getIngredientsForDinner(dinner).Split(";")[step-2]);
     }
 
     //wandelt das dinner in das spritenamen item um
@@ -465,13 +474,13 @@ public class DinnerController : MonoBehaviour
             list = "item_02;item_13;item_19";
         }
         if(dinner.Equals("Tomatosoup")){
-            list = "";
+            list = "item_02;item_13;item_26";
         }
         if(dinner.Equals("Omelette")){
-            list = "";
+            list = "item_23";
         }
         if(dinner.Equals("Mousse au Chocolat")){
-            list = "";
+            list = "item_23;item_29;item_26";
         }
         if(dinner.Equals("Spaghetti Bolognese")){
             list = "";
