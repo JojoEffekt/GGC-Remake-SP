@@ -21,7 +21,7 @@ Table;8-6;True
 Table;1-0;True
 Counter;4-3;True;;0
 Counter;4-4;True;;0
-Oven;3-0;3;Cheese Plate;390;;180
-Oven;3-1;3;Garden Salad;10;;3
-Oven;4-2;100;Tomatosoup;40;26.05.2024 23:34:51;10
+Oven;4-2;100;Cheese Plate;390;28.05.2024 23:35:22;180
+Oven;3-1;100;Tomatosoup;40;28.05.2024 23:47:48;10
+Oven;3-0;100;Garden Salad;10;28.05.2024 23:51:11;3
 Slushi;1-8;;0

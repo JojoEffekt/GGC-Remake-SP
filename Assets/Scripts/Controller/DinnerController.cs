@@ -340,6 +340,8 @@ public class DinnerController : MonoBehaviour
 
                 Debug.Log("essen fängt an zu kochen! [DinnerController]");
 
+                //zerstöre das letzte ingredient auf den oven
+
                 //spielt die Dinner animation ab
                 //sperrt weitere handlungen da Animation pflicht ist!
                 DinnerAnim.GetComponent<DinnerAnim>().Controller();
@@ -608,6 +610,12 @@ public class DinnerController : MonoBehaviour
     public static string getIngredientsForDinner(string dinner){
         string list = "";
 
+        if(dinner.Equals("Christmas Roast")){
+            list = "item_40;item_40;item_39;item_39;item_39;item_39";
+        }
+        if(dinner.Equals("Fruit Cake")){
+            list = "item_54;item_54;item_54;item_43;item_43;item_43";
+        }
         if(dinner.Equals("Garden Salad")){
             list = "item_02;item_13;item_19";
         }
@@ -631,6 +639,138 @@ public class DinnerController : MonoBehaviour
         }
         if(dinner.Equals("Mixed Salad")){
             list = "item_02;item_03;item_10;item_19";
+        }
+        if(dinner.Equals("Toast Hawai")){
+            list = "item_32;item_09;item_22";
+        }
+        if(dinner.Equals("Mexican Salad")){
+            list = "item_34;item_03;item_13;item_36";
+        }
+        if(dinner.Equals("Pasta Salad")){
+            list = "item_02;item_11;item_23;item_14";
+        }
+        if(dinner.Equals("Stuffed Peppers")){
+            list = "item_23;item_06;item_37";
+        }
+        if(dinner.Equals("Potato Soup")){
+            list = "item_02;item_13;item_08";
+        }
+        if(dinner.Equals("Black Forest Cake")){
+            list = "item_29;item_26;item_22;item_50";
+        }
+        if(dinner.Equals("Duck a l'Orange")){
+            list = "item_45;item_48;item_53;item_13";
+        }
+        if(dinner.Equals("Potato Salad")){
+            list = "item_08;item_14;item_25";
+        }
+        if(dinner.Equals("Labskaus")){
+            list = "item_18;item_25;item_33;item_23";
+        }
+        if(dinner.Equals("Minestrone")){
+            list = "item_11;item_02;item_24";
+        }
+        if(dinner.Equals("Rhubarb Compote")){
+            list = "item_07;item_04";
+        }
+        if(dinner.Equals("Nasi Goreng")){
+            list = "item_31;item_09;item_06;item_13;item_23";
+        }
+        if(dinner.Equals("Cheese Fondue")){
+            list = "item_32;item_21;item_22";
+        }
+        if(dinner.Equals("Baked Potatoes")){
+            list = "item_08;item_13;item_36";
+        }
+        if(dinner.Equals("Mac'n'Cheese")){
+            list = "item_11;item_32;item_26";
+        }
+        if(dinner.Equals("Pizza")){
+            list = "item_32;item_02";
+        }
+        if(dinner.Equals("White Chocolate Cheesecake")){
+            list = "item_26;item_46;item_49;item_44;item_38";
+        }
+        if(dinner.Equals("Tofuburger")){
+            list = "item_19;item_02;item_41;item_29";
+        }
+        if(dinner.Equals("Lasagne")){
+            list = "item_32;item_17;item_02;item_11";
+        }
+        if(dinner.Equals("Cheeseburger")){
+            list = "item_32;item_22;item_17;item_02";
+        }
+        if(dinner.Equals("Cherry Pie")){
+            list = "item_26;item_22;item_04;item_51";
+        }
+        if(dinner.Equals("Strawberry mousse")){
+            list = "item_04;item_26;item_23;item_42";
+        }
+        if(dinner.Equals("Jam Sponge Pudding")){
+            list = "item_46;item_42;item_04";
+        }
+        if(dinner.Equals("Sushi")){
+            list = "item_06;item_47;item_25";
+        }
+        if(dinner.Equals("Chocolate Fondue")){
+            list = "item_29;item_26;item_42";
+        }
+        if(dinner.Equals("Berry Compote")){
+            list = "item_04;item_51;item_42;item_07";
+        }
+        if(dinner.Equals("Chocolate Cake")){
+            list = "item_22;item_29;item_26;item_23";
+        }
+        if(dinner.Equals("Strawberry Cake")){
+            list = "item_42;item_22;item_26";
+        }
+        if(dinner.Equals("Pizza Tonno")){
+            list = "item_32;item_22;item_13;item_02;item_47";
+        }
+        if(dinner.Equals("Chicken Dish")){
+            list = "item_36;item_31;item_13;item_11";
+        }
+        if(dinner.Equals("Cheese Cake New York")){
+            list = "item_44;item_49;item_04;item_26";
+        }
+        if(dinner.Equals("Roast Chicken")){
+            list = "item_31;item_53;item_53;item_13;item_13;item_13";
+        }
+        if(dinner.Equals("Pea Soup")){
+            list = "item_13;item_36;item_10;item_10;item_10;item_21";
+        }
+        if(dinner.Equals("Fish'n'Chips")){
+            list = "item_47;item_08;item_22;item_14;item_14;item_14;item_14;item_14;item_10";
+        }
+        if(dinner.Equals("Roasted Pork")){
+            list = "item_18;item_18;item_52;item_52;item_52;item_52;item_13;item_21;item_21";
+        }
+        if(dinner.Equals("Sandwich")){
+            list = "item_36;item_32;item_22;item_02;item_53";
+        }
+        if(dinner.Equals("Waffle With Warm Cherries")){
+            list = "item_22;item_46;item_51;item_51;item_23;item_26";
+        }
+        if(dinner.Equals("White Chocolate Mousse")){
+            list = "item_38;item_26;item_23";
+        }
+        if(dinner.Equals("Chickenburger")){
+            list = "item_31;item_25;item_22;item_02";
+        }
+        if(dinner.Equals("Chilli con Carne")){
+            list = "item_36;item_34;item_17;item_13;item_02";
+        }
+        if(dinner.Equals("Cherry Compote")){
+            list = "item_04;item_51";
+        }
+        if(dinner.Equals("Babka")){
+            list = "item_29;item_22;item_04;item_53";
+        }
+        if(dinner.Equals("Pizza Hawaii")){
+            list = "item_36;item_32;item_22;item_09;item_02";
+        }
+        if(dinner.Equals("Chocolate Cheesecake")){
+            list = "item_29;item_46;item_49;item_44";
         }
 
         return list;
