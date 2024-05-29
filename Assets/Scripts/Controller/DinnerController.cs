@@ -438,136 +438,136 @@ public class DinnerController : MonoBehaviour
             item = "Dinner_12_01";
         }
         if(dinner.Equals("Toast Hawai")){
-            item = "Dinner_03_04";
+            item = "Dinner_03_01";
         }
         if(dinner.Equals("Mexican Salad")){
-            item = "Dinner_14_04";
+            item = "Dinner_14_01";
         }
         if(dinner.Equals("Pasta Salad")){
-            item = "Dinner_10_04";
+            item = "Dinner_10_01";
         }
         if(dinner.Equals("Stuffed Peppers")){
-            item = "Dinner_04_04";
+            item = "Dinner_04_01";
         }
         if(dinner.Equals("Potato Soup")){
-            item = "Dinner_01_04";
+            item = "Dinner_01_01";
         }
         if(dinner.Equals("Black Forest Cake")){
-            item = "Dinner_54_04";
+            item = "Dinner_54_01";
         }
         if(dinner.Equals("Duck a l'Orange")){
-            item = "Dinner_44_04";
+            item = "Dinner_44_01";
         }
         if(dinner.Equals("Potato Salad")){
-            item = "Dinner_08_04";
+            item = "Dinner_08_01";
         }
         if(dinner.Equals("Labskaus")){
-            item = "Dinner_07_04";
+            item = "Dinner_07_01";
         }
         if(dinner.Equals("Minestrone")){
-            item = "Dinner_13_04";
+            item = "Dinner_13_01";
         }
         if(dinner.Equals("Rhubarb Compote")){
-            item = "Dinner_05_04";
+            item = "Dinner_05_01";
         }
         if(dinner.Equals("Nasi Goreng")){
-            item = "Dinner_11_04";
+            item = "Dinner_11_01";
         }
         if(dinner.Equals("Cheese Fondue")){
-            item = "Dinner_21_04";
+            item = "Dinner_21_01";
         }
         if(dinner.Equals("Baked Potatoes")){
-            item = "Dinner_19_04";
+            item = "Dinner_19_01";
         }
         if(dinner.Equals("Mac'n'Cheese")){
-            item = "Dinner_15_04";
+            item = "Dinner_15_01";
         }
         if(dinner.Equals("Pizza")){
-            item = "Dinner_09_04";
+            item = "Dinner_09_01";
         }
         if(dinner.Equals("White Chocolate Cheesecake")){
-            item = "Dinner_25_04";
+            item = "Dinner_25_01";
         }
         if(dinner.Equals("Tofuburger")){
-            item = "Dinner_26_04";
+            item = "Dinner_26_01";
         }
         if(dinner.Equals("Lasagne")){
-            item = "Dinner_16_04";
+            item = "Dinner_16_01";
         }
         if(dinner.Equals("Cheeseburger")){
-            item = "Dinner_23_04";
+            item = "Dinner_23_01";
         }
         if(dinner.Equals("Cherry Pie")){
-            item = "Dinner_29_04";
+            item = "Dinner_29_01";
         }
         if(dinner.Equals("Strawberry mousse")){
-            item = "Dinner_28_04";
+            item = "Dinner_28_01";
         }
         if(dinner.Equals("Jam Sponge Pudding")){
-            item = "Dinner_39_04";
+            item = "Dinner_39_01";
         }
         if(dinner.Equals("Sushi")){
-            item = "Dinner_27_04";
+            item = "Dinner_27_01";
         }
         if(dinner.Equals("Chocolate Fondue")){
-            item = "Dinner_46_04";
+            item = "Dinner_46_01";
         }
         if(dinner.Equals("Berry Compote")){
-            item = "Dinner_32_04";
+            item = "Dinner_32_01";
         }
         if(dinner.Equals("Chocolate Cake")){
-            item = "Dinner_48_04";
+            item = "Dinner_48_01";
         }
         if(dinner.Equals("Strawberry Cake")){
-            item = "Dinner_29_04";
+            item = "Dinner_29_01";
         }
         if(dinner.Equals("Pizza Tonno")){
-            item = "Dinner_34_04";
+            item = "Dinner_34_01";
         }
         if(dinner.Equals("Chicken Dish")){
-            item = "Dinner_50_04";
+            item = "Dinner_50_01";
         }
         if(dinner.Equals("Cheese Cake New York")){
-            item = "Dinner_37_04";
+            item = "Dinner_37_01";
         }
         if(dinner.Equals("Roast Chicken")){
-            item = "Dinner_31_04";
+            item = "Dinner_31_01";
         }
         if(dinner.Equals("Pea Soup")){
-            item = "Dinner_36_04";
+            item = "Dinner_36_01";
         }
         if(dinner.Equals("Fish'n'Chips")){
-            item = "Dinner_42_04";
+            item = "Dinner_42_01";
         }
         if(dinner.Equals("Roasted Pork")){
-            item = "Dinner_33_04";
+            item = "Dinner_33_01";
         }
         if(dinner.Equals("Sandwich")){
-            item = "Dinner_30_04";
+            item = "Dinner_30_01";
         }
         if(dinner.Equals("Waffle With Warm Cherries")){
-            item = "Dinner_40_04";
+            item = "Dinner_40_01";
         }
         if(dinner.Equals("White Chocolate Mousse")){
-            item = "Dinner_24_04";
+            item = "Dinner_24_01";
         }
         if(dinner.Equals("Chickenburger")){
-            item = "Dinner_51_04";
+            item = "Dinner_51_01";
         }
         if(dinner.Equals("Chilli con Carne")){
-            item = "Dinner_49_04";
+            item = "Dinner_49_01";
         }
         if(dinner.Equals("Cherry Compote")){
-            item = "Dinner_52_04";
+            item = "Dinner_52_01";
         }
         if(dinner.Equals("Babka")){
-            item = "Dinner_38_04";
+            item = "Dinner_38_01";
         }
         if(dinner.Equals("Pizza Hawaii")){
-            item = "Dinner_35_04";
+            item = "Dinner_35_01";
         }
         if(dinner.Equals("Chocolate Cheesecake")){
-            item = "Dinner_47_04";
+            item = "Dinner_47_01";
         }
 
         return item;
@@ -577,6 +577,12 @@ public class DinnerController : MonoBehaviour
     public static float[] getDinnerCoords(string dinner){
         float[] coords = null;
 
+        if(dinner.Equals("Christmas Roast")){
+            coords = new float[]{0.0f, 1.4f};
+        }
+        if(dinner.Equals("Fruit Cake")){
+            coords = new float[]{0.0f, 1.4f};
+        }
         if(dinner.Equals("Garden Salad")){
             coords = new float[]{0.0f, 1.4f};
         }
@@ -590,16 +596,148 @@ public class DinnerController : MonoBehaviour
             coords = new float[]{-0.03f, 1.875f};
         }
         if(dinner.Equals("Spaghetti Bolognese")){
-            coords = new float[]{0.0f, 1.0f};
+            coords = new float[]{0.0f, 1.755f};
         }
         if(dinner.Equals("Cheese Plate")){
-            coords = new float[]{0.0f, 1.0f};
+            coords = new float[]{-0.074f, 1.147f};
         }
         if(dinner.Equals("Hamburger")){
-            coords = new float[]{0.0f, 1.0f};
+            coords = new float[]{0.228f, 1.368f};
         }
         if(dinner.Equals("Mixed Salad")){
-            coords = new float[]{0.0f, 1.0f};
+            coords = new float[]{0.0f, 1.48f};
+        }
+        if(dinner.Equals("Toast Hawai")){
+            coords = new float[]{0.3f, 1.3f};
+        }
+        if(dinner.Equals("Mexican Salad")){
+            coords = new float[]{0.3f, 1.3f};
+        }
+        if(dinner.Equals("Pasta Salad")){
+            coords = new float[]{-0.1f, 1.5f};
+        }
+        if(dinner.Equals("Stuffed Peppers")){
+            coords = new float[]{0.01f, 1.15f};
+        }
+        if(dinner.Equals("Potato Soup")){
+            coords = new float[]{0.3f, 1.3f};
+        }
+        if(dinner.Equals("Black Forest Cake")){
+            coords = new float[]{0.3f, 1.3f};
+        }
+        if(dinner.Equals("Duck a l'Orange")){
+            coords = new float[]{0.3f, 1.3f};
+        }
+        if(dinner.Equals("Potato Salad")){
+            coords = new float[]{0.3f, 1.3f};
+        }
+        if(dinner.Equals("Labskaus")){
+            coords = new float[]{0.3f, 1.3f};
+        }
+        if(dinner.Equals("Minestrone")){
+            coords = new float[]{0.3f, 1.3f};
+        }
+        if(dinner.Equals("Rhubarb Compote")){
+            coords = new float[]{0.3f, 1.3f};
+        }
+        if(dinner.Equals("Nasi Goreng")){
+            coords = new float[]{0.3f, 1.3f};
+        }
+        if(dinner.Equals("Cheese Fondue")){
+            coords = new float[]{0.3f, 1.3f};
+        }
+        if(dinner.Equals("Baked Potatoes")){
+            coords = new float[]{0.3f, 1.3f};
+        }
+        if(dinner.Equals("Mac'n'Cheese")){
+            coords = new float[]{0.3f, 1.3f};
+        }
+        if(dinner.Equals("Pizza")){
+            coords = new float[]{0.3f, 1.3f};
+        }
+        if(dinner.Equals("White Chocolate Cheesecake")){
+            coords = new float[]{0.3f, 1.3f};
+        }
+        if(dinner.Equals("Tofuburger")){
+            coords = new float[]{0.3f, 1.3f};
+        }
+        if(dinner.Equals("Lasagne")){
+            coords = new float[]{0.3f, 1.3f};
+        }
+        if(dinner.Equals("Cheeseburger")){
+            coords = new float[]{0.3f, 1.3f};
+        }
+        if(dinner.Equals("Cherry Pie")){
+            coords = new float[]{0.3f, 1.3f};
+        }
+        if(dinner.Equals("Strawberry mousse")){
+            coords = new float[]{0.3f, 1.3f};
+        }
+        if(dinner.Equals("Jam Sponge Pudding")){
+            coords = new float[]{0.3f, 1.3f};
+        }
+        if(dinner.Equals("Sushi")){
+            coords = new float[]{0.3f, 1.3f};
+        }
+        if(dinner.Equals("Chocolate Fondue")){
+            coords = new float[]{0.3f, 1.3f};
+        }
+        if(dinner.Equals("Berry Compote")){
+            coords = new float[]{0.3f, 1.3f};
+        }
+        if(dinner.Equals("Chocolate Cake")){
+            coords = new float[]{0.3f, 1.3f};
+        }
+        if(dinner.Equals("Strawberry Cake")){
+            coords = new float[]{0.3f, 1.3f};
+        }
+        if(dinner.Equals("Pizza Tonno")){
+            coords = new float[]{0.3f, 1.3f};
+        }
+        if(dinner.Equals("Chicken Dish")){
+            coords = new float[]{0.3f, 1.3f};
+        }
+        if(dinner.Equals("Cheese Cake New York")){
+            coords = new float[]{0.3f, 1.3f};
+        }
+        if(dinner.Equals("Roast Chicken")){
+            coords = new float[]{0.3f, 1.3f};
+        }
+        if(dinner.Equals("Pea Soup")){
+            coords = new float[]{0.3f, 1.3f};
+        }
+        if(dinner.Equals("Fish'n'Chips")){
+            coords = new float[]{0.3f, 1.3f};
+        }
+        if(dinner.Equals("Roasted Pork")){
+            coords = new float[]{0.3f, 1.3f};
+        }
+        if(dinner.Equals("Sandwich")){
+            coords = new float[]{0.3f, 1.3f};
+        }
+        if(dinner.Equals("Waffle With Warm Cherries")){
+            coords = new float[]{0.3f, 1.3f};
+        }
+        if(dinner.Equals("White Chocolate Mousse")){
+            coords = new float[]{0.3f, 1.3f};
+        }
+        if(dinner.Equals("Chickenburger")){
+            coords = new float[]{0.3f, 1.3f};
+        }
+        if(dinner.Equals("Chilli con Carne")){
+            coords = new float[]{0.3f, 1.3f};
+        }
+        if(dinner.Equals("Cherry Compote")){
+            coords = new float[]{0.3f, 1.3f};
+        }
+        if(dinner.Equals("Babka")){
+            coords = new float[]{0.3f, 1.3f};
+        }
+        if(dinner.Equals("Pizza Hawaii")){
+            coords = new float[]{0.3f, 1.3f};
+        }
+        if(dinner.Equals("Chocolate Cheesecake")){
+            coords = new float[]{0.3f, 1.3f};
         }
 
         return coords;
