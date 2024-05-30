@@ -341,6 +341,7 @@ public class DinnerController : MonoBehaviour
                 Debug.Log("essen fängt an zu kochen! [DinnerController]");
 
                 //zerstöre das letzte ingredient auf den oven
+                DeleteIngredientOnDinner((ovenFCED[1]+"-Child-Dinner"), ovenFCED[3]);
 
                 //spielt die Dinner animation ab
                 //sperrt weitere handlungen da Animation pflicht ist!
@@ -389,8 +390,10 @@ public class DinnerController : MonoBehaviour
         prefab.transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().sprite = dinnerSprite;
 
         //rendert ingredient auf dinner 
-        prefab.transform.GetChild(1).gameObject.GetComponent<SpriteRenderer>().sprite = getIngredientSprite(getIngredientsForDinner(dinner).Split(";")[step-1]);
-        prefab.transform.GetChild(1).gameObject.GetComponent<SpriteRenderer>().sortingOrder = GameObject.Find(oven).gameObject.GetComponent<SpriteRenderer>().sortingOrder + 1;
+        if(step!=100){
+            prefab.transform.GetChild(1).gameObject.GetComponent<SpriteRenderer>().sprite = getIngredientSprite(getIngredientsForDinner(dinner).Split(";")[step-1]);
+            prefab.transform.GetChild(1).gameObject.GetComponent<SpriteRenderer>().sortingOrder = GameObject.Find(oven).gameObject.GetComponent<SpriteRenderer>().sortingOrder + 1;
+        }
     }
 
     //erzeugt die nächste prepare stufe für das dinner auf dem oven
@@ -401,6 +404,16 @@ public class DinnerController : MonoBehaviour
 
         //rendert ingredient auf dinner 
         prefab.transform.GetChild(1).gameObject.GetComponent<SpriteRenderer>().sprite = getIngredientSprite(getIngredientsForDinner(dinner).Split(";")[step-2]);
+    }
+
+    //entfert das ingedient von der dinner zubereitung auf dem oven, wenn alle ingredients verbraucht wurden um das gericht zu kochen
+    public static void DeleteIngredientOnDinner(string oven, string dinner){
+        
+        //suche den das prefab auf  dem oven anhand des oven floorchild namen
+        GameObject prefab = GameObject.Find(oven);
+
+        //rendert ingredient auf dinner 
+        prefab.transform.GetChild(1).gameObject.GetComponent<SpriteRenderer>().sprite = null;
     }
 
     //wandelt das dinner in das spritenamen item um

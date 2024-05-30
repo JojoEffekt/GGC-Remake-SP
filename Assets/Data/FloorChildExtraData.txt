@@ -21,15 +21,5 @@ Table;8-6;True
 Table;1-0;True
 Counter;4-3;True;;0
 Counter;4-4;True;;0
-Oven;10-5;1;Hamburger;130;;60
-Oven;10-6;3;Cheese Plate;390;;180
-Oven;10-7;4;Mixed Salad;130;;60
-Oven;10-8;4;Mixed Salad;130;;60
-Oven;10-9;1;Omelette;5;;1
-Oven;10-10;3;Cheese Plate;390;;180
-Oven;10-11;3;Spaghetti Bolognese;1040;;540
-Oven;8-1;100;Labskaus;2500;29.05.2024 21:28:22;1440
-Oven;9-1;100;Chilli con Carne;1600;29.05.2024 21:31:27;720
-Oven;10-1;0;;0;;0
-Oven;11-0;3;Potato Soup;1300;;600
+Oven;9-1;100;Mousse au Chocolat;390;30.05.2024 19:21:20;180
 Slushi;1-8;;0

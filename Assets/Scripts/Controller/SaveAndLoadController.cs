@@ -89,6 +89,13 @@ public class SaveAndLoadController : MonoBehaviour
 
 
 
+
+                //Load FCED  dinners
+                //lade zum ende die FCED dinners auf dem oven, da floorObjecte benötigt werden
+                //CONTINUE
+                //kriege alle FCED, gucke ob oven object, lade oven object mit DinnerController.CreateDinnerPrefabOnOven()...
+
+
                 //testing save data
                 SavePlayerData();
             }else{
