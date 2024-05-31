@@ -322,6 +322,7 @@ public class DinnerController : MonoBehaviour
                 DinnerAnim.GetComponent<DinnerAnim>().Controller();
 
                 //CONTINUE
+                //lösche dinner auf oven
                 //serviere zum tresen
             }
 
