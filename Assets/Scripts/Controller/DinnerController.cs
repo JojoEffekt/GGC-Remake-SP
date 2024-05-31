@@ -37,7 +37,7 @@ public class DinnerController : MonoBehaviour
     public static List<Sprite> ingredientsSprites = new List<Sprite>();
 
     //bei der initialisierung des scripts wird die referenz geholt
-    public void Start(){
+    public void Awake(){
         //läd ein script
         DinnerAnim = GameObject.Find("DinnerAnim");
     

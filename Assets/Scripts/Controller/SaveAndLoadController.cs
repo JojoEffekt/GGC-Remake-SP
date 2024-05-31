@@ -99,11 +99,11 @@ public class SaveAndLoadController : MonoBehaviour
                 for(int a=0;a<lines.Length-1;a++){
                     string[] lineItem = lines[a].Split(";");
                     //FCED muss oven sein und darf nicht 0 als step anzahl haben(sonst ist es leer und hat kein dinner drauf)
-                    if(lineItem[0].Equals("Oven")&&(Int32.parse(lineItem[2])!=0)){
+                    if(lineItem[0].Equals("Oven")&&(Int32.Parse(lineItem[2])!=0)){
                         Debug.Log("lade gespeicherte Dinner auf Oven: "+lines[a]);
-/*
-                        DinnerController.CreateDinnerPrefabOnOven(lines[a].Split(";")[1], lines[a].Split(";")[3], lines[a].Split(";")[2]);
-                        */
+
+                        DinnerController.CreateDinnerPrefabOnOven(lines[a].Split(";")[1], lines[a].Split(";")[3], Int32.Parse(lines[a].Split(";")[2]));
+                        
                     }
                 }
 
