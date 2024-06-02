@@ -21,5 +21,4 @@ Table;8-6;True
 Table;1-0;True
 Counter;4-3;True;;0
 Counter;4-4;True;;0
-Oven;9-2;2;Mousse au Chocolat;390;;180
 Slushi;1-8;;0

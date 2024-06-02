@@ -319,10 +319,14 @@ public class DinnerController : MonoBehaviour
 
                 //spielt die Dinner animation ab
                 //sperrt weitere handlungen da Animation pflicht ist!
-                DinnerAnim.GetComponent<DinnerAnim>().Controller();
+                DinnerAnim.GetComponent<DinnerAnim>().Controller();                
 
                 //CONTINUE
-                //lösche dinner auf oven
+                //serviere zum tresen wenn tresen frei ist
+
+                //lösche das dinner
+                DeleteDinnerPrefabOnOven(ovenFCED[1]+"-Child-Dinner");
+
                 //serviere zum tresen
             }
 
@@ -374,8 +378,25 @@ public class DinnerController : MonoBehaviour
         return true;
     }
 
+    //lösche das dinner auf den oven
+    public static bool DeleteDinnerPrefabOnOven(string oven){
+        GameObject objToDelete = GameObject.Find(oven);
+        if(objToDelete!=null){
+            Destroy(objToDelete);
+            return true;
+        }
+        return false;
+    }
+
+    /*replaceoven
+    childfinner in dinnero n voen suche
+    obj namen veröndern
+    sorting order anhand des oven names adjustieren
+    */
+
     //erzeugt das anzubereitende dinner auf dem oven
     public static void CreateDinnerPrefabOnOven(string oven, string dinner, int step){
+        Debug.Log("CreateDinnerPrefabOnOven: "+oven+" "+dinner+" "+step);
 
         //suche die koordianten vom oven
         float[] coords = new float[]{GameObject.Find(oven).gameObject.transform.position.x, GameObject.Find(oven).gameObject.transform.position.y};
