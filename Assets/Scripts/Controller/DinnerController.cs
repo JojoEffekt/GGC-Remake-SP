@@ -382,7 +382,7 @@ public class DinnerController : MonoBehaviour
     public static bool DeleteDinnerPrefabOnOven(string oven){
         GameObject objToDelete = GameObject.Find(oven);
         if(objToDelete!=null){
-            Destroy(objToDelete);
+            DestroyImmediate(objToDelete);
             return true;
         }
         return false;
@@ -394,26 +394,15 @@ public class DinnerController : MonoBehaviour
     public static bool ReadjustAllDinnerPrefabsOnOven(){
 
         //hole das FCED vom replatzierten oven
-        string[] OvenFCED = FloorChildExtraData.FindMovedOvenFCED().Split(";");
+        string[] OvenFCED = FloorChildExtraDataController.FindMovedOvenFCED().Split(";");
 
-        //wenn kein wegplatziertes object gefunden wurde, breche ab
-        if(newOvenName.Equals("")){
+        //wenn das replacte object kein dinner enthält, breche ab
+        if(OvenFCED[0].Equals("")){
             return false;
         }
 
-        //name des dinners => 4-3-Child-Dinner
-        GameObject prefab = GameObject.Find(OvenFCED[1]+"-Child-Dinner");
-
-        //position
-        float[] coords = new float[]{GameObject.Find(OvenFCED[1]).gameObject.transform.position.x, GameObject.Find(OvenFCED[1]).gameObject.transform.position.y}; //oven coords
-        float[] dinnerCoords = getDinnerCoords(OvenFCED[3]); //kriege referenz coords für das dinner
-        prefab.transform.position(new Vector3(coords[0]+dinnerCoords[0], coords[1]+dinnerCoords[1], 0));
-
-        //sortingOrder
-        prefab.transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().sortingOrder = GameObject.Find(OvenFCED[0]).gameObject.GetComponent<SpriteRenderer>().sortingOrder + 1;
-        if(step!=100){
-            prefab.transform.GetChild(1).gameObject.GetComponent<SpriteRenderer>().sortingOrder = GameObject.Find(OvenFCED[1]).gameObject.GetComponent<SpriteRenderer>().sortingOrder + 1;
-        }
+        //da das alte dinner beim replacen gelöscht wird, erzeuge ein neues
+        CreateDinnerPrefabOnOven((OvenFCED[1]+"-Child"), OvenFCED[3], Int32.Parse(OvenFCED[2]));
 
         return true;
     }

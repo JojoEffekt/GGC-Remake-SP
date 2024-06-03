@@ -93,7 +93,7 @@ public class FloorChildExtraDataController : MonoBehaviour
             if(OvenList[d].gameObjectName.Equals(floorGOName)){
                 OvenList.RemoveAt(d);
 
-                //löscht, falls vorhanden, das dinner auf dem oven
+                //löscht, falls vorhanden, das dinner auf dem 
                 DinnerController.DeleteDinnerPrefabOnOven(floorGOName+"-Child-Dinner");
             }
         }
@@ -249,22 +249,26 @@ public class FloorChildExtraDataController : MonoBehaviour
     //suche das replatierte ovenObj und gibt den zugehörigen ovenFCED zurück
     public static string FindMovedOvenFCED(){
 
-        //speciher alle dinner in der liste
-        OvenList<String> dinnerList = new List<String>();
-        for(int a=0;a<GameObject.Find("DinnerOnOvens").Transform.countChild;a++){
-            dinnerList.Add(GameObject.Find("DinnerOnOvens").GetChild(a).name);
-        }
-        
-        foreach(string item in dinnerList){
-            if((item.Split("-")[0]+"-"+item.Split("-")[1]).Equals(GameObject.Find(item.Split("-")[0]+"-"+GameObject.Find(item.Split("-")[1])))){
-                dinnerList.Remove(item);
+        //für jedes oven FCED suche ob das dinner existiert
+        try{
+            if(File.Exists(Application.dataPath+"/Data/"+SaveAndLoadController.wallDataFilePath)==true&&File.Exists(Application.dataPath+"/Data/"+SaveAndLoadController.floorDataFilePath)==true&&File.Exists(Application.dataPath+"/Data/"+SaveAndLoadController.floorChildExtraDataFilePath)==true){
+                string[] lines = ReadStream(SaveAndLoadController.floorChildExtraDataFilePath);
+
+                for(int a=0;a<lines.Length-1;a++){
+                    string[] lineItem = lines[a].Split(";");
+
+                    //ist item oven und  hat ein dinner?
+                    if(lineItem[0].Equals("Oven")&&(!lineItem[2].Equals("0"))){
+
+                        //gucke ob es das gesuchte ovenObj noch das  dinner besitzt
+                        if(GameObject.Find(lineItem[1]+"-Child-Dinner")==null){
+                            return lines[a];
+                        }
+                    }
+                }
             }
-        }
-
-        Debug.Log(dinnerList.Length+" "+dinnerList[0]);
-
-        if(dinnerList.Length!=0){
-            return LoadOvenFCED(dinnerList[0]);
+        }catch{
+            return "";
         }
 
         return "";

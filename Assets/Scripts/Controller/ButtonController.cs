@@ -392,6 +392,9 @@ public class ButtonController : MonoBehaviour
     public void MoveObjectOnFloor(string objectName, string floorName){
         ObjectController.MoveObjectOnFloor(objectName, floorName);//(floorChildGameObjectName,floorGameObjectName(neuer platz))
     
+        //muss vorher speichern, da, das gemovete object hier  in FCED file gespeichert wird was beim nachfolgenden befehl direkt ausgelesen wird und uptodate sein muss (shitcode)
+        SaveAndLoadController.SavePlayerData();
+
         //wenn ein floorObject replaced wird, replace die Dinner auf allen öven, damit das dinner auf den oven bleibt 
         //(ist egal ob das bewegte ein object ein oven istoder nicht, kann hier noch verbessert werden)
         DinnerController.ReadjustAllDinnerPrefabsOnOven();
