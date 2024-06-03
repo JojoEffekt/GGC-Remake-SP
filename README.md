@@ -13,6 +13,11 @@ A GoodGameCafé Remake for Single Player in Unity2D
 | ![Unbenasdfsdfnnt](https://github.com/JojoEffekt/GGC-Remake-SP/assets/69061043/a64625b7-7a60-49cc-a78c-43f58ac3ea68) | ![Unbenasdfsdnnt](https://github.com/JojoEffekt/GGC-Remake-SP/assets/69061043/fa815bc0-fe9e-4c35-9341-d9a977925bac) |
 | <sup>insight from 14.04.24</sup>  | <sup>insight from 13.05.24</sup>  |
 
+| dinner on oven |
+|----------|
+| ![Unbenannsdxfsdfsdfsft](https://github.com/JojoEffekt/GGC-Remake-SP/assets/69061043/5646895a-fc7e-4d92-a22d-99acbdb52b0d) | 
+| <sup>insight from 03.06.24</sup>  |
+
 <br>
 
 
