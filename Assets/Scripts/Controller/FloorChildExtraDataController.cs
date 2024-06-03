@@ -246,7 +246,31 @@ public class FloorChildExtraDataController : MonoBehaviour
         return item;
     }
 
-    //ließt den inhalt der datei aus ud gibt sie zurück
+    //suche das replatierte ovenObj und gibt den zugehörigen ovenFCED zurück
+    public static string FindMovedOvenFCED(){
+
+        //speciher alle dinner in der liste
+        OvenList<String> dinnerList = new List<String>();
+        for(int a=0;a<GameObject.Find("DinnerOnOvens").Transform.countChild;a++){
+            dinnerList.Add(GameObject.Find("DinnerOnOvens").GetChild(a).name);
+        }
+        
+        foreach(string item in dinnerList){
+            if((item.Split("-")[0]+"-"+item.Split("-")[1]).Equals(GameObject.Find(item.Split("-")[0]+"-"+GameObject.Find(item.Split("-")[1])))){
+                dinnerList.Remove(item);
+            }
+        }
+
+        Debug.Log(dinnerList.Length+" "+dinnerList[0]);
+
+        if(dinnerList.Length!=0){
+            return LoadOvenFCED(dinnerList[0]);
+        }
+
+        return "";
+    }
+
+    //ließt den inhalt der datei aus und gibt sie zurück
     private static string[] ReadStream(string pathFile){
         StreamReader source = new StreamReader(Application.dataPath + "/Data/" + pathFile);
         string fileContents = source.ReadToEnd();

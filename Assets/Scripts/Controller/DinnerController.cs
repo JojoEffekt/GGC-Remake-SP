@@ -388,11 +388,35 @@ public class DinnerController : MonoBehaviour
         return false;
     }
 
-    /*replaceoven
-    childfinner in dinnero n voen suche
-    obj namen veröndern
-    sorting order anhand des oven names adjustieren
-    */
+
+    //platziert das dinner auf den oven neu, wenn der oven verschoben wurde
+    //wird bei ButtonController.MoveObjectOnFloor aufgerufen wenn ein floorObj replaced wird
+    public static bool ReadjustAllDinnerPrefabsOnOven(){
+
+        //hole das FCED vom replatzierten oven
+        string[] OvenFCED = FloorChildExtraData.FindMovedOvenFCED().Split(";");
+
+        //wenn kein wegplatziertes object gefunden wurde, breche ab
+        if(newOvenName.Equals("")){
+            return false;
+        }
+
+        //name des dinners => 4-3-Child-Dinner
+        GameObject prefab = GameObject.Find(OvenFCED[1]+"-Child-Dinner");
+
+        //position
+        float[] coords = new float[]{GameObject.Find(OvenFCED[1]).gameObject.transform.position.x, GameObject.Find(OvenFCED[1]).gameObject.transform.position.y}; //oven coords
+        float[] dinnerCoords = getDinnerCoords(OvenFCED[3]); //kriege referenz coords für das dinner
+        prefab.transform.position(new Vector3(coords[0]+dinnerCoords[0], coords[1]+dinnerCoords[1], 0));
+
+        //sortingOrder
+        prefab.transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().sortingOrder = GameObject.Find(OvenFCED[0]).gameObject.GetComponent<SpriteRenderer>().sortingOrder + 1;
+        if(step!=100){
+            prefab.transform.GetChild(1).gameObject.GetComponent<SpriteRenderer>().sortingOrder = GameObject.Find(OvenFCED[1]).gameObject.GetComponent<SpriteRenderer>().sortingOrder + 1;
+        }
+
+        return true;
+    }
 
     //erzeugt das anzubereitende dinner auf dem oven
     public static void CreateDinnerPrefabOnOven(string oven, string dinner, int step){
