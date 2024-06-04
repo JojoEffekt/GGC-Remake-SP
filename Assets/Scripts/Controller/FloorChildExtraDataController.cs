@@ -273,6 +273,35 @@ public class FloorChildExtraDataController : MonoBehaviour
 
         return "";
     }
+    
+    //sucht alle FCED für bestimmte typ und gibt als list wieder
+    public static List<string> getFCEDFromTyp(string type){
+
+        //liste die die types enthält
+        List<string> typeFCED = new List<string>();
+
+        //für jedes oven FCED suche ob das dinner existiert
+        try{
+            if(File.Exists(Application.dataPath+"/Data/"+SaveAndLoadController.wallDataFilePath)==true&&File.Exists(Application.dataPath+"/Data/"+SaveAndLoadController.floorDataFilePath)==true&&File.Exists(Application.dataPath+"/Data/"+SaveAndLoadController.floorChildExtraDataFilePath)==true){
+                string[] lines = ReadStream(SaveAndLoadController.floorChildExtraDataFilePath);
+
+                for(int a=0;a<lines.Length-1;a++){
+                    string[] lineItem = lines[a].Split(";");
+
+                    //überprüft den type
+                    if(lineItem[0].Equals(type)){
+                        
+                        //speichert die gleichen types in liste
+                        typeFCED.Add(lineItem[]);
+                    }
+                }
+            }
+        }catch{
+            return "";
+        }
+
+        return typeFCED; 
+    }
 
     //ließt den inhalt der datei aus und gibt sie zurück
     private static string[] ReadStream(string pathFile){
