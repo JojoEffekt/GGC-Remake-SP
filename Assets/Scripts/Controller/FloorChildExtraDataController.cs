@@ -288,16 +288,15 @@ public class FloorChildExtraDataController : MonoBehaviour
                 for(int a=0;a<lines.Length-1;a++){
                     string[] lineItem = lines[a].Split(";");
 
-                    //überprüft den type
-                    if(lineItem[0].Equals(type)){
+                    //überprüft den type und gucke ob das gericht in cooking state ist
+                    if(lineItem[0].Equals(type)&&lineItem[5].Length!=0){
                         
                         //speichert die gleichen types in liste
-                        typeFCED.Add(lineItem[]);
+                        typeFCED.Add(lines[a]);
                     }
                 }
             }
         }catch{
-            return "";
         }
 
         return typeFCED; 

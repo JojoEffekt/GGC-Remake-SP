@@ -1,9 +1,9 @@
 JojoEffekt
-3861725
-1
+3851625
+0
 1000000
 16
-Lettuce:6;Pasta:2;Minced meat:4;Cheese:2;Corn:1;Peas:2;Rice:2;Paprika:1;Butter:1;Duck:1;Oil:1;Pineapple:2;Flour:2;Eggplant:1;Oranges:1
-Oven_03_a_1:1;Oven_02_a_1:3;Oven_07_a:3;Oven_01_a:2;Oven_01_a_1:4
+Lettuce:6;Pasta:2;Minced meat:4;Cheese:2;Tomatoes:3;Peas:2;Rice:2;Paprika:1;Butter:1;Duck:2;Oil:1;Pineapple:2;Flour:1;Eggplant:1;Oranges:2;Onions:2;Bacon:2;Beans:1;Chocolate:1;Corn:1;Meat:1;Cucumbers:1;Sugar:1;Beetroot:1;Potatoes:2;Eggs:1
+Oven_03_a_1:1;Oven_02_a_1:3;Oven_07_a:3;Oven_01_a:4;Oven_01_a_1:4
 Oven:12;Fridge:1;Counter:2;Shlushi:1
 Gender:False;Hat:1-1-1-1;Face:1-1-1-1-;Hair:1-1-1-1-;HairOverlay:1-1-1-1-;Leg:0,33-0,54-0,33-1-;LegOverlay:1-1-1-1-;Skin:0,81-0,53-0,36-1-;SkinOverlay:1-1-1-1-;Tshirt:0,81-0,55-0,77-1-;TshirtOverlay:1-1-1-1

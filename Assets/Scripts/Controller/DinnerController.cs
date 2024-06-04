@@ -68,24 +68,22 @@ public class DinnerController : MonoBehaviour
         
         //Überprüfe die zubereitungszeit der dinner und aktuallisiere die bilder
         //FCED die die stepstufe auf 100 haben sind im cooking modus und müssen aktuallisiert werden
-        timeDelay = timeDelay + timeDelay.deltaTime;
+        timeDelay = timeDelay + Time.deltaTime;
         if(timeDelay>=1.0f){
-            Debug.Log("1 sec");
             timeDelay = 0.0f;
 
-
             //fetcht FCED oven data with dinner on oven
-            List<string> ovenDinnerList = getFCEDFromTyp("Oven");
+            List<string> ovenDinnerList = FloorChildExtraDataController.getFCEDFromTyp("Oven");
 
             //für jeden listeintrag, prüfe ob dinner bestimmte locale prozentuale zeiteinheit überschritten hat um neue UI zu laden
             for(int a=0;a<ovenDinnerList.Count;a++){
                 string[] item = ovenDinnerList[a].Split(";");
 
                 DateTime startDate0 = DateTime.Parse(item[5]); // ab 0% 
-                DateTime startDate1 = startDate0.AddMinutes(Int32.Parse(ovenFCED[6])*0.33f); //ab 33%
-                DateTime startDate2 = startDate0.AddMinutes(Int32.Parse(ovenFCED[6])*0.66f); //ab 66% 
-                DateTime endDate0 = startDate0.AddMinutes(Int32.Parse(ovenFCED[6])); // ab 100% ready
-                DateTime endDate1 = startDate0.AddMinutes(Int32.Parse(ovenFCED[6])*1.5f); //ab 150% verdorrt
+                DateTime startDate1 = startDate0.AddMinutes(Int32.Parse(item[6])*0.33f); //ab 33%
+                DateTime startDate2 = startDate0.AddMinutes(Int32.Parse(item[6])*0.66f); //ab 66% 
+                DateTime endDate0 = startDate0.AddMinutes(Int32.Parse(item[6])); // ab 100% ready
+                DateTime endDate1 = startDate0.AddMinutes(Int32.Parse(item[6])*2.0f); //ab 200% verdorrt
 
 
                 //rechne die prozentuale zeit vom start bis zum ende aus und rendert die dinner
@@ -98,10 +96,10 @@ public class DinnerController : MonoBehaviour
                 //66-99%
                 }else if(DateTime.Now>startDate2&&DateTime.Now<endDate0){
                     Debug.Log("item: "+item[3]+" bei <100%");
-                //100-150%
+                //100-200%
                 }else if(DateTime.Now>endDate0&&DateTime.Now<endDate1){
                     Debug.Log("item: "+item[3]+" ist fertig!");
-                //>150%
+                //>200%
                 }else if(DateTime.Now>endDate1){
                     Debug.Log("item: "+item[3]+" ist verdorrt!");
                 }
