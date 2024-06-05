@@ -73,38 +73,47 @@ public class DinnerController : MonoBehaviour
             timeDelay = 0.0f;
 
             //fetcht FCED oven data with dinner on oven
-            List<string> ovenDinnerList = FloorChildExtraDataController.getFCEDFromTyp("Oven");
+            List<string> ovenDinnerList = FloorChildExtraDataController.getFCEDFromTyp("Oven", "");
 
             //für jeden listeintrag, prüfe ob dinner bestimmte locale prozentuale zeiteinheit überschritten hat um neue UI zu laden
             for(int a=0;a<ovenDinnerList.Count;a++){
                 string[] item = ovenDinnerList[a].Split(";");
 
+                //nehme die startzeit des dinners und berechne die prozentuale zubereitungszeit
                 DateTime startDate0 = DateTime.Parse(item[5]); // ab 0% 
                 DateTime startDate1 = startDate0.AddMinutes(Int32.Parse(item[6])*0.33f); //ab 33%
                 DateTime startDate2 = startDate0.AddMinutes(Int32.Parse(item[6])*0.66f); //ab 66% 
                 DateTime endDate0 = startDate0.AddMinutes(Int32.Parse(item[6])); // ab 100% ready
                 DateTime endDate1 = startDate0.AddMinutes(Int32.Parse(item[6])*2.0f); //ab 200% verdorrt
 
-
                 //rechne die prozentuale zeit vom start bis zum ende aus und rendert die dinner
                 //0-33%
                 if(DateTime.Now>startDate0&&DateTime.Now<startDate1){
-                    Debug.Log("item: "+item[3]+" bei <33%");
+                    UpdateDinnerOnOven(item[1]+"-Child-Dinner",getDinnerName(item[3]),1);
                 //33-66%
                 }else if(DateTime.Now>startDate1&&DateTime.Now<startDate2){
-                    Debug.Log("item: "+item[3]+" bei <66%");
+                    UpdateDinnerOnOven(item[1]+"-Child-Dinner",getDinnerName(item[3]),2);
                 //66-99%
                 }else if(DateTime.Now>startDate2&&DateTime.Now<endDate0){
-                    Debug.Log("item: "+item[3]+" bei <100%");
+                    UpdateDinnerOnOven(item[1]+"-Child-Dinner",getDinnerName(item[3]),3);
                 //100-200%
                 }else if(DateTime.Now>endDate0&&DateTime.Now<endDate1){
-                    Debug.Log("item: "+item[3]+" ist fertig!");
+                    UpdateDinnerOnOven(item[1]+"-Child-Dinner",getDinnerName(item[3]),4);
                 //>200%
                 }else if(DateTime.Now>endDate1){
-                    Debug.Log("item: "+item[3]+" ist verdorrt!");
+                    UpdateDinnerOnOven(item[1]+"-Child-Dinner",getDinnerName(item[3]),5);
                 }
             }
         }
+    }
+
+    //rendert die nächste dinnerstufe anhand der vergangenen zeit die das gericht auf dem oven ist
+    public bool UpdateDinnerOnOven(string oven, string dinner, int step){
+        //baut den dinnernamen und holt den string
+        Debug.Log("update: "+oven+" zu dinner: "+dinner+" ["+step+"]");
+        Sprite dinnerSprite = getSprite(dinner.Substring(0,11)+step);
+        GameObject.Find(oven).transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().sprite = dinnerSprite;
+        return true;
     }
 
     //beinhaltet die schritte die zum erstellen eines dinners gebraucht werden
@@ -332,14 +341,8 @@ public class DinnerController : MonoBehaviour
     }
 
     //dinner auf oven wird fortgesetzt
+    //überprüft verschiendene szenarios des dinners sobald der spieler am oven steht
     public static bool ReduceStepCount_UI(){
-        //CONTINUE
-        //-> ui updaten 
-        /*
-        prefab ui updaten indem das dinnerobject aus FCED ausgelesen wird und die nächste cookingphase gesucht wird
-        (die ingredients müssen nacherinander erscheinen bzw generiert werden)
-        //kleine loopzeit für die bearbeitung
-        */
 
         //baut den FCED string und übergibt ihn zum speichern
         int stepAnzahl = FloorChildExtraDataController.getOvenStep(ReduceCount_ovenClickedOn);
@@ -368,11 +371,26 @@ public class DinnerController : MonoBehaviour
                 //sperrt weitere handlungen da Animation pflicht ist!
                 DinnerAnim.GetComponent<DinnerAnim>().Controller();                
 
+
+
                 //CONTINUE
-                //serviere zum tresen wenn tresen frei ist
+                //Gucke nach allen Tresen die das gleiche essen beinhalten oder leer sind
+                //gibt all tresennamen (objName) als string zurück
+                string[] tresen = TresenController.getAllTresenForDinner(ovenFCED[3]);
+
+                /*
+                gucke ob ein tresen bereits das gleiche essen beinhaltet oder wenn NICHT ein tresen leer ist
+                gucke ob spieler zum tresen hinlaufen kann
+                -> lösche dinner von oven & FCED, rechne auf tresen FCED
+                gehe zum tresen 
+                platziere dinnerUI auf tresen 
+                wenn tresen vorher leer war, schalte frei das mitarbeiter essen nehmen können
+                */
 
                 //lösche das dinner
-                DeleteDinnerPrefabOnOven(ovenFCED[1]+"-Child-Dinner");
+                //DeleteDinnerPrefabOnOven(ovenFCED[1]+"-Child-Dinner");
+                //TO TEST!!! muss dinner auf oven löschen und neues dinner kann darauf platziert wrerden sowie FCED eintrag löschung
+                FloorChildExtraDataController.DeleteFCED(ovenFCED[1]);
 
                 //serviere zum tresen
             }

@@ -275,7 +275,7 @@ public class FloorChildExtraDataController : MonoBehaviour
     }
     
     //sucht alle FCED für bestimmte typ und gibt als list wieder
-    public static List<string> getFCEDFromTyp(string type){
+    public static List<string> getFCEDFromTyp(string type, string param1){
 
         //liste die die types enthält
         List<string> typeFCED = new List<string>();
@@ -288,11 +288,21 @@ public class FloorChildExtraDataController : MonoBehaviour
                 for(int a=0;a<lines.Length-1;a++){
                     string[] lineItem = lines[a].Split(";");
 
-                    //überprüft den type und gucke ob das gericht in cooking state ist
-                    if(lineItem[0].Equals(type)&&lineItem[5].Length!=0){
-                        
-                        //speichert die gleichen types in liste
-                        typeFCED.Add(lines[a]);
+                    //guckt nach type oven
+                    if(lineItem[0].Equals(type)&&type.Equals("Oven")){
+                        //gucke ob das gericht in cooking state ist
+                        if(lineItem[5].Length!=0){
+                            //speichert die gleichen types in liste
+                            typeFCED.Add(lines[a]);
+                        }
+                    }
+                    //guckt nach type counter
+                    if(lineItem[0].Equals(type)&&type.Equals("Counter")){
+                        //gucke ob tresen frei ist oder auf dem tresen das gewünschte gericht drauf liegt
+                        if(Convert.ToBoolean(lineItem[2])==true||lineItem[2].Equals(param1)){
+                            //speichert die gleichen types in liste
+                            typeFCED.Add(lines[a]);
+                        }
                     }
                 }
             }

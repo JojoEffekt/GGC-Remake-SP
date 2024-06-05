@@ -92,7 +92,6 @@ public class SaveAndLoadController : MonoBehaviour
 
                 //Load FCED dinners on oven
                 //lade zum ende die FCED dinners auf dem oven, da floorObjecte benötigt werden
-                //CONTINUE
                 //kriege alle FCED, gucke ob oven object, lade oven object mit DinnerController.CreateDinnerPrefabOnOven()...
                 lines = ReadStream(floorChildExtraDataFilePath);
                 //lines.Length-1;// -1 because WriteLine generates an empty line on bottom
