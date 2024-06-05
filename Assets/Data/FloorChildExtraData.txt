@@ -21,5 +21,5 @@ Table;8-6;True
 Table;1-0;True
 Counter;4-3;True;;0
 Counter;4-4;True;;0
-Oven;9-1;100;Omelette;5;04.06.2024 23:10:09;1
+Oven;9-1;0;;0;;0
 Slushi;1-8;;0

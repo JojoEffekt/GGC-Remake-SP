@@ -157,6 +157,7 @@ public class FloorChildExtraDataController : MonoBehaviour
             counter.setData(Convert.ToBoolean(listItem[2]), listItem[3], Int32.Parse(listItem[4]));
         }else if(type.Equals("Oven")){
             Oven oven = getOven(listItem[1]);
+            Debug.Log("AAA:A "+Int32.Parse(listItem[2])+"!"+listItem[3]+"!"+Int32.Parse(listItem[4])+"!"+listItem[5]+"!"+Int32.Parse(listItem[6]));
             oven.setData(Int32.Parse(listItem[2]), listItem[3], Int32.Parse(listItem[4]), listItem[5], Int32.Parse(listItem[6]));
         }else if(type.Equals("Slushi")){
             Slushi slushi = getSlushi(listItem[1]);

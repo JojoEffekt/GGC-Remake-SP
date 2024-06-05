@@ -376,7 +376,8 @@ public class DinnerController : MonoBehaviour
                 //CONTINUE
                 //Gucke nach allen Tresen die das gleiche essen beinhalten oder leer sind
                 //gibt all tresennamen (objName) als string zurück
-                string[] tresen = TresenController.getAllTresenForDinner(ovenFCED[3]);
+                List<string> counters = CounterController.getAllCounterForDinner(ovenFCED[3]);
+                Debug.Log("counter: "+counters[0]);
 
                 /*
                 gucke ob ein tresen bereits das gleiche essen beinhaltet oder wenn NICHT ein tresen leer ist
