@@ -391,7 +391,11 @@ public class DinnerController : MonoBehaviour
                 //lösche das dinner
                 //DeleteDinnerPrefabOnOven(ovenFCED[1]+"-Child-Dinner");
                 //TO TEST!!! muss dinner auf oven löschen und neues dinner kann darauf platziert wrerden sowie FCED eintrag löschung
-                FloorChildExtraDataController.DeleteFCED(ovenFCED[1]);
+                //FloorChildExtraDataController.DeleteFCED(ovenFCED[1]);
+                string a = "Oven;"+ovenFCED[1]+";0;;0;;0";
+                Debug.Log("deklete!!!!: "+a);
+                FloorChildExtraDataController.ChangeFCEDData(a);
+                DeleteDinnerPrefabOnOven((ovenFCED[1]+"-Child-Dinner"));
 
                 //serviere zum tresen
             }
