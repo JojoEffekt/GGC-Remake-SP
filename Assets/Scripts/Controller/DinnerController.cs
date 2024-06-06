@@ -378,6 +378,7 @@ public class DinnerController : MonoBehaviour
                 //gibt tresenname (objName) als string zurück
                 //spieler geht hier schon zum tresen, wenn es die möglichkeit gibt
                 string counter = CounterController.getCounterForDinner(ovenFCED[3]);
+                //prüfe ob counter nicht leer ist, dann continue
                 Debug.Log("counter: "+counter);
 
                 /*

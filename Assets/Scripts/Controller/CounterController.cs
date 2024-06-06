@@ -11,7 +11,6 @@ public class CounterController : MonoBehaviour
     {
         //enthält die sortierten counter für das dinner zum ablagern
         List<string> sortCounters = SortCounterList(dinner);
-        Debug.Log("länge der liste: "+sortCounters.Count);
 
         //suche nach einem begehbaren counter
         return getCounter(sortCounters);
@@ -37,18 +36,18 @@ public class CounterController : MonoBehaviour
             
             //counter enthält dinner! -> prio 1
             if(items[3].Equals(dinner)){
-                sortCounters.Add(items);
+                sortCounters.Add(counters[a]);
             }
         }
 
         //sortiere counter nach priorität 2 (leer)
-        for(int a=0;a<counters.Count;a++)
+        for(int b=0;b<counters.Count;b++)
         {
-            string[] items = counters[a].Split(";");
+            string[] items = counters[b].Split(";");
             
             //counter ist leer! -> prio 2
-            if(items[3]==null&&bool.Parse(items[2])==true){
-                sortCounters.Add(items);
+            if(items[3].Length==0&&bool.Parse(items[2])==true){
+                sortCounters.Add(counters[b]);
             }
         }
 
@@ -62,10 +61,9 @@ public class CounterController : MonoBehaviour
         for(int a=0;a<sortCounters.Count;a++)
         {   
             //guck ob position begehbar ist
-            if(isPositionValid(sortCounters[a]))
+            if(isPositionValid(sortCounters[a].Split(";")[1]))
             {   
                 //gibt den begehbaren counter zurück
-                Debug.Log("counter: "+sortCounters[a]);
                 return sortCounters[a];
             }
         }
@@ -77,8 +75,8 @@ public class CounterController : MonoBehaviour
     public static bool isPositionValid(string objectToMoveOn)
     {
         //sucht nach einer freien position oben, rechts, unten, links vom oven
-        int x = Int32.Parse(ObjectToMoveOn.Split("-")[0]);
-        int y = Int32.Parse(ObjectToMoveOn.Split("-")[1]);
+        int x = Int32.Parse(objectToMoveOn.Split("-")[0]);
+        int y = Int32.Parse(objectToMoveOn.Split("-")[1]);
         string oben = ""+(x-1)+"-"+y;
         string rechts = ""+x+"-"+(y-1);
         string unten = ""+(x+1)+"-"+y;

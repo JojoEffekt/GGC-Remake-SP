@@ -157,7 +157,6 @@ public class FloorChildExtraDataController : MonoBehaviour
             counter.setData(Convert.ToBoolean(listItem[2]), listItem[3], Int32.Parse(listItem[4]));
         }else if(type.Equals("Oven")){
             Oven oven = getOven(listItem[1]);
-            Debug.Log("AAA:A "+Int32.Parse(listItem[2])+"!"+listItem[3]+"!"+Int32.Parse(listItem[4])+"!"+listItem[5]+"!"+Int32.Parse(listItem[6]));
             oven.setData(Int32.Parse(listItem[2]), listItem[3], Int32.Parse(listItem[4]), listItem[5], Int32.Parse(listItem[6]));
         }else if(type.Equals("Slushi")){
             Slushi slushi = getSlushi(listItem[1]);
@@ -300,7 +299,7 @@ public class FloorChildExtraDataController : MonoBehaviour
                     //guckt nach type counter
                     if(lineItem[0].Equals(type)&&type.Equals("Counter")){
                         //gucke ob tresen frei ist oder auf dem tresen das gewünschte gericht drauf liegt
-                        if(Convert.ToBoolean(lineItem[2])==true||lineItem[2].Equals(param1)){
+                        if(Convert.ToBoolean(lineItem[2])==true||lineItem[3].Equals(param1)){
                             //speichert die gleichen types in liste
                             typeFCED.Add(lines[a]);
                         }
