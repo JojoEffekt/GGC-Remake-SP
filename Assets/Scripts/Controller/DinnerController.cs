@@ -374,27 +374,22 @@ public class DinnerController : MonoBehaviour
 
 
                 //CONTINUE
-                //Gucke nach allen Tresen die das gleiche essen beinhalten oder leer sind
-                //gibt all tresennamen (objName) als string zurück
-                List<string> counters = CounterController.getAllCounterForDinner(ovenFCED[3]);
-                Debug.Log("counter: "+counters[0]);
+                //Gucke nach Tresen der das gleiche essen beinhalten oder leer ist UND erreichbar ist für den spieler
+                //gibt tresenname (objName) als string zurück
+                //spieler geht hier schon zum tresen, wenn es die möglichkeit gibt
+                string counter = CounterController.getCounterForDinner(ovenFCED[3]);
+                Debug.Log("counter: "+counter);
 
                 /*
-                gucke ob ein tresen bereits das gleiche essen beinhaltet oder wenn NICHT ein tresen leer ist
-                gucke ob spieler zum tresen hinlaufen kann
                 -> lösche dinner von oven & FCED, rechne auf tresen FCED
-                gehe zum tresen 
                 platziere dinnerUI auf tresen 
                 wenn tresen vorher leer war, schalte frei das mitarbeiter essen nehmen können
                 */
 
-                //lösche das dinner
-                //DeleteDinnerPrefabOnOven(ovenFCED[1]+"-Child-Dinner");
-                //TO TEST!!! muss dinner auf oven löschen und neues dinner kann darauf platziert wrerden sowie FCED eintrag löschung
-                //FloorChildExtraDataController.DeleteFCED(ovenFCED[1]);
-                string a = "Oven;"+ovenFCED[1]+";0;;0;;0";
-                Debug.Log("deklete!!!!: "+a);
-                FloorChildExtraDataController.ChangeFCEDData(a);
+
+                //FCED eintrag "clearen"
+                FloorChildExtraDataController.ChangeFCEDData("Oven;"+ovenFCED[1]+";0;;0;;0");
+                //lösche dinnerprefab auf oven
                 DeleteDinnerPrefabOnOven((ovenFCED[1]+"-Child-Dinner"));
 
                 //serviere zum tresen

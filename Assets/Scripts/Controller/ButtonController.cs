@@ -481,8 +481,6 @@ public class ButtonController : MonoBehaviour
                         //öffne shop
                         MainController.GetComponent<MainController>().buttonPressed(3);
                     }
-                }else{
-                    //Debug.Log("Anim im gang, kann nicht starten!");
                 }
             }else if(getTypeFromObject(objectName).Equals("Counter")){
                 //zeige anzahl der gerichte auf counter

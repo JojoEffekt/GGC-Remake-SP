@@ -384,12 +384,6 @@ public class Counter{
         this.foodSprite = foodSprite;
         this.foodCount = foodCount;
     }
-
-    //methode zum Instanziierung der sprites bei Essenslieferung etc
-
-    //methode zum aktualisieren bei -1 food
-
-    //methode zum laden der counterinfo(hoverover)
 }
 
 public class Oven{
@@ -419,12 +413,6 @@ public class Oven{
         this.dateStart = dateStart;
         this.time = time;
     }
-
-    //methode zum Instanziierung der sprites bei Zutaten hinzufügen
-
-    //methode zum Instanziierung der sprites bei Kochen
-
-    //methode zum Instanziierung der sprites bei Gericht fertig
 }
 
 public class Slushi{
@@ -445,10 +433,4 @@ public class Slushi{
         this.cocktailSprite = cocktailSprite;
         this.cocktailCount = cocktailCount;
     }
-
-    //methode zum Instanziierung der sprites bei Slushi vorhanden etc
-
-    //methode zum aktualisieren bei -1 slushi
-
-    //methode zum laden der slushiinfo(hoverover)
 }
