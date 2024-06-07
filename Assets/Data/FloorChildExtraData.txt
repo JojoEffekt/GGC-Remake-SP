@@ -21,5 +21,5 @@ Table;8-6;True
 Table;1-0;True
 Counter;4-3;False;Garden Salad;0
 Counter;4-4;False;Omelette;0
-Oven;9-1;0;;0;;0
+Oven;9-1;100;Omelette;5;07.06.2024 15:41:49;1
 Slushi;1-8;;0

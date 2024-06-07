@@ -398,6 +398,9 @@ public class DinnerController : MonoBehaviour
 
                     //serviere zum tresen
                 }
+            }else if(DateTime.Now>endDate1){
+                //Essen abgelaufen
+                Debug.Log("Essen abgelaufen!");
             }
 
         }else if(ovenFCED.Length>1){
