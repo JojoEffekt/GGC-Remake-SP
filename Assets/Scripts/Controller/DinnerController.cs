@@ -358,42 +358,46 @@ public class DinnerController : MonoBehaviour
 
             //datum wann das gericht "angebaut" wurde
             DateTime startDate = DateTime.Parse(ovenFCED[5]);
-
             //berechne den endzeitpunkt an dem das gericht fertig ist
             DateTime endDate = startDate.AddMinutes(Int32.Parse(ovenFCED[6]));
+            //berechne ablaufdatum für das dinner
+            DateTime endDate1 = startDate.AddMinutes(Int32.Parse(ovenFCED[6])*2.0f); //ab 200% verdorrt
 
-            //essen ist fertig
-            if(DateTime.Now>endDate){
+            //essen ist fertig aber nicht abgelaufen
+            if(DateTime.Now>endDate&&DateTime.Now<endDate1){
 
                 Debug.Log("essen fertig!, serviere essen");
 
                 //spielt die Dinner animation ab
                 //sperrt weitere handlungen da Animation pflicht ist!
+                //TEST HIER ÜBERHAUPT NÖTIG?!
                 DinnerAnim.GetComponent<DinnerAnim>().Controller();                
 
 
 
-                //CONTINUE
                 //Gucke nach Tresen der das gleiche essen beinhalten oder leer ist UND erreichbar ist für den spieler
                 //gibt tresenname (objName) als string zurück
                 //spieler geht hier schon zum tresen, wenn es die möglichkeit gibt
                 string counter = CounterController.getCounterForDinner(ovenFCED[3]);
-                //prüfe ob counter nicht leer ist, dann continue
-                Debug.Log("counter: "+counter);
+                //prüfe ob counter nicht leer ist, dann continue (wenn er nicht leer ist wird automatisch schon zum counter gegangen)
+                if(counter.Length!=0){
 
-                /*
-                -> lösche dinner von oven & FCED, rechne auf tresen FCED
-                platziere dinnerUI auf tresen 
-                wenn tresen vorher leer war, schalte frei das mitarbeiter essen nehmen können
-                */
+                    //hier starten!!!!!!!!!!!!
+                    //STOP HIER UND WSRTE BIS PLayer am ziel ist
+                    
+                    Debug.Log("counter zum delivern: "+counter);
+
+                    //platziere das dinner auf den counter und ändere das FCED
+                    CounterController.AddDinnerOnCounter(counter.Split(";")[1], getSprite(ovenFCED[3].Substring(0,11)+"4"), Int32.Parse(ovenFCED[6]));
 
 
-                //FCED eintrag "clearen"
-                FloorChildExtraDataController.ChangeFCEDData("Oven;"+ovenFCED[1]+";0;;0;;0");
-                //lösche dinnerprefab auf oven
-                DeleteDinnerPrefabOnOven((ovenFCED[1]+"-Child-Dinner"));
+                    //Oven FCED eintrag "clearen"
+                    FloorChildExtraDataController.ChangeFCEDData("Oven;"+ovenFCED[1]+";0;;0;;0");
+                    //lösche dinnerprefab auf oven
+                    DeleteDinnerPrefabOnOven((ovenFCED[1]+"-Child-Dinner"));
 
-                //serviere zum tresen
+                    //serviere zum tresen
+                }
             }
 
         }else if(ovenFCED.Length>1){

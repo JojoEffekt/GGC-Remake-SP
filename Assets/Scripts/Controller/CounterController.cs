@@ -5,7 +5,21 @@ using System;
 using System.IO;
 
 public class CounterController : MonoBehaviour
-{
+{   
+    //platziere dinner auf counter und rechne FCED ab
+    public static bool AddDinnerOnCounter(string counter, Sprite dinner, int foodToAdd)
+    {
+        //render dinner auf counter
+        GameObject.Find(counter+"-Child-Dinner").transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().sprite = dinner;
+        
+        //addiere die foods zusammen
+        int foodCount = FloorChildExtraDataController.getCounter(counter).foodCount + foodToAdd;
+        //ändere das FCED für den counter
+        FloorChildExtraDataController.ChangeFCEDData("Counter;"+counter+";False;"+dinner+";"+foodCount);
+
+        return true;
+    }
+
     //sucht alle tresen mit dem gleichen gericht bzw freie tresen herraus
     public static string getCounterForDinner(string dinner)
     {

@@ -172,6 +172,13 @@ public class PlayerMovementController : MonoBehaviour
                 //spieler ist am ziel
                 DinnerController.ReduceStepCount_UI();
             }
+
+            //CONTINUE
+            /*
+            hier bool einbauen der in Dinnerconbtroller true geschaltet wird und hier getestet ob 
+            er war ist, warte bis spieler da ist, dann rufe von hier neue funktion auf und gehe
+            nach countercontroller und starte das dinner rendern auf dem counter
+            */
         }
     }
 
