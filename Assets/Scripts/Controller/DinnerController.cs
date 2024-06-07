@@ -110,7 +110,7 @@ public class DinnerController : MonoBehaviour
     //rendert die nächste dinnerstufe anhand der vergangenen zeit die das gericht auf dem oven ist
     public bool UpdateDinnerOnOven(string oven, string dinner, int step){
         //baut den dinnernamen und holt den string
-        Debug.Log("update: "+oven+" zu dinner: "+dinner+" ["+step+"]");
+        //Debug.Log("update: "+oven+" zu dinner: "+dinner+" ["+step+"]");
         Sprite dinnerSprite = getSprite(dinner.Substring(0,11)+step);
         GameObject.Find(oven).transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().sprite = dinnerSprite;
         return true;
@@ -379,16 +379,15 @@ public class DinnerController : MonoBehaviour
                 //gibt tresenname (objName) als string zurück
                 //spieler geht hier schon zum tresen, wenn es die möglichkeit gibt
                 string counter = CounterController.getCounterForDinner(ovenFCED[3]);
+                Debug.Log("coztner: "+counter);
                 //prüfe ob counter nicht leer ist, dann continue (wenn er nicht leer ist wird automatisch schon zum counter gegangen)
                 if(counter.Length!=0){
 
                     //hier starten!!!!!!!!!!!!
                     //STOP HIER UND WSRTE BIS PLayer am ziel ist
-                    
-                    Debug.Log("counter zum delivern: "+counter);
 
                     //platziere das dinner auf den counter und ändere das FCED
-                    CounterController.AddDinnerOnCounter(counter.Split(";")[1], getSprite(ovenFCED[3].Substring(0,11)+"4"), Int32.Parse(ovenFCED[6]));
+                    CounterController.AddDinnerOnCounter(counter.Split(";")[1], ovenFCED[3], Int32.Parse(ovenFCED[4]));
 
 
                     //Oven FCED eintrag "clearen"
@@ -398,9 +397,18 @@ public class DinnerController : MonoBehaviour
 
                     //serviere zum tresen
                 }
+            //Essen abgelaufen
             }else if(DateTime.Now>endDate1){
-                //Essen abgelaufen
                 Debug.Log("Essen abgelaufen!");
+
+                //spielt die Dinner animation ab
+                //sperrt weitere handlungen da Animation pflicht ist!
+                DinnerAnim.GetComponent<DinnerAnim>().Controller();                
+
+                //Oven FCED eintrag "clearen"
+                FloorChildExtraDataController.ChangeFCEDData("Oven;"+ovenFCED[1]+";0;;0;;0");
+                //lösche dinnerprefab auf oven
+                DeleteDinnerPrefabOnOven((ovenFCED[1]+"-Child-Dinner"));
             }
 
         }else if(ovenFCED.Length>1){
