@@ -67,6 +67,13 @@ public class PlayerMovementController : MonoBehaviour
     public static List<Sprite> TshirtGirl = new List<Sprite>();
     public static List<Sprite> TshirtOverlayGirl = new List<Sprite>();
 
+
+
+    //speichert temp daten, wenn essen zum counter geliefert wird
+    public static List<string> counterData = new List<string>();
+
+
+
     //wird aufgerufen wenn eine neue position angeklickt wurde
     public static bool MovePlayer(int[] newPos){
 
@@ -149,7 +156,7 @@ public class PlayerMovementController : MonoBehaviour
                     walkAnim=5;
                 }
             }
-        //spieler kann nichtmehr laufen und ist angekommen
+        //spieler kann nichtmehr laufen und ist an position angekommen
         }else if(playerPath.Count==0&&isPlayerInMove==true){
 
             //beim beenden der aktuellen position wird die letzte position die neue player pos
@@ -161,9 +168,26 @@ public class PlayerMovementController : MonoBehaviour
             //deactivate walkAnim
             walkAnim = 0;
 
-            //Debug.Log("Spieler ist am ende angekommen!");
+            //ist für Dinnercontroller wichtig (dinner auf counter rendern)
+            //wird benutzt um abzufragen ob darauf gewartet wird wenn der spieler zu einem
+            //objekt gehen soll und danach aktion folgt
+            if(DinnerController.isWaitForPlayerToStopCounter){
+                DinnerController.isWaitForPlayerToStopCounter = false;
 
-            //ist für Dinnerontroller wichtig (StepAnzahl FCED / dinner "anbauen")
+                //spieler ist am counter, aktiviere das render des dinners auf dem counter
+                //darf erst passieren wenn, der spieler am counter ist, aber in background ist schon alles übernommen
+                CounterController.AddDinnerOnCounter(counterData[0], counterData[1]);
+            }
+            //WICHTIG!!!
+            /*
+            MUSS! vor DinnerController.isWaitForPlayerToStop abgespielt werden, weil: 
+                bei DinnerController.ReduceStepCount_UI() der "isWaitForPlayerToStopCounter" auf true
+                gesetzt wird und somit "if(DinnerController.isWaitForPlayerToStopCounter){" direkt im
+                anschluss aktiviert wird und das dinner direkt beim ankommen an den oven auf den counter 
+                gerendert wird
+            */
+
+            //ist für Dinnercontroller wichtig (StepAnzahl FCED / dinner "anbauen")
             //wird benutzt um abzufragen ob darauf gewartet wird wenn der spieler zu einem
             //objekt gehen soll und danach aktion folgt
             if(DinnerController.isWaitForPlayerToStop){
@@ -172,13 +196,6 @@ public class PlayerMovementController : MonoBehaviour
                 //spieler ist am ziel
                 DinnerController.ReduceStepCount_UI();
             }
-
-            //CONTINUE
-            /*
-            hier bool einbauen der in Dinnerconbtroller true geschaltet wird und hier getestet ob 
-            er war ist, warte bis spieler da ist, dann rufe von hier neue funktion auf und gehe
-            nach countercontroller und starte das dinner rendern auf dem counter
-            */
         }
     }
 

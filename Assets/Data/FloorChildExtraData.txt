@@ -19,7 +19,13 @@ Table;7-2;True
 Table;8-5;True
 Table;8-6;True
 Table;1-0;True
+Table;4-7;True
+Table;5-7;True
+Table;6-7;True
 Counter;4-3;False;Garden Salad;10
-Counter;4-4;False;Omelette;12
-Oven;9-1;0;;0;;0
+Counter;4-4;False;Omelette;72
+Oven;9-1;100;Mousse au Chocolat;390;09.06.2024 22:46:51;180
+Oven;9-2;0;;0;;0
+Oven;10-1;100;Toast Hawai;260;09.06.2024 22:47:49;120
+Oven;10-2;0;;0;;0
 Slushi;1-8;;0

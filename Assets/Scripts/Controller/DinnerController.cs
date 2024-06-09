@@ -30,6 +30,10 @@ public class DinnerController : MonoBehaviour
     //der spieler am ende ankommt
     public static bool isWaitForPlayerToStop = false;
 
+    //switcher ob spieler gerade in bewegung ist und darauf gewartet wird das
+    //der spieler am ende anlommt um Counter delivery zu aktivieren
+    public static bool isWaitForPlayerToStopCounter = false;
+
     //beinhaltet die dinnersprites
     public static List<Sprite> sprites = new List<Sprite>();
 
@@ -379,23 +383,25 @@ public class DinnerController : MonoBehaviour
                 //gibt tresenname (objName) als string zurück
                 //spieler geht hier schon zum tresen, wenn es die möglichkeit gibt
                 string counter = CounterController.getCounterForDinner(ovenFCED[3]);
-                Debug.Log("coztner: "+counter);
+
                 //prüfe ob counter nicht leer ist, dann continue (wenn er nicht leer ist wird automatisch schon zum counter gegangen)
-                if(counter.Length!=0){
+                if(counter!=null){
+                    
 
-                    //hier starten!!!!!!!!!!!!
-                    //STOP HIER UND WSRTE BIS PLayer am ziel ist
+                    //übermittle daten um später im verlauf das dinner auf dem counter zu rendern
+                    PlayerMovementController.counterData = new List<string>(){counter.Split(";")[1], ovenFCED[3], ovenFCED[4]};
+                    isWaitForPlayerToStopCounter = true;
 
-                    //platziere das dinner auf den counter und ändere das FCED
-                    CounterController.AddDinnerOnCounter(counter.Split(";")[1], ovenFCED[3], Int32.Parse(ovenFCED[4]));
-
-
+                    //ändere das FCED von dem counter
+                    CounterController.ChangeFCEDDataForDinnerOnCounter(counter.Split(";")[1], ovenFCED[3], Int32.Parse(ovenFCED[4]));
                     //Oven FCED eintrag "clearen"
                     FloorChildExtraDataController.ChangeFCEDData("Oven;"+ovenFCED[1]+";0;;0;;0");
                     //lösche dinnerprefab auf oven
                     DeleteDinnerPrefabOnOven((ovenFCED[1]+"-Child-Dinner"));
 
                     //serviere zum tresen
+                }else{
+                    Debug.Log("ewssenb kann nicht zugestelkkt werdeb");
                 }
             //Essen abgelaufen
             }else if(DateTime.Now>endDate1){

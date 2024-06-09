@@ -21,12 +21,9 @@ public class CounterController : MonoBehaviour
         DinnerOnOvenHandler = GameObject.Find("DinnerOnOvens");
     }
 
-    //platziere dinner auf counter und rechne FCED ab
-    public static bool AddDinnerOnCounter(string counter, string dinner, int foodToAdd)
-    {   
-        //erzeuge ein prefab auf dem counter
-        CreateDinnerPrefabOnCounter(counter+"-Child", dinner);
-        
+    //rechnet die neue zahl für den jeweiligen counter zusammen wie viele gericht darauf stehen
+    public static bool ChangeFCEDDataForDinnerOnCounter(string counter, string dinner, int foodToAdd){
+
         //addiere die foods zusammen
         int foodCount = FloorChildExtraDataController.getCounter(counter).foodCount + foodToAdd;
         //ändere das FCED für den counter
@@ -35,12 +32,18 @@ public class CounterController : MonoBehaviour
         return true;
     }
 
+    //platziere dinner auf counter und rechne FCED ab
+    public static bool AddDinnerOnCounter(string counter, string dinner)
+    {   
+        //erzeuge ein prefab auf dem counter
+        CreateDinnerPrefabOnCounter(counter+"-Child", dinner);
+
+        return true;
+    }
+
     //erzeugt das dinner auf dem counter
     public static bool CreateDinnerPrefabOnCounter(string oven, string dinner)
     {
-        //erzeugt das anzubereitende dinner auf dem oven
-        Debug.Log("CreateDinnerPrefabOnOven: "+oven+" "+dinner);
-
         //suche die koordianten vom oven
         float[] coords = new float[]{GameObject.Find(oven).gameObject.transform.position.x, GameObject.Find(oven).gameObject.transform.position.y};
         //wandelt das dinner in den spritenamen das in den files liegt
