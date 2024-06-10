@@ -87,13 +87,16 @@ public class FloorChildExtraDataController : MonoBehaviour
         for(int c=0;c<CounterList.Count;c++){
             if(CounterList[c].gameObjectName.Equals(floorGOName)){
                 CounterList.RemoveAt(c);
+
+                //löscht, falls vorhanden, das dinner auf dem counter
+                CounterController.DeleteDinnerPrefabOnCounter(floorGOName+"-Child-Counter");
             }
         }
         for(int d=0;d<OvenList.Count;d++){
             if(OvenList[d].gameObjectName.Equals(floorGOName)){
                 OvenList.RemoveAt(d);
 
-                //löscht, falls vorhanden, das dinner auf dem 
+                //löscht, falls vorhanden, das dinner auf dem oven
                 DinnerController.DeleteDinnerPrefabOnOven(floorGOName+"-Child-Dinner");
             }
         }

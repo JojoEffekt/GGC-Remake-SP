@@ -90,8 +90,8 @@ public class SaveAndLoadController : MonoBehaviour
 
 
 
-                //Load FCED dinners on oven
-                //lade zum ende die FCED dinners auf dem oven, da floorObjecte benötigt werden
+                //Load FCED dinners on oven/counter
+                //lade zum ende die FCED dinners auf dem oven/counter, da floorObjecte benötigt werden
                 //kriege alle FCED, gucke ob oven object, lade oven object mit DinnerController.CreateDinnerPrefabOnOven()...
                 lines = ReadStream(floorChildExtraDataFilePath);
                 //lines.Length-1;// -1 because WriteLine generates an empty line on bottom
@@ -100,6 +100,10 @@ public class SaveAndLoadController : MonoBehaviour
                     //FCED muss oven sein und darf nicht 0 als step anzahl haben(sonst ist es leer und hat kein dinner drauf)
                     if(lineItem[0].Equals("Oven")&&(Int32.Parse(lineItem[2])!=0)){
                         DinnerController.CreateDinnerPrefabOnOven((lines[a].Split(";")[1]+"-Child"), lines[a].Split(";")[3], Int32.Parse(lines[a].Split(";")[2]));
+                    }
+                    //FCED des counters, muss essen enthalten
+                    if(lineItem[0].Equals("Counter")&&(!lineItem[3].Equals(""))){
+                        CounterController.AddDinnerOnCounter(lineItem[1], lineItem[3]);
                     }
                 }
 

@@ -7,23 +7,36 @@ using System.IO;
 public class CounterController : MonoBehaviour
 {   
     //enthält das dinnerPrefab was auf dem oven erzeugt wird
-    public static GameObject DinnerOnOvenPrefab;
+    public static GameObject DinnerOnCounterPrefab;
 
     //dieses object enthält die Dinners auf den verschiedenen öfen
-    public static GameObject DinnerOnOvenHandler;
+    public static GameObject DinnerOnCounterHandler;
 
     public void Awake()
     {
         //läd das dinnerPrefab
-        DinnerOnOvenPrefab = (GameObject)Resources.Load("Prefabs/DinnerOnCounterPrefab", typeof(GameObject));
+        DinnerOnCounterPrefab = (GameObject)Resources.Load("Prefabs/DinnerOnCounterPrefab", typeof(GameObject));
 
         //sucht den ovenObjectHandler
-        DinnerOnOvenHandler = GameObject.Find("DinnerOnOvens");
+        DinnerOnCounterHandler = GameObject.Find("DinnerOnOvens");
+    }
+
+    //lösche das dinner auf den counter
+    public static bool DeleteDinnerPrefabOnCounter(string counter)
+    {
+        Debug.Log("suche:"+counter);
+        GameObject objToDelete = GameObject.Find(counter);
+        if(objToDelete!=null)
+        {
+            DestroyImmediate(objToDelete);
+            return true;
+        }
+        return false;
     }
 
     //rechnet die neue zahl für den jeweiligen counter zusammen wie viele gericht darauf stehen
-    public static bool ChangeFCEDDataForDinnerOnCounter(string counter, string dinner, int foodToAdd){
-
+    public static bool ChangeFCEDDataForDinnerOnCounter(string counter, string dinner, int foodToAdd)
+    {
         //addiere die foods zusammen
         int foodCount = FloorChildExtraDataController.getCounter(counter).foodCount + foodToAdd;
         //ändere das FCED für den counter
@@ -41,20 +54,26 @@ public class CounterController : MonoBehaviour
         return true;
     }
 
-    //erzeugt das dinner auf dem counter
-    public static bool CreateDinnerPrefabOnCounter(string oven, string dinner)
-    {
-        //suche die koordianten vom oven
-        float[] coords = new float[]{GameObject.Find(oven).gameObject.transform.position.x, GameObject.Find(oven).gameObject.transform.position.y};
+    //erzeugt das dinner auf dem counter (wird auf bei neustart des spiels aufgerufen)
+    public static bool CreateDinnerPrefabOnCounter(string counter, string dinner)
+    {   
+        //suche erst nach counter object ob es schon existiert, wenn ja, erzeuge kein weiteres (nur ein object auf einem counter)
+        if(GameObject.Find(counter+"-Counter")!=null)
+        {
+            return false;
+        }
+
+        //suche die koordianten vom counter
+        float[] coords = new float[]{GameObject.Find(counter).gameObject.transform.position.x, GameObject.Find(counter).gameObject.transform.position.y};
         //wandelt das dinner in den spritenamen das in den files liegt
         string dinnerName = DinnerController.getDinnerName(dinner);
         float[] dinnerCoords = DinnerController.getDinnerCoords(dinner);
         Sprite dinnerSprite = DinnerController.getSprite(dinnerName.Substring(0,11)+"4");
 
         //erzeuge das prefab
-        GameObject prefab = Instantiate(DinnerOnOvenPrefab, new Vector3(coords[0]+dinnerCoords[0], coords[1]+dinnerCoords[1], 0), Quaternion.identity, DinnerOnOvenHandler.transform);
-        prefab.name = oven+"-Counter";
-        prefab.transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().sortingOrder = GameObject.Find(oven).gameObject.GetComponent<SpriteRenderer>().sortingOrder + 1;
+        GameObject prefab = Instantiate(DinnerOnCounterPrefab, new Vector3(coords[0]+dinnerCoords[0], coords[1]+dinnerCoords[1], 0), Quaternion.identity, DinnerOnCounterHandler.transform);
+        prefab.name = counter+"-Counter";
+        prefab.transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().sortingOrder = GameObject.Find(counter).gameObject.GetComponent<SpriteRenderer>().sortingOrder + 1;
         prefab.transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().sprite = dinnerSprite;
 
         return true;
@@ -89,7 +108,8 @@ public class CounterController : MonoBehaviour
             string[] items = counters[a].Split(";");
             
             //counter enthält dinner! -> prio 1
-            if(items[3].Equals(dinner)){
+            if(items[3].Equals(dinner))
+            {
                 sortCounters.Add(counters[a]);
             }
         }
@@ -100,7 +120,8 @@ public class CounterController : MonoBehaviour
             string[] items = counters[b].Split(";");
             
             //counter ist leer! -> prio 2
-            if(items[3].Length==0&&bool.Parse(items[2])==true){
+            if(items[3].Length==0&&bool.Parse(items[2])==true)
+            {
                 sortCounters.Add(counters[b]);
             }
         }
