@@ -260,11 +260,39 @@ public class FloorChildExtraDataController : MonoBehaviour
                 for(int a=0;a<lines.Length-1;a++){
                     string[] lineItem = lines[a].Split(";");
 
-                    //ist item oven und  hat ein dinner?
+                    //ist item oven und hat ein dinner?
                     if(lineItem[0].Equals("Oven")&&(!lineItem[2].Equals("0"))){
 
                         //gucke ob es das gesuchte ovenObj noch das  dinner besitzt
                         if(GameObject.Find(lineItem[1]+"-Child-Dinner")==null){
+                            return lines[a];
+                        }
+                    }
+                }
+            }
+        }catch{
+            return "";
+        }
+
+        return "";
+    }
+
+    //suche das replatzierte ovenObj und gibt den zugehörigen counterFCED zurück
+    public static string FindMovedCounterFCED(){
+
+        //für jedes oven FCED suche ob das dinner existiert
+        try{
+            if(File.Exists(Application.dataPath+"/Data/"+SaveAndLoadController.wallDataFilePath)==true&&File.Exists(Application.dataPath+"/Data/"+SaveAndLoadController.floorDataFilePath)==true&&File.Exists(Application.dataPath+"/Data/"+SaveAndLoadController.floorChildExtraDataFilePath)==true){
+                string[] lines = ReadStream(SaveAndLoadController.floorChildExtraDataFilePath);
+
+                for(int a=0;a<lines.Length-1;a++){
+                    string[] lineItem = lines[a].Split(";");
+
+                    //ist item counter und hat ein dinner?
+                    if(lineItem[0].Equals("Counter")&&(!lineItem[3].Equals(""))){
+
+                        //gucke ob es das gesuchte counterObj noch das dinner besitzt
+                        if(GameObject.Find(lineItem[1]+"-Child-Counter")==null){
                             return lines[a];
                         }
                     }

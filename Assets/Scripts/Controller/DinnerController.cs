@@ -496,7 +496,7 @@ public class DinnerController : MonoBehaviour
 
     //erzeugt das anzubereitende dinner auf dem oven
     public static void CreateDinnerPrefabOnOven(string oven, string dinner, int step){
-        Debug.Log("CreateDinnerPrefabOnOven: "+oven+" "+dinner+" "+step);
+        //Debug.Log("CreateDinnerPrefabOnOven: "+oven+" "+dinner+" "+step);
 
         //suche die koordianten vom oven
         float[] coords = new float[]{GameObject.Find(oven).gameObject.transform.position.x, GameObject.Find(oven).gameObject.transform.position.y};

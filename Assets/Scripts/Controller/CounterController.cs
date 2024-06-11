@@ -45,6 +45,25 @@ public class CounterController : MonoBehaviour
         return true;
     }
 
+    //erzeugt ein neues Dinner auf den replacten counter
+    //wird bei ButtonController.MoveObjectOnFloor aufgerufen wenn ein floorObj replaced wird
+    public static bool ReadjustAllDinnerPrefabsOnCounter()
+    {
+
+        //hole das FCED vom replatzierten oven
+        string[] CounterFCED = FloorChildExtraDataController.FindMovedCounterFCED().Split(";");
+
+        //wenn das replacte object kein dinner enthält, breche ab
+        if(CounterFCED[0].Equals("")){
+            return false;
+        }
+
+        //da das alte dinner beim replacen gelöscht wird, erzeuge ein neues
+        AddDinnerOnCounter(CounterFCED[1], CounterFCED[3]);
+
+        return true;
+    }
+
     //platziere dinner auf counter und rechne FCED ab
     public static bool AddDinnerOnCounter(string counter, string dinner)
     {   

@@ -396,8 +396,11 @@ public class ButtonController : MonoBehaviour
         SaveAndLoadController.SavePlayerData();
 
         //wenn ein floorObject replaced wird, replace die Dinner auf allen öven, damit das dinner auf den oven bleibt 
-        //(ist egal ob das bewegte ein object ein oven istoder nicht, kann hier noch verbessert werden)
+        //(ist egal ob das bewegte ein object ein oven ist oder nicht, kann hier noch verbessert werden)
         DinnerController.ReadjustAllDinnerPrefabsOnOven();
+        //wenn ein floorObject replaced wird, replace die Dinner auf allen countern, damit das dinner auf den counter bleibt 
+        //(ist egal ob das bewegte ein object ein oven ist oder nicht, kann hier noch verbessert werden)
+        CounterController.ReadjustAllDinnerPrefabsOnCounter();
     }
 
     //verändert die boden textur
