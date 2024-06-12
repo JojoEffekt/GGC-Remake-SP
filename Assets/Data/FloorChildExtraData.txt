@@ -24,10 +24,10 @@ Table;5-7;True
 Table;6-7;True
 Counter;9-3;False;Garden Salad;60
 Counter;4-2;False;Chilli con Carne;1600
-Counter;10-3;False;Omelette;25
+Counter;4-4;False;Omelette;40
 Oven;9-1;0;;0;;0
 Oven;9-2;0;;0;;0
 Oven;10-1;0;;0;;0
 Oven;4-3;0;;0;;0
-Oven;10-2;0;;0;;0
+Oven;4-5;0;;0;;0
 Slushi;1-8;;0

@@ -380,6 +380,7 @@ public class Table{
     public string type { get; set; }
     public string gameObjectName { get; set; }
     public bool isEmpty { get; set; }
+
     public Table(string type, string gameObjectName, bool isEmpty){
         this.type = type;
         this.gameObjectName = gameObjectName;
