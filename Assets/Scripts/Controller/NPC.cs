@@ -7,10 +7,31 @@ public class NPC : MonoBehaviour
     //sagt aus ob npc bedient werden kann oder nicht
     public bool isOnTable = false;
 
+    //sagt aus ob der npc gerade in bewegung ist
+    //wird in verbindung mit der "waittime" benutzt
+    public bool isOnWalk { get; set; }
+
+    //die zeit die der npc nocht wartet bevor er geht
+    //wird beim hinsetzen an einem tisch zurückgesetzt
+    //wird während laufen pausiert
+    public int waittime { get; set; }
+
+    //variable um jede sekunde ein event zu erzeugen
+    private float timeDelay = 0.0f;
+
     //Constructor der für die initalisiereung verantwortlich ist
     public NPC()
     {
+        //setzte die selbstzerstörung bei nicht handlungsfähig auf 30 sekunden
+        waittime = 30;
+
+        //npc ist gerade nicht in bewegung
+        isOnWalk = false;
+
+        //erstelle den npc
         CreateNPC();
+
+        
 
         /*
         erstelle neue position
@@ -31,18 +52,21 @@ public class NPC : MonoBehaviour
     }
 
     //instantiate den npc anhand des prefabs und fügt einen zufälligen skin ein
-    private void CreateNPC(){
+    private void CreateNPC()
+    {
 
     }
 
     //laufe zur neuen position anhand des erstellten path
     //gibt TRUE zurück wenn npc am ziel ankommen ist
-    private bool NPCMovement(List<string> path){
+    private bool NPCMovement(List<string> path)
+    {
         return true;
     }
 
     //gibt die npc position auf dem grid wieder
-    public int[] getPosition(){
+    public int[] getPosition()
+    {
         return new int[]{0,0};
     }
 }

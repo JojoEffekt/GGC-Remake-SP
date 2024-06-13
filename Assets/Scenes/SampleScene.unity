@@ -8255,6 +8255,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c26ca6ced59eb15409ca2f2dae753f72, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  tempCafeFavNumber: 50
+  npcList: []
 --- !u!1 &839165411
 GameObject:
   m_ObjectHideFlags: 0
