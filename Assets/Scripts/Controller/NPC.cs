@@ -16,6 +16,9 @@ public class NPC : MonoBehaviour
     //wird während laufen pausiert
     public int waittime { get; set; }
 
+    //position an die der npc laufen soll zum essen
+    public int[] eatingPosition { get; set; }
+
     //variable um jede sekunde ein event zu erzeugen
     private float timeDelay = 0.0f;
 
