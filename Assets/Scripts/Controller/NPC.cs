@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class NPC : MonoBehaviour
 {   
+    //beinhaltet den npc
+    private GameObject npcGO;
+
     //sagt aus ob npc bedient werden kann oder nicht
     public bool isOnTable = false;
 
@@ -23,7 +26,7 @@ public class NPC : MonoBehaviour
     private float timeDelay = 0.0f;
 
     //Constructor der für die initalisiereung verantwortlich ist
-    public NPC()
+    public NPC(GameObject prefab)
     {
         //setzte die selbstzerstörung bei nicht handlungsfähig auf 30 sekunden
         waittime = 30;
@@ -32,9 +35,7 @@ public class NPC : MonoBehaviour
         isOnWalk = false;
 
         //erstelle den npc
-        CreateNPC();
-
-        
+        CreateNPC(prefab);
 
         /*
         erstelle neue position
@@ -55,9 +56,9 @@ public class NPC : MonoBehaviour
     }
 
     //instantiate den npc anhand des prefabs und fügt einen zufälligen skin ein
-    private void CreateNPC()
+    private void CreateNPC(GameObject prefab)
     {
-
+        npcGO = Instantiate(prefab, new Vector3(0, 0, 0), Quaternion.identity);
     }
 
     //laufe zur neuen position anhand des erstellten path

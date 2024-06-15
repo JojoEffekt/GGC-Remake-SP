@@ -18,6 +18,12 @@ public class NPCManager : MonoBehaviour
     //liste die alle aktiven npcs beinhaltet
     public List<NPC> npcList = new List<NPC>();
 
+    //enthält alle objecte auf dem spielfeld
+    List<GameObject> objectList = new List<GameObject>();
+
+    //beinhaltet das prefab der npcs
+    private GameObject prefab;
+
     /*
     liste die die aktuellen npcs beinhaltet
 
@@ -31,6 +37,12 @@ public class NPCManager : MonoBehaviour
     npc sucht nach tisch mit stuhl (leer) -> npc geht dahin
         warte 30 sec -> gehe aus cafe
     */
+
+    void Start()
+    {
+        //läd das prefab für den npc
+        prefab = Resources.Load("Prefabs/NPCPrefab") as GameObject;
+    }
     
     private void Update()
     {
@@ -47,7 +59,7 @@ public class NPCManager : MonoBehaviour
             if(tempCafeFavNumber>=rndmNum)
             {
                 //generiere einen neuen npc
-                NPC npc = new NPC();
+                NPC npc = new NPC(prefab);
 
                 //speichert den neuen npc in list
                 npcList.Add(npc);
@@ -57,6 +69,7 @@ public class NPCManager : MonoBehaviour
 
             //finde eine aktuell mögliche position an die sich alle wartenden npcs hinsetzten könnten
             SearchForNPCSitPosition();
+            Debug.Log(" npcs: "+npcList.Count);
 
             //prüfe auf zerstörbare npcs
             CheckForDestroyableNPCs();
@@ -65,15 +78,14 @@ public class NPCManager : MonoBehaviour
     
     //sucht im gesamten spielfeld nach freie plätze für alle npc wo der npc sich an einem tisch setzten kann
     private void SearchForNPCSitPosition()
-    {   
+    {
         //für jeden npc in list
         for(int a=0;a<npcList.Count;a++)
         {   
             //hat npc keine position zum essen, dann suche eine
             if(npcList[a].eatingPosition==null)
             {
-               // Debug.Log("suche platz für: "+a);
-                getPositionNextToChair();
+                getPositionNextToChair(npcList[a]);
             }
         }
     }
@@ -105,25 +117,8 @@ public class NPCManager : MonoBehaviour
     //suche eine mögliche sitzposition für ein npc
     //gibt koordinate neben stuhl wieder, wenn angekommen
     //setzte npc auf stuhl etc.
-    public int[] getPositionNextToChair()
+    public int[] getPositionNextToChair(NPC npc)
     {
-        //enthält alle objecte auf dem spielfeld
-        List<GameObject> objectList = new List<GameObject>();
-
-        //suche alle objecte in auf dem spielfeld
-        for(int a=0;a<PlayerController.gridSize-1;a++)
-        {
-            for(int b=0;b<PlayerController.gridSize-1;b++)
-            {   
-                //suche alle existierende childs
-                if(GameObject.Find(a+"-"+b+"-Child"))
-                {   
-                    //füge sie der liste hinzu
-                    objectList.Add(GameObject.Find(a+"-"+b+"-Child"));
-                }
-            }
-        }
-
         //für jedes object in liste
         for(int a=0;a<objectList.Count;a++)
         {
@@ -148,42 +143,46 @@ public class NPCManager : MonoBehaviour
                         if(objectList[b].GetComponent<SpriteRenderer>().sprite.name.Split("_")[0].Equals("Chair")&&objectList[b].GetComponent<SpriteRenderer>().sprite.name.Split("_").Last().Equals("d"))
                         {
                             //prüfe ob neben dem stuhl eine position zum laufen frei ist
-                            if(SearchForPositionNearTheObject(objectList[b].name))
+                            if(SearchForPositionNearTheObject(objectList[b].name, npc))
                             {
                                 Debug.Log("passende sitzposition gefunden: "+objectList[a].name+":"+objectList[b].name);
+                                return null;
                             }
                         }
                     }
-                    if(objectList[b].name.Equals(objectNameRechtsUnten))
+                    else if(objectList[b].name.Equals(objectNameRechtsUnten))
                     {
                         if(objectList[b].GetComponent<SpriteRenderer>().sprite.name.Split("_")[0].Equals("Chair")&&objectList[b].GetComponent<SpriteRenderer>().sprite.name.Split("_").Last().Equals("c"))
                         {
                             //prüfe ob neben dem stuhl eine position zum laufen frei ist
-                            if(SearchForPositionNearTheObject(objectList[b].name))
+                            if(SearchForPositionNearTheObject(objectList[b].name, npc))
                             {
                                 Debug.Log("passende sitzposition gefunden: "+objectList[a].name+":"+objectList[b].name);
+                                return null;
                             }
                         }
                     }
-                    if(objectList[b].name.Equals(objectNameLinksOben))
+                    else if(objectList[b].name.Equals(objectNameLinksOben))
                     {
                         if(objectList[b].GetComponent<SpriteRenderer>().sprite.name.Split("_")[0].Equals("Chair")&&objectList[b].GetComponent<SpriteRenderer>().sprite.name.Split("_").Last().Equals("a"))
                         {
                             //prüfe ob neben dem stuhl eine position zum laufen frei ist
-                            if(SearchForPositionNearTheObject(objectList[b].name))
+                            if(SearchForPositionNearTheObject(objectList[b].name, npc))
                             {
                                 Debug.Log("passende sitzposition gefunden: "+objectList[a].name+":"+objectList[b].name);
+                                return null;
                             }
                         }
                     }
-                    if(objectList[b].name.Equals(objectNameLinksUnten))
+                    else if(objectList[b].name.Equals(objectNameLinksUnten))
                     {
                         if(objectList[b].GetComponent<SpriteRenderer>().sprite.name.Split("_")[0].Equals("Chair")&&objectList[b].GetComponent<SpriteRenderer>().sprite.name.Split("_").Last().Equals("b"))
                         {
                             //prüfe ob neben dem stuhl eine position zum laufen frei ist
-                            if(SearchForPositionNearTheObject(objectList[b].name))
+                            if(SearchForPositionNearTheObject(objectList[b].name, npc))
                             {
                                 Debug.Log("passende sitzposition gefunden: "+objectList[a].name+":"+objectList[b].name);
+                                return null;
                             }
                         }
                     }
@@ -195,8 +194,11 @@ public class NPCManager : MonoBehaviour
 
     //sucht nach einer nebenstehenden positionen des chairs
     //gibt false wieder wenn nichts gefunden
-    public bool SearchForPositionNearTheObject(string ObjectToMoveOn)
+    public bool SearchForPositionNearTheObject(string ObjectToMoveOn, NPC npc)
     {
+        //speicher start pos
+        int[] doorPos = PlayerMovementController.FindDoorPos();
+
         //sucht nach einer freien position oben, rechts, unten, links vom oven
         int x = Int32.Parse(ObjectToMoveOn.Split("-")[0]);
         int y = Int32.Parse(ObjectToMoveOn.Split("-")[1]);
@@ -216,10 +218,14 @@ public class NPCManager : MonoBehaviour
                 if(!GameObject.Find(nearbyObj+"-Child"))
                 {
                     //gucke ob npc zur position laufen kann
-                    int[] doorPos = PlayerMovementController.FindDoorPos();
                     List<string> playerPath = LabyrinthBuilder.LabyrinthManager(doorPos, new int[]{Int32.Parse(nearbyObj.Split("-")[0]),Int32.Parse(nearbyObj.Split("-")[1])});
                     if(playerPath.Count!=0)
                     {
+                        //CONTINUE GUCKE OB NPC NICHT DIREKT BEIM SPAWNEN NEBEN TISCH STEHT
+                        //CONTINUE LASSE NPC HIER LAUFEN
+                        npc.isOnWalk = true;
+                        npc.eatingPosition = new int[]{0,0};
+
                         //npc kann zum chair gehen
                         return true;
                     }
@@ -227,5 +233,31 @@ public class NPCManager : MonoBehaviour
             }
         }
         return false;
+    }
+
+    public void CollectAllChairsAndTablesInList()
+    {
+        //suche alle objecte die chair oder table sind, auf dem spielfeld
+        for(int a=0;a<PlayerController.gridSize-1;a++)
+        {
+            for(int b=0;b<PlayerController.gridSize-1;b++)
+            {   
+                //suche alle existierende childs
+                GameObject obj = GameObject.Find(a+"-"+b+"-Child");
+                if(obj!=null)
+                {   
+                    //füge sie der liste hinzu wenn es chair oder tabel ist
+                    if(obj.GetComponent<SpriteRenderer>().sprite.name.Split("_")[0].Equals("Chair"))
+                    {
+                        objectList.Add(obj);
+                    }
+                    else if(obj.GetComponent<SpriteRenderer>().sprite.name.Split("_")[0].Equals("Table"))
+                    {
+                        objectList.Add(obj);
+                    }
+                }
+            }
+        }
+        Debug.Log("länge der objlist: "+objectList.Count);
     }
 }

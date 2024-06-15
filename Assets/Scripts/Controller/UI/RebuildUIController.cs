@@ -9,6 +9,7 @@ public class RebuildUIController : MonoBehaviour
     public GameObject ButtonController;
     public GameObject MainController;
     public GameObject RebuildStore;
+    public GameObject NPCController;
 
     public GameObject ItemController;
 
@@ -52,6 +53,9 @@ public class RebuildUIController : MonoBehaviour
         ButtonController.GetComponent<ButtonController>().isRebuildShopOpen = false;
         ButtonController.GetComponent<ButtonController>().MouseAction = 0;
         Destroy(ButtonController.GetComponent<ButtonController>().DynamicPrefab);//zerstört SettingsUI fals noch offen
+    
+        //erfasse alle tables und chairs nachdem der shop geschlossen wird um npc sitzpositionen ermitteln zu können
+        NPCController.GetComponent<NPCManager>().CollectAllChairsAndTablesInList();
     }
 
     public void RenderShop(){

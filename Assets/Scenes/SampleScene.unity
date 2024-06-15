@@ -17091,6 +17091,7 @@ MonoBehaviour:
   ButtonController: {fileID: 1996097770}
   MainController: {fileID: 349073842}
   RebuildStore: {fileID: 1822595005}
+  NPCController: {fileID: 0}
   ItemController: {fileID: 406793277}
   ItemPrefab: {fileID: 6551093608942893140, guid: 1fde849bbeef1494e8dc59a06fb91a59, type: 3}
   switcher1: {fileID: 244330351}

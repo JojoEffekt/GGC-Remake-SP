@@ -123,6 +123,9 @@ public class SaveAndLoadController : MonoBehaviour
 
         //rendert spieler
         PlayerMovementController.LoadPlayer();
+
+        //speichert alle geladenene tables/chairs für npcs in einer liste
+        GameObject.Find("NPCController").GetComponent<NPCManager>().CollectAllChairsAndTablesInList();
     }
 
     public static void SavePlayerData(){
