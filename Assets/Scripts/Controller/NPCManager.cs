@@ -69,7 +69,7 @@ public class NPCManager : MonoBehaviour
 
             //finde eine aktuell mögliche position an die sich alle wartenden npcs hinsetzten könnten
             SearchForNPCSitPosition();
-            Debug.Log(" npcs: "+npcList.Count);
+            Debug.Log("existierende npcs: "+npcList.Count);
 
             //prüfe auf zerstörbare npcs
             CheckForDestroyableNPCs();
@@ -83,9 +83,22 @@ public class NPCManager : MonoBehaviour
         for(int a=0;a<npcList.Count;a++)
         {   
             //hat npc keine position zum essen, dann suche eine
-            if(npcList[a].eatingPosition==null)
+            if(npcList[a].endPos==null)
             {
-                getPositionNextToChair(npcList[a]);
+                //weg gefunden, daten übergeben, starte movement
+                //change FCED für chair und table
+                if(getPositionNextToChair(npcList[a]))
+                {
+                    npcList[a].NPCMovement();
+
+                    //CONTINUE
+                    /*
+                    change fced chair table
+                    lasse npc in nbpcmovement loslaufen
+                    verändere bool wenn spieler sitzt
+                    
+                    */
+                }
             }
         }
     }
@@ -117,7 +130,7 @@ public class NPCManager : MonoBehaviour
     //suche eine mögliche sitzposition für ein npc
     //gibt koordinate neben stuhl wieder, wenn angekommen
     //setzte npc auf stuhl etc.
-    public int[] getPositionNextToChair(NPC npc)
+    public bool getPositionNextToChair(NPC npc)
     {
         //für jedes object in liste
         for(int a=0;a<objectList.Count;a++)
@@ -145,8 +158,10 @@ public class NPCManager : MonoBehaviour
                             //prüfe ob neben dem stuhl eine position zum laufen frei ist
                             if(SearchForPositionNearTheObject(objectList[b].name, npc))
                             {
-                                Debug.Log("passende sitzposition gefunden: "+objectList[a].name+":"+objectList[b].name);
-                                return null;
+                                //weg gefunden, übergebe die chair position dem npc
+                                npc.chairPos = new int[]{x,(y-1)};
+                                //Debug.Log("passende sitzposition gefunden: "+objectList[a].name+":"+objectList[b].name);
+                                return true;
                             }
                         }
                     }
@@ -157,8 +172,9 @@ public class NPCManager : MonoBehaviour
                             //prüfe ob neben dem stuhl eine position zum laufen frei ist
                             if(SearchForPositionNearTheObject(objectList[b].name, npc))
                             {
-                                Debug.Log("passende sitzposition gefunden: "+objectList[a].name+":"+objectList[b].name);
-                                return null;
+                                npc.chairPos = new int[]{(x+1),y};
+                                //Debug.Log("passende sitzposition gefunden: "+objectList[a].name+":"+objectList[b].name);
+                                return true;
                             }
                         }
                     }
@@ -169,8 +185,9 @@ public class NPCManager : MonoBehaviour
                             //prüfe ob neben dem stuhl eine position zum laufen frei ist
                             if(SearchForPositionNearTheObject(objectList[b].name, npc))
                             {
-                                Debug.Log("passende sitzposition gefunden: "+objectList[a].name+":"+objectList[b].name);
-                                return null;
+                                npc.chairPos = new int[]{(x-1),y};
+                                //Debug.Log("passende sitzposition gefunden: "+objectList[a].name+":"+objectList[b].name);
+                                return true;
                             }
                         }
                     }
@@ -181,15 +198,16 @@ public class NPCManager : MonoBehaviour
                             //prüfe ob neben dem stuhl eine position zum laufen frei ist
                             if(SearchForPositionNearTheObject(objectList[b].name, npc))
                             {
-                                Debug.Log("passende sitzposition gefunden: "+objectList[a].name+":"+objectList[b].name);
-                                return null;
+                                npc.chairPos = new int[]{x,(y+1)};
+                                //Debug.Log("passende sitzposition gefunden: "+objectList[a].name+":"+objectList[b].name);
+                                return true;
                             }
                         }
                     }
                 }
             }
         }
-        return null;
+        return false;
     }
 
     //sucht nach einer nebenstehenden positionen des chairs
@@ -218,13 +236,16 @@ public class NPCManager : MonoBehaviour
                 if(!GameObject.Find(nearbyObj+"-Child"))
                 {
                     //gucke ob npc zur position laufen kann
-                    List<string> playerPath = LabyrinthBuilder.LabyrinthManager(doorPos, new int[]{Int32.Parse(nearbyObj.Split("-")[0]),Int32.Parse(nearbyObj.Split("-")[1])});
-                    if(playerPath.Count!=0)
+                    List<string> npcPath = LabyrinthBuilder.LabyrinthManager(doorPos, new int[]{Int32.Parse(nearbyObj.Split("-")[0]),Int32.Parse(nearbyObj.Split("-")[1])});
+                    if(npcPath.Count!=0)
                     {
                         //CONTINUE GUCKE OB NPC NICHT DIREKT BEIM SPAWNEN NEBEN TISCH STEHT
-                        //CONTINUE LASSE NPC HIER LAUFEN
+                        
+                        //weg gefunden, übergebe datenm zum laufen
                         npc.isOnWalk = true;
-                        npc.eatingPosition = new int[]{0,0};
+                        npc.startPos = new int[]{doorPos[0], doorPos[1]};
+                        npc.endPos = new int[]{Int32.Parse(npcPath[npcPath.Count-1].Split(":")[0]),Int32.Parse(npcPath[npcPath.Count-1].Split(":")[1])};
+                        npc.npcPath = npcPath;
 
                         //npc kann zum chair gehen
                         return true;
@@ -235,6 +256,8 @@ public class NPCManager : MonoBehaviour
         return false;
     }
 
+    //aktuallisiert die list der chair und table objekte in dem cafe
+    //wird beim starten und verändern des cafes aufgerufen 
     public void CollectAllChairsAndTablesInList()
     {
         //suche alle objecte die chair oder table sind, auf dem spielfeld
@@ -258,6 +281,5 @@ public class NPCManager : MonoBehaviour
                 }
             }
         }
-        Debug.Log("länge der objlist: "+objectList.Count);
     }
 }

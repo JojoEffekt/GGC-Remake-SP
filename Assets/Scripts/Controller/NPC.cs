@@ -7,6 +7,8 @@ public class NPC : MonoBehaviour
     //beinhaltet den npc
     private GameObject npcGO;
 
+    
+
     //sagt aus ob npc bedient werden kann oder nicht
     public bool isOnTable = false;
 
@@ -14,16 +16,26 @@ public class NPC : MonoBehaviour
     //wird in verbindung mit der "waittime" benutzt
     public bool isOnWalk { get; set; }
 
+
+
     //die zeit die der npc nocht wartet bevor er geht
     //wird beim hinsetzen an einem tisch zurückgesetzt
     //wird während laufen pausiert
     public int waittime { get; set; }
 
-    //position an die der npc laufen soll zum essen
-    public int[] eatingPosition { get; set; }
 
-    //variable um jede sekunde ein event zu erzeugen
-    private float timeDelay = 0.0f;
+
+    //position von der der npc loslaufen und hinlaufen soll
+    public int[] startPos { get; set; }
+    public int[] endPos { get; set; }
+
+    //der GO name des stuhls zum essen
+    public int[] chairPos { get; set; }
+
+    //beinhaltet den path zum zum stuhl
+    public List<string> npcPath { get; set; }
+
+
 
     //Constructor der für die initalisiereung verantwortlich ist
     public NPC(GameObject prefab)
@@ -36,23 +48,6 @@ public class NPC : MonoBehaviour
 
         //erstelle den npc
         CreateNPC(prefab);
-
-        /*
-        erstelle neue position
-            gucke ob ein stuhl + tisch frei ist
-                List<string> path = LabyrinthBuilder.LabyrinthManager(doorPos,posNebenStuhl)
-                NPCMovement(path)
-                    wenn am ziel, setzte npc auf stuhl und mache für kellner verfügbar
-                    warte 30 sekunden ansonsten gehe
-                    werde bedient
-                    essen animation
-                    stehe auf gehe zur tür
-                        lösche npc
-        */
-
-        //sucht eine position wohin der spieler laufen kann
-        //rufe jede sekunde auf wenn kein wert zurückgegeben wird
-        //-> NPCManager.getNPCPosition();
     }
 
     //instantiate den npc anhand des prefabs und fügt einen zufälligen skin ein
@@ -63,15 +58,17 @@ public class NPC : MonoBehaviour
 
     //laufe zur neuen position anhand des erstellten path
     //gibt TRUE zurück wenn npc am ziel ankommen ist
-    private bool NPCMovement(List<string> path)
+    public bool NPCMovement()
     {
+        Debug.Log("npc laufe los");
+        Debug.Log("laufen?: "+isOnWalk);
+        Debug.Log("start position: "+startPos[0]+":"+startPos[1]);
+        Debug.Log("end position: "+endPos[0]+":"+endPos[1]);
+        Debug.Log("chair position: "+chairPos[0]+":"+chairPos[1]);
+        for(int a=0;a<npcPath.Count;a++){
+            Debug.Log(npcPath[a]);
+        }
         return true;
-    }
-
-    //gibt die npc position auf dem grid wieder
-    public int[] getPosition()
-    {
-        return new int[]{0,0};
     }
 }
 
