@@ -124,8 +124,11 @@ public class SaveAndLoadController : MonoBehaviour
         //rendert spieler
         PlayerMovementController.LoadPlayer();
 
+        //LADE INITIALDATEN WENN ALLE OBJECTE ETC GELADEN SIND
         //speichert alle geladenene tables/chairs für npcs in einer liste
         GameObject.Find("NPCController").GetComponent<NPCManager>().CollectAllChairsAndTablesInList();
+        //läd das grid für npc/player movement
+        LabyrinthBuilder.GenerateGrid();
     }
 
     public static void SavePlayerData(){

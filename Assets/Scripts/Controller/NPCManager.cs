@@ -24,20 +24,6 @@ public class NPCManager : MonoBehaviour
     //beinhaltet das prefab der npcs
     private GameObject prefab;
 
-    /*
-    liste die die aktuellen npcs beinhaltet
-
-    list die die aktuell bedienbaren npc beinhaltet sowie die zeit wie lange sie noch bedienbar sind
-
-    berechne das grid (get)
-
-    berechne alle möglichen sitzpositionen (get)
-
-    erzeugt neuen npc
-    npc sucht nach tisch mit stuhl (leer) -> npc geht dahin
-        warte 30 sec -> gehe aus cafe
-    */
-
     void Start()
     {
         //läd das prefab für den npc
@@ -89,15 +75,21 @@ public class NPCManager : MonoBehaviour
                 //change FCED für chair und table
                 if(getPositionNextToChair(npcList[a]))
                 {
+                    //verändere das FCED für table/chair auf besetzt
+                    FloorChildExtraDataController.ChangeFCEDData("Table;"+(npcList[a].tablePos[0]+"-"+npcList[a].tablePos[1])+";False");
+                    FloorChildExtraDataController.ChangeFCEDData("Chair;"+(npcList[a].chairPos[0]+"-"+npcList[a].chairPos[1])+";False");
+
                     npcList[a].NPCMovement();
 
                     //CONTINUE
                     /*
-                    change fced chair table
-                    lasse npc in nbpcmovement loslaufen
                     verändere bool wenn spieler sitzt
                     
                     */
+
+                    //KEINE AHNUNG OB NÖTIG
+                    //nach jeder action muss neu gespeichert werden
+                    SaveAndLoadController.SavePlayerData();
                 }
             }
         }
@@ -138,69 +130,90 @@ public class NPCManager : MonoBehaviour
             //gucke ob das object ein tisch ist
             if(objectList[a].GetComponent<SpriteRenderer>().sprite.name.Split("_")[0].Equals("Table"))
             {
-                //alle nebenstehende positionen bilden
-                int x = Int32.Parse(objectList[a].name.Split("-")[0]);
-                int y = Int32.Parse(objectList[a].name.Split("-")[1]);
-                string objectNameRechtsOben = x+"-"+(y-1)+"-Child";  //rechts oben   sprite: d
-                string objectNameRechtsUnten = (x+1)+"-"+y+"-Child"; //rechts unten  sprite: c
-                string objectNameLinksOben = (x-1)+"-"+y+"-Child";   //links oben    sprite: a
-                string objectNameLinksUnten = x+"-"+(y+1)+"-Child";  //links unten   sprite: b
-
-                //gucke ob ein umliegendes gameobject um den tisch ein stuhl mit  richter blickrichtung ist
-                for(int b=0;b<objectList.Count;b++)
+                //prüfe ob dieser table im FCED nicht von einem npc besetzt ist
+                if(Convert.ToBoolean(FloorChildExtraDataController.getTable(objectList[a].name.Split("-")[0]+"-"+objectList[a].name.Split("-")[1]).getData().Split(";")[2]))
                 {
-                    //gucke ob nebenstehendes object existiert
-                    if(objectList[b].name.Equals(objectNameRechtsOben))
+                    //alle nebenstehende positionen bilden
+                    int x = Int32.Parse(objectList[a].name.Split("-")[0]);
+                    int y = Int32.Parse(objectList[a].name.Split("-")[1]);
+                    string objectNameRechtsOben = x+"-"+(y-1)+"-Child";  //rechts oben   sprite: d
+                    string objectNameRechtsUnten = (x+1)+"-"+y+"-Child"; //rechts unten  sprite: c
+                    string objectNameLinksOben = (x-1)+"-"+y+"-Child";   //links oben    sprite: a
+                    string objectNameLinksUnten = x+"-"+(y+1)+"-Child";  //links unten   sprite: b
+
+                    //gucke ob ein umliegendes gameobject um den tisch ein stuhl mit  richter blickrichtung ist
+                    for(int b=0;b<objectList.Count;b++)
                     {
-                        //gucke ob object chair ist und richtige  blickrichtung hat
-                        if(objectList[b].GetComponent<SpriteRenderer>().sprite.name.Split("_")[0].Equals("Chair")&&objectList[b].GetComponent<SpriteRenderer>().sprite.name.Split("_").Last().Equals("d"))
+                        //gucke ob nebenstehendes object existiert
+                        if(objectList[b].name.Equals(objectNameRechtsOben))
                         {
-                            //prüfe ob neben dem stuhl eine position zum laufen frei ist
-                            if(SearchForPositionNearTheObject(objectList[b].name, npc))
+                            //gucke ob object chair ist und richtige  blickrichtung hat
+                            if(objectList[b].GetComponent<SpriteRenderer>().sprite.name.Split("_")[0].Equals("Chair")&&objectList[b].GetComponent<SpriteRenderer>().sprite.name.Split("_").Last().Equals("d"))
                             {
-                                //weg gefunden, übergebe die chair position dem npc
-                                npc.chairPos = new int[]{x,(y-1)};
-                                //Debug.Log("passende sitzposition gefunden: "+objectList[a].name+":"+objectList[b].name);
-                                return true;
+                                //prüfe ob dieser chair im FCED nicht von einem npc besetzt ist 
+                                if(Convert.ToBoolean(FloorChildExtraDataController.getChair(objectList[b].name.Split("-")[0]+"-"+objectList[b].name.Split("-")[1]).getData().Split(";")[2]))
+                                {
+                                    //prüfe ob neben dem stuhl eine position zum laufen frei ist
+                                    if(SearchForPositionNearTheObject(objectList[b].name, npc))
+                                    {
+                                        //weg gefunden, übergebe die chair position dem npc
+                                        npc.chairPos = new int[]{x,(y-1)};
+                                        npc.tablePos = new int[]{Int32.Parse(objectList[a].name.Split("-")[0]), Int32.Parse(objectList[a].name.Split("-")[1])};
+                                        //Debug.Log("passende sitzposition gefunden: "+objectList[a].name+":"+objectList[b].name);
+                                        return true;
+                                    }
+                                }
                             }
                         }
-                    }
-                    else if(objectList[b].name.Equals(objectNameRechtsUnten))
-                    {
-                        if(objectList[b].GetComponent<SpriteRenderer>().sprite.name.Split("_")[0].Equals("Chair")&&objectList[b].GetComponent<SpriteRenderer>().sprite.name.Split("_").Last().Equals("c"))
+                        else if(objectList[b].name.Equals(objectNameRechtsUnten))
                         {
-                            //prüfe ob neben dem stuhl eine position zum laufen frei ist
-                            if(SearchForPositionNearTheObject(objectList[b].name, npc))
+                            if(objectList[b].GetComponent<SpriteRenderer>().sprite.name.Split("_")[0].Equals("Chair")&&objectList[b].GetComponent<SpriteRenderer>().sprite.name.Split("_").Last().Equals("c"))
                             {
-                                npc.chairPos = new int[]{(x+1),y};
-                                //Debug.Log("passende sitzposition gefunden: "+objectList[a].name+":"+objectList[b].name);
-                                return true;
+                                if(Convert.ToBoolean(FloorChildExtraDataController.getChair(objectList[b].name.Split("-")[0]+"-"+objectList[b].name.Split("-")[1]).getData().Split(";")[2]))
+                                {
+                                    //prüfe ob neben dem stuhl eine position zum laufen frei ist
+                                    if(SearchForPositionNearTheObject(objectList[b].name, npc))
+                                    {
+                                        npc.chairPos = new int[]{(x+1),y};
+                                        npc.tablePos = new int[]{Int32.Parse(objectList[a].name.Split("-")[0]), Int32.Parse(objectList[a].name.Split("-")[1])};
+                                        //Debug.Log("passende sitzposition gefunden: "+objectList[a].name+":"+objectList[b].name);
+                                        return true;
+                                    }
+                                }
                             }
                         }
-                    }
-                    else if(objectList[b].name.Equals(objectNameLinksOben))
-                    {
-                        if(objectList[b].GetComponent<SpriteRenderer>().sprite.name.Split("_")[0].Equals("Chair")&&objectList[b].GetComponent<SpriteRenderer>().sprite.name.Split("_").Last().Equals("a"))
+                        else if(objectList[b].name.Equals(objectNameLinksOben))
                         {
-                            //prüfe ob neben dem stuhl eine position zum laufen frei ist
-                            if(SearchForPositionNearTheObject(objectList[b].name, npc))
+                            if(objectList[b].GetComponent<SpriteRenderer>().sprite.name.Split("_")[0].Equals("Chair")&&objectList[b].GetComponent<SpriteRenderer>().sprite.name.Split("_").Last().Equals("a"))
                             {
-                                npc.chairPos = new int[]{(x-1),y};
-                                //Debug.Log("passende sitzposition gefunden: "+objectList[a].name+":"+objectList[b].name);
-                                return true;
+                                if(Convert.ToBoolean(FloorChildExtraDataController.getChair(objectList[b].name.Split("-")[0]+"-"+objectList[b].name.Split("-")[1]).getData().Split(";")[2]))
+                                {
+                                    //prüfe ob neben dem stuhl eine position zum laufen frei ist
+                                    if(SearchForPositionNearTheObject(objectList[b].name, npc))
+                                    {
+                                        npc.chairPos = new int[]{(x-1),y};
+                                        npc.tablePos = new int[]{Int32.Parse(objectList[a].name.Split("-")[0]), Int32.Parse(objectList[a].name.Split("-")[1])};
+                                        //Debug.Log("passende sitzposition gefunden: "+objectList[a].name+":"+objectList[b].name);
+                                        return true;
+                                    }
+                                }
                             }
                         }
-                    }
-                    else if(objectList[b].name.Equals(objectNameLinksUnten))
-                    {
-                        if(objectList[b].GetComponent<SpriteRenderer>().sprite.name.Split("_")[0].Equals("Chair")&&objectList[b].GetComponent<SpriteRenderer>().sprite.name.Split("_").Last().Equals("b"))
+                        else if(objectList[b].name.Equals(objectNameLinksUnten))
                         {
-                            //prüfe ob neben dem stuhl eine position zum laufen frei ist
-                            if(SearchForPositionNearTheObject(objectList[b].name, npc))
+                            if(objectList[b].GetComponent<SpriteRenderer>().sprite.name.Split("_")[0].Equals("Chair")&&objectList[b].GetComponent<SpriteRenderer>().sprite.name.Split("_").Last().Equals("b"))
                             {
-                                npc.chairPos = new int[]{x,(y+1)};
-                                //Debug.Log("passende sitzposition gefunden: "+objectList[a].name+":"+objectList[b].name);
-                                return true;
+                                if(Convert.ToBoolean(FloorChildExtraDataController.getChair(objectList[b].name.Split("-")[0]+"-"+objectList[b].name.Split("-")[1]).getData().Split(";")[2]))
+                                {
+                                    //prüfe ob neben dem stuhl eine position zum laufen frei ist
+                                    if(SearchForPositionNearTheObject(objectList[b].name, npc))
+                                    {
+                                        npc.chairPos = new int[]{x,(y+1)};
+                                        npc.tablePos = new int[]{Int32.Parse(objectList[a].name.Split("-")[0]), Int32.Parse(objectList[a].name.Split("-")[1])};
+                                        //Debug.Log("passende sitzposition gefunden: "+objectList[a].name+":"+objectList[b].name);
+                                        return true;
+                                    }
+                                }
                             }
                         }
                     }

@@ -363,14 +363,17 @@ public class Chair{
     public string type { get; set; }
     public string gameObjectName { get; set; }
     public bool isEmpty { get; set; }
+
     public Chair(string type, string gameObjectName, bool isEmpty){
         this.type = type;
         this.gameObjectName = gameObjectName;
         this.isEmpty = isEmpty;
     }
+
     public string getData(){
         return type+";"+gameObjectName+";"+isEmpty;
     }
+
     public void setData(bool isEmpty){
         this.isEmpty = isEmpty;
     }
@@ -386,9 +389,11 @@ public class Table{
         this.gameObjectName = gameObjectName;
         this.isEmpty = isEmpty;
     }
+
     public string getData(){
         return type+";"+gameObjectName+";"+isEmpty;
     }
+
     public void setData(bool isEmpty){
         this.isEmpty = isEmpty;
     }

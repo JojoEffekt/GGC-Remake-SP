@@ -26,9 +26,6 @@ public class LabyrinthBuilder : MonoBehaviour
     //managed die die eingegebenen coords und sucht ein path
     public static List<string> LabyrinthManager(int[] startPos, int[] endPos){
 
-        //generiert das aktuelle grid und findet die DoorPos
-        GenerateGrid();
-
         //sucht Potenzielle wege anhand von start- endPos
         List<string> unsortedPath = getPathData(startPos, endPos);
 

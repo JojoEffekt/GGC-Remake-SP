@@ -53,9 +53,12 @@ public class RebuildUIController : MonoBehaviour
         ButtonController.GetComponent<ButtonController>().isRebuildShopOpen = false;
         ButtonController.GetComponent<ButtonController>().MouseAction = 0;
         Destroy(ButtonController.GetComponent<ButtonController>().DynamicPrefab);//zerstört SettingsUI fals noch offen
-    
+
+        //BEIM SCHLIE?EN DES SHOPS SPEICHER WICHTIGE DATEN BEI DIE DAS CAFE NACH OBJECTEN GESCANNT WIRD
         //erfasse alle tables und chairs nachdem der shop geschlossen wird um npc sitzpositionen ermitteln zu können
         NPCController.GetComponent<NPCManager>().CollectAllChairsAndTablesInList();
+        //läd das grid für npc/player movement
+        LabyrinthBuilder.GenerateGrid();
     }
 
     public void RenderShop(){

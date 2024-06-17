@@ -29,8 +29,9 @@ public class NPC : MonoBehaviour
     public int[] startPos { get; set; }
     public int[] endPos { get; set; }
 
-    //der GO name des stuhls zum essen
+    //der GO name des stuhls/table zum essen
     public int[] chairPos { get; set; }
+    public int[] tablePos { get; set; }
 
     //beinhaltet den path zum zum stuhl
     public List<string> npcPath { get; set; }
@@ -65,10 +66,14 @@ public class NPC : MonoBehaviour
         Debug.Log("start position: "+startPos[0]+":"+startPos[1]);
         Debug.Log("end position: "+endPos[0]+":"+endPos[1]);
         Debug.Log("chair position: "+chairPos[0]+":"+chairPos[1]);
-        for(int a=0;a<npcPath.Count;a++){
+        Debug.Log("table position: "+tablePos[0]+":"+tablePos[1]);
+        /*for(int a=0;a<npcPath.Count;a++){
             Debug.Log(npcPath[a]);
-        }
+        }*/
         return true;
+
+        //CONTINUE
+        //;;;;
     }
 }
 
