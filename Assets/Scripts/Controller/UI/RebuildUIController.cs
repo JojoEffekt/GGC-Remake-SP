@@ -35,6 +35,9 @@ public class RebuildUIController : MonoBehaviour
         //Sorgt dafür das ButtonController Weiß das der RebuildShop offen ist
         ButtonController.GetComponent<ButtonController>().isRebuildShopOpen = true;
         ButtonController.GetComponent<ButtonController>().MouseAction = 0;
+
+        //BEIM ÖFFNEN DES SHOPS LÖSCHE ALLE NPCS
+        NPCController.GetComponent<NPCManager>().DeleteAllNPCS();
     }
 
     public void CloseShop(){

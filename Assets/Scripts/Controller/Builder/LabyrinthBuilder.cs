@@ -208,4 +208,11 @@ public class LabyrinthBuilder : MonoBehaviour
         shortestPath.Reverse();
         return shortestPath;
     }
+
+
+
+
+
+    //TEST
+    //path for npc (better performance)
 }

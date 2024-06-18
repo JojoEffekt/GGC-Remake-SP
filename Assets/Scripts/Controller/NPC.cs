@@ -54,7 +54,9 @@ public class NPC : MonoBehaviour
     //instantiate den npc anhand des prefabs und fügt einen zufälligen skin ein
     private void CreateNPC(GameObject prefab)
     {
-        npcGO = Instantiate(prefab, new Vector3(0, 0, 0), Quaternion.identity);
+        //erstellt npc unter NPCHandler go
+        GameObject NPCHandler = GameObject.Find("NPCHandler");
+        npcGO = Instantiate(prefab, new Vector3(0, 0, 0), Quaternion.identity, NPCHandler.transform);
     }
 
     //laufe zur neuen position anhand des erstellten path
@@ -70,10 +72,17 @@ public class NPC : MonoBehaviour
         /*for(int a=0;a<npcPath.Count;a++){
             Debug.Log(npcPath[a]);
         }*/
-        return true;
 
         //CONTINUE
         //;;;;
+
+
+        //TEMP
+        GameObject chair = GameObject.Find(chairPos[0]+"-"+chairPos[1]+"-Child");
+        npcGO.transform.position = new Vector3(chair.transform.position.x, chair.transform.position.y, 0);
+
+
+        return true;
     }
 }
 

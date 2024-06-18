@@ -18,23 +18,30 @@ public class NPCManager : MonoBehaviour
     //liste die alle aktiven npcs beinhaltet
     public List<NPC> npcList = new List<NPC>();
 
-    //enthält alle objecte auf dem spielfeld
+    //enthält alle chairs und tables auf dem spielfeld
     List<GameObject> objectList = new List<GameObject>();
 
     //beinhaltet das prefab der npcs
     private GameObject prefab;
 
+    //enthält das gameobject mit folgenden script
+    public GameObject ButtonController;
+
     void Start()
     {
         //läd das prefab für den npc
         prefab = Resources.Load("Prefabs/NPCPrefab") as GameObject;
+
+        //lösche alle npc details falls beim letzten schließen noch was übrig geblieben ist
+        DeleteAllNPCS();
     }
     
     private void Update()
     {
         //führe folgenden code jede sekunde aus
+        //prüfe ob rebuildShop geschlossen ist
         timeDelay = timeDelay + Time.deltaTime;
-        if(timeDelay>=1.0f)
+        if(timeDelay>=1.0f&&!ButtonController.GetComponent<ButtonController>().isRebuildShopOpen)
         {
             timeDelay = 0.0f;
 
@@ -221,6 +228,36 @@ public class NPCManager : MonoBehaviour
             }
         }
         return false;
+    }
+
+    //lösche alle NPCs aus der scene
+    //FCED und Liste reseten
+    public void DeleteAllNPCS()
+    {
+        //lösche alle npcs
+        GameObject NPCHandler = GameObject.Find("NPCHandler");
+        for(int a=NPCHandler.transform.childCount-1;a>=0;a--){
+            Destroy(NPCHandler.transform.GetChild(a).gameObject);
+        }
+
+        //setzt alle tables und chairs
+        //die FCED wird zurückgesetzt sodas die objekte wieder von npc benutzbar sind
+        foreach(var item in objectList)
+        {
+            //gucke ob das object table oder chair ist
+            if(item.GetComponent<SpriteRenderer>().sprite.name.Split("_")[0].Equals("Table"))
+            {
+                FloorChildExtraDataController.ChangeFCEDData("Table;"+(item.name.Split("-")[0]+"-"+item.name.Split("-")[1])+";True");
+            }
+            else
+            {
+                FloorChildExtraDataController.ChangeFCEDData("Chair;"+(item.name.Split("-")[0]+"-"+item.name.Split("-")[1])+";True");
+            }
+        }
+
+        //KEINE AHNUNG OB NÖTIG
+        //nach jeder action muss neu gespeichert werden
+        SaveAndLoadController.SavePlayerData();
     }
 
     //sucht nach einer nebenstehenden positionen des chairs
