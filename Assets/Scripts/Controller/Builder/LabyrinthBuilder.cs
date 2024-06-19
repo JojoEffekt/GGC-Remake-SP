@@ -61,6 +61,9 @@ public class LabyrinthBuilder : MonoBehaviour
                 gridMap[Int32.Parse(split[0]),Int32.Parse(split[1])] = 1;
             }
         }
+
+
+        buildNPCpath();
     }
 
     //sucht den path anhand eines start und end punktes, returnt leere list bei fehler
@@ -216,53 +219,98 @@ public class LabyrinthBuilder : MonoBehaviour
     //TEST
     //path for npc (better performance)
     //sucht den path anhand eines start und end punktes, returnt leere list bei fehler
-    public static List<string> buildNPCpath(int[] startPos, int[] endPos){
+    public static void buildNPCpath(){
         //hole die door pos
         /*
         gucke ab türpos in "gridMap"(0 begehbar, 1 nicht begehbar)
         und baue eine 2te "gridMap" nur mit begehbaren feldern ab doorpos
         */
 
-        for(int a=0;a<gridMap.Length;a++){
-            for(int b=0;b<gridMap.Length;b++){
-                Debug.Log("Coord: "+gridMap[a][b]);
+        List<string> positions = new List<string>();
+
+        Debug.Log("gridMap.Length: "+gridMap.Length);
+        for(int a=0;a<PlayerController.gridSize;a++){
+            for(int b=0;b<PlayerController.gridSize;b++){
+                Debug.Log("Coord: ["+a+":"+b+"] "+gridMap[a,b]);
             }
         }
 
         int[] doorPos = PlayerMovementController.FindDoorPos();
 
-        //ist doorpos in grid
-        if(gridMap[doorPos[0]][doorPos[1]]==0){
+        //startposition ist die tür
+        int step = 0;
+        positions.Add(doorPos[0]+":"+(doorPos[1])+":"+step);
 
-            //ab doorpos alle folgenden position speichern
-            for(int a=0;a<gridMap.Length*gridMap.Length;a++){
-                
-            }
-
-        }
-        return positions;
+        npcPath(positions, step);
     }
-  /*
-    //guckt ob das gegebene feld frei ist und noch nicht in der positions liste vorhanden ist
-    public static bool FindNeighbour(int x, int y, List<string> list){
 
-        //guckt ob feld existiert
-        if(x>=0&&x<PlayerController.gridSize&&y>=0&&y<PlayerController.gridSize){
-
-            //guckt ob feld frei ist
-            if(gridMap[x,y]==0){
-
-                //guck ob der neighbour schon in der positions list ist
-                foreach(var item in list){
-                    if(Int32.Parse(item.Split(":")[0])==x&&Int32.Parse(item.Split(":")[1])==y){
-                        return false;
+    public static void npcPath(List<string> position, int step){
+        for(int a=0;a<position.Count;a++){
+            //suche alle felder mit dem aktuellen step
+            if(Int32.Parse(position[a].Split(":")[2])==step){
+                //suche potenzielle nachbarn
+                //rechts oben
+                if(Int32.Parse(position[a].Split(":")[1])-1>=0){
+                    //Debug.Log("rechts oben "+gridMap[Int32.Parse(position[a].Split(":")[0]),Int32.Parse(position[a].Split(":")[1])-1]);
+                    //position ist begehbar
+                    if(gridMap[Int32.Parse(position[a].Split(":")[0]),Int32.Parse(position[a].Split(":")[1])-1]==0){
+                        //gucke noch ob position nicht schon vorhanden ist in "position"
+                        if(!InList(position, Int32.Parse(position[a].Split(":")[0]), Int32.Parse(position[a].Split(":")[1])-1)){
+                            position.Add(Int32.Parse(position[a].Split(":")[0])+":"+(Int32.Parse(position[a].Split(":")[1])-1)+":"+(step+1));
+                            Debug.Log("Add: "+Int32.Parse(position[a].Split(":")[0])+":"+(Int32.Parse(position[a].Split(":")[1])-1));
+                        }
+                    }
+                }
+                //rechts unten
+                if(Int32.Parse(position[a].Split(":")[0])+1<=PlayerController.gridSize-1){
+                    //Debug.Log("rechts unten "+gridMap[Int32.Parse(position[a].Split(":")[0])+1,Int32.Parse(position[a].Split(":")[1])]);
+                    if(gridMap[Int32.Parse(position[a].Split(":")[0])+1,Int32.Parse(position[a].Split(":")[1])]==0){
+                        if(!InList(position, Int32.Parse(position[a].Split(":")[0])+1, Int32.Parse(position[a].Split(":")[1]))){
+                            position.Add((Int32.Parse(position[a].Split(":")[0])+1)+":"+Int32.Parse(position[a].Split(":")[1])+":"+(step+1));
+                            Debug.Log("Add: "+(Int32.Parse(position[a].Split(":")[0])+1)+":"+Int32.Parse(position[a].Split(":")[1]));
+                        }
+                    }
+                }
+                //links unten
+                if(Int32.Parse(position[a].Split(":")[1])+1<=PlayerController.gridSize-1){
+                    //Debug.Log("links unten "+gridMap[Int32.Parse(position[a].Split(":")[0]),Int32.Parse(position[a].Split(":")[1])+1]);
+                    if(gridMap[Int32.Parse(position[a].Split(":")[0]),Int32.Parse(position[a].Split(":")[1])+1]==0){
+                        if(!InList(position, Int32.Parse(position[a].Split(":")[0]), Int32.Parse(position[a].Split(":")[1])+1)){
+                            position.Add(Int32.Parse(position[a].Split(":")[0])+":"+(Int32.Parse(position[a].Split(":")[1])+1)+":"+(step+1));
+                            Debug.Log("Add: "+Int32.Parse(position[a].Split(":")[0])+":"+(Int32.Parse(position[a].Split(":")[1])+1));
+                        }
+                    }
+                }
+                //links oben
+                if(Int32.Parse(position[a].Split(":")[0])-1>=0){
+                    //Debug.Log("links oben "+gridMap[Int32.Parse(position[a].Split(":")[0])-1,Int32.Parse(position[a].Split(":")[1])]);
+                    if(gridMap[Int32.Parse(position[a].Split(":")[0])-1,Int32.Parse(position[a].Split(":")[1])]==0){
+                        if(!InList(position, Int32.Parse(position[a].Split(":")[0])-1, Int32.Parse(position[a].Split(":")[1]))){
+                            position.Add((Int32.Parse(position[a].Split(":")[0])-1)+":"+Int32.Parse(position[a].Split(":")[1])+":"+(step+1));
+                            Debug.Log("Add: "+(Int32.Parse(position[a].Split(":")[0])-1)+":"+Int32.Parse(position[a].Split(":")[1]));
+                        }
                     }
                 }
 
-                //ist begehbar und nicht in der liste vorhanden
+
+                //add to position mit step+1
+
+                //rufe npcPath wieder auf und erhöhe step +1
+                if(step<100){
+                    npcPath(position, step+1);
+                }
+            }
+        }
+    }
+
+    public static bool InList(List<string> position, int x, int y){
+        for(int a=0;a<position.Count;a++){
+            int oldX = Int32.Parse(position[a].Split(":")[0]);
+            int oldY = Int32.Parse(position[a].Split(":")[1]);
+            if(oldX==x&&oldY==y){
                 return true;
             }
         }
         return false;
-    }*/
+    }
 }

@@ -2,11 +2,11 @@ Chair;2-2;True
 Chair;2-4;True
 Chair;2-5;True
 Chair;6-6;True
-Chair;4-8;False
-Chair;5-8;False
+Chair;4-8;True
+Chair;5-8;True
 Chair;6-8;True
-Chair;7-3;False
-Chair;9-5;False
+Chair;7-3;True
+Chair;9-5;True
 Chair;3-1;True
 Chair;4-0;True
 Chair;3-5;True
@@ -20,11 +20,11 @@ Table;5-6;True
 Table;6-2;True
 Table;6-3;True
 Table;6-4;True
-Table;7-2;False
-Table;8-5;False
+Table;7-2;True
+Table;8-5;True
 Table;8-6;True
-Table;4-7;False
-Table;5-7;False
+Table;4-7;True
+Table;5-7;True
 Table;6-7;True
 Table;4-1;True
 Counter;9-3;False;Garden Salad;60
