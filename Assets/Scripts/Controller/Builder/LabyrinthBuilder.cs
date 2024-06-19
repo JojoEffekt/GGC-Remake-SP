@@ -215,4 +215,54 @@ public class LabyrinthBuilder : MonoBehaviour
 
     //TEST
     //path for npc (better performance)
+    //sucht den path anhand eines start und end punktes, returnt leere list bei fehler
+    public static List<string> buildNPCpath(int[] startPos, int[] endPos){
+        //hole die door pos
+        /*
+        gucke ab türpos in "gridMap"(0 begehbar, 1 nicht begehbar)
+        und baue eine 2te "gridMap" nur mit begehbaren feldern ab doorpos
+        */
+
+        for(int a=0;a<gridMap.Length;a++){
+            for(int b=0;b<gridMap.Length;b++){
+                Debug.Log("Coord: "+gridMap[a][b]);
+            }
+        }
+
+        int[] doorPos = PlayerMovementController.FindDoorPos();
+
+        //ist doorpos in grid
+        if(gridMap[doorPos[0]][doorPos[1]]==0){
+
+            //ab doorpos alle folgenden position speichern
+            for(int a=0;a<gridMap.Length*gridMap.Length;a++){
+                
+            }
+
+        }
+        return positions;
+    }
+  /*
+    //guckt ob das gegebene feld frei ist und noch nicht in der positions liste vorhanden ist
+    public static bool FindNeighbour(int x, int y, List<string> list){
+
+        //guckt ob feld existiert
+        if(x>=0&&x<PlayerController.gridSize&&y>=0&&y<PlayerController.gridSize){
+
+            //guckt ob feld frei ist
+            if(gridMap[x,y]==0){
+
+                //guck ob der neighbour schon in der positions list ist
+                foreach(var item in list){
+                    if(Int32.Parse(item.Split(":")[0])==x&&Int32.Parse(item.Split(":")[1])==y){
+                        return false;
+                    }
+                }
+
+                //ist begehbar und nicht in der liste vorhanden
+                return true;
+            }
+        }
+        return false;
+    }*/
 }
