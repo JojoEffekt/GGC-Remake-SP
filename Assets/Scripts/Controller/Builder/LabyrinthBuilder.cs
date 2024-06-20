@@ -22,6 +22,11 @@ public class LabyrinthBuilder : MonoBehaviour
     public static int[,] gridMap { get; set; }
 
 
+    //enhält alle möglichen positionen auf die sich npcs von der tür 
+    //aus, bewegen können
+    public static List<string> npcPath = new List<string>();
+
+
 
     //managed die die eingegebenen coords und sucht ein path
     public static List<string> LabyrinthManager(int[] startPos, int[] endPos){
@@ -63,7 +68,7 @@ public class LabyrinthBuilder : MonoBehaviour
         }
 
 
-        buildNPCpath();
+        NPCPathManager();
     }
 
     //sucht den path anhand eines start und end punktes, returnt leere list bei fehler
@@ -216,43 +221,38 @@ public class LabyrinthBuilder : MonoBehaviour
 
 
 
-    //TEST
     //path for npc (better performance)
     //sucht den path anhand eines start und end punktes, returnt leere list bei fehler
-    public static void buildNPCpath(){
-        //hole die door pos
-        /*
-        gucke ab türpos in "gridMap"(0 begehbar, 1 nicht begehbar)
-        und baue eine 2te "gridMap" nur mit begehbaren feldern ab doorpos
-        */
+    public static void NPCPathManager(){
 
-        List<string> positions = new List<string>();
+        //leere die liste, damit sie neu erstellt werden kann
+        npcPath.Clear();
 
-        Debug.Log("gridMap.Length: "+gridMap.Length);
-        for(int a=0;a<PlayerController.gridSize;a++){
-            for(int b=0;b<PlayerController.gridSize;b++){
-                Debug.Log("Coord: ["+a+":"+b+"] "+gridMap[a,b]);
-            }
-        }
-
+        //sucht die tür pos um sie als erste begehbare koordinate hinzuzufügen
         int[] doorPos = PlayerMovementController.FindDoorPos();
 
         //startposition ist die tür
         int step = 0;
-        positions.Add(doorPos[0]+":"+(doorPos[1])+":"+step);
+        npcPath.Add(doorPos[0]+":"+(doorPos[1])+":"+step);
 
-        npcPath(positions, step);
+        //erstellt dei neue liste
+        buildNPCPath(step);
+
+        for(int a=0;a<npcPath.Count;a++){
+            Debug.Log("nr: "+npcPath[a]);
+        }
     }
 
-    public static void npcPath(List<string> position, int step){
+    //baut die npcPath liste mit allen möglichen werten auf die der npc gehen kann
+    public static void buildNPCPath(int step){
 
         //alle werte
-        for(int a=0;a<position.Count;a++){
+        for(int a=0;a<npcPath.Count;a++){
 
             //werte der aktuellen position
-            int itemX = Int32.Parse(position[a].Split(":")[0]);
-            int itemY = Int32.Parse(position[a].Split(":")[1]);
-            int itemStep = Int32.Parse(position[a].Split(":")[2]);
+            int itemX = Int32.Parse(npcPath[a].Split(":")[0]);
+            int itemY = Int32.Parse(npcPath[a].Split(":")[1]);
+            int itemStep = Int32.Parse(npcPath[a].Split(":")[2]);
 
             //suche alle felder mit dem aktuellen step
             if(itemStep==step){
@@ -261,10 +261,9 @@ public class LabyrinthBuilder : MonoBehaviour
                     //position ist begehbar
                     if(gridMap[itemX, itemY-1]==0){
                         //gucke noch ob position nicht schon vorhanden ist in "position"
-                        if(!InList(position, itemX, itemY-1)){
+                        if(!InList(itemX, itemY-1)){
                             //füge den nachbarn hinzu mit einem höheren step der in der nächsten iteration gecheckt werden kann
-                            position.Add(itemX+":"+(itemY-1)+":"+(step+1));
-                            Debug.Log("Add: "+itemX+":"+(itemY-1));
+                            npcPath.Add(itemX+":"+(itemY-1)+":"+(step+1));
                         }
                     }
                 }
@@ -273,8 +272,7 @@ public class LabyrinthBuilder : MonoBehaviour
                     //Debug.Log("rechts unten "+gridMap[Int32.Parse(position[a].Split(":")[0])+1,Int32.Parse(position[a].Split(":")[1])]);
                     if(gridMap[itemX+1,itemY]==0){
                         if(!InList(itemX+1, itemY)){
-                            position.Add((itemX+1)+":"+itemY+":"+(step+1));
-                            Debug.Log("Add: "+(itemX+1)+":"+itemY);
+                            npcPath.Add((itemX+1)+":"+itemY+":"+(step+1));
                         }
                     }
                 }
@@ -282,9 +280,8 @@ public class LabyrinthBuilder : MonoBehaviour
                 if(itemY+1<=PlayerController.gridSize-1){
                     //Debug.Log("links unten "+gridMap[Int32.Parse(position[a].Split(":")[0]),Int32.Parse(position[a].Split(":")[1])+1]);
                     if(gridMap[itemX,itemY+1]==0){
-                        if(!InList(position, itemX, itemY+1)){
-                            position.Add(itemX+":"+(itemY+1)+":"+(step+1));
-                            Debug.Log("Add: "+itemX+":"+(itemY+1));
+                        if(!InList(itemX, itemY+1)){
+                            npcPath.Add(itemX+":"+(itemY+1)+":"+(step+1));
                         }
                     }
                 }
@@ -292,9 +289,8 @@ public class LabyrinthBuilder : MonoBehaviour
                 if(itemX-1>=0){
                     //Debug.Log("links oben "+gridMap[Int32.Parse(position[a].Split(":")[0])-1,Int32.Parse(position[a].Split(":")[1])]);
                     if(gridMap[itemX-1,itemY]==0){
-                        if(!InList(position, itemX-1, itemY)){
-                            position.Add((itemX-1)+":"+itemY+":"+(step+1));
-                            Debug.Log("Add: "+(itemX-1)+":"+itemY);
+                        if(!InList(itemX-1, itemY)){
+                            npcPath.Add((itemX-1)+":"+itemY+":"+(step+1));
                         }
                     }
                 }
@@ -302,22 +298,18 @@ public class LabyrinthBuilder : MonoBehaviour
         }
 
         //wenn ein weiteres element hinzugefügt wurde rufe sich selbs nochmal auf
-        if(position[position.Count-1].Split(":")[2].Equals(step+1)){
+        if(Int32.Parse(npcPath[npcPath.Count-1].Split(":")[2])==(step+1)){
             //rufe npcPath wieder auf und erhöhe step +1
-            npcPath(position, step+1);
-        }else{
-            //fertig, zeige alles
-            Debug.Log("fertig!");
-            /*for(int a=0;a<position.Count;a++){
-                Debug.Log("positionen: "+position[a]);
-            }*/
+            //wodurch alle positions auf nachbarn geprüft werden, die gerade hinzugefügt wurden
+            buildNPCPath(step+1);
         }
     }
 
-    public static bool InList(List<string> position, int x, int y){
-        for(int a=0;a<position.Count;a++){
-            int oldX = Int32.Parse(position[a].Split(":")[0]);
-            int oldY = Int32.Parse(position[a].Split(":")[1]);
+    //guckt ob eine bestimmte koordinate in der npcPath liste ist
+    public static bool InList(int x, int y){
+        for(int a=0;a<npcPath.Count;a++){
+            int oldX = Int32.Parse(npcPath[a].Split(":")[0]);
+            int oldY = Int32.Parse(npcPath[a].Split(":")[1]);
             if(oldX==x&&oldY==y){
                 return true;
             }

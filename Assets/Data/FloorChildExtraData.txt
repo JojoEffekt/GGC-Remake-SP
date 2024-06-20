@@ -27,6 +27,9 @@ Table;4-7;True
 Table;5-7;True
 Table;6-7;True
 Table;4-1;True
+Table;7-6;True
+Table;11-0;True
+Table;10-4;True
 Counter;9-3;False;Garden Salad;60
 Counter;4-2;False;Chilli con Carne;1600
 Counter;4-4;False;Omelette;40
