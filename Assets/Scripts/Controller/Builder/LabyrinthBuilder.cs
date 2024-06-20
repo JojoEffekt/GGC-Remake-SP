@@ -245,61 +245,72 @@ public class LabyrinthBuilder : MonoBehaviour
     }
 
     public static void npcPath(List<string> position, int step){
+
+        //alle werte
         for(int a=0;a<position.Count;a++){
+
+            //werte der aktuellen position
+            int itemX = Int32.Parse(position[a].Split(":")[0]);
+            int itemY = Int32.Parse(position[a].Split(":")[1]);
+            int itemStep = Int32.Parse(position[a].Split(":")[2]);
+
             //suche alle felder mit dem aktuellen step
-            if(Int32.Parse(position[a].Split(":")[2])==step){
-                //suche potenzielle nachbarn
-                //rechts oben
-                if(Int32.Parse(position[a].Split(":")[1])-1>=0){
-                    //Debug.Log("rechts oben "+gridMap[Int32.Parse(position[a].Split(":")[0]),Int32.Parse(position[a].Split(":")[1])-1]);
+            if(itemStep==step){
+                //suche von item rechts oben
+                if(itemY-1>=0){
                     //position ist begehbar
-                    if(gridMap[Int32.Parse(position[a].Split(":")[0]),Int32.Parse(position[a].Split(":")[1])-1]==0){
+                    if(gridMap[itemX, itemY-1]==0){
                         //gucke noch ob position nicht schon vorhanden ist in "position"
-                        if(!InList(position, Int32.Parse(position[a].Split(":")[0]), Int32.Parse(position[a].Split(":")[1])-1)){
-                            position.Add(Int32.Parse(position[a].Split(":")[0])+":"+(Int32.Parse(position[a].Split(":")[1])-1)+":"+(step+1));
-                            Debug.Log("Add: "+Int32.Parse(position[a].Split(":")[0])+":"+(Int32.Parse(position[a].Split(":")[1])-1));
+                        if(!InList(position, itemX, itemY-1)){
+                            //füge den nachbarn hinzu mit einem höheren step der in der nächsten iteration gecheckt werden kann
+                            position.Add(itemX+":"+(itemY-1)+":"+(step+1));
+                            Debug.Log("Add: "+itemX+":"+(itemY-1));
                         }
                     }
                 }
                 //rechts unten
-                if(Int32.Parse(position[a].Split(":")[0])+1<=PlayerController.gridSize-1){
+                if(itemX+1<=PlayerController.gridSize-1){
                     //Debug.Log("rechts unten "+gridMap[Int32.Parse(position[a].Split(":")[0])+1,Int32.Parse(position[a].Split(":")[1])]);
-                    if(gridMap[Int32.Parse(position[a].Split(":")[0])+1,Int32.Parse(position[a].Split(":")[1])]==0){
-                        if(!InList(position, Int32.Parse(position[a].Split(":")[0])+1, Int32.Parse(position[a].Split(":")[1]))){
-                            position.Add((Int32.Parse(position[a].Split(":")[0])+1)+":"+Int32.Parse(position[a].Split(":")[1])+":"+(step+1));
-                            Debug.Log("Add: "+(Int32.Parse(position[a].Split(":")[0])+1)+":"+Int32.Parse(position[a].Split(":")[1]));
+                    if(gridMap[itemX+1,itemY]==0){
+                        if(!InList(itemX+1, itemY)){
+                            position.Add((itemX+1)+":"+itemY+":"+(step+1));
+                            Debug.Log("Add: "+(itemX+1)+":"+itemY);
                         }
                     }
                 }
                 //links unten
-                if(Int32.Parse(position[a].Split(":")[1])+1<=PlayerController.gridSize-1){
+                if(itemY+1<=PlayerController.gridSize-1){
                     //Debug.Log("links unten "+gridMap[Int32.Parse(position[a].Split(":")[0]),Int32.Parse(position[a].Split(":")[1])+1]);
-                    if(gridMap[Int32.Parse(position[a].Split(":")[0]),Int32.Parse(position[a].Split(":")[1])+1]==0){
-                        if(!InList(position, Int32.Parse(position[a].Split(":")[0]), Int32.Parse(position[a].Split(":")[1])+1)){
-                            position.Add(Int32.Parse(position[a].Split(":")[0])+":"+(Int32.Parse(position[a].Split(":")[1])+1)+":"+(step+1));
-                            Debug.Log("Add: "+Int32.Parse(position[a].Split(":")[0])+":"+(Int32.Parse(position[a].Split(":")[1])+1));
+                    if(gridMap[itemX,itemY+1]==0){
+                        if(!InList(position, itemX, itemY+1)){
+                            position.Add(itemX+":"+(itemY+1)+":"+(step+1));
+                            Debug.Log("Add: "+itemX+":"+(itemY+1));
                         }
                     }
                 }
                 //links oben
-                if(Int32.Parse(position[a].Split(":")[0])-1>=0){
+                if(itemX-1>=0){
                     //Debug.Log("links oben "+gridMap[Int32.Parse(position[a].Split(":")[0])-1,Int32.Parse(position[a].Split(":")[1])]);
-                    if(gridMap[Int32.Parse(position[a].Split(":")[0])-1,Int32.Parse(position[a].Split(":")[1])]==0){
-                        if(!InList(position, Int32.Parse(position[a].Split(":")[0])-1, Int32.Parse(position[a].Split(":")[1]))){
-                            position.Add((Int32.Parse(position[a].Split(":")[0])-1)+":"+Int32.Parse(position[a].Split(":")[1])+":"+(step+1));
-                            Debug.Log("Add: "+(Int32.Parse(position[a].Split(":")[0])-1)+":"+Int32.Parse(position[a].Split(":")[1]));
+                    if(gridMap[itemX-1,itemY]==0){
+                        if(!InList(position, itemX-1, itemY)){
+                            position.Add((itemX-1)+":"+itemY+":"+(step+1));
+                            Debug.Log("Add: "+(itemX-1)+":"+itemY);
                         }
                     }
                 }
-
-
-                //add to position mit step+1
-
-                //rufe npcPath wieder auf und erhöhe step +1
-                if(step<100){
-                    npcPath(position, step+1);
-                }
             }
+        }
+
+        //wenn ein weiteres element hinzugefügt wurde rufe sich selbs nochmal auf
+        if(position[position.Count-1].Split(":")[2].Equals(step+1)){
+            //rufe npcPath wieder auf und erhöhe step +1
+            npcPath(position, step+1);
+        }else{
+            //fertig, zeige alles
+            Debug.Log("fertig!");
+            /*for(int a=0;a<position.Count;a++){
+                Debug.Log("positionen: "+position[a]);
+            }*/
         }
     }
 
