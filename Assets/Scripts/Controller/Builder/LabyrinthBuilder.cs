@@ -318,7 +318,7 @@ public class LabyrinthBuilder : MonoBehaviour
 
     //holt den path für eine npc route
     public static List<string> getNPCPath(int[] endPos){
-        Debug.Log("bau path für npc von door");
+        Debug.Log("bau path für npc von door "+endPos[0]+":"+endPos[1]);
         //enthält die kopierte route
         List<string> route = npcPath;
 
@@ -336,21 +336,21 @@ public class LabyrinthBuilder : MonoBehaviour
 
             //endposition wurde in liste gefunden, lösche alle werte die einen höheren step haben
             //beginne ab der nachfolgenden position von der end pos, da alle darüber einen größeren step haben
-            for(int a=route.Count;a>value[1]+1;a--){
+            for(int a=route.Count-1;a>Int32.Parse(value[1])+1;a--){
                 route.RemoveAt(a);
             }
 
             //beginne von ende und suche einen listeintrag mit step-1
             //gucke ob er nachbar von voheriger pos ist
             finaleRoute.Add(value[0]);
-            Debug.Log("füge "+value[0]+" hinzu");
+            Debug.Log("1 füge "+value[0]+" hinzu   |step"+(step-1));
             for(int a=step-1;a>0;a--){
                 for(int b=0;b<route.Count;b++){
                     //hat position step-1
                     if(Int32.Parse(route[b].Split(":")[2])==a){
                         //prüfe ob die position ein kleinerer nachbar von letzter finalRoute eintrag ist
                         if(IsNeighbour(route[b], finaleRoute[finaleRoute.Count-1])){
-                            Debug.Log("füge "+route[a]+" hinzu");
+                            Debug.Log("füge "+route[b]+" hinzu |step"+a);
                             finaleRoute.Add(route[b]);
                         }
                     }
@@ -370,7 +370,7 @@ public class LabyrinthBuilder : MonoBehaviour
             int x = Int32.Parse(npcPath[a].Split(":")[0]);
             int y = Int32.Parse(npcPath[a].Split(":")[1]);
             if(x==endPos[0]&&y==endPos[1]){
-                return new string[]{npcPath[a],a};
+                return new string[]{npcPath[a],""+a};
             }
         }
         return null;
