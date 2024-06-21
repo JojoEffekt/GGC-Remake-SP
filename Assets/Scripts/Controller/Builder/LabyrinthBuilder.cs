@@ -237,10 +237,6 @@ public class LabyrinthBuilder : MonoBehaviour
 
         //erstellt dei neue liste
         buildNPCPath(step);
-
-        for(int a=0;a<npcPath.Count;a++){
-            Debug.Log("nr: "+npcPath[a]);
-        }
     }
 
     //baut die npcPath liste mit allen möglichen werten auf die der npc gehen kann
@@ -318,7 +314,6 @@ public class LabyrinthBuilder : MonoBehaviour
 
     //holt den path für eine npc route
     public static List<string> getNPCPath(int[] endPos){
-        Debug.Log("bau path für npc von door "+endPos[0]+":"+endPos[1]);
         //enthält die kopierte route
         List<string> route = npcPath;
 
@@ -343,19 +338,19 @@ public class LabyrinthBuilder : MonoBehaviour
             //beginne von ende und suche einen listeintrag mit step-1
             //gucke ob er nachbar von voheriger pos ist
             finaleRoute.Add(value[0]);
-            Debug.Log("1 füge "+value[0]+" hinzu   |step"+(step-1));
             for(int a=step-1;a>0;a--){
                 for(int b=0;b<route.Count;b++){
                     //hat position step-1
                     if(Int32.Parse(route[b].Split(":")[2])==a){
                         //prüfe ob die position ein kleinerer nachbar von letzter finalRoute eintrag ist
                         if(IsNeighbour(route[b], finaleRoute[finaleRoute.Count-1])){
-                            Debug.Log("füge "+route[b]+" hinzu |step"+a);
                             finaleRoute.Add(route[b]);
                         }
                     }
                 }
             }
+            //füge startposition hinzu
+            finaleRoute.Add(npcPath[0]);
         }
 
         //reverse list
