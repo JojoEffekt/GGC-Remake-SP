@@ -264,9 +264,6 @@ public class NPCManager : MonoBehaviour
     //gibt false wieder wenn nichts gefunden
     public bool SearchForPositionNearTheObject(string ObjectToMoveOn, NPC npc)
     {
-        //speicher start pos
-        int[] doorPos = PlayerMovementController.FindDoorPos();
-
         //sucht nach einer freien position oben, rechts, unten, links vom oven
         int x = Int32.Parse(ObjectToMoveOn.Split("-")[0]);
         int y = Int32.Parse(ObjectToMoveOn.Split("-")[1]);
@@ -285,15 +282,14 @@ public class NPCManager : MonoBehaviour
                 //Floorobject existiert nicht
                 if(!GameObject.Find(nearbyObj+"-Child"))
                 {
-                    //gucke ob npc zur position laufen kann
-                    List<string> npcPath = LabyrinthBuilder.LabyrinthManager(doorPos, new int[]{Int32.Parse(nearbyObj.Split("-")[0]),Int32.Parse(nearbyObj.Split("-")[1])});
+                    //gucke ob npc zur position laufen kann (übergibt die endPos)
+                    List<string> npcPath = LabyrinthBuilder.getNPCPath(new int[]{Int32.Parse(nearbyObj.Split("-")[0]),Int32.Parse(nearbyObj.Split("-")[1])});
+                    //gucke ob route gefunden wurde
                     if(npcPath.Count!=0)
-                    {
-                        //CONTINUE GUCKE OB NPC NICHT DIREKT BEIM SPAWNEN NEBEN TISCH STEHT
-                        
+                    {   
                         //weg gefunden, übergebe datenm zum laufen
                         npc.isOnWalk = true;
-                        npc.startPos = new int[]{doorPos[0], doorPos[1]};
+                        npc.startPos = new int[]{Int32.Parse(npcPath[0].Split(":")[0]),Int32.Parse(npcPath[0].Split(":")[1])};
                         npc.endPos = new int[]{Int32.Parse(npcPath[npcPath.Count-1].Split(":")[0]),Int32.Parse(npcPath[npcPath.Count-1].Split(":")[1])};
                         npc.npcPath = npcPath;
 

@@ -67,7 +67,7 @@ public class LabyrinthBuilder : MonoBehaviour
             }
         }
 
-
+        //erstellt ein vereinfachtes grid extra nur für die npcs
         NPCPathManager();
     }
 
@@ -269,7 +269,6 @@ public class LabyrinthBuilder : MonoBehaviour
                 }
                 //rechts unten
                 if(itemX+1<=PlayerController.gridSize-1){
-                    //Debug.Log("rechts unten "+gridMap[Int32.Parse(position[a].Split(":")[0])+1,Int32.Parse(position[a].Split(":")[1])]);
                     if(gridMap[itemX+1,itemY]==0){
                         if(!InList(itemX+1, itemY)){
                             npcPath.Add((itemX+1)+":"+itemY+":"+(step+1));
@@ -278,7 +277,6 @@ public class LabyrinthBuilder : MonoBehaviour
                 }
                 //links unten
                 if(itemY+1<=PlayerController.gridSize-1){
-                    //Debug.Log("links unten "+gridMap[Int32.Parse(position[a].Split(":")[0]),Int32.Parse(position[a].Split(":")[1])+1]);
                     if(gridMap[itemX,itemY+1]==0){
                         if(!InList(itemX, itemY+1)){
                             npcPath.Add(itemX+":"+(itemY+1)+":"+(step+1));
@@ -287,7 +285,6 @@ public class LabyrinthBuilder : MonoBehaviour
                 }
                 //links oben
                 if(itemX-1>=0){
-                    //Debug.Log("links oben "+gridMap[Int32.Parse(position[a].Split(":")[0])-1,Int32.Parse(position[a].Split(":")[1])]);
                     if(gridMap[itemX-1,itemY]==0){
                         if(!InList(itemX-1, itemY)){
                             npcPath.Add((itemX-1)+":"+itemY+":"+(step+1));
@@ -313,6 +310,93 @@ public class LabyrinthBuilder : MonoBehaviour
             if(oldX==x&&oldY==y){
                 return true;
             }
+        }
+        return false;
+    }
+    
+
+
+    //holt den path für eine npc route
+    public static List<string> getNPCPath(int[] endPos){
+        Debug.Log("bau path für npc von door");
+        //enthält die kopierte route
+        List<string> route = npcPath;
+
+        //finale liste des npcs
+        List<string> finaleRoute = new List<string>();
+
+        //gucke ob endposition in npcPath vorhanden ist und benutzte sie als start
+        //enthält die endkoordinate und diee position in der liste
+        string[] value = npcDestinationInPath(endPos);
+        if(value!=null){ 
+            
+            int x = Int32.Parse(value[0].Split(":")[0]);
+            int y = Int32.Parse(value[0].Split(":")[1]);
+            int step = Int32.Parse(value[0].Split(":")[2]);
+
+            //endposition wurde in liste gefunden, lösche alle werte die einen höheren step haben
+            //beginne ab der nachfolgenden position von der end pos, da alle darüber einen größeren step haben
+            for(int a=route.Count;a>value[1]+1;a--){
+                route.RemoveAt(a);
+            }
+
+            //beginne von ende und suche einen listeintrag mit step-1
+            //gucke ob er nachbar von voheriger pos ist
+            finaleRoute.Add(value[0]);
+            Debug.Log("füge "+value[0]+" hinzu");
+            for(int a=step-1;a>0;a--){
+                for(int b=0;b<route.Count;b++){
+                    //hat position step-1
+                    if(Int32.Parse(route[b].Split(":")[2])==a){
+                        //prüfe ob die position ein kleinerer nachbar von letzter finalRoute eintrag ist
+                        if(IsNeighbour(route[b], finaleRoute[finaleRoute.Count-1])){
+                            Debug.Log("füge "+route[a]+" hinzu");
+                            finaleRoute.Add(route[b]);
+                        }
+                    }
+                }
+            }
+        }
+
+        //reverse list
+        finaleRoute.Reverse();
+
+        return finaleRoute;
+    }
+
+    //gucke ob endposition in npcPath vorhanden ist
+    public static string[] npcDestinationInPath(int[] endPos){
+        for(int a=0;a<npcPath.Count;a++){
+            int x = Int32.Parse(npcPath[a].Split(":")[0]);
+            int y = Int32.Parse(npcPath[a].Split(":")[1]);
+            if(x==endPos[0]&&y==endPos[1]){
+                return new string[]{npcPath[a],a};
+            }
+        }
+        return null;
+    }
+
+    //gucke ob eine position der vorgänger einer anderen position ist
+    public static bool IsNeighbour(string value, string parent){
+        int vX = Int32.Parse(value.Split(":")[0]);
+        int vY = Int32.Parse(value.Split(":")[1]);
+        int pX = Int32.Parse(parent.Split(":")[0]);
+        int pY = Int32.Parse(parent.Split(":")[1]);
+        //rechts oben
+        if(pX-1==vX&&pY==vY){
+            return true;
+        }
+        //rechts unten
+        if(pX==vX&&pY+1==vY){
+            return true;
+        }
+        //links oben
+        if(pX==vX&&pY-1==vY){
+            return true;
+        }
+        //links unten
+        if(pX+1==vX&&pY==vY){
+            return true;
         }
         return false;
     }
