@@ -306,6 +306,9 @@ public class NPCManager : MonoBehaviour
     //wird beim starten und verändern des cafes aufgerufen 
     public void CollectAllChairsAndTablesInList()
     {
+        //lösche erstmal alle vorhandenen items aus der liste beim aktuallisieren
+        objectList.Clear();
+
         //suche alle objecte die chair oder table sind, auf dem spielfeld
         for(int a=0;a<PlayerController.gridSize-1;a++)
         {

@@ -37,6 +37,8 @@ public class NPC : MonoBehaviour
     public List<string> npcPath { get; set; }
 
 
+    //gender des npcs
+    private bool isBoy;
 
     //Constructor der für die initalisiereung verantwortlich ist
     public NPC(GameObject prefab)
@@ -57,14 +59,15 @@ public class NPC : MonoBehaviour
         //erstellt npc unter NPCHandler go
         GameObject NPCHandler = GameObject.Find("NPCHandler");
         npcGO = Instantiate(prefab, new Vector3(0, 0, 0), Quaternion.identity, NPCHandler.transform);
+
+        //erstelle die UI des npcs (gender & color)
+        CreateNPCSkin();
     }
 
     //laufe zur neuen position anhand des erstellten path
     //gibt TRUE zurück wenn npc am ziel ankommen ist
     public bool NPCMovement()
-    {
-        Debug.Log("npc laufe los");
-        Debug.Log("laufen?: "+isOnWalk);
+    {   
         Debug.Log("start position: "+startPos[0]+":"+startPos[1]);
         Debug.Log("end position: "+endPos[0]+":"+endPos[1]);
         Debug.Log("chair position: "+chairPos[0]+":"+chairPos[1]);
@@ -73,9 +76,6 @@ public class NPC : MonoBehaviour
             Debug.Log(npcPath[a]);
         }*/
 
-        //CONTINUE
-        //;;;;
-
 
         //TEMP
         GameObject chair = GameObject.Find(chairPos[0]+"-"+chairPos[1]+"-Child");
@@ -83,6 +83,25 @@ public class NPC : MonoBehaviour
 
 
         return true;
+    }  
+
+    //erstelle den skin sowie gender etc
+    private void CreateNPCSkin()
+    {
+        System.Random rndm = new System.Random();
+        int rndmGender = rndm.Next(0,100);
+        
+        if(rndmGender%2==1)
+        {
+            isBoy = true;
+        }
+        else
+        {
+            isBoy = false;
+        }
+
+        //CONTINUE
+        //...
     }
 }
 
