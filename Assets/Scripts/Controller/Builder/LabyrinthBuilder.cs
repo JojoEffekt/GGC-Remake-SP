@@ -314,8 +314,12 @@ public class LabyrinthBuilder : MonoBehaviour
 
     //holt den path für eine npc route
     public static List<string> getNPCPath(int[] endPos){
+
         //enthält die kopierte route
-        List<string> route = npcPath;
+        List<string> route = new List<string>();
+        for(int a=0;a<npcPath.Count;a++){
+            route.Add(npcPath[a]);
+        }
 
         //finale liste des npcs
         List<string> finaleRoute = new List<string>();

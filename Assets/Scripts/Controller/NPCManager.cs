@@ -27,6 +27,9 @@ public class NPCManager : MonoBehaviour
     //enthält das gameobject mit folgenden script
     public GameObject ButtonController;
 
+
+    public int tempCounter = 1;
+
     void Start()
     {
         //läd das prefab für den npc
@@ -52,7 +55,8 @@ public class NPCManager : MonoBehaviour
             if(tempCafeFavNumber>=rndmNum)
             {
                 //generiere einen neuen npc
-                NPC npc = new NPC(prefab);
+                NPC npc = new NPC(prefab, tempCounter);
+                tempCounter = tempCounter+1;
 
                 //speichert den neuen npc in list
                 npcList.Add(npc);
@@ -106,21 +110,38 @@ public class NPCManager : MonoBehaviour
     //guckt ob der cooldown der npcs abgelaufen ist oder verringere ihn
     private void CheckForDestroyableNPCs()
     {
-        //für jeden npc aus der npcList von hinten
         for(int a=npcList.Count-1;a>=0;a--)
-        {   	
-            //ist cooldown abgelaufen
-            if(npcList[a].waittime<=0)
-            {   
-                //cooldown ist abgelaufen, zerstöre npc
-                npcList.Remove(npcList[a]);
-            }
+        {
             //cooldown verringern wenn npc auf der stelle steht/sitzt
-            else if(!npcList[a].isOnWalk)
+            if(!npcList[a].isOnWalk)
             {
                 //verringere die waittime
                 npcList[a].waittime = npcList[a].waittime - 1;
             }
+        }
+
+        //für jeden npc aus der npcList von hinten
+        for(int a=npcList.Count-1;a>=0;a--)
+        {   	
+            /*
+            //cooldown verringern wenn npc auf der stelle steht/sitzt
+            if(!npcList[a].isOnWalk)
+            {
+                //verringere die waittime
+                npcList[a].waittime = npcList[a].waittime - 1;
+            }*/
+
+            //ist cooldown abgelaufen
+            if(npcList[a].waittime<=0)
+            {   
+                //lösche den npc vom NPCHandler
+                npcList[a].DeleteNPC();
+
+                //cooldown ist abgelaufen, zerstöre npc
+                npcList.Remove(npcList[a]);
+            }
+
+            Debug.Log("wt: "+npcList[a].waittime);
         }
     }
 
@@ -172,7 +193,7 @@ public class NPCManager : MonoBehaviour
                                 }
                             }
                         }
-                        else if(objectList[b].name.Equals(objectNameRechtsUnten))
+                        if(objectList[b].name.Equals(objectNameRechtsUnten))
                         {
                             if(objectList[b].GetComponent<SpriteRenderer>().sprite.name.Split("_")[0].Equals("Chair")&&objectList[b].GetComponent<SpriteRenderer>().sprite.name.Split("_").Last().Equals("c"))
                             {
@@ -189,7 +210,7 @@ public class NPCManager : MonoBehaviour
                                 }
                             }
                         }
-                        else if(objectList[b].name.Equals(objectNameLinksOben))
+                        if(objectList[b].name.Equals(objectNameLinksOben))
                         {
                             if(objectList[b].GetComponent<SpriteRenderer>().sprite.name.Split("_")[0].Equals("Chair")&&objectList[b].GetComponent<SpriteRenderer>().sprite.name.Split("_").Last().Equals("a"))
                             {
@@ -206,7 +227,7 @@ public class NPCManager : MonoBehaviour
                                 }
                             }
                         }
-                        else if(objectList[b].name.Equals(objectNameLinksUnten))
+                        if(objectList[b].name.Equals(objectNameLinksUnten))
                         {
                             if(objectList[b].GetComponent<SpriteRenderer>().sprite.name.Split("_")[0].Equals("Chair")&&objectList[b].GetComponent<SpriteRenderer>().sprite.name.Split("_").Last().Equals("b"))
                             {
@@ -255,6 +276,9 @@ public class NPCManager : MonoBehaviour
             }
         }
 
+        //cleare die npc liste 
+        npcList.Clear();
+
         //KEINE AHNUNG OB NÖTIG
         //nach jeder action muss neu gespeichert werden
         SaveAndLoadController.SavePlayerData();
@@ -267,10 +291,10 @@ public class NPCManager : MonoBehaviour
         //sucht nach einer freien position oben, rechts, unten, links vom oven
         int x = Int32.Parse(ObjectToMoveOn.Split("-")[0]);
         int y = Int32.Parse(ObjectToMoveOn.Split("-")[1]);
-        string oben = ""+(x-1)+"-"+y;
-        string rechts = ""+x+"-"+(y-1);
-        string unten = ""+(x+1)+"-"+y;
-        string links = ""+x+"-"+(y+1);
+        string oben = ""+(x-1)+"-"+y; //oben links
+        string rechts = ""+x+"-"+(y-1); //oben rechts
+        string unten = ""+(x+1)+"-"+y; //unten rechts
+        string links = ""+x+"-"+(y+1); //unten links
         string[] suroundingPositions = new string[]{oben, rechts, unten, links};
 
         //gucke ob umliegende floors existieren

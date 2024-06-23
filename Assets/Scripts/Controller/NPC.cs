@@ -41,7 +41,7 @@ public class NPC : MonoBehaviour
     private bool isBoy;
 
     //Constructor der für die initalisiereung verantwortlich ist
-    public NPC(GameObject prefab)
+    public NPC(GameObject prefab, int temp)
     {
         //setzte die selbstzerstörung bei nicht handlungsfähig auf 30 sekunden
         waittime = 30;
@@ -50,15 +50,16 @@ public class NPC : MonoBehaviour
         isOnWalk = false;
 
         //erstelle den npc
-        CreateNPC(prefab);
+        CreateNPC(prefab, temp);
     }
 
     //instantiate den npc anhand des prefabs und fügt einen zufälligen skin ein
-    private void CreateNPC(GameObject prefab)
+    private void CreateNPC(GameObject prefab, int temp)
     {
         //erstellt npc unter NPCHandler go
         GameObject NPCHandler = GameObject.Find("NPCHandler");
         npcGO = Instantiate(prefab, new Vector3(0, 0, 0), Quaternion.identity, NPCHandler.transform);
+        npcGO.name = ""+temp;
 
         //erstelle die UI des npcs (gender & color)
         CreateNPCSkin();
@@ -68,10 +69,10 @@ public class NPC : MonoBehaviour
     //gibt TRUE zurück wenn npc am ziel ankommen ist
     public bool NPCMovement()
     {   
-        Debug.Log("start position: "+startPos[0]+":"+startPos[1]);
-        Debug.Log("end position: "+endPos[0]+":"+endPos[1]);
+        //Debug.Log("start position: "+startPos[0]+":"+startPos[1]);
+        /*Debug.Log("end position: "+endPos[0]+":"+endPos[1]);
         Debug.Log("chair position: "+chairPos[0]+":"+chairPos[1]);
-        Debug.Log("table position: "+tablePos[0]+":"+tablePos[1]);
+        Debug.Log("table position: "+tablePos[0]+":"+tablePos[1]);*/
         /*for(int a=0;a<npcPath.Count;a++){
             Debug.Log(npcPath[a]);
         }*/
@@ -102,6 +103,13 @@ public class NPC : MonoBehaviour
 
         //CONTINUE
         //...
+    }
+
+    //lösche das NPCPrefab wenn der npc zerstört wird
+    public void DeleteNPC()
+    {
+        Debug.Log("Lösche: "+npcGO.name);
+        Destroy(npcGO);
     }
 }
 

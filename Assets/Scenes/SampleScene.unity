@@ -8290,6 +8290,7 @@ MonoBehaviour:
   tempCafeFavNumber: 50
   npcList: []
   ButtonController: {fileID: 1996097770}
+  tempCounter: 1
 --- !u!1 &839165411
 GameObject:
   m_ObjectHideFlags: 0
