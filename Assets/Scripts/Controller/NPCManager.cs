@@ -138,7 +138,7 @@ public class NPCManager : MonoBehaviour
                 npcList[a].DeleteNPC();
 
                 //cooldown ist abgelaufen, zerstöre npc
-                npcList.Remove(npcList[a]);
+                npcList.RemoveAt(a);
             }
 
             Debug.Log("wt: "+npcList[a].waittime);
