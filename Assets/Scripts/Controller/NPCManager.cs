@@ -55,7 +55,7 @@ public class NPCManager : MonoBehaviour
             if(tempCafeFavNumber>=rndmNum)
             {
                 //generiere einen neuen npc
-                NPC npc = new NPC(prefab, tempCounter);
+                NPC npc = new NPC(prefab, tempCounter, PlayerMovementController.FindDoorPos());
                 tempCounter = tempCounter+1;
 
                 //speichert den neuen npc in list
@@ -110,26 +110,15 @@ public class NPCManager : MonoBehaviour
     //guckt ob der cooldown der npcs abgelaufen ist oder verringere ihn
     private void CheckForDestroyableNPCs()
     {
+        //für jeden npc aus der npcList von hinten
         for(int a=npcList.Count-1;a>=0;a--)
-        {
+        {   	
             //cooldown verringern wenn npc auf der stelle steht/sitzt
             if(!npcList[a].isOnWalk)
             {
                 //verringere die waittime
                 npcList[a].waittime = npcList[a].waittime - 1;
             }
-        }
-
-        //für jeden npc aus der npcList von hinten
-        for(int a=npcList.Count-1;a>=0;a--)
-        {   	
-            /*
-            //cooldown verringern wenn npc auf der stelle steht/sitzt
-            if(!npcList[a].isOnWalk)
-            {
-                //verringere die waittime
-                npcList[a].waittime = npcList[a].waittime - 1;
-            }*/
 
             //ist cooldown abgelaufen
             if(npcList[a].waittime<=0)
