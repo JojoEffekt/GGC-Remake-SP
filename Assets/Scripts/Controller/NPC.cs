@@ -117,6 +117,12 @@ public class NPC : MonoBehaviour
         //sucht die türposition auf die der npc zum start gerendert wird
         GameObject doorGO = GameObject.Find(""+doorPos[0]+"-"+doorPos[1]);
 
+        //rendere die teile auf die richtige stufenebene sodass sich der npc über dem background ist
+        for(int a=0;a<npcGO.transform.childCount;a++)
+        {
+            npcGO.transform.GetChild(a).gameObject.GetComponent<SpriteRenderer>().sortingOrder = doorPos[0]+doorPos[1]+1;
+        }
+
         //erstellt npc unter NPCHandler go
         GameObject NPCHandler = GameObject.Find("NPCHandler");
         npcGO = Instantiate(prefab, new Vector3(doorGO.transform.position.x, doorGO.transform.position.y, 0), Quaternion.identity, NPCHandler.transform);
@@ -132,6 +138,7 @@ public class NPC : MonoBehaviour
         System.Random rndm = new System.Random();
         int rndmGender = rndm.Next(0,100);
         
+        //bestimmt ob mänl. oder weibl.
         if(rndmGender%2==1)
         {
             isBoy = true;
