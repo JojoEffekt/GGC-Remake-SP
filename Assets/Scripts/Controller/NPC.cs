@@ -329,6 +329,27 @@ public class NPC : MonoBehaviour
             npcGO.transform.GetChild(8).gameObject.GetComponent<SpriteRenderer>().sprite = SkinGirl[80];
             
         }
+
+        //beinhaltet alle farben für die hairColor
+        float[,] hairColor = new float[,]{{0.94f,0.87f,0.58f},{0.97f,0.81f,0.35f},{0.97f,0.44f,0.26f},{0.83f,0.56f,0.32f},{0.65f,0.37f,0.29f},{0.40f,0.27f,0.16f},{0.23f,0.14f,0.08f},{0.14f,0.05f,0.02f},{0.80f,0.70f,0.36f},{0.66f,0.54f,0.34f},{0.76f,0.45f,0.22f},{0.57f,0.39f,0.25f},{0.38f,0.27f,0.17f},{0.31f,0.22f,0.12f},{0.23f,0.16f,0.08f}};
+        //beinhaltet alle farben für die skinColor
+        float[,] skinColor = new float[,]{{0.94f,0.77f,0.61f},{0.92f,0.68f,0.49f},{0.93f,0.61f,0.41f},{0.69f,0.39f,0.27f},{0.81f,0.53f,0.36f},{0.93f,0.73f,0.58f},{0.92f,0.68f,0.46f},{0.81f,0.58f,0.37f}};
+        //beinhaltet alle farben für die tshirtColor
+        float[,] tshirtColor = new float[,]{{0.26f,0.32f,0.31f},{0.77f,0.78f,0.81f},{0.45f,0.70f,0.72f},{0.40f,0.70f,0.41f},{0.95f,0.87f,0.44f},{0.93f,0.72f,0.76f},{1f,0.49f,0.56f},{0.81f,0.55f,0.77f},{0.29f,0.52f,0.45f},{0.33f,0.54f,0.33f},{0.41f,0.64f,0.23f},{0.50f,0.77f,0.64f},{0.52f,0.69f,0.69f},{0.27f,0.69f,0.50f},{0.71f,0.69f,0.68f},{0.75f,0.52f,0.23f},{0.68f,0.36f,0.23f}};
+        //beinhaltet alle farben für die hoseColor
+        float[,] hoseColor = new float[,]{{0.26f,0.32f,0.31f},{0.77f,0.78f,0.81f},{0.45f,0.70f,0.72f},{0.40f,0.70f,0.41f},{0.95f,0.87f,0.44f},{0.93f,0.72f,0.76f},{1f,0.49f,0.56f},{0.81f,0.55f,0.77f},{0.29f,0.52f,0.45f},{0.33f,0.54f,0.33f},{0.41f,0.64f,0.23f},{0.50f,0.77f,0.64f},{0.52f,0.69f,0.69f},{0.27f,0.69f,0.50f},{0.71f,0.69f,0.68f},{0.75f,0.52f,0.23f},{0.68f,0.36f,0.23f}};
+    
+        //generiere eine zufällige zahl die in der range jeder colorList liegt um dem npc ein zufälliges aussehen zu geben
+        System.Random rndm = new System.Random();
+        int rndmHair = rndm.Next(0,hairColor.Length/3);
+        int rndmSkin = rndm.Next(0,skinColor.Length/3);
+        int rndmTshirt = rndm.Next(0,tshirtColor.Length/3);
+        int rndmHose = rndm.Next(0,hoseColor.Length/3);
+
+        //setzt die farbe für die körperteile 
+        PlayerCharacter.transform.GetChild(4).gameObject.GetComponent<SpriteRenderer>().color = new Color(hairColor[rndmHair,0],hairColor[rndmHair,1],hairColor[rndmHair,2],1); 
+        PlayerCharacter.transform.GetChild(3).gameObject.GetComponent<SpriteRenderer>().color = new Color(tshirtColor[rndmTshirt,0],tshirtColor[rndmTshirt,1],tshirtColor[rndmTshirt,2],1); 
+        PlayerCharacter.transform.GetChild(8).gameObject.GetComponent<SpriteRenderer>().color = new Color(skinColor[rndmSkin,0],skinColor[rndmSkin,1],skinColor[rndmSkin,2],1); 
+        PlayerCharacter.transform.GetChild(2).gameObject.GetComponent<SpriteRenderer>().color = new Color(hoseColor[rndmHose,0],hoseColor[rndmHose,1],hoseColor[rndmHose,2],1);
     }
 }
-
