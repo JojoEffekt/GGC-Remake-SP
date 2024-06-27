@@ -7,7 +7,10 @@ public class NPC : MonoBehaviour
     //beinhaltet den npc
     private GameObject npcGO;
 
-    
+
+
+    //variable um flüssiges movement des npcs zu erzeugen
+    private float timeDelayMovement = 0.0f;    
 
     //sagt aus ob npc bedient werden kann oder nicht
     public bool isOnTable = false;
@@ -37,6 +40,15 @@ public class NPC : MonoBehaviour
 
     //beinhaltet den path zum zum stuhl
     public List<string> npcPath { get; set; }
+
+    //beinhaltet die abzulaufende liste, temp
+    public List<string> curPath = new List<string>();
+
+    //aktuelle spieler position WÄHREND des laufens
+    static Vector3 curDynPlayerPos;
+
+    //aktuell zu belaufendes FloorObject
+    public string objName;
 
 
 
@@ -82,6 +94,41 @@ public class NPC : MonoBehaviour
         CreateNPC(prefab, temp);
     }
 
+    void Update()
+    {
+        //sorgt für eine flüssige bewegung
+        timeDelayMovement += Time.deltaTime * 1.5f;
+        Debug.Log("so");
+        
+        //solange der CurPath schritte beinhaltet die noch nicht gegangen wurden und der npc laufen soll
+        if(isOnWalk)
+        {
+            Debug.Log("so!");
+            if(curPath.Count!=0)
+            {
+                Debug.Log("soo!");
+                //sucht das aktuell zu belaufende floorObj in der Scene
+                objName = curPath[0].Split(":")[0]+"-"+curPath[0].Split(":")[1];
+
+                //bewegt den spieler "grob"
+                npcGO.transform.position = Vector3.Lerp(curDynPlayerPos, GameObject.Find(objName).gameObject.transform.position, timeDelayMovement);
+
+
+                //render den spieler richtig auf dem spielfeld, sowie anim.
+                //PlayerRender();
+
+                //floorObj wurde belaufen, zerstöre das element und übergebe die DynPlayerPos
+                if(npcGO.transform.position==GameObject.Find(objName).gameObject.transform.position)
+                {
+                    Debug.Log("LöSche:"+curPath[0]);
+                    curPath.RemoveAt(0);
+                    timeDelayMovement = 0;
+                    curDynPlayerPos = npcGO.transform.position;
+                }
+            }
+        }
+    }
+
     //lösche das NPCPrefab wenn der npc zerstört wird
     public void DeleteNPC()
     {
@@ -92,20 +139,16 @@ public class NPC : MonoBehaviour
     //laufe zur neuen position anhand des erstellten path
     //gibt TRUE zurück wenn npc am ziel ankommen ist
     public bool NPCMovement()
-    {   
-        //Debug.Log("start position: "+startPos[0]+":"+startPos[1]);
-        /*Debug.Log("end position: "+endPos[0]+":"+endPos[1]);
-        Debug.Log("chair position: "+chairPos[0]+":"+chairPos[1]);
-        Debug.Log("table position: "+tablePos[0]+":"+tablePos[1]);*/
-        /*for(int a=0;a<npcPath.Count;a++){
-            Debug.Log(npcPath[a]);
-        }*/
+    { 
+        //kopiere die übergebene liste damit aus dieser werte entfernen können ohne die originale zu zerstören
+        //CONTINUE gucke welche liste hier erstellt werden soll / BZW INVERTIERE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        for(int a=0;a<npcPath.Count;a++)
+        {
+            curPath.Add(npcPath[a]);
+        }
 
-
-        //TEMP
-        //GameObject chair = GameObject.Find(chairPos[0]+"-"+chairPos[1]+"-Child");
-        //npcGO.transform.position = new Vector3(chair.transform.position.x, chair.transform.position.y, 0);
-
+        //npc setzt sich in bewegung
+        isOnWalk = true;
 
 
         return true;

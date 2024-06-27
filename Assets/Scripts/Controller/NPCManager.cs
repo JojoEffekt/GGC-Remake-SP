@@ -129,8 +129,6 @@ public class NPCManager : MonoBehaviour
                 //cooldown ist abgelaufen, zerstöre npc
                 npcList.RemoveAt(a);
             }
-
-            Debug.Log("wt: "+npcList[a].waittime);
         }
     }
 
@@ -301,7 +299,6 @@ public class NPCManager : MonoBehaviour
                     if(npcPath.Count!=0)
                     {   
                         //weg gefunden, übergebe datenm zum laufen
-                        npc.isOnWalk = true;
                         npc.startPos = new int[]{Int32.Parse(npcPath[0].Split(":")[0]),Int32.Parse(npcPath[0].Split(":")[1])};
                         npc.endPos = new int[]{Int32.Parse(npcPath[npcPath.Count-1].Split(":")[0]),Int32.Parse(npcPath[npcPath.Count-1].Split(":")[1])};
                         npc.npcPath = npcPath;
