@@ -76,8 +76,6 @@ public class NPC : MonoBehaviour
     private List<Sprite> TshirtGirl = new List<Sprite>();
     private List<Sprite> TshirtOverlayGirl = new List<Sprite>();
 
-
-
     //Constructor der für die initalisiereung verantwortlich ist
     public NPC(GameObject prefab, int temp, int[] doorPos)
     {
@@ -94,37 +92,30 @@ public class NPC : MonoBehaviour
         CreateNPC(prefab, temp);
     }
 
-    void Update()
+    //wird vom npcController aufgerufen wenn npc am laufen ist
+    public void UpdateAnim()
     {
         //sorgt für eine flüssige bewegung
         timeDelayMovement += Time.deltaTime * 1.5f;
-        Debug.Log("so");
         
-        //solange der CurPath schritte beinhaltet die noch nicht gegangen wurden und der npc laufen soll
-        if(isOnWalk)
+        if(curPath.Count!=0)
         {
-            Debug.Log("so!");
-            if(curPath.Count!=0)
+            //sucht das aktuell zu belaufende floorObj in der Scene
+            objName = curPath[0].Split(":")[0]+"-"+curPath[0].Split(":")[1];
+
+            //bewegt den spieler "grob"
+            npcGO.transform.position = Vector3.Lerp(curDynPlayerPos, GameObject.Find(objName).gameObject.transform.position, timeDelayMovement);
+
+
+            //render den spieler richtig auf dem spielfeld, sowie anim.
+            //PlayerRender();
+
+            //floorObj wurde belaufen, zerstöre das element und übergebe die DynPlayerPos
+            if(npcGO.transform.position==GameObject.Find(objName).gameObject.transform.position)
             {
-                Debug.Log("soo!");
-                //sucht das aktuell zu belaufende floorObj in der Scene
-                objName = curPath[0].Split(":")[0]+"-"+curPath[0].Split(":")[1];
-
-                //bewegt den spieler "grob"
-                npcGO.transform.position = Vector3.Lerp(curDynPlayerPos, GameObject.Find(objName).gameObject.transform.position, timeDelayMovement);
-
-
-                //render den spieler richtig auf dem spielfeld, sowie anim.
-                //PlayerRender();
-
-                //floorObj wurde belaufen, zerstöre das element und übergebe die DynPlayerPos
-                if(npcGO.transform.position==GameObject.Find(objName).gameObject.transform.position)
-                {
-                    Debug.Log("LöSche:"+curPath[0]);
-                    curPath.RemoveAt(0);
-                    timeDelayMovement = 0;
-                    curDynPlayerPos = npcGO.transform.position;
-                }
+                curPath.RemoveAt(0);
+                timeDelayMovement = 0;
+                curDynPlayerPos = npcGO.transform.position;
             }
         }
     }

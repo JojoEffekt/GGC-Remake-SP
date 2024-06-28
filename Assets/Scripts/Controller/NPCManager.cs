@@ -71,6 +71,16 @@ public class NPCManager : MonoBehaviour
             //prüfe auf zerstörbare npcs
             CheckForDestroyableNPCs();
         }
+
+        //für jeden npc muss geprüft werden ob er läuft, wenn ja sorge für flüssige animation
+        for(int a=0;a<npcList.Count;a++)
+        {
+            //npc kann laufen
+            if(npcList[a].isOnWalk)
+            {
+                npcList[a].UpdateAnim();
+            }
+        }
     }
     
     //sucht im gesamten spielfeld nach freie plätze für alle npc wo der npc sich an einem tisch setzten kann
