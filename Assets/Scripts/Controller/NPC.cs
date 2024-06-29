@@ -45,7 +45,7 @@ public class NPC : MonoBehaviour
     public List<string> curPath = new List<string>();
 
     //aktuelle spieler position WÄHREND des laufens
-    static Vector3 curDynPlayerPos;
+    public Vector3 curDynPlayerPos;
 
     //aktuell zu belaufendes FloorObject
     public string objName;
@@ -76,6 +76,8 @@ public class NPC : MonoBehaviour
     private List<Sprite> TshirtGirl = new List<Sprite>();
     private List<Sprite> TshirtOverlayGirl = new List<Sprite>();
 
+    private int temp;
+
     //Constructor der für die initalisiereung verantwortlich ist
     public NPC(GameObject prefab, int temp, int[] doorPos)
     {
@@ -88,8 +90,10 @@ public class NPC : MonoBehaviour
         //übergebe die position auf die die tür steht
         this.doorPos = doorPos;
 
+        this.temp = temp;
+
         //erstelle den npc
-        CreateNPC(prefab, temp);
+        CreateNPC(prefab);
     }
 
     //wird vom npcController aufgerufen wenn npc am laufen ist
@@ -101,21 +105,30 @@ public class NPC : MonoBehaviour
         if(curPath.Count!=0)
         {
             //sucht das aktuell zu belaufende floorObj in der Scene
-            objName = curPath[0].Split(":")[0]+"-"+curPath[0].Split(":")[1];
+            GameObject objName = GameObject.Find(curPath[0].Split(":")[0]+"-"+curPath[0].Split(":")[1]).gameObject;
 
             //bewegt den spieler "grob"
-            npcGO.transform.position = Vector3.Lerp(curDynPlayerPos, GameObject.Find(objName).gameObject.transform.position, timeDelayMovement);
+            npcGO.transform.position = Vector3.Lerp(curDynPlayerPos, objName.transform.position, timeDelayMovement);
 
 
             //render den spieler richtig auf dem spielfeld, sowie anim.
             //PlayerRender();
 
             //floorObj wurde belaufen, zerstöre das element und übergebe die DynPlayerPos
-            if(npcGO.transform.position==GameObject.Find(objName).gameObject.transform.position)
+            if(npcGO.transform.position==objName.transform.position)
             {
                 curPath.RemoveAt(0);
                 timeDelayMovement = 0;
                 curDynPlayerPos = npcGO.transform.position;
+
+                if(curPath.Count==0)
+                {
+                    Debug.Log("nr."+temp+" am ziel");
+                    //CONTINUE 
+                    /*
+                    hinsetzren etc
+                    */
+                }
             }
         }
     }
@@ -146,14 +159,19 @@ public class NPC : MonoBehaviour
     }
 
     //instantiate den npc anhand des prefabs und fügt einen zufälligen skin ein
-    private void CreateNPC(GameObject prefab, int temp)
+    private void CreateNPC(GameObject prefab)
     {
         //sucht die türposition auf die der npc zum start gerendert wird
         GameObject doorGO = GameObject.Find(""+doorPos[0]+"-"+doorPos[1]);
 
+        //vector3 für NPCMovement muss doorPos haben, da sonst beim initialisieren der ausgangswert (0,0,0) 
+        curDynPlayerPos = new Vector3(doorGO.transform.position.x, doorGO.transform.position.y, 0);
+
         //erstellt npc unter NPCHandler go
         GameObject NPCHandler = GameObject.Find("NPCHandler");
         npcGO = Instantiate(prefab, new Vector3(doorGO.transform.position.x, doorGO.transform.position.y, 0), Quaternion.identity, NPCHandler.transform);
+        
+        //npc namen setzten
         npcGO.name = ""+temp;
 
         //rendere die teile auf die richtige stufenebene sodass sich der npc über dem background ist

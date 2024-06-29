@@ -66,7 +66,7 @@ public class NPCManager : MonoBehaviour
 
             //finde eine aktuell mögliche position an die sich alle wartenden npcs hinsetzten könnten
             SearchForNPCSitPosition();
-            Debug.Log("existierende npcs: "+npcList.Count);
+            //Debug.Log("existierende npcs: "+npcList.Count);
 
             //prüfe auf zerstörbare npcs
             CheckForDestroyableNPCs();
