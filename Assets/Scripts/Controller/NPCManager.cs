@@ -133,10 +133,20 @@ public class NPCManager : MonoBehaviour
             //ist cooldown abgelaufen
             if(npcList[a].waittime<=0)
             {   
+                //CONTINUE 
+                //Lösche npc erst zum ausgang laufen bevor er zerstört wird
+
+                //gucke ob der npc schon auf einem stuhl saß,
+                //lösche FCED für chair und table
+                if(npcList[a].isOnTable)
+                {
+                    DeleteFCEDForNPC(npcList[a]);
+                }
+
                 //lösche den npc vom NPCHandler
                 npcList[a].DeleteNPC();
 
-                //cooldown ist abgelaufen, zerstöre npc
+                //zerstöre npc
                 npcList.RemoveAt(a);
             }
         }
@@ -248,6 +258,13 @@ public class NPCManager : MonoBehaviour
         return false;
     }
 
+    //lösche die FCED für table und chair auf den ein npc saß
+    public void DeleteFCEDForNPC(NPC npc)
+    {   
+        FloorChildExtraDataController.ChangeFCEDData("Table;"+(npc.tablePos[0]+"-"+npc.tablePos[1])+";True");
+        FloorChildExtraDataController.ChangeFCEDData("Chair;"+(npc.chairPos[0]+"-"+npc.chairPos[1])+";True");
+    }
+
     //lösche alle NPCs aus der scene
     //FCED und Liste reseten
     public void DeleteAllNPCS()
@@ -258,7 +275,7 @@ public class NPCManager : MonoBehaviour
             Destroy(NPCHandler.transform.GetChild(a).gameObject);
         }
 
-        //setzt alle tables und chairs
+        //setzt alle tables und chairs auf nicht besetzt
         //die FCED wird zurückgesetzt sodas die objekte wieder von npc benutzbar sind
         foreach(var item in objectList)
         {

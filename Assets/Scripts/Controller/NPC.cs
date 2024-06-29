@@ -1,11 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class NPC : MonoBehaviour
 {   
     //beinhaltet den npc
-    private GameObject npcGO;
+    public GameObject npcGO;
 
 
 
@@ -112,11 +113,14 @@ public class NPC : MonoBehaviour
 
 
             //render den spieler richtig auf dem spielfeld, sowie anim.
-            //PlayerRender();
+            for(int a=0;a<npcGO.transform.childCount;a++){
+                npcGO.transform.GetChild(a).gameObject.GetComponent<SpriteRenderer>().sortingOrder = Int32.Parse(curPath[0].Split(":")[0])+Int32.Parse(curPath[0].Split(":")[1])+1;
+            }
 
             //floorObj wurde belaufen, zerstöre das element und übergebe die DynPlayerPos
             if(npcGO.transform.position==objName.transform.position)
             {
+                //lösche letzten npcPath eintrag sodas der npc zur nöchsten pos geht
                 curPath.RemoveAt(0);
                 timeDelayMovement = 0;
                 curDynPlayerPos = npcGO.transform.position;
@@ -124,9 +128,18 @@ public class NPC : MonoBehaviour
                 if(curPath.Count==0)
                 {
                     Debug.Log("nr."+temp+" am ziel");
+
+                    //npc läuft nicht mehr, cooldown bis er geht
+                    isOnWalk = false;
+
+                    //npc kann bedient werden
+                    isOnTable = true;
+
                     //CONTINUE 
                     /*
-                    hinsetzren etc
+                    hinsetzen
+                    countdown wieder starten
+                        -> gehe zur tür, dann löschen
                     */
                 }
             }
