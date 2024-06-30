@@ -155,18 +155,30 @@ public class NPC : MonoBehaviour
 
     //laufe zur neuen position anhand des erstellten path
     //gibt TRUE zurück wenn npc am ziel ankommen ist
-    public bool NPCMovement()
+    public bool NPCMovement(bool val)
     { 
         //kopiere die übergebene liste damit aus dieser werte entfernen können ohne die originale zu zerstören
         //CONTINUE gucke welche liste hier erstellt werden soll / BZW INVERTIERE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        for(int a=0;a<npcPath.Count;a++)
+        curPath.Clear();
+        //path von platz zur tür
+        if(!val)
         {
-            curPath.Add(npcPath[a]);
+            for(int a=npcPath.Count-1;a>=0;a++)
+            {
+                curPath.Add(npcPath[a]);
+            }
+        }
+        //path von tür zu platz
+        else
+        {
+            for(int a=0;a<npcPath.Count;a++)
+            {
+                curPath.Add(npcPath[a]);
+            }
         }
 
         //npc setzt sich in bewegung
         isOnWalk = true;
-
 
         return true;
     }

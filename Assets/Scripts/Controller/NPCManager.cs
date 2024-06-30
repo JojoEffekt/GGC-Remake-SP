@@ -100,7 +100,8 @@ public class NPCManager : MonoBehaviour
                     FloorChildExtraDataController.ChangeFCEDData("Table;"+(npcList[a].tablePos[0]+"-"+npcList[a].tablePos[1])+";False");
                     FloorChildExtraDataController.ChangeFCEDData("Chair;"+(npcList[a].chairPos[0]+"-"+npcList[a].chairPos[1])+";False");
 
-                    npcList[a].NPCMovement();
+                    //npc läuft los, ture=weg von tür zu path wird erstellt
+                    npcList[a].NPCMovement(true);
 
                     //CONTINUE
                     /*
@@ -133,21 +134,28 @@ public class NPCManager : MonoBehaviour
             //ist cooldown abgelaufen
             if(npcList[a].waittime<=0)
             {   
-                //CONTINUE 
-                //Lösche npc erst zum ausgang laufen bevor er zerstört wird
-
                 //gucke ob der npc schon auf einem stuhl saß,
-                //lösche FCED für chair und table
+                //wenn ja, erst npc löschen wenn npc an der tür angekommen ist
                 if(npcList[a].isOnTable)
                 {
+                    //lösche FCED für chair und table
                     DeleteFCEDForNPC(npcList[a]);
+
+                    //lasse spieler erst zurück laufen und dann zerstören
+                    npcList[a].NPCMovement(false);
+
+                    //lösche den npc vom NPCHandler
+                    //npcList[a].DeleteNPC();
+    
+                    //zerstöre npc
+                   // npcList.RemoveAt(a);
+                }else{
+                    //lösche den npc vom NPCHandler
+                    npcList[a].DeleteNPC();
+
+                    //zerstöre npc
+                    npcList.RemoveAt(a);
                 }
-
-                //lösche den npc vom NPCHandler
-                npcList[a].DeleteNPC();
-
-                //zerstöre npc
-                npcList.RemoveAt(a);
             }
         }
     }
