@@ -134,25 +134,34 @@ public class NPCManager : MonoBehaviour
             //ist cooldown abgelaufen
             if(npcList[a].waittime<=0)
             {   
+                //gucke ob der npc nocht an der tür steht
+                if(npcList[a].state==0)
+                {
+                    //lösche den npc vom NPCHandler
+                    npcList[a].DeleteNPC();
+
+                    //zerstöre npc
+                    npcList.RemoveAt(a);
+                }
                 //gucke ob der npc schon auf einem stuhl saß,
                 //wenn ja, erst npc löschen wenn npc an der tür angekommen ist
-                if(npcList[a].isOnTable)
+                else if(npcList[a].state==1)
                 {
                     //lösche FCED für chair und table
                     DeleteFCEDForNPC(npcList[a]);
 
-                    //lasse spieler erst zurück laufen und dann zerstören
+                    //lasse npc erst zurück laufen und dann zerstören
                     npcList[a].NPCMovement(false);
 
-                    //lösche den npc vom NPCHandler
-                    //npcList[a].DeleteNPC();
-    
-                    //zerstöre npc
-                   // npcList.RemoveAt(a);
-                }else{
+                    //erhöhe um 1 damit diese funktion nicht nochmal aufgerufen wird
+                    npcList[a].state = npcList[a].state + 1;
+                }
+                //npc ist wieder an der tür, soll gelöscht werden
+                else if(npcList[a].state==3)
+                {
                     //lösche den npc vom NPCHandler
                     npcList[a].DeleteNPC();
-
+    
                     //zerstöre npc
                     npcList.RemoveAt(a);
                 }

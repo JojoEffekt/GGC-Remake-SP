@@ -13,8 +13,8 @@ public class NPC : MonoBehaviour
     //variable um flüssiges movement des npcs zu erzeugen
     private float timeDelayMovement = 0.0f;    
 
-    //sagt aus ob npc bedient werden kann oder nicht
-    public bool isOnTable = false;
+    //sagt aus was der npc gerade macht
+    public int state = 0; //0=nichts, 1=kann bediennt werden, 2=geht gerade zur tür, 3=steht wieder an der tür weil nicht bedient
 
     //sagt aus ob der npc gerade in bewegung ist
     //wird in verbindung mit der "waittime" benutzt
@@ -120,27 +120,30 @@ public class NPC : MonoBehaviour
             //floorObj wurde belaufen, zerstöre das element und übergebe die DynPlayerPos
             if(npcGO.transform.position==objName.transform.position)
             {
-                //lösche letzten npcPath eintrag sodas der npc zur nöchsten pos geht
+                //lösche letzten npcPath eintrag sodas der npc zur nächsten pos geht
                 curPath.RemoveAt(0);
                 timeDelayMovement = 0;
                 curDynPlayerPos = npcGO.transform.position;
 
+                //wenn der npc fertig mit laufen ist
                 if(curPath.Count==0)
                 {
-                    Debug.Log("nr."+temp+" am ziel");
-
                     //npc läuft nicht mehr, cooldown bis er geht
                     isOnWalk = false;
 
-                    //npc kann bedient werden
-                    isOnTable = true;
-
-                    //CONTINUE 
-                    /*
-                    hinsetzen
-                    countdown wieder starten
-                        -> gehe zur tür, dann löschen
-                    */
+                    //npc steht immernoch an der tür
+                    if(state==0)
+                    {
+                        //npc kann bedient werden
+                        state = 1;
+                    }
+                    //gucke ob das schon der rückweg des npcs ist
+                    else if(state==2)
+                    {
+                        //npc steht wieder an der tür
+                        //kann gelöscht werden
+                        state = 3;
+                    }
                 }
             }
         }
@@ -163,7 +166,7 @@ public class NPC : MonoBehaviour
         //path von platz zur tür
         if(!val)
         {
-            for(int a=npcPath.Count-1;a>=0;a++)
+            for(int a=npcPath.Count-1;a>=0;a--)
             {
                 curPath.Add(npcPath[a]);
             }
@@ -389,8 +392,8 @@ public class NPC : MonoBehaviour
             npcGO.transform.GetChild(1).gameObject.transform.localPosition = new Vector3(-0.21f,0.56f,-0.01f);
             npcGO.transform.GetChild(2).gameObject.transform.localPosition = new Vector3(-0.023f,1.05f,0f);
             npcGO.transform.GetChild(3).gameObject.transform.localPosition = new Vector3(0.102f,1.773f,-0.01f);
-            npcGO.transform.GetChild(4).gameObject.transform.localPosition = new Vector3(0.423f,3.345f,-0.01f);
-            npcGO.transform.GetChild(5).gameObject.transform.localPosition = new Vector3(0.4230f,3.345f,-0.02f);
+            npcGO.transform.GetChild(4).gameObject.transform.localPosition = new Vector3(0.411f,3.342f,-0.01f);
+            npcGO.transform.GetChild(5).gameObject.transform.localPosition = new Vector3(0.4110f,3.342f,-0.02f);
             npcGO.transform.GetChild(6).gameObject.transform.localPosition = new Vector3(0.092f,2.804f,-0.01f);
             npcGO.transform.GetChild(7).gameObject.transform.localPosition = new Vector3(-0.081f,2.064f,-0.01f);
             npcGO.transform.GetChild(8).gameObject.transform.localPosition = new Vector3(-0.083f,2.058f,0f);
