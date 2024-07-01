@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using System.IO;
 
 public class NPC : MonoBehaviour
 {   
@@ -51,33 +52,36 @@ public class NPC : MonoBehaviour
     //aktuell zu belaufendes FloorObject
     public string objName;
 
+    //bestimmt die LaufAnimation des npc 
+    public int walkAnim = 0; //0=none,1=idle in cur state,2=right...
+
 
 
     //gender des npcs
-    private bool isBoy;
+    public bool isBoy;
 
     //beinhalten die sprites für die playerAnim
-    private List<Sprite> Hat = new List<Sprite>();
-    private List<Sprite> FaceBoy = new List<Sprite>();
-    private List<Sprite> HairBoy = new List<Sprite>();
-    private List<Sprite> HairOverlayBoy = new List<Sprite>();
-    private List<Sprite> LegBoy = new List<Sprite>();
-    private List<Sprite> LegOverlayBoy = new List<Sprite>();
-    private List<Sprite> SkinBoy = new List<Sprite>();
-    private List<Sprite> SkinOverlayBoy = new List<Sprite>();
-    private List<Sprite> TshirtBoy = new List<Sprite>();
-    private List<Sprite> TshirtOverlayBoy = new List<Sprite>();
-    private List<Sprite> FaceGirl = new List<Sprite>();
-    private List<Sprite> HairGirl = new List<Sprite>();
-    private List<Sprite> HairOverlayGirl = new List<Sprite>();
-    private List<Sprite> LegGirl = new List<Sprite>();
-    private List<Sprite> LegOverlayGirl = new List<Sprite>();
-    private List<Sprite> SkinGirl = new List<Sprite>();
-    private List<Sprite> SkinOverlayGirl = new List<Sprite>();
-    private List<Sprite> TshirtGirl = new List<Sprite>();
-    private List<Sprite> TshirtOverlayGirl = new List<Sprite>();
+    public List<Sprite> Hat = new List<Sprite>();
+    public List<Sprite> FaceBoy = new List<Sprite>();
+    public List<Sprite> HairBoy = new List<Sprite>();
+    public List<Sprite> HairOverlayBoy = new List<Sprite>();
+    public List<Sprite> LegBoy = new List<Sprite>();
+    public List<Sprite> LegOverlayBoy = new List<Sprite>();
+    public List<Sprite> SkinBoy = new List<Sprite>();
+    public List<Sprite> SkinOverlayBoy = new List<Sprite>();
+    public List<Sprite> TshirtBoy = new List<Sprite>();
+    public List<Sprite> TshirtOverlayBoy = new List<Sprite>();
+    public List<Sprite> FaceGirl = new List<Sprite>();
+    public List<Sprite> HairGirl = new List<Sprite>();
+    public List<Sprite> HairOverlayGirl = new List<Sprite>();
+    public List<Sprite> LegGirl = new List<Sprite>();
+    public List<Sprite> LegOverlayGirl = new List<Sprite>();
+    public List<Sprite> SkinGirl = new List<Sprite>();
+    public List<Sprite> SkinOverlayGirl = new List<Sprite>();
+    public List<Sprite> TshirtGirl = new List<Sprite>();
+    public List<Sprite> TshirtOverlayGirl = new List<Sprite>();
 
-    private int temp;
+    public int temp;
 
     //Constructor der für die initalisiereung verantwortlich ist
     public NPC(GameObject prefab, int temp, int[] doorPos)
@@ -113,8 +117,37 @@ public class NPC : MonoBehaviour
 
 
             //render den spieler richtig auf dem spielfeld, sowie anim.
-            for(int a=0;a<npcGO.transform.childCount;a++){
+            for(int a=0;a<npcGO.transform.childCount;a++)
+            {
                 npcGO.transform.GetChild(a).gameObject.GetComponent<SpriteRenderer>().sortingOrder = Int32.Parse(curPath[0].Split(":")[0])+Int32.Parse(curPath[0].Split(":")[1])+1;
+            }
+
+            //bestimmt die npc laufrichtung
+            if(objName.transform.position.x<npcGO.transform.position.x)
+            {
+                if(objName.transform.position.y<npcGO.transform.position.y)
+                {
+                    //links unten
+                    walkAnim=2;
+                }
+                else
+                {
+                    //links oben
+                    walkAnim=3;
+                }
+            }
+            else
+            {
+                if(objName.transform.position.y<npcGO.transform.position.y)
+                {
+                    //rechts unten
+                    walkAnim=4;
+                }
+                else
+                {
+                    //rechts oben
+                    walkAnim=5;
+                }
             }
 
             //floorObj wurde belaufen, zerstöre das element und übergebe die DynPlayerPos
@@ -128,6 +161,9 @@ public class NPC : MonoBehaviour
                 //wenn der npc fertig mit laufen ist
                 if(curPath.Count==0)
                 {
+                    //laufanimation des npc wird ausgestellt
+                    walkAnim = 0;
+
                     //npc läuft nicht mehr, cooldown bis er geht
                     isOnWalk = false;
 

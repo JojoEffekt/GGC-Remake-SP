@@ -8274,7 +8274,33 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 58e0abe10dff61a438383f6e6a5a5af3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isOnTable: 0
+  npcGO: {fileID: 0}
+  state: 0
+  curPath: []
+  curDynPlayerPos: {x: 0, y: 0, z: 0}
+  objName: 
+  walkAnim: 0
+  isBoy: 0
+  Hat: []
+  FaceBoy: []
+  HairBoy: []
+  HairOverlayBoy: []
+  LegBoy: []
+  LegOverlayBoy: []
+  SkinBoy: []
+  SkinOverlayBoy: []
+  TshirtBoy: []
+  TshirtOverlayBoy: []
+  FaceGirl: []
+  HairGirl: []
+  HairOverlayGirl: []
+  LegGirl: []
+  LegOverlayGirl: []
+  SkinGirl: []
+  SkinOverlayGirl: []
+  TshirtGirl: []
+  TshirtOverlayGirl: []
+  temp: 0
 --- !u!114 &822842615
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21720,7 +21746,7 @@ Transform:
   m_GameObject: {fileID: 2020754680}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2.11, y: -27.37, z: 0}
+  m_LocalPosition: {x: -10.27, y: -25.41, z: 0}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children: []
