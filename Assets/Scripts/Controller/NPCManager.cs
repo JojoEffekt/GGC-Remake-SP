@@ -422,7 +422,6 @@ public class NPCManager : MonoBehaviour
         //solange der npc läuft
         while(walkAnim!=0){
             walkAnim = npc.walkAnim;
-            Debug.Log("loop: "+walkAnim);
 
             //links unten  (front_left)
             if(walkAnim==2){
@@ -487,15 +486,15 @@ public class NPCManager : MonoBehaviour
 
                     //animation
                     for(int a=1;a<7;a++){
-                        npcGO.transform.GetChild(1).gameObject.GetComponent<SpriteRenderer>().sprite = TshirtOverlayGirl[80+a];
-                        npcGO.transform.GetChild(2).gameObject.GetComponent<SpriteRenderer>().sprite = HairOverlayGirl[80+a];
-                        npcGO.transform.GetChild(3).gameObject.GetComponent<SpriteRenderer>().sprite = HairGirl[80+a];
-                        npcGO.transform.GetChild(4).gameObject.GetComponent<SpriteRenderer>().sprite = FaceGirl[80+a];
-                        npcGO.transform.GetChild(5).gameObject.GetComponent<SpriteRenderer>().sprite = LegOverlayGirl[80+a];
-                        npcGO.transform.GetChild(6).gameObject.GetComponent<SpriteRenderer>().sprite = SkinOverlayGirl[80+a];
-                        npcGO.transform.GetChild(7).gameObject.GetComponent<SpriteRenderer>().sprite = TshirtGirl[80+a];
+                        npcGO.transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().sprite = TshirtOverlayGirl[80+a];
+                        npcGO.transform.GetChild(5).gameObject.GetComponent<SpriteRenderer>().sprite = HairOverlayGirl[80+a];
+                        npcGO.transform.GetChild(4).gameObject.GetComponent<SpriteRenderer>().sprite = HairGirl[80+a];
+                        npcGO.transform.GetChild(6).gameObject.GetComponent<SpriteRenderer>().sprite = FaceGirl[80+a];
+                        npcGO.transform.GetChild(1).gameObject.GetComponent<SpriteRenderer>().sprite = LegOverlayGirl[80+a];
+                        npcGO.transform.GetChild(7).gameObject.GetComponent<SpriteRenderer>().sprite = SkinOverlayGirl[80+a];
+                        npcGO.transform.GetChild(3).gameObject.GetComponent<SpriteRenderer>().sprite = TshirtGirl[80+a];
                         npcGO.transform.GetChild(8).gameObject.GetComponent<SpriteRenderer>().sprite = SkinGirl[80+a];
-                        npcGO.transform.GetChild(9).gameObject.GetComponent<SpriteRenderer>().sprite = LegGirl[80+a];
+                        npcGO.transform.GetChild(2).gameObject.GetComponent<SpriteRenderer>().sprite = LegGirl[80+a];
 
                         //zeitspann der einzelnen frames
                         if(walkAnim==2){
@@ -504,15 +503,15 @@ public class NPCManager : MonoBehaviour
                     }
 
                     //endzenario, wird gebraucht fals der spieler steht
-                    npcGO.transform.GetChild(1).gameObject.GetComponent<SpriteRenderer>().sprite = TshirtOverlayGirl[80];
-                    npcGO.transform.GetChild(2).gameObject.GetComponent<SpriteRenderer>().sprite = HairOverlayGirl[80];
-                    npcGO.transform.GetChild(3).gameObject.GetComponent<SpriteRenderer>().sprite = HairGirl[80];
-                    npcGO.transform.GetChild(4).gameObject.GetComponent<SpriteRenderer>().sprite = FaceGirl[80];
-                    npcGO.transform.GetChild(5).gameObject.GetComponent<SpriteRenderer>().sprite = LegOverlayGirl[80];
-                    npcGO.transform.GetChild(6).gameObject.GetComponent<SpriteRenderer>().sprite = SkinOverlayGirl[80];
-                    npcGO.transform.GetChild(7).gameObject.GetComponent<SpriteRenderer>().sprite = TshirtGirl[80];
+                    npcGO.transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().sprite = TshirtOverlayGirl[80];
+                    npcGO.transform.GetChild(5).gameObject.GetComponent<SpriteRenderer>().sprite = HairOverlayGirl[80];
+                    npcGO.transform.GetChild(4).gameObject.GetComponent<SpriteRenderer>().sprite = HairGirl[80];
+                    npcGO.transform.GetChild(6).gameObject.GetComponent<SpriteRenderer>().sprite = FaceGirl[80];
+                    npcGO.transform.GetChild(1).gameObject.GetComponent<SpriteRenderer>().sprite = LegOverlayGirl[80];
+                    npcGO.transform.GetChild(7).gameObject.GetComponent<SpriteRenderer>().sprite = SkinOverlayGirl[80];
+                    npcGO.transform.GetChild(3).gameObject.GetComponent<SpriteRenderer>().sprite = TshirtGirl[80];
                     npcGO.transform.GetChild(8).gameObject.GetComponent<SpriteRenderer>().sprite = SkinGirl[80];
-                    npcGO.transform.GetChild(9).gameObject.GetComponent<SpriteRenderer>().sprite = LegGirl[80];
+                    npcGO.transform.GetChild(2).gameObject.GetComponent<SpriteRenderer>().sprite = LegGirl[80];
                 }
 
             //links oben  
@@ -520,66 +519,66 @@ public class NPCManager : MonoBehaviour
 
                 if(isBoy==true){
 
-                    npcGO.transform.GetChild(1).gameObject.transform.localPosition = new Vector3(0.178f,1.657f,-0.05f);
-                    npcGO.transform.GetChild(2).gameObject.transform.localPosition = new Vector3(0.263f,3.437f,-0.07f);
-                    npcGO.transform.GetChild(3).gameObject.transform.localPosition = new Vector3(0.263f,3.406f,-0.06f);
-                    npcGO.transform.GetChild(4).gameObject.transform.localPosition = new Vector3(-0.153f,2.719f,-0.01f);
-                    npcGO.transform.GetChild(5).gameObject.transform.localPosition = new Vector3(-0.22f,0.38f,-0.01f);
-                    npcGO.transform.GetChild(6).gameObject.transform.localPosition = new Vector3(-0.023f,2.643f,-0.03f);
-                    npcGO.transform.GetChild(7).gameObject.transform.localPosition = new Vector3(0.185f,1.655f,-0.04f);
+                    npcGO.transform.GetChild(0).gameObject.transform.localPosition = new Vector3(0.178f,1.657f,-0.05f);
+                    npcGO.transform.GetChild(5).gameObject.transform.localPosition = new Vector3(0.263f,3.437f,-0.07f);
+                    npcGO.transform.GetChild(4).gameObject.transform.localPosition = new Vector3(0.263f,3.406f,-0.06f);
+                    npcGO.transform.GetChild(6).gameObject.transform.localPosition = new Vector3(-0.153f,2.719f,-0.01f);
+                    npcGO.transform.GetChild(1).gameObject.transform.localPosition = new Vector3(-0.22f,0.38f,-0.01f);
+                    npcGO.transform.GetChild(7).gameObject.transform.localPosition = new Vector3(-0.023f,2.643f,-0.03f);
+                    npcGO.transform.GetChild(3).gameObject.transform.localPosition = new Vector3(0.185f,1.655f,-0.04f);
                     npcGO.transform.GetChild(8).gameObject.transform.localPosition = new Vector3(-0.023f,2.642f,-0.02f);
-                    npcGO.transform.GetChild(0).gameObject.transform.localPosition = new Vector3(-0.115f,0.672f,0f);
+                    npcGO.transform.GetChild(2).gameObject.transform.localPosition = new Vector3(-0.115f,0.672f,0f);
 
                     for(int a=1;a<7;a++){
-                        npcGO.transform.GetChild(1).gameObject.GetComponent<SpriteRenderer>().sprite = TshirtOverlayBoy[64+a];
-                        npcGO.transform.GetChild(2).gameObject.GetComponent<SpriteRenderer>().sprite = HairOverlayBoy[64+a];
-                        npcGO.transform.GetChild(3).gameObject.GetComponent<SpriteRenderer>().sprite = HairBoy[64+a];
-                        npcGO.transform.GetChild(4).gameObject.GetComponent<SpriteRenderer>().sprite = FaceBoy[64+a];
-                        npcGO.transform.GetChild(5).gameObject.GetComponent<SpriteRenderer>().sprite = LegOverlayBoy[64+a];
-                        npcGO.transform.GetChild(6).gameObject.GetComponent<SpriteRenderer>().sprite = SkinOverlayBoy[64+a];
-                        npcGO.transform.GetChild(7).gameObject.GetComponent<SpriteRenderer>().sprite = TshirtBoy[64+a];
+                        npcGO.transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().sprite = TshirtOverlayBoy[64+a];
+                        npcGO.transform.GetChild(5).gameObject.GetComponent<SpriteRenderer>().sprite = HairOverlayBoy[64+a];
+                        npcGO.transform.GetChild(4).gameObject.GetComponent<SpriteRenderer>().sprite = HairBoy[64+a];
+                        npcGO.transform.GetChild(6).gameObject.GetComponent<SpriteRenderer>().sprite = FaceBoy[64+a];
+                        npcGO.transform.GetChild(1).gameObject.GetComponent<SpriteRenderer>().sprite = LegOverlayBoy[64+a];
+                        npcGO.transform.GetChild(7).gameObject.GetComponent<SpriteRenderer>().sprite = SkinOverlayBoy[64+a];
+                        npcGO.transform.GetChild(3).gameObject.GetComponent<SpriteRenderer>().sprite = TshirtBoy[64+a];
                         npcGO.transform.GetChild(8).gameObject.GetComponent<SpriteRenderer>().sprite = SkinBoy[64+a];
-                        npcGO.transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().sprite = LegBoy[64+a];
+                        npcGO.transform.GetChild(2).gameObject.GetComponent<SpriteRenderer>().sprite = LegBoy[64+a];
                         if(walkAnim==3){
                             yield return new WaitForSeconds(0.15F);
                         }
                     }
 
-                    npcGO.transform.GetChild(1).gameObject.GetComponent<SpriteRenderer>().sprite = TshirtOverlayBoy[71];
-                    npcGO.transform.GetChild(2).gameObject.GetComponent<SpriteRenderer>().sprite = HairOverlayBoy[71];
-                    npcGO.transform.GetChild(3).gameObject.GetComponent<SpriteRenderer>().sprite = HairBoy[71];
-                    npcGO.transform.GetChild(4).gameObject.GetComponent<SpriteRenderer>().sprite = FaceBoy[71];
-                    npcGO.transform.GetChild(5).gameObject.GetComponent<SpriteRenderer>().sprite = LegOverlayBoy[71];
-                    npcGO.transform.GetChild(6).gameObject.GetComponent<SpriteRenderer>().sprite = SkinOverlayBoy[71];
-                    npcGO.transform.GetChild(7).gameObject.GetComponent<SpriteRenderer>().sprite = TshirtBoy[71];
+                    npcGO.transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().sprite = TshirtOverlayBoy[71];
+                    npcGO.transform.GetChild(5).gameObject.GetComponent<SpriteRenderer>().sprite = HairOverlayBoy[71];
+                    npcGO.transform.GetChild(4).gameObject.GetComponent<SpriteRenderer>().sprite = HairBoy[71];
+                    npcGO.transform.GetChild(6).gameObject.GetComponent<SpriteRenderer>().sprite = FaceBoy[71];
+                    npcGO.transform.GetChild(1).gameObject.GetComponent<SpriteRenderer>().sprite = LegOverlayBoy[71];
+                    npcGO.transform.GetChild(7).gameObject.GetComponent<SpriteRenderer>().sprite = SkinOverlayBoy[71];
+                    npcGO.transform.GetChild(3).gameObject.GetComponent<SpriteRenderer>().sprite = TshirtBoy[71];
                     npcGO.transform.GetChild(8).gameObject.GetComponent<SpriteRenderer>().sprite = SkinBoy[71];
-                    npcGO.transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().sprite = LegBoy[71];
+                    npcGO.transform.GetChild(2).gameObject.GetComponent<SpriteRenderer>().sprite = LegBoy[71];
                 
                 //female
                 }else{
 
                     //bestimmt die rendering position
-                    npcGO.transform.GetChild(1).gameObject.transform.localPosition = new Vector3(0.1f,1.782f,-0.04f);
-                    npcGO.transform.GetChild(2).gameObject.transform.localPosition = new Vector3(0.4230f,3.345f,-0.03f);
-                    npcGO.transform.GetChild(3).gameObject.transform.localPosition = new Vector3(0.423f,3.345f,-0.02f);
-                    npcGO.transform.GetChild(4).gameObject.transform.localPosition = new Vector3(0.092f,2.804f,-0.01f);
-                    npcGO.transform.GetChild(5).gameObject.transform.localPosition = new Vector3(-0.21f,0.56f,-0.02f);
-                    npcGO.transform.GetChild(6).gameObject.transform.localPosition = new Vector3(-0.081f,2.064f,-0.01f);
-                    npcGO.transform.GetChild(7).gameObject.transform.localPosition = new Vector3(0.102f,1.773f,-0.03f);
+                    npcGO.transform.GetChild(0).gameObject.transform.localPosition = new Vector3(0.1f,1.782f,-0.04f);
+                    npcGO.transform.GetChild(5).gameObject.transform.localPosition = new Vector3(0.4230f,3.345f,-0.03f);
+                    npcGO.transform.GetChild(4).gameObject.transform.localPosition = new Vector3(0.423f,3.345f,-0.02f);
+                    npcGO.transform.GetChild(6).gameObject.transform.localPosition = new Vector3(0.092f,2.804f,-0.01f);
+                    npcGO.transform.GetChild(1).gameObject.transform.localPosition = new Vector3(-0.21f,0.56f,-0.02f);
+                    npcGO.transform.GetChild(7).gameObject.transform.localPosition = new Vector3(-0.081f,2.064f,-0.01f);
+                    npcGO.transform.GetChild(3).gameObject.transform.localPosition = new Vector3(0.102f,1.773f,-0.03f);
                     npcGO.transform.GetChild(8).gameObject.transform.localPosition = new Vector3(-0.083f,2.058f,0f);
-                    npcGO.transform.GetChild(8).gameObject.transform.localPosition = new Vector3(-0.023f,1.05f,-0.01f);
+                    npcGO.transform.GetChild(2).gameObject.transform.localPosition = new Vector3(-0.023f,1.05f,-0.01f);
 
                     //animation
                     for(int a=1;a<7;a++){
-                        npcGO.transform.GetChild(1).gameObject.GetComponent<SpriteRenderer>().sprite = TshirtOverlayGirl[64+a];
-                        npcGO.transform.GetChild(2).gameObject.GetComponent<SpriteRenderer>().sprite = HairOverlayGirl[64+a];
-                        npcGO.transform.GetChild(3).gameObject.GetComponent<SpriteRenderer>().sprite = HairGirl[64+a];
-                        npcGO.transform.GetChild(4).gameObject.GetComponent<SpriteRenderer>().sprite = FaceGirl[64+a];
-                        npcGO.transform.GetChild(5).gameObject.GetComponent<SpriteRenderer>().sprite = LegOverlayGirl[64+a];
-                        npcGO.transform.GetChild(6).gameObject.GetComponent<SpriteRenderer>().sprite = SkinOverlayGirl[64+a];
-                        npcGO.transform.GetChild(7).gameObject.GetComponent<SpriteRenderer>().sprite = TshirtGirl[64+a];
+                        npcGO.transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().sprite = TshirtOverlayGirl[64+a];
+                        npcGO.transform.GetChild(5).gameObject.GetComponent<SpriteRenderer>().sprite = HairOverlayGirl[64+a];
+                        npcGO.transform.GetChild(4).gameObject.GetComponent<SpriteRenderer>().sprite = HairGirl[64+a];
+                        npcGO.transform.GetChild(6).gameObject.GetComponent<SpriteRenderer>().sprite = FaceGirl[64+a];
+                        npcGO.transform.GetChild(1).gameObject.GetComponent<SpriteRenderer>().sprite = LegOverlayGirl[64+a];
+                        npcGO.transform.GetChild(7).gameObject.GetComponent<SpriteRenderer>().sprite = SkinOverlayGirl[64+a];
+                        npcGO.transform.GetChild(3).gameObject.GetComponent<SpriteRenderer>().sprite = TshirtGirl[64+a];
                         npcGO.transform.GetChild(8).gameObject.GetComponent<SpriteRenderer>().sprite = SkinGirl[64+a];
-                        npcGO.transform.GetChild(8).gameObject.GetComponent<SpriteRenderer>().sprite = LegGirl[64+a];
+                        npcGO.transform.GetChild(2).gameObject.GetComponent<SpriteRenderer>().sprite = LegGirl[64+a];
 
                         //zeitspann der einzelnen frames
                         if(walkAnim==3){
@@ -588,15 +587,15 @@ public class NPCManager : MonoBehaviour
                     }
 
                     //endzenario, wird gebraucht fals der spieler steht
-                    npcGO.transform.GetChild(1).gameObject.GetComponent<SpriteRenderer>().sprite = TshirtOverlayGirl[64];
-                    npcGO.transform.GetChild(2).gameObject.GetComponent<SpriteRenderer>().sprite = HairOverlayGirl[64];
-                    npcGO.transform.GetChild(3).gameObject.GetComponent<SpriteRenderer>().sprite = HairGirl[64];
-                    npcGO.transform.GetChild(4).gameObject.GetComponent<SpriteRenderer>().sprite = FaceGirl[64];
-                    npcGO.transform.GetChild(5).gameObject.GetComponent<SpriteRenderer>().sprite = LegOverlayGirl[64];
-                    npcGO.transform.GetChild(6).gameObject.GetComponent<SpriteRenderer>().sprite = SkinOverlayGirl[64];
-                    npcGO.transform.GetChild(7).gameObject.GetComponent<SpriteRenderer>().sprite = TshirtGirl[64];
+                    npcGO.transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().sprite = TshirtOverlayGirl[64];
+                    npcGO.transform.GetChild(5).gameObject.GetComponent<SpriteRenderer>().sprite = HairOverlayGirl[64];
+                    npcGO.transform.GetChild(4).gameObject.GetComponent<SpriteRenderer>().sprite = HairGirl[64];
+                    npcGO.transform.GetChild(6).gameObject.GetComponent<SpriteRenderer>().sprite = FaceGirl[64];
+                    npcGO.transform.GetChild(1).gameObject.GetComponent<SpriteRenderer>().sprite = LegOverlayGirl[64];
+                    npcGO.transform.GetChild(7).gameObject.GetComponent<SpriteRenderer>().sprite = SkinOverlayGirl[64];
+                    npcGO.transform.GetChild(3).gameObject.GetComponent<SpriteRenderer>().sprite = TshirtGirl[64];
                     npcGO.transform.GetChild(8).gameObject.GetComponent<SpriteRenderer>().sprite = SkinGirl[64];
-                    npcGO.transform.GetChild(8).gameObject.GetComponent<SpriteRenderer>().sprite = LegGirl[64];
+                    npcGO.transform.GetChild(2).gameObject.GetComponent<SpriteRenderer>().sprite = LegGirl[64];
                 }
                 
             //rechts unten
@@ -604,66 +603,66 @@ public class NPCManager : MonoBehaviour
 
                 if(isBoy==true){
 
-                    npcGO.transform.GetChild(1).gameObject.transform.localPosition = new Vector3(-0.058f,1.617f,-0.03f);
-                    npcGO.transform.GetChild(2).gameObject.transform.localPosition = new Vector3(-0.134f,3.314f,-0.03f);
-                    npcGO.transform.GetChild(3).gameObject.transform.localPosition = new Vector3(-0.137f,3.34f,-0.02f);
-                    npcGO.transform.GetChild(4).gameObject.transform.localPosition = new Vector3(0.258f,2.691f,-0.01f);
-                    npcGO.transform.GetChild(5).gameObject.transform.localPosition = new Vector3(0.3399f,0.3809f,-0.01f);
-                    npcGO.transform.GetChild(6).gameObject.transform.localPosition = new Vector3(0.143f,2.611f,-0.01f);
-                    npcGO.transform.GetChild(7).gameObject.transform.localPosition = new Vector3(-0.062f,1.616f,-0.02f);
+                    npcGO.transform.GetChild(0).gameObject.transform.localPosition = new Vector3(-0.058f,1.617f,-0.03f);
+                    npcGO.transform.GetChild(5).gameObject.transform.localPosition = new Vector3(-0.134f,3.314f,-0.03f);
+                    npcGO.transform.GetChild(4).gameObject.transform.localPosition = new Vector3(-0.137f,3.34f,-0.02f);
+                    npcGO.transform.GetChild(6).gameObject.transform.localPosition = new Vector3(0.258f,2.691f,-0.01f);
+                    npcGO.transform.GetChild(1).gameObject.transform.localPosition = new Vector3(0.3399f,0.3809f,-0.01f);
+                    npcGO.transform.GetChild(7).gameObject.transform.localPosition = new Vector3(0.143f,2.611f,-0.01f);
+                    npcGO.transform.GetChild(3).gameObject.transform.localPosition = new Vector3(-0.062f,1.616f,-0.02f);
                     npcGO.transform.GetChild(8).gameObject.transform.localPosition = new Vector3(0.143f,2.602f,0f);
-                    npcGO.transform.GetChild(9).gameObject.transform.localPosition = new Vector3(0.24f,0.63f,0f);
+                    npcGO.transform.GetChild(2).gameObject.transform.localPosition = new Vector3(0.24f,0.63f,0f);
             
                     for(int a=1;a<7;a++){
-                        npcGO.transform.GetChild(1).gameObject.GetComponent<SpriteRenderer>().sprite = TshirtOverlayBoy[88+a];
-                        npcGO.transform.GetChild(2).gameObject.GetComponent<SpriteRenderer>().sprite = HairOverlayBoy[88+a];
-                        npcGO.transform.GetChild(3).gameObject.GetComponent<SpriteRenderer>().sprite = HairBoy[88+a];
-                        npcGO.transform.GetChild(4).gameObject.GetComponent<SpriteRenderer>().sprite = FaceBoy[88+a];
-                        npcGO.transform.GetChild(5).gameObject.GetComponent<SpriteRenderer>().sprite = LegOverlayBoy[88+a];
-                        npcGO.transform.GetChild(6).gameObject.GetComponent<SpriteRenderer>().sprite = SkinOverlayBoy[88+a];
-                        npcGO.transform.GetChild(7).gameObject.GetComponent<SpriteRenderer>().sprite = TshirtBoy[88+a];
+                        npcGO.transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().sprite = TshirtOverlayBoy[88+a];
+                        npcGO.transform.GetChild(5).gameObject.GetComponent<SpriteRenderer>().sprite = HairOverlayBoy[88+a];
+                        npcGO.transform.GetChild(4).gameObject.GetComponent<SpriteRenderer>().sprite = HairBoy[88+a];
+                        npcGO.transform.GetChild(6).gameObject.GetComponent<SpriteRenderer>().sprite = FaceBoy[88+a];
+                        npcGO.transform.GetChild(1).gameObject.GetComponent<SpriteRenderer>().sprite = LegOverlayBoy[88+a];
+                        npcGO.transform.GetChild(7).gameObject.GetComponent<SpriteRenderer>().sprite = SkinOverlayBoy[88+a];
+                        npcGO.transform.GetChild(3).gameObject.GetComponent<SpriteRenderer>().sprite = TshirtBoy[88+a];
                         npcGO.transform.GetChild(8).gameObject.GetComponent<SpriteRenderer>().sprite = SkinBoy[88+a];
-                        npcGO.transform.GetChild(9).gameObject.GetComponent<SpriteRenderer>().sprite = LegBoy[88+a];
+                        npcGO.transform.GetChild(2).gameObject.GetComponent<SpriteRenderer>().sprite = LegBoy[88+a];
                         if(walkAnim==4){
                             yield return new WaitForSeconds(0.15F);
                         }
                     }
 
-                    npcGO.transform.GetChild(1).gameObject.GetComponent<SpriteRenderer>().sprite = TshirtOverlayBoy[88];
-                    npcGO.transform.GetChild(2).gameObject.GetComponent<SpriteRenderer>().sprite = HairOverlayBoy[88];
-                    npcGO.transform.GetChild(3).gameObject.GetComponent<SpriteRenderer>().sprite = HairBoy[88];
-                    npcGO.transform.GetChild(4).gameObject.GetComponent<SpriteRenderer>().sprite = FaceBoy[88];
-                    npcGO.transform.GetChild(5).gameObject.GetComponent<SpriteRenderer>().sprite = LegOverlayBoy[88];
-                    npcGO.transform.GetChild(6).gameObject.GetComponent<SpriteRenderer>().sprite = SkinOverlayBoy[88];
-                    npcGO.transform.GetChild(7).gameObject.GetComponent<SpriteRenderer>().sprite = TshirtBoy[88];
+                    npcGO.transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().sprite = TshirtOverlayBoy[88];
+                    npcGO.transform.GetChild(5).gameObject.GetComponent<SpriteRenderer>().sprite = HairOverlayBoy[88];
+                    npcGO.transform.GetChild(4).gameObject.GetComponent<SpriteRenderer>().sprite = HairBoy[88];
+                    npcGO.transform.GetChild(6).gameObject.GetComponent<SpriteRenderer>().sprite = FaceBoy[88];
+                    npcGO.transform.GetChild(1).gameObject.GetComponent<SpriteRenderer>().sprite = LegOverlayBoy[88];
+                    npcGO.transform.GetChild(7).gameObject.GetComponent<SpriteRenderer>().sprite = SkinOverlayBoy[88];
+                    npcGO.transform.GetChild(3).gameObject.GetComponent<SpriteRenderer>().sprite = TshirtBoy[88];
                     npcGO.transform.GetChild(8).gameObject.GetComponent<SpriteRenderer>().sprite = SkinBoy[88];
-                    npcGO.transform.GetChild(9).gameObject.GetComponent<SpriteRenderer>().sprite = LegBoy[88];
+                    npcGO.transform.GetChild(2).gameObject.GetComponent<SpriteRenderer>().sprite = LegBoy[88];
                 
                 //female
                 }else{
 
                     //bestimmt die rendering position
-                    npcGO.transform.GetChild(1).gameObject.transform.localPosition = new Vector3(-0.267f,1.776f,-0.02f);
-                    npcGO.transform.GetChild(2).gameObject.transform.localPosition = new Vector3(-0.57f,3.342f,-0.02f);
-                    npcGO.transform.GetChild(3).gameObject.transform.localPosition = new Vector3(-0.569f,3.342f,-0.01f);
-                    npcGO.transform.GetChild(4).gameObject.transform.localPosition = new Vector3(-0.248f,2.862f,-0.01f);
-                    npcGO.transform.GetChild(5).gameObject.transform.localPosition = new Vector3(0.059f,0.532f,-0.01f);
-                    npcGO.transform.GetChild(6).gameObject.transform.localPosition = new Vector3(-0.081f,2.064f,-0.01f);
-                    npcGO.transform.GetChild(7).gameObject.transform.localPosition = new Vector3(-0.265f,1.767f,-0.01f);
+                    npcGO.transform.GetChild(0).gameObject.transform.localPosition = new Vector3(-0.267f,1.776f,-0.02f);
+                    npcGO.transform.GetChild(5).gameObject.transform.localPosition = new Vector3(-0.57f,3.342f,-0.02f);
+                    npcGO.transform.GetChild(4).gameObject.transform.localPosition = new Vector3(-0.569f,3.342f,-0.01f);
+                    npcGO.transform.GetChild(6).gameObject.transform.localPosition = new Vector3(-0.248f,2.862f,-0.01f);
+                    npcGO.transform.GetChild(1).gameObject.transform.localPosition = new Vector3(0.059f,0.532f,-0.01f);
+                    npcGO.transform.GetChild(7).gameObject.transform.localPosition = new Vector3(-0.081f,2.064f,-0.01f);
+                    npcGO.transform.GetChild(3).gameObject.transform.localPosition = new Vector3(-0.265f,1.767f,-0.01f);
                     npcGO.transform.GetChild(8).gameObject.transform.localPosition = new Vector3(-0.083f,2.058f,0f);
-                    npcGO.transform.GetChild(9).gameObject.transform.localPosition = new Vector3(-0.139f,1.041f,0f);
+                    npcGO.transform.GetChild(2).gameObject.transform.localPosition = new Vector3(-0.139f,1.041f,0f);
 
                     //animation
                     for(int a=1;a<7;a++){
-                        npcGO.transform.GetChild(1).gameObject.GetComponent<SpriteRenderer>().sprite = TshirtOverlayGirl[88+a];
-                        npcGO.transform.GetChild(2).gameObject.GetComponent<SpriteRenderer>().sprite = HairOverlayGirl[88+a];
-                        npcGO.transform.GetChild(3).gameObject.GetComponent<SpriteRenderer>().sprite = HairGirl[88+a];
-                        npcGO.transform.GetChild(4).gameObject.GetComponent<SpriteRenderer>().sprite = FaceGirl[88+a];
-                        npcGO.transform.GetChild(5).gameObject.GetComponent<SpriteRenderer>().sprite = LegOverlayGirl[88+a];
-                        npcGO.transform.GetChild(6).gameObject.GetComponent<SpriteRenderer>().sprite = SkinOverlayGirl[88+a];
-                        npcGO.transform.GetChild(7).gameObject.GetComponent<SpriteRenderer>().sprite = TshirtGirl[88+a];
+                        npcGO.transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().sprite = TshirtOverlayGirl[88+a];
+                        npcGO.transform.GetChild(5).gameObject.GetComponent<SpriteRenderer>().sprite = HairOverlayGirl[88+a];
+                        npcGO.transform.GetChild(4).gameObject.GetComponent<SpriteRenderer>().sprite = HairGirl[88+a];
+                        npcGO.transform.GetChild(6).gameObject.GetComponent<SpriteRenderer>().sprite = FaceGirl[88+a];
+                        npcGO.transform.GetChild(1).gameObject.GetComponent<SpriteRenderer>().sprite = LegOverlayGirl[88+a];
+                        npcGO.transform.GetChild(7).gameObject.GetComponent<SpriteRenderer>().sprite = SkinOverlayGirl[88+a];
+                        npcGO.transform.GetChild(3).gameObject.GetComponent<SpriteRenderer>().sprite = TshirtGirl[88+a];
                         npcGO.transform.GetChild(8).gameObject.GetComponent<SpriteRenderer>().sprite = SkinGirl[88+a];
-                        npcGO.transform.GetChild(9).gameObject.GetComponent<SpriteRenderer>().sprite = LegGirl[88+a];
+                        npcGO.transform.GetChild(2).gameObject.GetComponent<SpriteRenderer>().sprite = LegGirl[88+a];
 
                         //zeitspann der einzelnen frames
                         if(walkAnim==4){
@@ -672,15 +671,15 @@ public class NPCManager : MonoBehaviour
                     }
 
                     //endzenario, wird gebraucht fals der spieler steht
-                    npcGO.transform.GetChild(1).gameObject.GetComponent<SpriteRenderer>().sprite = TshirtOverlayGirl[88];
-                    npcGO.transform.GetChild(2).gameObject.GetComponent<SpriteRenderer>().sprite = HairOverlayGirl[88];
-                    npcGO.transform.GetChild(3).gameObject.GetComponent<SpriteRenderer>().sprite = HairGirl[88];
-                    npcGO.transform.GetChild(4).gameObject.GetComponent<SpriteRenderer>().sprite = FaceGirl[88];
-                    npcGO.transform.GetChild(5).gameObject.GetComponent<SpriteRenderer>().sprite = LegOverlayGirl[88];
-                    npcGO.transform.GetChild(6).gameObject.GetComponent<SpriteRenderer>().sprite = SkinOverlayGirl[88];
-                    npcGO.transform.GetChild(7).gameObject.GetComponent<SpriteRenderer>().sprite = TshirtGirl[88];
+                    npcGO.transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().sprite = TshirtOverlayGirl[88];
+                    npcGO.transform.GetChild(5).gameObject.GetComponent<SpriteRenderer>().sprite = HairOverlayGirl[88];
+                    npcGO.transform.GetChild(4).gameObject.GetComponent<SpriteRenderer>().sprite = HairGirl[88];
+                    npcGO.transform.GetChild(6).gameObject.GetComponent<SpriteRenderer>().sprite = FaceGirl[88];
+                    npcGO.transform.GetChild(1).gameObject.GetComponent<SpriteRenderer>().sprite = LegOverlayGirl[88];
+                    npcGO.transform.GetChild(7).gameObject.GetComponent<SpriteRenderer>().sprite = SkinOverlayGirl[88];
+                    npcGO.transform.GetChild(3).gameObject.GetComponent<SpriteRenderer>().sprite = TshirtGirl[88];
                     npcGO.transform.GetChild(8).gameObject.GetComponent<SpriteRenderer>().sprite = SkinGirl[88];
-                    npcGO.transform.GetChild(9).gameObject.GetComponent<SpriteRenderer>().sprite = LegGirl[88];
+                    npcGO.transform.GetChild(2).gameObject.GetComponent<SpriteRenderer>().sprite = LegGirl[88];
                 }
 
             //rechts oben
@@ -688,66 +687,66 @@ public class NPCManager : MonoBehaviour
 
                 if(isBoy==true){
 
-                    npcGO.transform.GetChild(1).gameObject.transform.localPosition = new Vector3(-0.079f,1.747f,-0.05f);
-                    npcGO.transform.GetChild(2).gameObject.transform.localPosition = new Vector3(-0.136f,3.497f,-0.07f);
-                    npcGO.transform.GetChild(3).gameObject.transform.localPosition = new Vector3(-0.136f,3.4659f,-0.06f);
-                    npcGO.transform.GetChild(4).gameObject.transform.localPosition = new Vector3(-0.282f,2.719f,-0.01f);
-                    npcGO.transform.GetChild(5).gameObject.transform.localPosition = new Vector3(0.336f,0.46f,-0.04f);
-                    npcGO.transform.GetChild(6).gameObject.transform.localPosition = new Vector3(0.131f,2.731f,-0.03f);
-                    npcGO.transform.GetChild(7).gameObject.transform.localPosition = new Vector3(-0.073f,1.745f,-0.04f);
+                    npcGO.transform.GetChild(0).gameObject.transform.localPosition = new Vector3(-0.079f,1.747f,-0.05f);
+                    npcGO.transform.GetChild(5).gameObject.transform.localPosition = new Vector3(-0.136f,3.497f,-0.07f);
+                    npcGO.transform.GetChild(4).gameObject.transform.localPosition = new Vector3(-0.136f,3.4659f,-0.06f);
+                    npcGO.transform.GetChild(6).gameObject.transform.localPosition = new Vector3(-0.282f,2.719f,-0.01f);
+                    npcGO.transform.GetChild(1).gameObject.transform.localPosition = new Vector3(0.336f,0.46f,-0.04f);
+                    npcGO.transform.GetChild(7).gameObject.transform.localPosition = new Vector3(0.131f,2.731f,-0.03f);
+                    npcGO.transform.GetChild(3).gameObject.transform.localPosition = new Vector3(-0.073f,1.745f,-0.04f);
                     npcGO.transform.GetChild(8).gameObject.transform.localPosition = new Vector3(0.131f,2.731f,-0.02f);
-                    npcGO.transform.GetChild(9).gameObject.transform.localPosition = new Vector3(0.234f,0.754f,-0.03f);
+                    npcGO.transform.GetChild(2).gameObject.transform.localPosition = new Vector3(0.234f,0.754f,-0.03f);
 
                     for(int a=1;a<7;a++){
-                        npcGO.transform.GetChild(1).gameObject.GetComponent<SpriteRenderer>().sprite = TshirtOverlayBoy[72+a];
-                        npcGO.transform.GetChild(2).gameObject.GetComponent<SpriteRenderer>().sprite = HairOverlayBoy[72+a];
-                        npcGO.transform.GetChild(3).gameObject.GetComponent<SpriteRenderer>().sprite = HairBoy[72+a];
-                        npcGO.transform.GetChild(4).gameObject.GetComponent<SpriteRenderer>().sprite = FaceBoy[72+a];
-                        npcGO.transform.GetChild(5).gameObject.GetComponent<SpriteRenderer>().sprite = LegOverlayBoy[72+a];
-                        npcGO.transform.GetChild(6).gameObject.GetComponent<SpriteRenderer>().sprite = SkinOverlayBoy[72+a];
-                        npcGO.transform.GetChild(7).gameObject.GetComponent<SpriteRenderer>().sprite = TshirtBoy[72+a];
+                        npcGO.transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().sprite = TshirtOverlayBoy[72+a];
+                        npcGO.transform.GetChild(5).gameObject.GetComponent<SpriteRenderer>().sprite = HairOverlayBoy[72+a];
+                        npcGO.transform.GetChild(4).gameObject.GetComponent<SpriteRenderer>().sprite = HairBoy[72+a];
+                        npcGO.transform.GetChild(6).gameObject.GetComponent<SpriteRenderer>().sprite = FaceBoy[72+a];
+                        npcGO.transform.GetChild(1).gameObject.GetComponent<SpriteRenderer>().sprite = LegOverlayBoy[72+a];
+                        npcGO.transform.GetChild(7).gameObject.GetComponent<SpriteRenderer>().sprite = SkinOverlayBoy[72+a];
+                        npcGO.transform.GetChild(3).gameObject.GetComponent<SpriteRenderer>().sprite = TshirtBoy[72+a];
                         npcGO.transform.GetChild(8).gameObject.GetComponent<SpriteRenderer>().sprite = SkinBoy[72+a];
-                        npcGO.transform.GetChild(9).gameObject.GetComponent<SpriteRenderer>().sprite = LegBoy[72+a];
+                        npcGO.transform.GetChild(2).gameObject.GetComponent<SpriteRenderer>().sprite = LegBoy[72+a];
                         if(walkAnim==5){
                             yield return new WaitForSeconds(0.15F);
                         }
                     }
 
-                    npcGO.transform.GetChild(1).gameObject.GetComponent<SpriteRenderer>().sprite = TshirtOverlayBoy[72];
-                    npcGO.transform.GetChild(2).gameObject.GetComponent<SpriteRenderer>().sprite = HairOverlayBoy[72];
-                    npcGO.transform.GetChild(3).gameObject.GetComponent<SpriteRenderer>().sprite = HairBoy[72];
-                    npcGO.transform.GetChild(4).gameObject.GetComponent<SpriteRenderer>().sprite = FaceBoy[72];
-                    npcGO.transform.GetChild(5).gameObject.GetComponent<SpriteRenderer>().sprite = LegOverlayBoy[72];
-                    npcGO.transform.GetChild(6).gameObject.GetComponent<SpriteRenderer>().sprite = SkinOverlayBoy[72];
-                    npcGO.transform.GetChild(7).gameObject.GetComponent<SpriteRenderer>().sprite = TshirtBoy[72];
+                    npcGO.transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().sprite = TshirtOverlayBoy[72];
+                    npcGO.transform.GetChild(5).gameObject.GetComponent<SpriteRenderer>().sprite = HairOverlayBoy[72];
+                    npcGO.transform.GetChild(4).gameObject.GetComponent<SpriteRenderer>().sprite = HairBoy[72];
+                    npcGO.transform.GetChild(6).gameObject.GetComponent<SpriteRenderer>().sprite = FaceBoy[72];
+                    npcGO.transform.GetChild(1).gameObject.GetComponent<SpriteRenderer>().sprite = LegOverlayBoy[72];
+                    npcGO.transform.GetChild(7).gameObject.GetComponent<SpriteRenderer>().sprite = SkinOverlayBoy[72];
+                    npcGO.transform.GetChild(3).gameObject.GetComponent<SpriteRenderer>().sprite = TshirtBoy[72];
                     npcGO.transform.GetChild(8).gameObject.GetComponent<SpriteRenderer>().sprite = SkinBoy[72];
-                    npcGO.transform.GetChild(9).gameObject.GetComponent<SpriteRenderer>().sprite = LegBoy[72];
+                    npcGO.transform.GetChild(2).gameObject.GetComponent<SpriteRenderer>().sprite = LegBoy[72];
                 
                 //female
                 }else{
 
                     //bestimmt die rendering position
-                    npcGO.transform.GetChild(1).gameObject.transform.localPosition = new Vector3(-0.151f,1.782f,-0.02f);
-                    npcGO.transform.GetChild(2).gameObject.transform.localPosition = new Vector3(-0.445f,3.265f,-0.02f);
-                    npcGO.transform.GetChild(3).gameObject.transform.localPosition = new Vector3(-0.445f,3.265f,-0.01f);
-                    npcGO.transform.GetChild(4).gameObject.transform.localPosition = new Vector3(-0.163f,3.074f,-0.01f);
-                    npcGO.transform.GetChild(5).gameObject.transform.localPosition = new Vector3(0.153f,0.565f,-0.01f);
-                    npcGO.transform.GetChild(6).gameObject.transform.localPosition = new Vector3(0.042f,2.065f,-0.01f);
-                    npcGO.transform.GetChild(7).gameObject.transform.localPosition = new Vector3(-0.15f,1.773f,-0.01f);
+                    npcGO.transform.GetChild(0).gameObject.transform.localPosition = new Vector3(-0.151f,1.782f,-0.02f);
+                    npcGO.transform.GetChild(5).gameObject.transform.localPosition = new Vector3(-0.445f,3.265f,-0.02f);
+                    npcGO.transform.GetChild(4).gameObject.transform.localPosition = new Vector3(-0.445f,3.265f,-0.01f);
+                    npcGO.transform.GetChild(6).gameObject.transform.localPosition = new Vector3(-0.163f,3.074f,-0.01f);
+                    npcGO.transform.GetChild(1).gameObject.transform.localPosition = new Vector3(0.153f,0.565f,-0.01f);
+                    npcGO.transform.GetChild(7).gameObject.transform.localPosition = new Vector3(0.042f,2.065f,-0.01f);
+                    npcGO.transform.GetChild(3).gameObject.transform.localPosition = new Vector3(-0.15f,1.773f,-0.01f);
                     npcGO.transform.GetChild(8).gameObject.transform.localPosition = new Vector3(0.04f,2.06f,0f);
-                    npcGO.transform.GetChild(9).gameObject.transform.localPosition = new Vector3(-0.023f,1.05f,0f);
+                    npcGO.transform.GetChild(2).gameObject.transform.localPosition = new Vector3(-0.023f,1.05f,0f);
 
                     //animation
                     for(int a=1;a<7;a++){
-                        npcGO.transform.GetChild(1).gameObject.GetComponent<SpriteRenderer>().sprite = TshirtOverlayGirl[72+a];
-                        npcGO.transform.GetChild(2).gameObject.GetComponent<SpriteRenderer>().sprite = HairOverlayGirl[72+a];
-                        npcGO.transform.GetChild(3).gameObject.GetComponent<SpriteRenderer>().sprite = HairGirl[72+a];
-                        npcGO.transform.GetChild(4).gameObject.GetComponent<SpriteRenderer>().sprite = FaceGirl[72+a];
-                        npcGO.transform.GetChild(5).gameObject.GetComponent<SpriteRenderer>().sprite = LegOverlayGirl[72+a];
-                        npcGO.transform.GetChild(6).gameObject.GetComponent<SpriteRenderer>().sprite = SkinOverlayGirl[72+a];
-                        npcGO.transform.GetChild(7).gameObject.GetComponent<SpriteRenderer>().sprite = TshirtGirl[72+a];
+                        npcGO.transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().sprite = TshirtOverlayGirl[72+a];
+                        npcGO.transform.GetChild(5).gameObject.GetComponent<SpriteRenderer>().sprite = HairOverlayGirl[72+a];
+                        npcGO.transform.GetChild(4).gameObject.GetComponent<SpriteRenderer>().sprite = HairGirl[72+a];
+                        npcGO.transform.GetChild(6).gameObject.GetComponent<SpriteRenderer>().sprite = FaceGirl[72+a];
+                        npcGO.transform.GetChild(1).gameObject.GetComponent<SpriteRenderer>().sprite = LegOverlayGirl[72+a];
+                        npcGO.transform.GetChild(7).gameObject.GetComponent<SpriteRenderer>().sprite = SkinOverlayGirl[72+a];
+                        npcGO.transform.GetChild(3).gameObject.GetComponent<SpriteRenderer>().sprite = TshirtGirl[72+a];
                         npcGO.transform.GetChild(8).gameObject.GetComponent<SpriteRenderer>().sprite = SkinGirl[72+a];
-                        npcGO.transform.GetChild(9).gameObject.GetComponent<SpriteRenderer>().sprite = LegGirl[72+a];
+                        npcGO.transform.GetChild(2).gameObject.GetComponent<SpriteRenderer>().sprite = LegGirl[72+a];
 
                         //zeitspann der einzelnen frames
                         if(walkAnim==5){
@@ -756,15 +755,15 @@ public class NPCManager : MonoBehaviour
                     }
 
                     //endzenario, wird gebraucht fals der npc steht
-                    npcGO.transform.GetChild(1).gameObject.GetComponent<SpriteRenderer>().sprite = TshirtOverlayGirl[72];
-                    npcGO.transform.GetChild(2).gameObject.GetComponent<SpriteRenderer>().sprite = HairOverlayGirl[72];
-                    npcGO.transform.GetChild(3).gameObject.GetComponent<SpriteRenderer>().sprite = HairGirl[72];
-                    npcGO.transform.GetChild(4).gameObject.GetComponent<SpriteRenderer>().sprite = FaceGirl[72];
-                    npcGO.transform.GetChild(5).gameObject.GetComponent<SpriteRenderer>().sprite = LegOverlayGirl[72];
-                    npcGO.transform.GetChild(6).gameObject.GetComponent<SpriteRenderer>().sprite = SkinOverlayGirl[72];
-                    npcGO.transform.GetChild(7).gameObject.GetComponent<SpriteRenderer>().sprite = TshirtGirl[72];
+                    npcGO.transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().sprite = TshirtOverlayGirl[72];
+                    npcGO.transform.GetChild(5).gameObject.GetComponent<SpriteRenderer>().sprite = HairOverlayGirl[72];
+                    npcGO.transform.GetChild(4).gameObject.GetComponent<SpriteRenderer>().sprite = HairGirl[72];
+                    npcGO.transform.GetChild(6).gameObject.GetComponent<SpriteRenderer>().sprite = FaceGirl[72];
+                    npcGO.transform.GetChild(1).gameObject.GetComponent<SpriteRenderer>().sprite = LegOverlayGirl[72];
+                    npcGO.transform.GetChild(7).gameObject.GetComponent<SpriteRenderer>().sprite = SkinOverlayGirl[72];
+                    npcGO.transform.GetChild(3).gameObject.GetComponent<SpriteRenderer>().sprite = TshirtGirl[72];
                     npcGO.transform.GetChild(8).gameObject.GetComponent<SpriteRenderer>().sprite = SkinGirl[72];
-                    npcGO.transform.GetChild(9).gameObject.GetComponent<SpriteRenderer>().sprite = LegGirl[72];
+                    npcGO.transform.GetChild(2).gameObject.GetComponent<SpriteRenderer>().sprite = LegGirl[72];
                 }
             }
 
