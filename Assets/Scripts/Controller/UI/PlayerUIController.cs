@@ -56,9 +56,31 @@ public class PlayerUIController : MonoBehaviour
 
         //rendert den spieler namen in die UI
         PlayerUIShop.transform.GetChild(0).gameObject.transform.GetChild(1).gameObject.GetComponent<TMPro.TextMeshProUGUI>().text = PlayerController.playerName;
+    
+        //rendert die aktuellen farben auf das vorschaubild des spielers
+        RenderExampleChar(PlayerCharBuilder.player.gender);
     }
 
 
+    //rendert das vorschaubild des spielers
+    //true male, false female
+    public void RenderExampleChar(bool gender){
+        if(gender){
+            BoyChar.SetActive(true);
+            GirlChar.SetActive(false);
+            BoyChar.transform.GetChild(6).gameObject.GetComponent<Image>().color = new Color(PlayerCharBuilder.player.hair[0],PlayerCharBuilder.player.hair[1],PlayerCharBuilder.player.hair[2],1f);
+            BoyChar.transform.GetChild(2).gameObject.GetComponent<Image>().color = new Color(PlayerCharBuilder.player.skin[0],PlayerCharBuilder.player.skin[1],PlayerCharBuilder.player.skin[2],1f);
+            BoyChar.transform.GetChild(4).gameObject.GetComponent<Image>().color = new Color(PlayerCharBuilder.player.tshirt[0],PlayerCharBuilder.player.tshirt[1],PlayerCharBuilder.player.tshirt[2],1f);
+            BoyChar.transform.GetChild(0).gameObject.GetComponent<Image>().color = new Color(PlayerCharBuilder.player.leg[0],PlayerCharBuilder.player.leg[1],PlayerCharBuilder.player.leg[2],1f);
+        }else{
+            GirlChar.SetActive(true);
+            BoyChar.SetActive(false);
+            GirlChar.transform.GetChild(6).gameObject.GetComponent<Image>().color = new Color(PlayerCharBuilder.player.leg[0],PlayerCharBuilder.player.leg[1],PlayerCharBuilder.player.leg[2],1f);
+            GirlChar.transform.GetChild(7).gameObject.GetComponent<Image>().color = new Color(PlayerCharBuilder.player.tshirt[0],PlayerCharBuilder.player.tshirt[1],PlayerCharBuilder.player.tshirt[2],1f);
+            GirlChar.transform.GetChild(0).gameObject.GetComponent<Image>().color = new Color(PlayerCharBuilder.player.skin[0],PlayerCharBuilder.player.skin[1],PlayerCharBuilder.player.skin[2],1f);
+            GirlChar.transform.GetChild(2).gameObject.GetComponent<Image>().color = new Color(PlayerCharBuilder.player.hair[0],PlayerCharBuilder.player.hair[1],PlayerCharBuilder.player.hair[2],1f);
+        }
+    }
 
     //für jede verschiedene skinFarbe, render ein gegebenes objekt
     public void RenderAllColorsForCurrentPiece(int num){
@@ -71,6 +93,7 @@ public class PlayerUIController : MonoBehaviour
             GirlChar.SetActive(false);
             BoyChar.SetActive(true);
             tempGender=true;
+            RenderExampleChar(true);
         }
 
         //Gender Girl
@@ -78,6 +101,7 @@ public class PlayerUIController : MonoBehaviour
             GirlChar.SetActive(true);
             BoyChar.SetActive(false);
             tempGender=false;
+            RenderExampleChar(false);
         }
 
         //hairColor
