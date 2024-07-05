@@ -1,6 +1,6 @@
 JojoEffekt
 3638253
-114298
+114296
 1000000
 16
 Pasta:3;Minced meat:2;Cheese:1;Peas:2;Rice:2;Paprika:1;Butter:1;Duck:2;Oil:1;Pineapple:1;Eggplant:1;Oranges:2;Bacon:1;Corn:1;Meat:1;Cucumbers:1;Sugar:1;Beetroot:1;Potatoes:2;Chocolate:1
