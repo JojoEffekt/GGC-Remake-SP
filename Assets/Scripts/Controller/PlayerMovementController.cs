@@ -213,10 +213,10 @@ public class PlayerMovementController : MonoBehaviour
                 if(PlayerCharBuilder.player.gender==true){
 
                     //bestimmt die rendering position
-                    PlayerCharacter.transform.GetChild(0).gameObject.transform.localPosition = new Vector3(0.79f,5.38f,-0.02f);
+                    PlayerCharacter.transform.GetChild(0).gameObject.transform.localPosition = new Vector3(0.79f,5.38f,-0.04f);
                     PlayerCharacter.transform.GetChild(1).gameObject.transform.localPosition = new Vector3(0.178f,1.657f,-0.02f);
-                    PlayerCharacter.transform.GetChild(2).gameObject.transform.localPosition = new Vector3(0.263f,3.437f,-0.02f);
-                    PlayerCharacter.transform.GetChild(3).gameObject.transform.localPosition = new Vector3(0.263f,3.406f,-0.01f);
+                    PlayerCharacter.transform.GetChild(2).gameObject.transform.localPosition = new Vector3(0.263f,3.393f,-0.03f);
+                    PlayerCharacter.transform.GetChild(3).gameObject.transform.localPosition = new Vector3(0.263f,3.406f,-0.02f);
                     PlayerCharacter.transform.GetChild(4).gameObject.transform.localPosition = new Vector3(-0.153f,2.719f,-0.01f);
                     PlayerCharacter.transform.GetChild(5).gameObject.transform.localPosition = new Vector3(-0.22f,0.38f,-0.01f);
                     PlayerCharacter.transform.GetChild(6).gameObject.transform.localPosition = new Vector3(-0.023f,2.643f,-0.01f);
@@ -306,15 +306,15 @@ public class PlayerMovementController : MonoBehaviour
                 if(PlayerCharBuilder.player.gender==true){
 
                     PlayerCharacter.transform.GetChild(0).gameObject.transform.localPosition = new Vector3(0.62f,5.16f,-0.07f);
-                    PlayerCharacter.transform.GetChild(1).gameObject.transform.localPosition = new Vector3(0.178f,1.657f,-0.05f);
-                    PlayerCharacter.transform.GetChild(2).gameObject.transform.localPosition = new Vector3(0.263f,3.437f,-0.07f);
-                    PlayerCharacter.transform.GetChild(3).gameObject.transform.localPosition = new Vector3(0.263f,3.406f,-0.06f);
+                    PlayerCharacter.transform.GetChild(1).gameObject.transform.localPosition = new Vector3(0.178f,1.657f,-0.07f);
+                    PlayerCharacter.transform.GetChild(2).gameObject.transform.localPosition = new Vector3(0.263f,3.437f,-0.05f);
+                    PlayerCharacter.transform.GetChild(3).gameObject.transform.localPosition = new Vector3(0.263f,3.406f,-0.04f);//hair
                     PlayerCharacter.transform.GetChild(4).gameObject.transform.localPosition = new Vector3(-0.153f,2.719f,-0.01f);
-                    PlayerCharacter.transform.GetChild(5).gameObject.transform.localPosition = new Vector3(-0.22f,0.38f,-0.01f);
+                    PlayerCharacter.transform.GetChild(5).gameObject.transform.localPosition = new Vector3(-0.22f,0.38f,-0.03f);//leg o
                     PlayerCharacter.transform.GetChild(6).gameObject.transform.localPosition = new Vector3(-0.023f,2.643f,-0.03f);
-                    PlayerCharacter.transform.GetChild(7).gameObject.transform.localPosition = new Vector3(0.185f,1.655f,-0.04f);
-                    PlayerCharacter.transform.GetChild(8).gameObject.transform.localPosition = new Vector3(-0.023f,2.642f,-0.02f);
-                    PlayerCharacter.transform.GetChild(9).gameObject.transform.localPosition = new Vector3(-0.115f,0.672f,0f);
+                    PlayerCharacter.transform.GetChild(7).gameObject.transform.localPosition = new Vector3(0.185f,1.655f,-0.06f);
+                    PlayerCharacter.transform.GetChild(8).gameObject.transform.localPosition = new Vector3(-0.023f,2.642f,-0.02f);//skin
+                    PlayerCharacter.transform.GetChild(9).gameObject.transform.localPosition = new Vector3(-0.115f,0.672f,-0.02f);//leg
 
                     for(int a=1;a<7;a++){
                         PlayerCharacter.transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().sprite = Hat[1];
@@ -340,7 +340,7 @@ public class PlayerMovementController : MonoBehaviour
                     PlayerCharacter.transform.GetChild(6).gameObject.GetComponent<SpriteRenderer>().sprite = SkinOverlayBoy[71];
                     PlayerCharacter.transform.GetChild(7).gameObject.GetComponent<SpriteRenderer>().sprite = TshirtBoy[71];
                     PlayerCharacter.transform.GetChild(8).gameObject.GetComponent<SpriteRenderer>().sprite = SkinBoy[71];
-                    PlayerCharacter.transform.GetChild(9).gameObject.GetComponent<SpriteRenderer>().sprite = LegBoy[71];
+                    PlayerCharacter.transform.GetChild(9).gameObject.GetComponent<SpriteRenderer>().sprite = LegBoy[64];//71 broke anim
                 
                 //female
                 }else{
@@ -395,7 +395,7 @@ public class PlayerMovementController : MonoBehaviour
 
                     PlayerCharacter.transform.GetChild(0).gameObject.transform.localPosition = new Vector3(-0.64f,5.28f,-0.07f);
                     PlayerCharacter.transform.GetChild(1).gameObject.transform.localPosition = new Vector3(-0.058f,1.617f,-0.03f);
-                    PlayerCharacter.transform.GetChild(2).gameObject.transform.localPosition = new Vector3(-0.134f,3.314f,-0.03f);
+                    PlayerCharacter.transform.GetChild(2).gameObject.transform.localPosition = new Vector3(-0.134f,3.335f,-0.03f);
                     PlayerCharacter.transform.GetChild(3).gameObject.transform.localPosition = new Vector3(-0.137f,3.34f,-0.02f);
                     PlayerCharacter.transform.GetChild(4).gameObject.transform.localPosition = new Vector3(0.258f,2.691f,-0.01f);
                     PlayerCharacter.transform.GetChild(5).gameObject.transform.localPosition = new Vector3(0.3399f,0.3809f,-0.01f);
@@ -434,16 +434,16 @@ public class PlayerMovementController : MonoBehaviour
                 }else{
 
                     //bestimmt die rendering position
-                    PlayerCharacter.transform.GetChild(0).gameObject.transform.localPosition = new Vector3(-0.207f,5.457f,-0.03f);
-                    PlayerCharacter.transform.GetChild(1).gameObject.transform.localPosition = new Vector3(-0.267f,1.776f,-0.02f);
-                    PlayerCharacter.transform.GetChild(2).gameObject.transform.localPosition = new Vector3(-0.57f,3.342f,-0.02f);
-                    PlayerCharacter.transform.GetChild(3).gameObject.transform.localPosition = new Vector3(-0.569f,3.342f,-0.01f);
+                    PlayerCharacter.transform.GetChild(0).gameObject.transform.localPosition = new Vector3(-0.207f,5.457f,-0.04f);
+                    PlayerCharacter.transform.GetChild(1).gameObject.transform.localPosition = new Vector3(-0.267f,1.776f,-0.04f);
+                    PlayerCharacter.transform.GetChild(2).gameObject.transform.localPosition = new Vector3(-0.57f,3.342f,-0.03f);
+                    PlayerCharacter.transform.GetChild(3).gameObject.transform.localPosition = new Vector3(-0.569f,3.342f,-0.02f);
                     PlayerCharacter.transform.GetChild(4).gameObject.transform.localPosition = new Vector3(-0.248f,2.862f,-0.01f);
-                    PlayerCharacter.transform.GetChild(5).gameObject.transform.localPosition = new Vector3(0.059f,0.532f,-0.01f);
+                    PlayerCharacter.transform.GetChild(5).gameObject.transform.localPosition = new Vector3(0.059f,0.532f,-0.02f);
                     PlayerCharacter.transform.GetChild(6).gameObject.transform.localPosition = new Vector3(-0.081f,2.064f,-0.01f);
-                    PlayerCharacter.transform.GetChild(7).gameObject.transform.localPosition = new Vector3(-0.265f,1.767f,-0.01f);
+                    PlayerCharacter.transform.GetChild(7).gameObject.transform.localPosition = new Vector3(-0.265f,1.767f,-0.03f);
                     PlayerCharacter.transform.GetChild(8).gameObject.transform.localPosition = new Vector3(-0.083f,2.058f,0f);
-                    PlayerCharacter.transform.GetChild(9).gameObject.transform.localPosition = new Vector3(-0.139f,1.041f,0f);
+                    PlayerCharacter.transform.GetChild(9).gameObject.transform.localPosition = new Vector3(-0.139f,1.041f,-0.01f);
 
                     //animation
                     for(int a=1;a<7;a++){
@@ -482,13 +482,13 @@ public class PlayerMovementController : MonoBehaviour
                 if(PlayerCharBuilder.player.gender==true){
 
                     PlayerCharacter.transform.GetChild(0).gameObject.transform.localPosition = new Vector3(-0.48f,5.4f,-0.07f);
-                    PlayerCharacter.transform.GetChild(1).gameObject.transform.localPosition = new Vector3(-0.079f,1.747f,-0.05f);
-                    PlayerCharacter.transform.GetChild(2).gameObject.transform.localPosition = new Vector3(-0.136f,3.497f,-0.07f);
-                    PlayerCharacter.transform.GetChild(3).gameObject.transform.localPosition = new Vector3(-0.136f,3.4659f,-0.06f);
+                    PlayerCharacter.transform.GetChild(1).gameObject.transform.localPosition = new Vector3(-0.079f,1.747f,-0.06f);
+                    PlayerCharacter.transform.GetChild(2).gameObject.transform.localPosition = new Vector3(-0.136f,3.497f,-0.06f);
+                    PlayerCharacter.transform.GetChild(3).gameObject.transform.localPosition = new Vector3(-0.136f,3.4659f,-0.05f);
                     PlayerCharacter.transform.GetChild(4).gameObject.transform.localPosition = new Vector3(-0.282f,2.719f,-0.01f);
                     PlayerCharacter.transform.GetChild(5).gameObject.transform.localPosition = new Vector3(0.336f,0.46f,-0.04f);
                     PlayerCharacter.transform.GetChild(6).gameObject.transform.localPosition = new Vector3(0.131f,2.731f,-0.03f);
-                    PlayerCharacter.transform.GetChild(7).gameObject.transform.localPosition = new Vector3(-0.073f,1.745f,-0.04f);
+                    PlayerCharacter.transform.GetChild(7).gameObject.transform.localPosition = new Vector3(-0.073f,1.745f,-0.05f);
                     PlayerCharacter.transform.GetChild(8).gameObject.transform.localPosition = new Vector3(0.131f,2.731f,-0.02f);
                     PlayerCharacter.transform.GetChild(9).gameObject.transform.localPosition = new Vector3(0.234f,0.754f,-0.03f);
 
