@@ -442,8 +442,8 @@ public class NPCManager : MonoBehaviour
                     if(npcGO!=null){
                         //bestimmt die rendering position
                         npcGO.transform.GetChild(0).gameObject.transform.localPosition = new Vector3(0.178f,1.657f,-0.02f);
-                        npcGO.transform.GetChild(5).gameObject.transform.localPosition = new Vector3(0.263f,3.437f,-0.02f);
-                        npcGO.transform.GetChild(4).gameObject.transform.localPosition = new Vector3(0.263f,3.406f,-0.01f);
+                        npcGO.transform.GetChild(5).gameObject.transform.localPosition = new Vector3(0.263f,3.393f,-0.03f);
+                        npcGO.transform.GetChild(4).gameObject.transform.localPosition = new Vector3(0.263f,3.406f,-0.02f);
                         npcGO.transform.GetChild(6).gameObject.transform.localPosition = new Vector3(-0.153f,2.719f,-0.01f);
                         npcGO.transform.GetChild(1).gameObject.transform.localPosition = new Vector3(-0.22f,0.38f,-0.01f);
                         npcGO.transform.GetChild(7).gameObject.transform.localPosition = new Vector3(-0.023f,2.643f,-0.01f);
@@ -490,15 +490,15 @@ public class NPCManager : MonoBehaviour
                     
                     //bestimmt die rendering position
                     if(npcGO!=null){
-                        npcGO.transform.GetChild(0).gameObject.transform.localPosition = new Vector3(0.1f,1.782f,-0.02f);
-                        npcGO.transform.GetChild(5).gameObject.transform.localPosition = new Vector3(0.4230f,3.345f,-0.02f);
-                        npcGO.transform.GetChild(4).gameObject.transform.localPosition = new Vector3(0.423f,3.345f,-0.01f);
+                        npcGO.transform.GetChild(0).gameObject.transform.localPosition = new Vector3(0.1f,1.782f,-0.05f);
+                        npcGO.transform.GetChild(5).gameObject.transform.localPosition = new Vector3(0.407f,3.335f,-0.02f);
+                        npcGO.transform.GetChild(4).gameObject.transform.localPosition = new Vector3(0.407f,3.335f,-0.01f);
                         npcGO.transform.GetChild(6).gameObject.transform.localPosition = new Vector3(0.092f,2.804f,-0.01f);
-                        npcGO.transform.GetChild(1).gameObject.transform.localPosition = new Vector3(-0.21f,0.56f,-0.01f);
+                        npcGO.transform.GetChild(1).gameObject.transform.localPosition = new Vector3(-0.21f,0.56f,-0.03f);
                         npcGO.transform.GetChild(7).gameObject.transform.localPosition = new Vector3(-0.081f,2.064f,-0.01f);
-                        npcGO.transform.GetChild(3).gameObject.transform.localPosition = new Vector3(0.102f,1.773f,-0.01f);
+                        npcGO.transform.GetChild(3).gameObject.transform.localPosition = new Vector3(0.102f,1.773f,-0.04f);
                         npcGO.transform.GetChild(8).gameObject.transform.localPosition = new Vector3(-0.083f,2.058f,0f);
-                        npcGO.transform.GetChild(2).gameObject.transform.localPosition = new Vector3(-0.023f,1.05f,0f);
+                        npcGO.transform.GetChild(2).gameObject.transform.localPosition = new Vector3(-0.023f,1.05f,-0.02f);
                     }
 
                     //animation
@@ -541,15 +541,15 @@ public class NPCManager : MonoBehaviour
                 if(isBoy==true){
 
                     if(npcGO!=null){
-                        npcGO.transform.GetChild(0).gameObject.transform.localPosition = new Vector3(0.178f,1.657f,-0.05f);
-                        npcGO.transform.GetChild(5).gameObject.transform.localPosition = new Vector3(0.263f,3.437f,-0.07f);
-                        npcGO.transform.GetChild(4).gameObject.transform.localPosition = new Vector3(0.263f,3.406f,-0.06f);
+                        npcGO.transform.GetChild(0).gameObject.transform.localPosition = new Vector3(0.178f,1.657f,-0.07f);
+                        npcGO.transform.GetChild(5).gameObject.transform.localPosition = new Vector3(0.263f,3.437f,-0.05f);
+                        npcGO.transform.GetChild(4).gameObject.transform.localPosition = new Vector3(0.263f,3.406f,-0.04f);
                         npcGO.transform.GetChild(6).gameObject.transform.localPosition = new Vector3(-0.153f,2.719f,-0.01f);
-                        npcGO.transform.GetChild(1).gameObject.transform.localPosition = new Vector3(-0.22f,0.38f,-0.01f);
+                        npcGO.transform.GetChild(1).gameObject.transform.localPosition = new Vector3(-0.22f,0.38f,-0.05f);
                         npcGO.transform.GetChild(7).gameObject.transform.localPosition = new Vector3(-0.023f,2.643f,-0.03f);
-                        npcGO.transform.GetChild(3).gameObject.transform.localPosition = new Vector3(0.185f,1.655f,-0.04f);
+                        npcGO.transform.GetChild(3).gameObject.transform.localPosition = new Vector3(0.185f,1.655f,-0.06f);
                         npcGO.transform.GetChild(8).gameObject.transform.localPosition = new Vector3(-0.023f,2.642f,-0.02f);
-                        npcGO.transform.GetChild(2).gameObject.transform.localPosition = new Vector3(-0.115f,0.672f,0f);
+                        npcGO.transform.GetChild(2).gameObject.transform.localPosition = new Vector3(-0.115f,0.672f,-0.04f);
                     }                        
 
                     for(int a=1;a<7;a++){
@@ -570,15 +570,15 @@ public class NPCManager : MonoBehaviour
                     }
 
                     if(npcGO!=null){
-                        npcGO.transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().sprite = TshirtOverlayBoy[71];
-                        npcGO.transform.GetChild(5).gameObject.GetComponent<SpriteRenderer>().sprite = HairOverlayBoy[71];
-                        npcGO.transform.GetChild(4).gameObject.GetComponent<SpriteRenderer>().sprite = HairBoy[71];
-                        npcGO.transform.GetChild(6).gameObject.GetComponent<SpriteRenderer>().sprite = FaceBoy[71];
+                        npcGO.transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().sprite = TshirtOverlayBoy[64];
+                        npcGO.transform.GetChild(5).gameObject.GetComponent<SpriteRenderer>().sprite = HairOverlayBoy[64];
+                        npcGO.transform.GetChild(4).gameObject.GetComponent<SpriteRenderer>().sprite = HairBoy[64];
+                        npcGO.transform.GetChild(6).gameObject.GetComponent<SpriteRenderer>().sprite = FaceBoy[64];
                         npcGO.transform.GetChild(1).gameObject.GetComponent<SpriteRenderer>().sprite = LegOverlayBoy[71];
-                        npcGO.transform.GetChild(7).gameObject.GetComponent<SpriteRenderer>().sprite = SkinOverlayBoy[71];
-                        npcGO.transform.GetChild(3).gameObject.GetComponent<SpriteRenderer>().sprite = TshirtBoy[71];
-                        npcGO.transform.GetChild(8).gameObject.GetComponent<SpriteRenderer>().sprite = SkinBoy[71];
-                        npcGO.transform.GetChild(2).gameObject.GetComponent<SpriteRenderer>().sprite = LegBoy[71];
+                        npcGO.transform.GetChild(7).gameObject.GetComponent<SpriteRenderer>().sprite = SkinOverlayBoy[64];
+                        npcGO.transform.GetChild(3).gameObject.GetComponent<SpriteRenderer>().sprite = TshirtBoy[64];
+                        npcGO.transform.GetChild(8).gameObject.GetComponent<SpriteRenderer>().sprite = SkinBoy[64];
+                        npcGO.transform.GetChild(2).gameObject.GetComponent<SpriteRenderer>().sprite = LegBoy[64];
                     }
         
                 //female
@@ -638,7 +638,7 @@ public class NPCManager : MonoBehaviour
                     
                     if(npcGO!=null){
                         npcGO.transform.GetChild(0).gameObject.transform.localPosition = new Vector3(-0.058f,1.617f,-0.03f);
-                        npcGO.transform.GetChild(5).gameObject.transform.localPosition = new Vector3(-0.134f,3.314f,-0.03f);
+                        npcGO.transform.GetChild(5).gameObject.transform.localPosition = new Vector3(-0.134f,3.335f,-0.03f);
                         npcGO.transform.GetChild(4).gameObject.transform.localPosition = new Vector3(-0.137f,3.34f,-0.02f);
                         npcGO.transform.GetChild(6).gameObject.transform.localPosition = new Vector3(0.258f,2.691f,-0.01f);
                         npcGO.transform.GetChild(1).gameObject.transform.localPosition = new Vector3(0.3399f,0.3809f,-0.01f);
@@ -681,15 +681,15 @@ public class NPCManager : MonoBehaviour
                     
                     if(npcGO!=null){
                         //bestimmt die rendering position
-                        npcGO.transform.GetChild(0).gameObject.transform.localPosition = new Vector3(-0.267f,1.776f,-0.02f);
-                        npcGO.transform.GetChild(5).gameObject.transform.localPosition = new Vector3(-0.57f,3.342f,-0.02f);
-                        npcGO.transform.GetChild(4).gameObject.transform.localPosition = new Vector3(-0.569f,3.342f,-0.01f);
+                        npcGO.transform.GetChild(0).gameObject.transform.localPosition = new Vector3(-0.267f,1.776f,-0.04f);
+                        npcGO.transform.GetChild(5).gameObject.transform.localPosition = new Vector3(-0.57f,3.342f,-0.03f);
+                        npcGO.transform.GetChild(4).gameObject.transform.localPosition = new Vector3(-0.569f,3.342f,-0.02f);
                         npcGO.transform.GetChild(6).gameObject.transform.localPosition = new Vector3(-0.248f,2.862f,-0.01f);
-                        npcGO.transform.GetChild(1).gameObject.transform.localPosition = new Vector3(0.059f,0.532f,-0.01f);
+                        npcGO.transform.GetChild(1).gameObject.transform.localPosition = new Vector3(0.059f,0.532f,-0.02f);
                         npcGO.transform.GetChild(7).gameObject.transform.localPosition = new Vector3(-0.081f,2.064f,-0.01f);
-                        npcGO.transform.GetChild(3).gameObject.transform.localPosition = new Vector3(-0.265f,1.767f,-0.01f);
+                        npcGO.transform.GetChild(3).gameObject.transform.localPosition = new Vector3(-0.265f,1.767f,-0.03f);
                         npcGO.transform.GetChild(8).gameObject.transform.localPosition = new Vector3(-0.083f,2.058f,0f);
-                        npcGO.transform.GetChild(2).gameObject.transform.localPosition = new Vector3(-0.139f,1.041f,0f);
+                        npcGO.transform.GetChild(2).gameObject.transform.localPosition = new Vector3(-0.139f,1.041f,-0.01f);
                     }
 
                     //animation
@@ -731,13 +731,13 @@ public class NPCManager : MonoBehaviour
                 if(isBoy==true){
 
                     if(npcGO!=null){
-                        npcGO.transform.GetChild(0).gameObject.transform.localPosition = new Vector3(-0.079f,1.747f,-0.05f);
-                        npcGO.transform.GetChild(5).gameObject.transform.localPosition = new Vector3(-0.136f,3.497f,-0.07f);
-                        npcGO.transform.GetChild(4).gameObject.transform.localPosition = new Vector3(-0.136f,3.4659f,-0.06f);
+                        npcGO.transform.GetChild(0).gameObject.transform.localPosition = new Vector3(-0.079f,1.747f,-0.06f);
+                        npcGO.transform.GetChild(5).gameObject.transform.localPosition = new Vector3(-0.136f,3.497f,-0.06f);
+                        npcGO.transform.GetChild(4).gameObject.transform.localPosition = new Vector3(-0.136f,3.4659f,-0.05f);
                         npcGO.transform.GetChild(6).gameObject.transform.localPosition = new Vector3(-0.282f,2.719f,-0.01f);
                         npcGO.transform.GetChild(1).gameObject.transform.localPosition = new Vector3(0.336f,0.46f,-0.04f);
                         npcGO.transform.GetChild(7).gameObject.transform.localPosition = new Vector3(0.131f,2.731f,-0.03f);
-                        npcGO.transform.GetChild(3).gameObject.transform.localPosition = new Vector3(-0.073f,1.745f,-0.04f);
+                        npcGO.transform.GetChild(3).gameObject.transform.localPosition = new Vector3(-0.073f,1.745f,-0.05f);
                         npcGO.transform.GetChild(8).gameObject.transform.localPosition = new Vector3(0.131f,2.731f,-0.02f);
                         npcGO.transform.GetChild(2).gameObject.transform.localPosition = new Vector3(0.234f,0.754f,-0.03f);
                     }
@@ -776,15 +776,15 @@ public class NPCManager : MonoBehaviour
 
                     if(npcGO!=null){
                         //bestimmt die rendering position
-                        npcGO.transform.GetChild(0).gameObject.transform.localPosition = new Vector3(-0.151f,1.782f,-0.02f);
-                        npcGO.transform.GetChild(5).gameObject.transform.localPosition = new Vector3(-0.445f,3.265f,-0.02f);
-                        npcGO.transform.GetChild(4).gameObject.transform.localPosition = new Vector3(-0.445f,3.265f,-0.01f);
+                        npcGO.transform.GetChild(0).gameObject.transform.localPosition = new Vector3(-0.151f,1.782f,-0.05f);
+                        npcGO.transform.GetChild(5).gameObject.transform.localPosition = new Vector3(-0.445f,3.265f,-0.07f);
+                        npcGO.transform.GetChild(4).gameObject.transform.localPosition = new Vector3(-0.445f,3.265f,-0.06f);
                         npcGO.transform.GetChild(6).gameObject.transform.localPosition = new Vector3(-0.163f,3.074f,-0.01f);
-                        npcGO.transform.GetChild(1).gameObject.transform.localPosition = new Vector3(0.153f,0.565f,-0.01f);
+                        npcGO.transform.GetChild(1).gameObject.transform.localPosition = new Vector3(0.153f,0.565f,-0.03f);
                         npcGO.transform.GetChild(7).gameObject.transform.localPosition = new Vector3(0.042f,2.065f,-0.01f);
-                        npcGO.transform.GetChild(3).gameObject.transform.localPosition = new Vector3(-0.15f,1.773f,-0.01f);
+                        npcGO.transform.GetChild(3).gameObject.transform.localPosition = new Vector3(-0.15f,1.773f,-0.04f);
                         npcGO.transform.GetChild(8).gameObject.transform.localPosition = new Vector3(0.04f,2.06f,0f);
-                        npcGO.transform.GetChild(2).gameObject.transform.localPosition = new Vector3(-0.023f,1.05f,0f);
+                        npcGO.transform.GetChild(2).gameObject.transform.localPosition = new Vector3(-0.023f,1.05f,-0.02f);
                     }
 
                     //animation

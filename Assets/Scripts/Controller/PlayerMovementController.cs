@@ -310,11 +310,11 @@ public class PlayerMovementController : MonoBehaviour
                     PlayerCharacter.transform.GetChild(2).gameObject.transform.localPosition = new Vector3(0.263f,3.437f,-0.05f);
                     PlayerCharacter.transform.GetChild(3).gameObject.transform.localPosition = new Vector3(0.263f,3.406f,-0.04f);//hair
                     PlayerCharacter.transform.GetChild(4).gameObject.transform.localPosition = new Vector3(-0.153f,2.719f,-0.01f);
-                    PlayerCharacter.transform.GetChild(5).gameObject.transform.localPosition = new Vector3(-0.22f,0.38f,-0.03f);//leg o
+                    PlayerCharacter.transform.GetChild(5).gameObject.transform.localPosition = new Vector3(-0.22f,0.38f,-0.05f);//leg o
                     PlayerCharacter.transform.GetChild(6).gameObject.transform.localPosition = new Vector3(-0.023f,2.643f,-0.03f);
                     PlayerCharacter.transform.GetChild(7).gameObject.transform.localPosition = new Vector3(0.185f,1.655f,-0.06f);
                     PlayerCharacter.transform.GetChild(8).gameObject.transform.localPosition = new Vector3(-0.023f,2.642f,-0.02f);//skin
-                    PlayerCharacter.transform.GetChild(9).gameObject.transform.localPosition = new Vector3(-0.115f,0.672f,-0.02f);//leg
+                    PlayerCharacter.transform.GetChild(9).gameObject.transform.localPosition = new Vector3(-0.115f,0.672f,-0.04f);//leg
 
                     for(int a=1;a<7;a++){
                         PlayerCharacter.transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().sprite = Hat[1];
@@ -332,15 +332,15 @@ public class PlayerMovementController : MonoBehaviour
                         }
                     }
 
-                    PlayerCharacter.transform.GetChild(1).gameObject.GetComponent<SpriteRenderer>().sprite = TshirtOverlayBoy[71];
-                    PlayerCharacter.transform.GetChild(2).gameObject.GetComponent<SpriteRenderer>().sprite = HairOverlayBoy[71];
-                    PlayerCharacter.transform.GetChild(3).gameObject.GetComponent<SpriteRenderer>().sprite = HairBoy[71];
-                    PlayerCharacter.transform.GetChild(4).gameObject.GetComponent<SpriteRenderer>().sprite = FaceBoy[71];
+                    PlayerCharacter.transform.GetChild(1).gameObject.GetComponent<SpriteRenderer>().sprite = TshirtOverlayBoy[64];
+                    PlayerCharacter.transform.GetChild(2).gameObject.GetComponent<SpriteRenderer>().sprite = HairOverlayBoy[64];
+                    PlayerCharacter.transform.GetChild(3).gameObject.GetComponent<SpriteRenderer>().sprite = HairBoy[64];
+                    PlayerCharacter.transform.GetChild(4).gameObject.GetComponent<SpriteRenderer>().sprite = FaceBoy[64];
                     PlayerCharacter.transform.GetChild(5).gameObject.GetComponent<SpriteRenderer>().sprite = LegOverlayBoy[71];
-                    PlayerCharacter.transform.GetChild(6).gameObject.GetComponent<SpriteRenderer>().sprite = SkinOverlayBoy[71];
-                    PlayerCharacter.transform.GetChild(7).gameObject.GetComponent<SpriteRenderer>().sprite = TshirtBoy[71];
-                    PlayerCharacter.transform.GetChild(8).gameObject.GetComponent<SpriteRenderer>().sprite = SkinBoy[71];
-                    PlayerCharacter.transform.GetChild(9).gameObject.GetComponent<SpriteRenderer>().sprite = LegBoy[64];//71 broke anim
+                    PlayerCharacter.transform.GetChild(6).gameObject.GetComponent<SpriteRenderer>().sprite = SkinOverlayBoy[64];
+                    PlayerCharacter.transform.GetChild(7).gameObject.GetComponent<SpriteRenderer>().sprite = TshirtBoy[64];
+                    PlayerCharacter.transform.GetChild(8).gameObject.GetComponent<SpriteRenderer>().sprite = SkinBoy[64];
+                    PlayerCharacter.transform.GetChild(9).gameObject.GetComponent<SpriteRenderer>().sprite = LegBoy[64];
                 
                 //female
                 }else{
