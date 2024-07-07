@@ -15,7 +15,7 @@ public class NPC : MonoBehaviour
     private float timeDelayMovement = 0.0f;    
 
     //sagt aus was der npc gerade macht
-    public int state = 0; //0=nichts, 1=kann bediennt werden, 2=geht gerade zur tür, 3=steht wieder an der tür weil nicht bedient
+    public int state = 0; //0=steht an der tür, 1=kann bediennt werden, 2=geht gerade zur tür, 3=wird gelöscht
 
     //sagt aus ob der npc gerade in bewegung ist
     //wird in verbindung mit der "waittime" benutzt
@@ -53,7 +53,7 @@ public class NPC : MonoBehaviour
     public string objName;
 
     //bestimmt die LaufAnimation des npc 
-    public int walkAnim = 0; //0=none,1=idle in cur state,2=right...
+    public int walkAnim = 0; //0=none,1=kann bedient werden,2=right...
 
 
 
@@ -172,6 +172,13 @@ public class NPC : MonoBehaviour
                     {
                         //npc kann bedient werden
                         state = 1;
+
+                        //CONTINUE
+                        //player setzt sich hin
+                        //START.NPCHINSETZEN
+                        //npc kann bedient werden
+                            //-> fpr alle npcs mit state=1 und cooldown größer als 0
+                                //-> cooldown für npc stoppen weil essen geliefert wird von diener
                     }
                     //gucke ob das schon der rückweg des npcs ist
                     else if(state==2)

@@ -82,10 +82,17 @@ public class NPCManager : MonoBehaviour
                 if(npcList[a].walkAnim==0)
                 {
                     npcList[a].walkAnim=1;
-                    StartCoroutine(Anim(npcList[a]));
+                    StartCoroutine(Anim(npcList[a],0));
                 }
 
                 npcList[a].UpdateAnim();
+            }
+
+            //wird genutzt um den npc hinzusetzten falls er am platz ist
+            //prüft ob npc steht und state 1 ist (am platz angekommen) 
+            if(npcList[a].state==1&&!npcList[a].isOnWalk){
+                //wird aufgerufen um npc auf platz zu setzten
+                StartCoroutine(Anim(npcList[a],1));
             }
         }
     }
@@ -109,12 +116,6 @@ public class NPCManager : MonoBehaviour
 
                     //npc läuft los, ture=weg von tür zu path wird erstellt
                     npcList[a].NPCMovement(true);
-
-                    //CONTINUE
-                    /*
-                    verändere bool wenn spieler sitzt
-                    
-                    */
 
                     //KEINE AHNUNG OB NÖTIG
                     //nach jeder action muss neu gespeichert werden
@@ -404,9 +405,12 @@ public class NPCManager : MonoBehaviour
     }
 
     //steuert die lauf animation für den npc
-    public IEnumerator Anim(NPC npc){
+    public IEnumerator Anim(NPC npcm int function){
         GameObject npcGO = npc.npcGO;
         int walkAnim = npc.walkAnim;
+        //KAN MAYBE ZU LAGS FÜHREN
+        //direkt in eigene functions laden und nicht von npc
+        //CONTINUE
         List<Sprite> Hat = npc.Hat;
         List<Sprite> FaceBoy = npc.FaceBoy;
         List<Sprite> HairBoy = npc.HairBoy;
@@ -429,7 +433,8 @@ public class NPCManager : MonoBehaviour
         bool isBoy = npc.isBoy;
 
         //solange der npc läuft
-        while(walkAnim!=0){
+        //guckt ob function dieses aufrufes es war die laufanim des npc zu steuern
+        while(walkAnim!=0&&function==0){
             walkAnim = npc.walkAnim;
 
             //links unten  (front_left)
@@ -824,6 +829,14 @@ public class NPCManager : MonoBehaviour
 
             //nur zum test
             yield return new WaitForSeconds(0.1F);
+        }
+
+
+        //npc hinsetzten
+        //prüft ob diese function die aufghabe bekommen hat den npc hinzusetzt
+        if(function==1)
+        {
+            //CONTINUE NMPC Hinsetzten
         }
     }
 }
