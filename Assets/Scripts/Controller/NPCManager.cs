@@ -836,7 +836,14 @@ public class NPCManager : MonoBehaviour
         //prüft ob diese function die aufghabe bekommen hat den npc hinzusetzt
         if(function==1)
         {
-            //CONTINUE NMPC Hinsetzten
+            //CONTINUE NPC Hinsetzten
+        }
+
+        //npc essen animation
+        if(function==2)
+        {
+            //essen animation
+            //npc auf hinter den stuhl platzieren
         }
     }
 }
