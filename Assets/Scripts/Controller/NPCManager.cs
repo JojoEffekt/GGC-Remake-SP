@@ -93,6 +93,9 @@ public class NPCManager : MonoBehaviour
             if(npcList[a].state==1&&npcList[a].isOnWalk==false){
                 //wird aufgerufen um npc auf platz zu setzten
                 StartCoroutine(Anim(npcList[a],1));
+
+                //npc hat sich auf platz  gesetzt kann bedient werden
+                npcList[a].state = 2;
             }
         }
     }
@@ -153,7 +156,7 @@ public class NPCManager : MonoBehaviour
                 }
                 //gucke ob der npc schon auf einem stuhl saß,
                 //wenn ja, erst npc löschen wenn npc an der tür angekommen ist
-                else if(npcList[a].state==1)
+                else if(npcList[a].state==2)
                 {
                     //lösche FCED für chair und table
                     DeleteFCEDForNPC(npcList[a]);
@@ -165,7 +168,7 @@ public class NPCManager : MonoBehaviour
                     npcList[a].state = npcList[a].state + 1;
                 }
                 //npc ist wieder an der tür, soll gelöscht werden
-                else if(npcList[a].state==3)
+                else if(npcList[a].state==4)
                 {
                     //lösche den npc vom NPCHandler
                     npcList[a].DeleteNPC();
@@ -840,6 +843,9 @@ public class NPCManager : MonoBehaviour
             //differen zwischen stuhl und tisch ausrechnen für blickrichtung 
             Debug.Log("hinsetzten: "+npc.npcGO.name);
             yield return new WaitForSeconds(1.5F);
+
+            //setzte npc auf stuhl
+            npc.PlaceNPCOnChair();
 
             if(isBoy==true){
                 if(npcGO!=null){

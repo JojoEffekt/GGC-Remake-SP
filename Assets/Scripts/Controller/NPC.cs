@@ -15,7 +15,11 @@ public class NPC : MonoBehaviour
     private float timeDelayMovement = 0.0f;    
 
     //sagt aus was der npc gerade macht
-    public int state = 0; //0=steht an der tür, 1=kann bediennt werden, 2=geht gerade zur tür, 3=wird gelöscht
+    public int state = 0; //0=steht an der tür
+                          //1=soll sich hinsetzten
+                          //2=kann bedient werden
+                          //3=geht zur tür
+                          //4=wird gelöscht
 
     //sagt aus ob der npc gerade in bewegung ist
     //wird in verbindung mit der "waittime" benutzt
@@ -170,7 +174,7 @@ public class NPC : MonoBehaviour
                     //npc steht immernoch an der tür
                     if(state==0)
                     {
-                        //npc kann bedient werden
+                        //npc kann sich hinsetzten werden
                         state = 1;
 
                         //CONTINUE
@@ -181,11 +185,11 @@ public class NPC : MonoBehaviour
                                 //-> cooldown für npc stoppen weil essen geliefert wird von diener
                     }
                     //gucke ob das schon der rückweg des npcs ist
-                    else if(state==2)
+                    else if(state==3)
                     {
                         //npc steht wieder an der tür
                         //kann gelöscht werden
-                        state = 3;
+                        state = 4;
                     }
                 }
             }
@@ -227,6 +231,21 @@ public class NPC : MonoBehaviour
         isOnWalk = true;
 
         return true;
+    }
+
+    //platzieren den npc auf den stuhl
+    public void PlaceNPCOnChair()
+    {
+        //sucht das aktuell zu belaufende floorObj in der Scene
+        GameObject objName = GameObject.Find(chairPos[0]+"-"+chairPos[1]).gameObject;
+
+        npcGO.transform.position = new Vector3(objName.transform.position.x, objName.transform.position.y, objName.transform.position.z);
+
+        //render den spieler richtig auf dem spielfeld, sowie anim.
+        for(int a=0;a<npcGO.transform.childCount;a++)
+        {
+            npcGO.transform.GetChild(a).gameObject.GetComponent<SpriteRenderer>().sortingOrder = chairPos[0]+chairPos[1]+1;
+        }
     }
 
     //instantiate den npc anhand des prefabs und fügt einen zufälligen skin ein
