@@ -142,6 +142,12 @@ public class NPCManager : MonoBehaviour
                 npcList[a].waittime = npcList[a].waittime - 1;
             }
 
+            //LÖSCHEN SIMULIERT BEDIENT WERDEN
+            if(npcList[a].waittime==3)
+            {
+                StartCoroutine(Anim(npcList[a],2));
+            }
+
             //ist cooldown abgelaufen
             if(npcList[a].waittime<=0)
             {   
@@ -1065,17 +1071,47 @@ public class NPCManager : MonoBehaviour
 
             //setzte npc auf stuhl
             npc.PlaceNPCOnChair();
-
-            //CONTINUE 
-            //state die zahl bei der überprüft wird (1) ob npc hinsetzten kann muss hier um eins erhöt werden, muss
-            //für die anderen auch um +1 geänbdert werden weil sonst wird die ganze zeit der müll hier aufgerufen
         }
 
         //npc essen animation
+        //npc hat essen bekommen, spiele animation ab bis essen leer ist
         if(function==2)
         {
-            //essen animation
-            //npc auf hinter den stuhl platzieren
+            Debug.Log("anim 2!!!!!!! "+npc.npcGO.name);
+            //wird benutzt um waittime nicht verringern zu lassen
+            npc.isOnWalk = true;
+
+            //essen animation (25sec)
+            //animation
+            //float animTime = 0f;
+            //while(animTime > 25.0f)
+            //{
+            //    animTime = animTime + Time.deltaTime;
+            for(int b=0;b<20;b++){
+                for(int a=1;a<7;a++){
+                    if(npcGO!=null){
+                        npcGO.transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().sprite = TshirtOverlayBoy[16+a];
+                        npcGO.transform.GetChild(5).gameObject.GetComponent<SpriteRenderer>().sprite = HairOverlayBoy[16+a];
+         	            npcGO.transform.GetChild(4).gameObject.GetComponent<SpriteRenderer>().sprite = HairBoy[16+a];
+                        npcGO.transform.GetChild(6).gameObject.GetComponent<SpriteRenderer>().sprite = FaceBoy[16+a];
+                        npcGO.transform.GetChild(1).gameObject.GetComponent<SpriteRenderer>().sprite = LegOverlayBoy[16+a];
+                        npcGO.transform.GetChild(7).gameObject.GetComponent<SpriteRenderer>().sprite = SkinOverlayBoy[16+a];
+                        npcGO.transform.GetChild(3).gameObject.GetComponent<SpriteRenderer>().sprite = TshirtBoy[16+a];
+                        npcGO.transform.GetChild(8).gameObject.GetComponent<SpriteRenderer>().sprite = SkinBoy[16+a];
+                        npcGO.transform.GetChild(2).gameObject.GetComponent<SpriteRenderer>().sprite = LegBoy[16+a];
+                            
+                        //zeitspann der einzelnen frames
+                        yield return new WaitForSeconds(0.15F);
+                    }
+                }
+            }
+            //}
+            Debug.Log("ende!");
+
+            //wird benutzt um zu erkennen das der npc direkt nach dem essen zur tür gehen soll
+            npc.isOnWalk = true;
+            npc.waittime = 0;
+            npc.state = 2;
         }
     }
 }
