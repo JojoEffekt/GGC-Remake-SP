@@ -236,15 +236,18 @@ public class NPC : MonoBehaviour
     //platzieren den npc auf den stuhl
     public void PlaceNPCOnChair()
     {
-        //sucht das aktuell zu belaufende floorObj in der Scene
-        GameObject objName = GameObject.Find(chairPos[0]+"-"+chairPos[1]).gameObject;
-
-        npcGO.transform.position = new Vector3(objName.transform.position.x, objName.transform.position.y, objName.transform.position.z);
-
-        //render den spieler richtig auf dem spielfeld, sowie anim.
-        for(int a=0;a<npcGO.transform.childCount;a++)
+        if(npcGO!=null)
         {
-            npcGO.transform.GetChild(a).gameObject.GetComponent<SpriteRenderer>().sortingOrder = chairPos[0]+chairPos[1]+1;
+            //sucht das aktuell zu belaufende floorObj in der Scene
+            GameObject objName = GameObject.Find(chairPos[0]+"-"+chairPos[1]).gameObject;
+
+            npcGO.transform.position = new Vector3(objName.transform.position.x, objName.transform.position.y, objName.transform.position.z);
+
+            //render den spieler richtig auf dem spielfeld, sowie anim.
+            for(int a=0;a<npcGO.transform.childCount;a++)
+            {   
+                npcGO.transform.GetChild(a).gameObject.GetComponent<SpriteRenderer>().sortingOrder = chairPos[0]+chairPos[1]+1;
+            }
         }
     }
 
