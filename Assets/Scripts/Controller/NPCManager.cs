@@ -839,64 +839,83 @@ public class NPCManager : MonoBehaviour
         //prüft ob diese function die aufghabe bekommen hat den npc hinzusetzt
         if(walkAnim==0&&function==1)
         {
-            //CONTINUE NPC Hinsetzten
-            //differen zwischen stuhl und tisch ausrechnen für blickrichtung 
-            Debug.Log("hinsetzten: "+npc.npcGO.name);
             yield return new WaitForSeconds(1.5F);
+
+            //differen zwischen stuhl und tisch ausrechnen für blickrichtung
+            //x chair größer -> blickrichtung links oben
+            if(npc.chairPos[0]>npc.tablePos[0])
+            {
+                Debug.Log("hinsetzten: "+npc.npcGO.name+" blickrichtung: links oben");
+            }
+            //x chair kleiner -> blickrichtung rechts unten
+            else if(npc.chairPos[0]<npc.tablePos[0])
+            {
+                //render sprites
+                if(isBoy==true){
+                    if(npcGO!=null){
+                        npcGO.transform.GetChild(0).gameObject.transform.localPosition = new Vector3(-0.079f,1.747f,-0.06f);
+                        npcGO.transform.GetChild(5).gameObject.transform.localPosition = new Vector3(-0.136f,3.497f,-0.06f);
+                        npcGO.transform.GetChild(4).gameObject.transform.localPosition = new Vector3(-0.136f,3.4659f,-0.05f);
+                        npcGO.transform.GetChild(6).gameObject.transform.localPosition = new Vector3(-0.282f,2.719f,-0.01f);
+                        npcGO.transform.GetChild(1).gameObject.transform.localPosition = new Vector3(0.336f,0.46f,-0.04f);
+                        npcGO.transform.GetChild(7).gameObject.transform.localPosition = new Vector3(0.131f,2.731f,-0.03f);
+                        npcGO.transform.GetChild(3).gameObject.transform.localPosition = new Vector3(-0.073f,1.745f,-0.05f);
+                        npcGO.transform.GetChild(8).gameObject.transform.localPosition = new Vector3(0.131f,2.731f,-0.02f);
+                        npcGO.transform.GetChild(2).gameObject.transform.localPosition = new Vector3(0.234f,0.754f,-0.03f);
+                    }
+                    if(npcGO!=null){
+                        npcGO.transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().sprite = TshirtOverlayBoy[28];
+                        npcGO.transform.GetChild(5).gameObject.GetComponent<SpriteRenderer>().sprite = HairOverlayBoy[28];
+         	            npcGO.transform.GetChild(4).gameObject.GetComponent<SpriteRenderer>().sprite = HairBoy[28];
+                        npcGO.transform.GetChild(6).gameObject.GetComponent<SpriteRenderer>().sprite = FaceBoy[28];
+                        npcGO.transform.GetChild(1).gameObject.GetComponent<SpriteRenderer>().sprite = LegOverlayBoy[28];
+                        npcGO.transform.GetChild(7).gameObject.GetComponent<SpriteRenderer>().sprite = SkinOverlayBoy[28];
+                        npcGO.transform.GetChild(3).gameObject.GetComponent<SpriteRenderer>().sprite = TshirtBoy[28];
+                        npcGO.transform.GetChild(8).gameObject.GetComponent<SpriteRenderer>().sprite = SkinBoy[28];
+                        npcGO.transform.GetChild(2).gameObject.GetComponent<SpriteRenderer>().sprite = LegBoy[28];
+                    }
+                //female
+                }else{
+                    if(npcGO!=null){
+                        //bestimmt die rendering position
+                        npcGO.transform.GetChild(0).gameObject.transform.localPosition = new Vector3(-0.151f,1.782f,-0.05f);
+                        npcGO.transform.GetChild(5).gameObject.transform.localPosition = new Vector3(-0.445f,3.265f,-0.07f);
+                        npcGO.transform.GetChild(4).gameObject.transform.localPosition = new Vector3(-0.445f,3.265f,-0.06f);
+                        npcGO.transform.GetChild(6).gameObject.transform.localPosition = new Vector3(-0.163f,3.074f,-0.01f);
+                        npcGO.transform.GetChild(1).gameObject.transform.localPosition = new Vector3(0.153f,0.565f,-0.03f);
+                        npcGO.transform.GetChild(7).gameObject.transform.localPosition = new Vector3(0.042f,2.065f,-0.01f);
+                        npcGO.transform.GetChild(3).gameObject.transform.localPosition = new Vector3(-0.15f,1.773f,-0.04f);
+                        npcGO.transform.GetChild(8).gameObject.transform.localPosition = new Vector3(0.04f,2.06f,0f);
+                        npcGO.transform.GetChild(2).gameObject.transform.localPosition = new Vector3(-0.023f,1.05f,-0.02f);
+                    }
+                    if(npcGO!=null){
+                        //endzenario, wird gebraucht fals der npc steht
+                        npcGO.transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().sprite = TshirtOverlayGirl[28];
+                        npcGO.transform.GetChild(5).gameObject.GetComponent<SpriteRenderer>().sprite = HairOverlayGirl[28];
+                        npcGO.transform.GetChild(4).gameObject.GetComponent<SpriteRenderer>().sprite = HairGirl[28];
+                        npcGO.transform.GetChild(6).gameObject.GetComponent<SpriteRenderer>().sprite = FaceGirl[28];
+                        npcGO.transform.GetChild(1).gameObject.GetComponent<SpriteRenderer>().sprite = LegOverlayGirl[28];
+                        npcGO.transform.GetChild(7).gameObject.GetComponent<SpriteRenderer>().sprite = SkinOverlayGirl[28];
+                        npcGO.transform.GetChild(3).gameObject.GetComponent<SpriteRenderer>().sprite = TshirtGirl[28];
+                        npcGO.transform.GetChild(8).gameObject.GetComponent<SpriteRenderer>().sprite = SkinGirl[28];
+                        npcGO.transform.GetChild(2).gameObject.GetComponent<SpriteRenderer>().sprite = LegGirl[28];
+                    }
+                }
+            }
+            //y chair größer -> blickrichtung rechts oben
+            else if(npc.chairPos[1]>npc.tablePos[1])
+            {
+                Debug.Log("hinsetzten: "+npc.npcGO.name+" blickrichtung: rechts oben");
+            }
+            //y chair kleiner -> blickrichtung links unten
+            else if(npc.chairPos[1]<npc.tablePos[1])
+            {
+                Debug.Log("hinsetzten: "+npc.npcGO.name+" blickrichtung: links unten");
+            }
 
             //setzte npc auf stuhl
             npc.PlaceNPCOnChair();
 
-            if(isBoy==true){
-                if(npcGO!=null){
-                    npcGO.transform.GetChild(0).gameObject.transform.localPosition = new Vector3(-0.079f,1.747f,-0.06f);
-                    npcGO.transform.GetChild(5).gameObject.transform.localPosition = new Vector3(-0.136f,3.497f,-0.06f);
-                    npcGO.transform.GetChild(4).gameObject.transform.localPosition = new Vector3(-0.136f,3.4659f,-0.05f);
-                    npcGO.transform.GetChild(6).gameObject.transform.localPosition = new Vector3(-0.282f,2.719f,-0.01f);
-                    npcGO.transform.GetChild(1).gameObject.transform.localPosition = new Vector3(0.336f,0.46f,-0.04f);
-                    npcGO.transform.GetChild(7).gameObject.transform.localPosition = new Vector3(0.131f,2.731f,-0.03f);
-                    npcGO.transform.GetChild(3).gameObject.transform.localPosition = new Vector3(-0.073f,1.745f,-0.05f);
-                    npcGO.transform.GetChild(8).gameObject.transform.localPosition = new Vector3(0.131f,2.731f,-0.02f);
-                    npcGO.transform.GetChild(2).gameObject.transform.localPosition = new Vector3(0.234f,0.754f,-0.03f);
-                }
-                if(npcGO!=null){
-                    npcGO.transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().sprite = TshirtOverlayBoy[28];
-                    npcGO.transform.GetChild(5).gameObject.GetComponent<SpriteRenderer>().sprite = HairOverlayBoy[28];
-        	        npcGO.transform.GetChild(4).gameObject.GetComponent<SpriteRenderer>().sprite = HairBoy[28];
-                    npcGO.transform.GetChild(6).gameObject.GetComponent<SpriteRenderer>().sprite = FaceBoy[28];
-                    npcGO.transform.GetChild(1).gameObject.GetComponent<SpriteRenderer>().sprite = LegOverlayBoy[28];
-                    npcGO.transform.GetChild(7).gameObject.GetComponent<SpriteRenderer>().sprite = SkinOverlayBoy[28];
-                    npcGO.transform.GetChild(3).gameObject.GetComponent<SpriteRenderer>().sprite = TshirtBoy[28];
-                    npcGO.transform.GetChild(8).gameObject.GetComponent<SpriteRenderer>().sprite = SkinBoy[28];
-                    npcGO.transform.GetChild(2).gameObject.GetComponent<SpriteRenderer>().sprite = LegBoy[28];
-                }
-            //female
-            }else{
-                if(npcGO!=null){
-                    //bestimmt die rendering position
-                    npcGO.transform.GetChild(0).gameObject.transform.localPosition = new Vector3(-0.151f,1.782f,-0.05f);
-                    npcGO.transform.GetChild(5).gameObject.transform.localPosition = new Vector3(-0.445f,3.265f,-0.07f);
-                    npcGO.transform.GetChild(4).gameObject.transform.localPosition = new Vector3(-0.445f,3.265f,-0.06f);
-                    npcGO.transform.GetChild(6).gameObject.transform.localPosition = new Vector3(-0.163f,3.074f,-0.01f);
-                    npcGO.transform.GetChild(1).gameObject.transform.localPosition = new Vector3(0.153f,0.565f,-0.03f);
-                    npcGO.transform.GetChild(7).gameObject.transform.localPosition = new Vector3(0.042f,2.065f,-0.01f);
-                    npcGO.transform.GetChild(3).gameObject.transform.localPosition = new Vector3(-0.15f,1.773f,-0.04f);
-                    npcGO.transform.GetChild(8).gameObject.transform.localPosition = new Vector3(0.04f,2.06f,0f);
-                    npcGO.transform.GetChild(2).gameObject.transform.localPosition = new Vector3(-0.023f,1.05f,-0.02f);
-                }
-                if(npcGO!=null){
-                    //endzenario, wird gebraucht fals der npc steht
-                    npcGO.transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().sprite = TshirtOverlayGirl[28];
-                    npcGO.transform.GetChild(5).gameObject.GetComponent<SpriteRenderer>().sprite = HairOverlayGirl[28];
-                    npcGO.transform.GetChild(4).gameObject.GetComponent<SpriteRenderer>().sprite = HairGirl[28];
-                    npcGO.transform.GetChild(6).gameObject.GetComponent<SpriteRenderer>().sprite = FaceGirl[28];
-                    npcGO.transform.GetChild(1).gameObject.GetComponent<SpriteRenderer>().sprite = LegOverlayGirl[28];
-                    npcGO.transform.GetChild(7).gameObject.GetComponent<SpriteRenderer>().sprite = SkinOverlayGirl[28];
-                    npcGO.transform.GetChild(3).gameObject.GetComponent<SpriteRenderer>().sprite = TshirtGirl[28];
-                    npcGO.transform.GetChild(8).gameObject.GetComponent<SpriteRenderer>().sprite = SkinGirl[28];
-                    npcGO.transform.GetChild(2).gameObject.GetComponent<SpriteRenderer>().sprite = LegGirl[28];
-                }
-            }
             //CONTINUE 
             //state die zahl bei der überprüft wird (1) ob npc hinsetzten kann muss hier um eins erhöt werden, muss
             //für die anderen auch um +1 geänbdert werden weil sonst wird die ganze zeit der müll hier aufgerufen
