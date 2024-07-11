@@ -91,6 +91,7 @@ public class NPCManager : MonoBehaviour
             //wird genutzt um den npc hinzusetzten falls er am platz ist
             //prüft ob npc steht und state 1 ist (am platz angekommen) 
             if(npcList[a].state==1&&npcList[a].isOnWalk==false){
+
                 //wird aufgerufen um npc auf platz zu setzten
                 StartCoroutine(Anim(npcList[a],1));
 
@@ -142,12 +143,6 @@ public class NPCManager : MonoBehaviour
                 npcList[a].waittime = npcList[a].waittime - 1;
             }
 
-            //LÖSCHEN SIMULIERT BEDIENT WERDEN
-            if(npcList[a].waittime==3)
-            {
-                StartCoroutine(Anim(npcList[a],2));
-            }
-
             //ist cooldown abgelaufen
             if(npcList[a].waittime<=0)
             {   
@@ -182,6 +177,13 @@ public class NPCManager : MonoBehaviour
                     //zerstöre npc
                     npcList.RemoveAt(a);
                 }
+            }
+
+            //LÖSCHEN SIMULIERT BEDIENT WERDEN
+            //temp
+            if(npcList[a].waittime<=25&&npcList[a].state==2)
+            {
+                StartCoroutine(Anim(npcList[a],2));
             }
         }
     }
@@ -856,13 +858,13 @@ public class NPCManager : MonoBehaviour
                     if(npcGO!=null){
                         npcGO.transform.GetChild(0).gameObject.transform.localPosition = new Vector3(-0.079f,1.747f,-0.06f);
                         npcGO.transform.GetChild(5).gameObject.transform.localPosition = new Vector3(-0.136f,3.497f,-0.06f);
-                        npcGO.transform.GetChild(4).gameObject.transform.localPosition = new Vector3(-0.136f,3.4659f,-0.05f);
+                        npcGO.transform.GetChild(4).gameObject.transform.localPosition = new Vector3(-0.136f,3.466f,-0.05f);
                         npcGO.transform.GetChild(6).gameObject.transform.localPosition = new Vector3(-0.282f,2.719f,-0.01f);
-                        npcGO.transform.GetChild(1).gameObject.transform.localPosition = new Vector3(0.336f,0.46f,-0.04f);
-                        npcGO.transform.GetChild(7).gameObject.transform.localPosition = new Vector3(0.131f,2.731f,-0.03f);
+                        npcGO.transform.GetChild(1).gameObject.transform.localPosition = new Vector3(-0.48f,0.521f,-0.04f);
+                        npcGO.transform.GetChild(7).gameObject.transform.localPosition = new Vector3(-0.38f,2.69f,-0.03f);
                         npcGO.transform.GetChild(3).gameObject.transform.localPosition = new Vector3(-0.073f,1.745f,-0.05f);
-                        npcGO.transform.GetChild(8).gameObject.transform.localPosition = new Vector3(0.131f,2.731f,-0.02f);
-                        npcGO.transform.GetChild(2).gameObject.transform.localPosition = new Vector3(0.234f,0.754f,-0.03f);
+                        npcGO.transform.GetChild(8).gameObject.transform.localPosition = new Vector3(-0.38f,2.69f,-0.02f);
+                        npcGO.transform.GetChild(2).gameObject.transform.localPosition = new Vector3(-0.372f,0.787f,-0.03f);
                     }
                     if(npcGO!=null){
                         npcGO.transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().sprite = TshirtOverlayBoy[0];
@@ -879,15 +881,15 @@ public class NPCManager : MonoBehaviour
                 }else{
                     if(npcGO!=null){
                         //bestimmt die rendering position
-                        npcGO.transform.GetChild(0).gameObject.transform.localPosition = new Vector3(-0.151f,1.782f,-0.05f);
-                        npcGO.transform.GetChild(5).gameObject.transform.localPosition = new Vector3(-0.445f,3.265f,-0.07f);
-                        npcGO.transform.GetChild(4).gameObject.transform.localPosition = new Vector3(-0.445f,3.265f,-0.06f);
-                        npcGO.transform.GetChild(6).gameObject.transform.localPosition = new Vector3(-0.163f,3.074f,-0.01f);
-                        npcGO.transform.GetChild(1).gameObject.transform.localPosition = new Vector3(0.153f,0.565f,-0.03f);
+                        npcGO.transform.GetChild(0).gameObject.transform.localPosition = new Vector3(0.23f,1.77f,-0.05f);
+                        npcGO.transform.GetChild(5).gameObject.transform.localPosition = new Vector3(0.49f,3.45f,-0.07f);
+                        npcGO.transform.GetChild(4).gameObject.transform.localPosition = new Vector3(0.49f,3.45f,-0.06f);
+                        npcGO.transform.GetChild(6).gameObject.transform.localPosition = new Vector3(0.2f,3.07f,-0.01f);
+                        npcGO.transform.GetChild(1).gameObject.transform.localPosition = new Vector3(-0.08f,0.569f,-0.03f);
                         npcGO.transform.GetChild(7).gameObject.transform.localPosition = new Vector3(0.042f,2.065f,-0.01f);
-                        npcGO.transform.GetChild(3).gameObject.transform.localPosition = new Vector3(-0.15f,1.773f,-0.04f);
+                        npcGO.transform.GetChild(3).gameObject.transform.localPosition = new Vector3(0.231f,1.761f,-0.04f);
                         npcGO.transform.GetChild(8).gameObject.transform.localPosition = new Vector3(0.04f,2.06f,0f);
-                        npcGO.transform.GetChild(2).gameObject.transform.localPosition = new Vector3(-0.023f,1.05f,-0.02f);
+                        npcGO.transform.GetChild(2).gameObject.transform.localPosition = new Vector3(0.12f,1.05f,-0.02f);
                     }
                     if(npcGO!=null){
                         //endzenario, wird gebraucht fals der npc steht
@@ -1081,13 +1083,38 @@ public class NPCManager : MonoBehaviour
             //wird benutzt um waittime nicht verringern zu lassen
             npc.isOnWalk = true;
 
+            npc.state=100;
+
             //essen animation (25sec)
             //animation
             //float animTime = 0f;
             //while(animTime > 25.0f)
             //{
             //    animTime = animTime + Time.deltaTime;
+
+            npcGO.transform.GetChild(0).gameObject.transform.localPosition = new Vector3(-0.03f,1.51f,-0.06f);
+            npcGO.transform.GetChild(5).gameObject.transform.localPosition = new Vector3(0.077f,3.27f,-0.06f);
+            npcGO.transform.GetChild(4).gameObject.transform.localPosition = new Vector3(0.077f,3.27f,-0.05f);
+            npcGO.transform.GetChild(6).gameObject.transform.localPosition = new Vector3(-0.336f,2.618f,-0.03f);
+            npcGO.transform.GetChild(1).gameObject.transform.localPosition = new Vector3(-0.445f,0.26f,-0.04f);
+            npcGO.transform.GetChild(7).gameObject.transform.localPosition = new Vector3(-0.219f,2.5f,-0.03f);
+            npcGO.transform.GetChild(3).gameObject.transform.localPosition = new Vector3(-0.024f,1.508f,-0.05f);
+            npcGO.transform.GetChild(8).gameObject.transform.localPosition = new Vector3(-0.219f,2.5f,-0.02f);
+            npcGO.transform.GetChild(2).gameObject.transform.localPosition = new Vector3(-0.327f,0.545f,-0.03f);
+
             for(int b=0;b<20;b++){
+
+                //TEMP NICHT NÖTIG NUR TESTWEISE
+                npcGO.transform.GetChild(0).gameObject.transform.localPosition = new Vector3(-0.03f,1.51f,-0.06f);
+                npcGO.transform.GetChild(5).gameObject.transform.localPosition = new Vector3(0.077f,3.27f,-0.06f);
+                npcGO.transform.GetChild(4).gameObject.transform.localPosition = new Vector3(0.077f,3.27f,-0.05f);
+                npcGO.transform.GetChild(6).gameObject.transform.localPosition = new Vector3(-0.336f,2.618f,-0.03f);
+                npcGO.transform.GetChild(1).gameObject.transform.localPosition = new Vector3(-0.445f,0.26f,-0.04f);
+                npcGO.transform.GetChild(7).gameObject.transform.localPosition = new Vector3(-0.219f,2.5f,-0.03f);
+                npcGO.transform.GetChild(3).gameObject.transform.localPosition = new Vector3(-0.024f,1.508f,-0.05f);
+                npcGO.transform.GetChild(8).gameObject.transform.localPosition = new Vector3(-0.219f,2.5f,-0.02f);
+                npcGO.transform.GetChild(2).gameObject.transform.localPosition = new Vector3(-0.327f,0.545f,-0.03f);
+
                 for(int a=1;a<7;a++){
                     if(npcGO!=null){
                         npcGO.transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().sprite = TshirtOverlayBoy[16+a];

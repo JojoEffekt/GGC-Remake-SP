@@ -1,13 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
+using System.IO;
 
 public class Waiter : MonoBehaviour
 {
-    //Instanzen für die anzahl an waiters
-
-    //waiter erstellen instanziierung
-    //skin laden
     //prioritäten laden
 
     //funktionen
@@ -54,7 +52,23 @@ public class Waiter : MonoBehaviour
     public int walkAnim = 0; //0=none,1=kann bedient werden,2=right...
 
     //gender des waiters
-    public bool isBoy;
+    public bool isBoy { get; set;}
+
+    //anzeigename des waiters
+    public string name { get; set;}
+
+    //rgba values für skin
+    private float[] hairColor;
+    public float[] HairColor 
+    { 
+        get { return hairColor; }
+        set { waiterGO.transform.GetChild(4).gameObject.GetComponent<SpriteRenderer>().color = new Color(value[0],value[1],value[2],1);
+              hairColor = value;
+            }
+    }
+    public float[] skinColor { get; set;}
+    public float[] tshirtColor { get; set;}
+    public float[] hoseColor { get; set;}
 
     //beinhalten die sprites für die waiterAnim
     public List<Sprite> Hat = new List<Sprite>();
@@ -111,6 +125,12 @@ public class Waiter : MonoBehaviour
 
         //erstelle die UI des waiters (gender, name & color)
         CreateNPCSkin();
+    }
+
+    //gibt die grafik des waiters zurück
+    public string Info()
+    {
+        return name+":"+isBoy+":"+hairColor+":"+skinColor+":"+tshirtColor+":"+hoseColor;
     }
 
     //erstelle den skin sowie gender etc
@@ -309,21 +329,11 @@ public class Waiter : MonoBehaviour
             
         }
 
-        //beinhaltet alle farben für die hairColor
-        float[,] hairColor = new float[,]{{0.94f,0.87f,0.58f},{0.97f,0.81f,0.35f},{0.97f,0.44f,0.26f},{0.83f,0.56f,0.32f},{0.65f,0.37f,0.29f},{0.40f,0.27f,0.16f},{0.23f,0.14f,0.08f},{0.14f,0.05f,0.02f},{0.80f,0.70f,0.36f},{0.66f,0.54f,0.34f},{0.76f,0.45f,0.22f},{0.57f,0.39f,0.25f},{0.38f,0.27f,0.17f},{0.31f,0.22f,0.12f},{0.23f,0.16f,0.08f}};
-        //beinhaltet alle farben für die skinColor
-        float[,] skinColor = new float[,]{{0.94f,0.77f,0.61f},{0.92f,0.68f,0.49f},{0.93f,0.61f,0.41f},{0.69f,0.39f,0.27f},{0.81f,0.53f,0.36f},{0.93f,0.73f,0.58f},{0.92f,0.68f,0.46f},{0.81f,0.58f,0.37f}};
-        //beinhaltet alle farben für die tshirtColor
-        float[,] tshirtColor = new float[,]{{0.26f,0.32f,0.31f},{0.77f,0.78f,0.81f},{0.45f,0.70f,0.72f},{0.40f,0.70f,0.41f},{0.95f,0.87f,0.44f},{0.93f,0.72f,0.76f},{1f,0.49f,0.56f},{0.81f,0.55f,0.77f},{0.29f,0.52f,0.45f},{0.33f,0.54f,0.33f},{0.41f,0.64f,0.23f},{0.50f,0.77f,0.64f},{0.52f,0.69f,0.69f},{0.27f,0.69f,0.50f},{0.71f,0.69f,0.68f},{0.75f,0.52f,0.23f},{0.68f,0.36f,0.23f}};
-        //beinhaltet alle farben für die hoseColor
-        float[,] hoseColor = new float[,]{{0.26f,0.32f,0.31f},{0.77f,0.78f,0.81f},{0.45f,0.70f,0.72f},{0.40f,0.70f,0.41f},{0.95f,0.87f,0.44f},{0.93f,0.72f,0.76f},{1f,0.49f,0.56f},{0.81f,0.55f,0.77f},{0.29f,0.52f,0.45f},{0.33f,0.54f,0.33f},{0.41f,0.64f,0.23f},{0.50f,0.77f,0.64f},{0.52f,0.69f,0.69f},{0.27f,0.69f,0.50f},{0.71f,0.69f,0.68f},{0.75f,0.52f,0.23f},{0.68f,0.36f,0.23f}};
-
         //setzt die farbe für die körperteile
         /*
-        npcGO.transform.GetChild(4).gameObject.GetComponent<SpriteRenderer>().color = new Color(hairColor[rndmHair,0],hairColor[rndmHair,1],hairColor[rndmHair,2],1); 
-        npcGO.transform.GetChild(3).gameObject.GetComponent<SpriteRenderer>().color = new Color(tshirtColor[rndmTshirt,0],tshirtColor[rndmTshirt,1],tshirtColor[rndmTshirt,2],1); 
-        npcGO.transform.GetChild(8).gameObject.GetComponent<SpriteRenderer>().color = new Color(skinColor[rndmSkin,0],skinColor[rndmSkin,1],skinColor[rndmSkin,2],1); 
-        npcGO.transform.GetChild(2).gameObject.GetComponent<SpriteRenderer>().color = new Color(hoseColor[rndmHose,0],hoseColor[rndmHose,1],hoseColor[rndmHose,2],1);
-        */
+        waiterGO.transform.GetChild(4).gameObject.GetComponent<SpriteRenderer>().color = new Color(hairColor[0],hairColor[1],hairColor[2],1); 
+        waiterGO.transform.GetChild(3).gameObject.GetComponent<SpriteRenderer>().color = new Color(tshirtColor[0],tshirtColor[1],tshirtColor[2],1); 
+        waiterGO.transform.GetChild(8).gameObject.GetComponent<SpriteRenderer>().color = new Color(skinColor[0],skinColor[1],skinColor[2],1); 
+        waiterGO.transform.GetChild(2).gameObject.GetComponent<SpriteRenderer>().color = new Color(hoseColor[0],hoseColor[1],hoseColor[2],1);*/
     }
 }

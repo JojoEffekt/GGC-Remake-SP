@@ -1,5 +1,5 @@
 JojoEffekt
-3629453
+3629053
 114292
 1000000
 16
@@ -7,3 +7,4 @@ Pasta:3;Minced meat:2;Cheese:1;Peas:2;Rice:2;Paprika:1;Butter:1;Duck:2;Oil:1;Pin
 Oven_02_a_1:3;Oven_07_a:3;Oven_01_a:1;Oven_01_a_1:4;Counter_04_a_1:1;Counter_02_a:2;Table_01_a:2;Floor_01:32;Deko_12_a_1:1;Deko_13_a_1:1
 Oven:12;Fridge:1;Counter:4;Shlushi:1
 Gender:True;Hat:1-1-1-1;Face:1-1-1-1-;Hair:0,65-0,37-0,29-1-;HairOverlay:1-1-1-1-;Leg:0,81-0,55-0,77-1-;LegOverlay:1-1-1-1-;Skin:0,93-0,61-0,41-1-;SkinOverlay:1-1-1-1-;Tshirt:0,77-0,78-0,81-1-;TshirtOverlay:1-1-1-1
+namwwaiter:0,65-0,37-1-1;waitee2:1-1-1-1

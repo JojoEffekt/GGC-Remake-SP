@@ -43,35 +43,35 @@ public class SaveAndLoadController : MonoBehaviour
                 
                 //LOAD FLOOREXTRADATA
                 //muss zu erst geladen werden, da beim Instanziieren der FloorObjekte sonst leere FCED erzeugt werden
-                lines = ReadStream(floorChildExtraDataFilePath);
+                string[] lines1 = ReadStream(floorChildExtraDataFilePath);
                 //lines.Length-1;// -1 because WriteLine generates an empty line on bottom
-                for(int a=0;a<lines.Length-1;a++){
-                    string[] lineItem = lines[a].Split(";");
+                for(int a=0;a<lines1.Length-1;a++){
+                    string[] lineItem = lines1[a].Split(";");
 
                     if(lineItem[0].Equals("Chair")){
-                        FloorChildExtraDataController.InstantiateFCED(lines[a]);
+                        FloorChildExtraDataController.InstantiateFCED(lines1[a]);
                     }
                     if(lineItem[0].Equals("Table")){
-                        FloorChildExtraDataController.InstantiateFCED(lines[a]); 
+                        FloorChildExtraDataController.InstantiateFCED(lines1[a]); 
                     }
                     if(lineItem[0].Equals("Counter")){
-                        FloorChildExtraDataController.InstantiateFCED(lines[a]);
+                        FloorChildExtraDataController.InstantiateFCED(lines1[a]);
                     }
                     if(lineItem[0].Equals("Oven")){
-                        FloorChildExtraDataController.InstantiateFCED(lines[a]);
+                        FloorChildExtraDataController.InstantiateFCED(lines1[a]);
                     }
                     if(lineItem[0].Equals("Slushi")){
-                        FloorChildExtraDataController.InstantiateFCED(lines[a]);
+                        FloorChildExtraDataController.InstantiateFCED(lines1[a]);
                     }
                 }
                 //Debug.Log("successfully load FloorExtra-data!");
 
 
                 //LOAD WALL
-                lines = ReadStream(wallDataFilePath);
+                lines1 = ReadStream(wallDataFilePath);
                 //lines.Length-1: -1 because WriteLine generates an empty line on bottom
-                for(int a=0;a<lines.Length-1;a++){
-                    string[] lineItem = lines[a].Split(";");
+                for(int a=0;a<lines1.Length-1;a++){
+                    string[] lineItem = lines1[a].Split(";");
                     ObjectController.GenerateWallObject(lineItem[0], lineItem[1],Int32.Parse(lineItem[2]),lineItem[3],Int32.Parse(lineItem[4]),float.Parse(lineItem[5]),float.Parse(lineItem[6]),Int32.Parse(lineItem[7]),Int32.Parse(lineItem[8]));
                 }
                 //Debug.Log("successfully load Wall-data!");
@@ -79,10 +79,10 @@ public class SaveAndLoadController : MonoBehaviour
 
 
                 //LOAD FLOOR
-                lines = ReadStream(floorDataFilePath);
+                lines1 = ReadStream(floorDataFilePath);
                 //lines.Length-1: -1 because WriteLine generates an empty line on bottom
-                for(int a=0;a<lines.Length-1;a++){
-                    string[] lineItem = lines[a].Split(";");
+                for(int a=0;a<lines1.Length-1;a++){
+                    string[] lineItem = lines1[a].Split(";");
                     ObjectController.GenerateFloorObject(lineItem[0],lineItem[1],Int32.Parse(lineItem[2]),float.Parse(lineItem[3]),float.Parse(lineItem[4]),lineItem[5],lineItem[6],lineItem[7],Int32.Parse(lineItem[8]),float.Parse(lineItem[9]),float.Parse(lineItem[10]),float.Parse(lineItem[11]),float.Parse(lineItem[12]));
                 }
                 //Debug.Log("successfully load Floor-data!");
@@ -93,13 +93,13 @@ public class SaveAndLoadController : MonoBehaviour
                 //Load FCED dinners on oven/counter
                 //lade zum ende die FCED dinners auf dem oven/counter, da floorObjecte benötigt werden
                 //kriege alle FCED, gucke ob oven object, lade oven object mit DinnerController.CreateDinnerPrefabOnOven()...
-                lines = ReadStream(floorChildExtraDataFilePath);
+                lines1 = ReadStream(floorChildExtraDataFilePath);
                 //lines.Length-1;// -1 because WriteLine generates an empty line on bottom
-                for(int a=0;a<lines.Length-1;a++){
-                    string[] lineItem = lines[a].Split(";");
+                for(int a=0;a<lines1.Length-1;a++){
+                    string[] lineItem = lines1[a].Split(";");
                     //FCED muss oven sein und darf nicht 0 als step anzahl haben(sonst ist es leer und hat kein dinner drauf)
                     if(lineItem[0].Equals("Oven")&&(Int32.Parse(lineItem[2])!=0)){
-                        DinnerController.CreateDinnerPrefabOnOven((lines[a].Split(";")[1]+"-Child"), lines[a].Split(";")[3], Int32.Parse(lines[a].Split(";")[2]));
+                        DinnerController.CreateDinnerPrefabOnOven((lines1[a].Split(";")[1]+"-Child"), lines1[a].Split(";")[3], Int32.Parse(lines1[a].Split(";")[2]));
                     }
                     //FCED des counters, muss essen enthalten
                     if(lineItem[0].Equals("Counter")&&(!lineItem[3].Equals(""))){
@@ -124,6 +124,9 @@ public class SaveAndLoadController : MonoBehaviour
         //rendert spieler
         PlayerMovementController.LoadPlayer();
 
+        //rendert die waiters
+        GameObject.Find("WaiterController").GetComponent<WaiterManager>().InitialisiereWaiter(lines[9]);
+
         //LADE INITIALDATEN WENN ALLE OBJECTE ETC GELADEN SIND
         //speichert alle geladenene tables/chairs für npcs in einer liste
         GameObject.Find("NPCController").GetComponent<NPCManager>().CollectAllChairsAndTablesInList();
@@ -145,6 +148,7 @@ public class SaveAndLoadController : MonoBehaviour
             source.WriteLine(PlayerController.getStorageItemDictInfo());
             source.WriteLine(PlayerController.getObjectLimiterDictInfo());
             source.WriteLine(PlayerController.getPlayerDictInfo());
+            GameObject.Find("WaiterController").GetComponent<WaiterManager>().WaiterDataToSave();
             
             source.Close();
             //Debug.Log("successfully save Player-data!");

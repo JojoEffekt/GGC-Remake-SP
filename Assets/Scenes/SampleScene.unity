@@ -5393,6 +5393,7 @@ Transform:
   - {fileID: 822842613}
   - {fileID: 1343023079}
   - {fileID: 1204128831}
+  - {fileID: 1630349697}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &589402303
@@ -16978,6 +16979,89 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1629883651}
   m_CullTransparentMesh: 1
+--- !u!1 &1630349696
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1630349697}
+  - component: {fileID: 1630349699}
+  - component: {fileID: 1630349698}
+  m_Layer: 0
+  m_Name: WaiterController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1630349697
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1630349696}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 584969311}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1630349698
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1630349696}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d6b830c82526f84ba261d82b02cd6ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  waiterList: []
+--- !u!114 &1630349699
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1630349696}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b75079acf5f38f46b818a70d9b3da46, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  waiterGO: {fileID: 8936164034422172503, guid: cd6a62bab05f15544aca48e29c84045f, type: 3}
+  curPath: []
+  curDynWaiterPos: {x: 0, y: 0, z: 0}
+  objName: 
+  walkAnim: 0
+  isBoy: 0
+  Hat: []
+  FaceBoy: []
+  HairBoy: []
+  HairOverlayBoy: []
+  LegBoy: []
+  LegOverlayBoy: []
+  SkinBoy: []
+  SkinOverlayBoy: []
+  TshirtBoy: []
+  TshirtOverlayBoy: []
+  FaceGirl: []
+  HairGirl: []
+  HairOverlayGirl: []
+  LegGirl: []
+  LegOverlayGirl: []
+  SkinGirl: []
+  SkinOverlayGirl: []
+  TshirtGirl: []
+  TshirtOverlayGirl: []
 --- !u!1 &1637560135
 GameObject:
   m_ObjectHideFlags: 0
