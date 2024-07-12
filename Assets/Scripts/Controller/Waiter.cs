@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using System.IO;
+using UnityEngine.UI;
 
 public class Waiter : MonoBehaviour
 {
@@ -49,26 +50,82 @@ public class Waiter : MonoBehaviour
     public string objName;
 
     //bestimmt die LaufAnimation des waiter 
-    public int walkAnim = 0; //0=none,1=kann bedient werden,2=right...
+    public int walkAnim = 0;
 
     //gender des waiters
-    public bool isBoy { get; set;}
+    private bool isBoy;
+    public bool IsBoy 
+    { 
+        get {
+                return isBoy;
+            }
+        set {
+                isBoy = value;
+                CreateWaiterSkin();
+            }
+    }
 
     //anzeigename des waiters
-    public string name { get; set;}
+    private string name;
+    public string Name 
+    {
+        get {
+                return name;
+            }
+        set {
+                waiterGO.transform.GetChild(9).gameObject.GetComponent<TMPro.TextMeshPro>().text = value;
+                name = value;
+            }
+    }
 
     //rgba values für skin
     private float[] hairColor;
     public float[] HairColor 
     { 
-        get { return hairColor; }
-        set { waiterGO.transform.GetChild(4).gameObject.GetComponent<SpriteRenderer>().color = new Color(value[0],value[1],value[2],1);
-              hairColor = value;
+        get { 
+                return hairColor; 
+            }
+        set { 
+                waiterGO.transform.GetChild(4).gameObject.GetComponent<SpriteRenderer>().color = new Color(value[0],value[1],value[2],1);
+                hairColor = value;
             }
     }
-    public float[] skinColor { get; set;}
-    public float[] tshirtColor { get; set;}
-    public float[] hoseColor { get; set;}
+
+    private float[] skinColor;
+    public float[] SkinColor 
+    { 
+        get { 
+                return skinColor; 
+            } 
+        set {
+                waiterGO.transform.GetChild(8).gameObject.GetComponent<SpriteRenderer>().color = new Color(value[0],value[1],value[2],1);
+                skinColor = value;
+            }
+    }
+
+    private float[] tshirtColor;
+    public float[] TshirtColor 
+    { 
+        get {
+                return tshirtColor;
+            } 
+        set {
+                waiterGO.transform.GetChild(3).gameObject.GetComponent<SpriteRenderer>().color = new Color(value[0],value[1],value[2],1);
+                tshirtColor = value;
+            }
+    }
+
+    private float[] hoseColor;
+    public float[] HoseColor 
+    { 
+        get {
+                return hoseColor;
+            } 
+        set {
+                waiterGO.transform.GetChild(2).gameObject.GetComponent<SpriteRenderer>().color = new Color(value[0],value[1],value[2],1);
+                hoseColor = value;
+            }
+    }
 
     //beinhalten die sprites für die waiterAnim
     public List<Sprite> Hat = new List<Sprite>();
@@ -118,31 +175,28 @@ public class Waiter : MonoBehaviour
         waiterGO = Instantiate(prefab, new Vector3(doorGO.transform.position.x, doorGO.transform.position.y, 0), Quaternion.identity, NPCHandler.transform);
 
         //rendere die teile auf die richtige stufenebene sodass der waiter über dem background ist
-        for(int a=0;a<waiterGO.transform.childCount;a++)
+        for(int a=0;a<waiterGO.transform.childCount-1;a++)
         {
             waiterGO.transform.GetChild(a).gameObject.GetComponent<SpriteRenderer>().sortingOrder = doorPos[0]+doorPos[1]+1;
         }
+        //sorting order für name
+        waiterGO.transform.GetChild(9).gameObject.GetComponent<TMPro.TextMeshPro>().sortingOrder = 100;
 
         //erstelle die UI des waiters (gender, name & color)
-        CreateNPCSkin();
+        CreateWaiterSkin();
     }
 
     //gibt die grafik des waiters zurück
     public string Info()
     {
-        return name+":"+isBoy+":"+hairColor+":"+skinColor+":"+tshirtColor+":"+hoseColor;
+        return name+":"+isBoy+":"+hairColor[0]+"-"+hairColor[1]+"-"+hairColor[2]+":"+skinColor[0]+"-"+skinColor[1]+"-"+skinColor[2]+":"+tshirtColor[0]+"-"+tshirtColor[1]+"-"+tshirtColor[2]+":"+hoseColor[0]+"-"+hoseColor[1]+"-"+hoseColor[2];
     }
 
     //erstelle den skin sowie gender etc
-    private void CreateNPCSkin()
+    private void CreateWaiterSkin()
     {
         //probiere waiter stats zu laden
         //wenn error, lade standardskin
-
-
-
-        //waiter namen im editor setzten
-        waiterGO.name = "";//CONTINUE
 
         //waiter name im spiel rendern
         //...
@@ -328,12 +382,5 @@ public class Waiter : MonoBehaviour
             waiterGO.transform.GetChild(8).gameObject.GetComponent<SpriteRenderer>().sprite = SkinGirl[80];
             
         }
-
-        //setzt die farbe für die körperteile
-        /*
-        waiterGO.transform.GetChild(4).gameObject.GetComponent<SpriteRenderer>().color = new Color(hairColor[0],hairColor[1],hairColor[2],1); 
-        waiterGO.transform.GetChild(3).gameObject.GetComponent<SpriteRenderer>().color = new Color(tshirtColor[0],tshirtColor[1],tshirtColor[2],1); 
-        waiterGO.transform.GetChild(8).gameObject.GetComponent<SpriteRenderer>().color = new Color(skinColor[0],skinColor[1],skinColor[2],1); 
-        waiterGO.transform.GetChild(2).gameObject.GetComponent<SpriteRenderer>().color = new Color(hoseColor[0],hoseColor[1],hoseColor[2],1);*/
     }
 }

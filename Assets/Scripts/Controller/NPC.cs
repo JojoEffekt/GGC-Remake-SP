@@ -57,7 +57,7 @@ public class NPC : MonoBehaviour
     public string objName;
 
     //bestimmt die LaufAnimation des npc 
-    public int walkAnim = 0; //0=none,1=kann bedient werden,2=right...
+    public int walkAnim = 0; //0=none, 1=idlesperre, 2=links unten, 3=links oben, 4=rechts unten, 5=rechts oben
 
 
 

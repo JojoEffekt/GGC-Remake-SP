@@ -26,6 +26,7 @@ public class PlayerController : MonoBehaviour
     Empty
     Oven:3;Fridge:1;Counter:2;Shlushi:1
     Gender:true;Hat:1-1-1-1;Face:1-1-1-1;Hair:1-1-1-1;HairOverlay:1-1-1-1;Leg:1-1-1-1;LegOverlay:1-1-1-1;Skin:1-1-1-1;SkinOverlay:1-1-1-1;Tshirt:1-1-1-1;TshirtOverlay:1-1-1-1
+    waiter:True:0,65-0,37-1:0,5-0,5-1:1-1-0,3:1-1-1
     */
      
     public static int playerLevel;//wird durch xp erzeugt

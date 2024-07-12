@@ -17042,7 +17042,6 @@ MonoBehaviour:
   curDynWaiterPos: {x: 0, y: 0, z: 0}
   objName: 
   walkAnim: 0
-  isBoy: 0
   Hat: []
   FaceBoy: []
   HairBoy: []

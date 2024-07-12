@@ -148,7 +148,7 @@ public class SaveAndLoadController : MonoBehaviour
             source.WriteLine(PlayerController.getStorageItemDictInfo());
             source.WriteLine(PlayerController.getObjectLimiterDictInfo());
             source.WriteLine(PlayerController.getPlayerDictInfo());
-            GameObject.Find("WaiterController").GetComponent<WaiterManager>().WaiterDataToSave();
+            source.WriteLine(GameObject.Find("WaiterController").GetComponent<WaiterManager>().WaiterDataToSave());
             
             source.Close();
             //Debug.Log("successfully save Player-data!");
