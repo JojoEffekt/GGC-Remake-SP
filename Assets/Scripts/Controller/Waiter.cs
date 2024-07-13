@@ -13,19 +13,15 @@ public class Waiter : MonoBehaviour
     //essen von tresen zu einem npc bringen
     //leeren teller vom tisch zum tresen bringen
 
-
-    /*
-    jede sekunde updaten
-    idle position am tresen
-    suche je nach priorität (50%,50%) oder (20%,80%) mit -> random(): essen liefern oder abräumen
-        -> finde gegebenes ziel, wenn keins verfügbar, nehme anderes ziel
-    suche essen, nimm essen, rechne essen ab
-
-
-    */
-
     //beinhaltet den waiter
     public GameObject waiterGO;
+
+    //variable zu wie viel prozent der waiter geschirr abräumt
+    public int ToDish { get; set; }
+    public int toServe { get; set; }
+
+    //aktuelle aufgabe des waiters
+    public int objective; //0=none,1=go to tresen
 
     //variable um flüssiges movement des waiters zu erzeugen
     private float timeDelayMovement = 0.0f;    
@@ -159,6 +155,14 @@ public class Waiter : MonoBehaviour
 
         //erstelle den waiter
         CreateWaiter(prefab);
+
+        //da der waiter beim initialisieren an der tür stht, ist die erste aufgabe zu einem tresen zu gehen
+        //1 = gehe zum tresen
+        objective = 1;
+
+        //CONTINUE 
+        //suche path von aktuelle posi zu besten tresen
+        //laufe dorthin
     }
 
     //erstellt das gameObject für den waiter
@@ -189,7 +193,14 @@ public class Waiter : MonoBehaviour
     //gibt die grafik des waiters zurück
     public string Info()
     {
-        return name+":"+isBoy+":"+hairColor[0]+"-"+hairColor[1]+"-"+hairColor[2]+":"+skinColor[0]+"-"+skinColor[1]+"-"+skinColor[2]+":"+tshirtColor[0]+"-"+tshirtColor[1]+"-"+tshirtColor[2]+":"+hoseColor[0]+"-"+hoseColor[1]+"-"+hoseColor[2];
+        return name+":"+isBoy+":"+ToDish+":"+toServe+":"+hairColor[0]+"-"+hairColor[1]+"-"+hairColor[2]+":"+skinColor[0]+"-"+skinColor[1]+"-"+skinColor[2]+":"+tshirtColor[0]+"-"+tshirtColor[1]+"-"+tshirtColor[2]+":"+hoseColor[0]+"-"+hoseColor[1]+"-"+hoseColor[2];
+    }
+
+    //lösche das waiterPrefab wenn der waiter zerstört wird durch build store öffnen
+    public void DeleteWaiter()
+    {
+        Debug.Log("Lösche waiter: "+waiterGO.name);
+        Destroy(waiterGO);
     }
 
     //erstelle den skin sowie gender etc
@@ -198,8 +209,6 @@ public class Waiter : MonoBehaviour
         //probiere waiter stats zu laden
         //wenn error, lade standardskin
 
-        //waiter name im spiel rendern
-        //...
 
         //beinhaltet die geladenen sprites
         object[] spriteList = new object[]{};

@@ -5392,8 +5392,8 @@ Transform:
   - {fileID: 973892480}
   - {fileID: 822842613}
   - {fileID: 1343023079}
-  - {fileID: 1204128831}
   - {fileID: 1630349697}
+  - {fileID: 1204128831}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &589402303
@@ -17024,7 +17024,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d6b830c82526f84ba261d82b02cd6ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ButtonController: {fileID: 0}
   waiterList: []
+  timeDelay: 0
 --- !u!114 &1630349699
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17037,7 +17039,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b75079acf5f38f46b818a70d9b3da46, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  waiterGO: {fileID: 8936164034422172503, guid: cd6a62bab05f15544aca48e29c84045f, type: 3}
+  waiterGO: {fileID: 1996097770}
+  objective: 0
   curPath: []
   curDynWaiterPos: {x: 0, y: 0, z: 0}
   objName: 

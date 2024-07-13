@@ -5,14 +5,54 @@ using System;
 
 public class WaiterManager : MonoBehaviour
 {
+    //enthält das buttoncontroller script
+    public ButtonController ButtonController;
+
     //beinhaltet das waiter prefab
     private GameObject prefab;
 
     //beinhaltet alle waiter
     public List<Waiter> waiterList = new List<Waiter>();
+
+    //wird benutzt um sekündliche abfragen zu starten
+    public float timeDelay;
     
     //lasse jeden waiter rein laden und eine function aufrufen
     //bei die der waiter initialisiert wird
+
+    void Start()
+    {
+        ButtonController = GameObject.Find("ButtonController").GetComponent<ButtonController>();
+    }
+
+    void Update()
+    {
+        timeDelay = timeDelay + Time.deltaTime;
+        if(timeDelay>=1.0f&&!ButtonController.isRebuildShopOpen)
+        {
+            timeDelay = 0.0f;
+
+
+            /*
+            idle position am tresen
+            suche je nach priorität (50%,50%) oder (20%,80%) mit -> random(): essen liefern oder abräumen
+                -> finde gegebenes ziel, wenn keins verfügbar, nehme anderes ziel
+            suche essen, nimm essen, rechne essen ab
+            
+            hat waiter eine aufgabe?
+            ja -> erledige aufgabe
+            nein -> steht waiter am tresen? 
+                nein -> gehe zum tresen mit essen darauf, sonst zu einem ohne essen
+                ja -> suche nach aufgabe
+
+            aufgabe: essem liefern, essen abräumen  
+            */
+
+
+
+            Debug.Log("waiter ");
+        }
+    }
 
     //wird von save and load aufgerufen
     //erstelle und speicher den waiter in einer liste
@@ -21,7 +61,7 @@ public class WaiterManager : MonoBehaviour
         //läd das prefab für den waiter
         prefab = Resources.Load("Prefabs/WaiterPrefab") as GameObject;
 
-        //prüfe auf empty string
+        //prüfe ob waiterdaten vorhanden sind
         if(waiterInfo.Equals(""))
         {
             return false;
@@ -31,6 +71,9 @@ public class WaiterManager : MonoBehaviour
             string[] waiterData = waiterInfo.Split(";");
             for(int a=0;a<waiterData.Length;a++)
             {
+                //enthält die einzelnen elemnte eines waiters
+                string[] splitWaiterData = waiterData[a].Split(":");
+
                 //erzeuge den waiter und speicher ihn in liste
                 Waiter waiter = new Waiter(prefab, PlayerMovementController.FindDoorPos());
                 waiterList.Add(waiter);
@@ -41,20 +84,41 @@ public class WaiterManager : MonoBehaviour
                 */
 
                 //läd waiter spezifische daten aus dem speicher
-                waiterList[a].Name = waiterData[a].Split(":")[0];
-                waiterList[a].IsBoy = Convert.ToBoolean(waiterData[a].Split(":")[1]);
-                waiterList[a].HairColor = new float[]{float.Parse(waiterData[a].Split(":")[2].Split("-")[0]), float.Parse(waiterData[a].Split(":")[2].Split("-")[1]), float.Parse(waiterData[a].Split(":")[2].Split("-")[2])};
-                waiterList[a].SkinColor = new float[]{float.Parse(waiterData[a].Split(":")[3].Split("-")[0]), float.Parse(waiterData[a].Split(":")[3].Split("-")[1]), float.Parse(waiterData[a].Split(":")[3].Split("-")[2])};
-                waiterList[a].TshirtColor = new float[]{float.Parse(waiterData[a].Split(":")[4].Split("-")[0]), float.Parse(waiterData[a].Split(":")[4].Split("-")[1]), float.Parse(waiterData[a].Split(":")[4].Split("-")[2])};
-                waiterList[a].HoseColor = new float[]{float.Parse(waiterData[a].Split(":")[5].Split("-")[0]), float.Parse(waiterData[a].Split(":")[5].Split("-")[1]), float.Parse(waiterData[a].Split(":")[5].Split("-")[2])};
-                //namwwaiter:True:0,65-0,37-1:0,5-0,5-1:1-1-0,3:1-1-1;waiter2:False:0,65-0,37-1:0,5-0,5-1:1-1-0,3:1-1-1
+                waiterList[a].Name = splitWaiterData[0];
+                waiterList[a].IsBoy = Convert.ToBoolean(splitWaiterData[1]);
+                waiterList[a].ToDish = Int32.Parse(splitWaiterData[2]);
+                waiterList[a].toServe = Int32.Parse(splitWaiterData[3]);
+                waiterList[a].HairColor = new float[]{float.Parse(splitWaiterData[4].Split("-")[0]), float.Parse(splitWaiterData[4].Split("-")[1]), float.Parse(splitWaiterData[4].Split("-")[2])};
+                waiterList[a].SkinColor = new float[]{float.Parse(splitWaiterData[5].Split("-")[0]), float.Parse(splitWaiterData[5].Split("-")[1]), float.Parse(splitWaiterData[5].Split("-")[2])};
+                waiterList[a].TshirtColor = new float[]{float.Parse(splitWaiterData[6].Split("-")[0]), float.Parse(splitWaiterData[6].Split("-")[1]), float.Parse(splitWaiterData[6].Split("-")[2])};
+                waiterList[a].HoseColor = new float[]{float.Parse(splitWaiterData[7].Split("-")[0]), float.Parse(splitWaiterData[7].Split("-")[1]), float.Parse(splitWaiterData[7].Split("-")[2])};
+                //namwwaiter:True:40:60:0,65-0,37-1:0,5-0,5-1:1-1-0,3:1-1-1;waiter2:False:50:50:0,65-0,37-1:0,5-0,5-1:1-1-0,3:1-1-1
             }
             return true;
         }       
         return false;
     }
 
-    //baut den string, der die waiter infos enthält
+    //funktion zur erstellen eines neuen waiters
+    //wird aufgerufen wenn ein neuer waiter gekauft wird
+    public void CreateNewWaiter()
+    {
+        //erzeuge den waiter und speicher ihn in liste
+        Waiter waiter = new Waiter(prefab, PlayerMovementController.FindDoorPos());
+        waiterList.Add(waiter);
+
+        //läd standardklamotten
+        waiterList[waiterList.Count-1].Name = "waiter";
+        waiterList[waiterList.Count-1].IsBoy = true;
+        waiterList[waiterList.Count-1].ToDish = 50;
+        waiterList[waiterList.Count-1].toServe = 50;
+        waiterList[waiterList.Count-1].HairColor = new float[]{1f,1f,1f};
+        waiterList[waiterList.Count-1].SkinColor = new float[]{1f,1f,1f};
+        waiterList[waiterList.Count-1].TshirtColor = new float[]{1f,1f,1f};
+        waiterList[waiterList.Count-1].HoseColor = new float[]{1f,1f,1f};
+    }
+
+    //baut den string, der die waiter infos enthält zum speichern der daten
     public string WaiterDataToSave()
     {
         string data = "";
@@ -70,7 +134,7 @@ public class WaiterManager : MonoBehaviour
             }
         }
 
-        Debug.Log("speicher dtata "+data);
+//        Debug.Log("speicher dtata "+data);
         return data;
     }
 }
