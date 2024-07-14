@@ -26,6 +26,10 @@ public class LabyrinthBuilder : MonoBehaviour
     //aus, bewegen können
     public static List<string> npcPath = new List<string>();
 
+    //alle möglichen positionen für den aktuellen waiter
+    //TEMP MAYBE ZU RESCCOURENAUFWENDIG (da theoretisch pro waiter pro sekunde)
+    public static List<string> waiterPath = new List<string>();
+
 
 
     //managed die die eingegebenen coords und sucht ein path
@@ -362,6 +366,145 @@ public class LabyrinthBuilder : MonoBehaviour
 
         return finaleRoute;
     }
+
+    //weg für waiter
+    public static List<string> getWaiterPath(int[] startPos, int[] endPos){
+    
+        //enthält die kopierte route
+        //NIMM NEUE LISTE
+        List<string> route = new List<string>();
+
+        //finale liste des npcs
+        List<string> finaleRoute = new List<string>();
+
+        //gucke ob endposition und startPos in npcPath vorhanden ist und benutzte sie als start
+        //enthält die endkoordinate und die position in der liste
+        string[] startPosValue = npcDestinationInPath(startPos);
+        string[] endPosValue = npcDestinationInPath(endPos);
+        if(startPosValue!=null&&endPosValue!=null){
+            
+            //bau path neu für jeden waiter (funktioniert nur wenn tür mit start/stop pos von waiter verbunden ist)
+            WaiterPathManager(startPos);
+
+            for(int a=0;a<waiterPath.Count;a++){
+                Debug.Log("temp wp: "+waiterPath[a]);
+            }
+
+            /*
+
+            //startPos
+            int startPosX = Int32.Parse(startPosValue[0].Split(":")[0]);
+            int startPosY = Int32.Parse(startPosValue[0].Split(":")[1]);
+            int startPosStep = Int32.Parse(startPosValue[0].Split(":")[2]);
+            
+            //endPos
+            int endPosX = Int32.Parse(endPosValue[0].Split(":")[0]);
+            int endPosY = Int32.Parse(endPosValue[0].Split(":")[1]);
+            int endPosStep = Int32.Parse(endPosValue[0].Split(":")[2]);
+
+            //berechne differenz zwischen position der startpos iund endpos
+            //lösche werte die rausfallen
+            if(){
+
+            }else if()
+            
+            /*
+            for(int a=route.Count-1;a>Int32.Parse(value[1])+1;a--){
+                route.RemoveAt(a);
+            }*/
+
+            //CONTINUE
+            for(int b=0;b<route.Count;b++){
+
+            }
+        }
+
+        finaleRoute.Reverse();
+
+        return finaleRoute;
+    }
+
+
+
+
+    public static void WaiterPathManager(int[] startPos){
+
+        //leere die liste, damit sie neu erstellt werden kann
+        waiterPath.Clear();
+
+        //startposition ist die akutelle position des aktuellen waiters
+        int step = 0;
+        waiterPath.Add(startPos[0]+":"+(startPos[1])+":"+step);
+
+        //erstellt eine neue liste
+        BuildWaiterPath(step);
+    }
+
+    //baut die npcPath liste mit allen möglichen werten auf die der npc gehen kann
+    public static void BuildWaiterPath(int step){
+
+        //alle werte
+        for(int a=0;a<waiterPath.Count;a++){
+
+            //werte der aktuellen position
+            int itemX = Int32.Parse(waiterPath[a].Split(":")[0]);
+            int itemY = Int32.Parse(waiterPath[a].Split(":")[1]);
+            int itemStep = Int32.Parse(waiterPath[a].Split(":")[2]);
+
+            //suche alle felder mit dem aktuellen step
+            if(itemStep==step){
+                //suche von item rechts oben
+                if(itemY-1>=0){
+                    //position ist begehbar
+                    if(gridMap[itemX, itemY-1]==0){
+                        //gucke noch ob position nicht schon vorhanden ist in "position"
+                        if(!InList(itemX, itemY-1)){
+                            //füge den nachbarn hinzu mit einem höheren step der in der nächsten iteration gecheckt werden kann
+                            waiterPath.Add(itemX+":"+(itemY-1)+":"+(step+1));
+                        }
+                    }
+                }
+                //rechts unten
+                if(itemX+1<=PlayerController.gridSize-1){
+                    if(gridMap[itemX+1,itemY]==0){
+                        if(!InList(itemX+1, itemY)){
+                            waiterPath.Add((itemX+1)+":"+itemY+":"+(step+1));
+                        }
+                    }
+                }
+                //links unten
+                if(itemY+1<=PlayerController.gridSize-1){
+                    if(gridMap[itemX,itemY+1]==0){
+                        if(!InList(itemX, itemY+1)){
+                            waiterPath.Add(itemX+":"+(itemY+1)+":"+(step+1));
+                        }
+                    }
+                }
+                //links oben
+                if(itemX-1>=0){
+                    if(gridMap[itemX-1,itemY]==0){
+                        if(!InList(itemX-1, itemY)){
+                            waiterPath.Add((itemX-1)+":"+itemY+":"+(step+1));
+                        }
+                    }
+                }
+            }
+        }
+
+        //wenn ein weiteres element hinzugefügt wurde rufe sich selbs nochmal auf
+        if(Int32.Parse(waiterPath[waiterPath.Count-1].Split(":")[2])==(step+1)){
+            //rufe BuildWaiterPath wieder auf und erhöhe step +1
+            //wodurch alle positions auf nachbarn geprüft werden, die gerade hinzugefügt wurden
+            BuildWaiterPath(step+1);
+        }
+    }
+
+
+
+
+
+
+
 
     //gucke ob endposition in npcPath vorhanden ist
     public static string[] npcDestinationInPath(int[] endPos){

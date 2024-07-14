@@ -16,6 +16,9 @@ public class WaiterManager : MonoBehaviour
 
     //wird benutzt um sekündliche abfragen zu starten
     public float timeDelay;
+
+    //liste mit allen countern und deren inhalt, ird sekündlich aktualisiert
+    public List<string> counterDataList = new List<string>();
     
     //lasse jeden waiter rein laden und eine function aufrufen
     //bei die der waiter initialisiert wird
@@ -48,9 +51,39 @@ public class WaiterManager : MonoBehaviour
             aufgabe: essem liefern, essen abräumen  
             */
 
+            //suche jede sekunde nach allen tresen + inhalt dieser
+            counterDataList = FloorChildExtraDataController.getFCEDFromAllCounter();
+            
+            //sort counter list nach essen (essen pos 0 in array)
+            for(int a=0;a<counterDataList.Count;a++)
+            {
+                string[] splitData = counterDataList[a].Split(";");
+
+                //tresen hat essen
+                //vertausche die werte, sodas bei iteration der werten mit essen in liste ganz "oben" stehen
+                if(splitData[2].Equals("False")){
+                    string switchData = counterDataList[0];
+                    counterDataList[0] = counterDataList[a];
+                    counterDataList[a] = switchData;
+                }
+            }
 
 
-            Debug.Log("waiter ");
+
+            //für jeden waiter
+            for(int a=0;a<waiterList.Count;a++)
+            {
+                //ist ziel zum tresen zu gehen? (objective==1)
+                if(waiterList[a].objective==1)
+                {
+                    //CONTINUE suche path zum tresen
+                    if(SearchForPath(waiterList[a]))
+                    {
+                        //wenn weg gefunden
+                        Debug.Log("weg für "+waiterList[a].Name+" gefunden");
+                    }
+                }
+            }
         }
     }
 
@@ -136,5 +169,47 @@ public class WaiterManager : MonoBehaviour
 
 //        Debug.Log("speicher dtata "+data);
         return data;
+    }
+
+    //suche nach path von waiter startPos zu übergebene pos
+    public bool SearchForPath(Waiter waiter)
+    {
+        //für jeden counter prüfe ob weg von waiter zu einem tresen möglich ist
+        for(int a=0;a<counterDataList.Count;a++)
+        {
+            //alle nebenstehende positionen bilden
+            string[] splitCounter = counterDataList[a].Split(";");
+            int x = Int32.Parse(splitCounter[1].Split("-")[0]);
+            int y = Int32.Parse(splitCounter[1].Split("-")[1]);
+            string oben = x+"-"+(y-1);  //rechts oben   sprite: d
+            string rechts = (x+1)+"-"+y; //rechts unten  sprite: c
+            string unten = (x-1)+"-"+y;   //links oben    sprite: a
+            string links = x+"-"+(y+1);  //links unten   sprite: b
+            string[] suroundingPositions = new string[]{oben, rechts, unten, links};
+
+            //gucke ob umliegende floors existieren
+            foreach(string nearbyObj in suroundingPositions)
+            {
+                //FloorObj existiert (größe des grids beachten)
+                if(GameObject.Find(nearbyObj))
+                {
+                    //die fläche ist frei
+                    if(!GameObject.Find(nearbyObj+"-Child"))
+                    {
+                        //gucke ob npc zur position laufen kann (übergibt die endPos)
+                        List<string> npcPath = LabyrinthBuilder.getWaiterPath(waiter.startPos ,new int[]{Int32.Parse(nearbyObj.Split("-")[0]),Int32.Parse(nearbyObj.Split("-")[1])});
+                        //gucke ob route gefunden wurde
+                        if(npcPath.Count!=0)
+                        {   
+                            //CONTINUE
+                            //waiter hat weg zum gehen
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
+
+        return false;
     }
 }

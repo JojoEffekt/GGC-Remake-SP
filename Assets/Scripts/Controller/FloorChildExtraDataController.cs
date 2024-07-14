@@ -343,6 +343,31 @@ public class FloorChildExtraDataController : MonoBehaviour
         return typeFCED; 
     }
 
+    //gibt alle counter mit zugehöriger data zurück
+    public static List<string> getFCEDFromAllCounter(){
+
+        List<string> data = new List<string>();
+
+        try{
+            if(File.Exists(Application.dataPath+"/Data/"+SaveAndLoadController.floorChildExtraDataFilePath)==true){
+                string[] lines = ReadStream(SaveAndLoadController.floorChildExtraDataFilePath);
+
+                for(int a=0;a<lines.Length-1;a++){
+                    string[] lineItem = lines[a].Split(";");
+
+                    //guckt nach type counter
+                    if(lineItem[0].Equals("Counter")){
+                        //speichert die gleichen types in liste
+                        data.Add(lines[a]);
+                    }
+                }
+            }
+        }catch{
+        }
+
+        return data;    
+    }
+
     //ließt den inhalt der datei aus und gibt sie zurück
     private static string[] ReadStream(string pathFile){
         StreamReader source = new StreamReader(Application.dataPath + "/Data/" + pathFile);

@@ -21,7 +21,9 @@ public class Waiter : MonoBehaviour
     public int toServe { get; set; }
 
     //aktuelle aufgabe des waiters
-    public int objective; //0=none,1=go to tresen
+    public int objective; //0=none,
+                          //1=go to tresen
+                          //
 
     //variable um flüssiges movement des waiters zu erzeugen
     private float timeDelayMovement = 0.0f;    
@@ -32,6 +34,10 @@ public class Waiter : MonoBehaviour
 
     //beinhaltet die tür position
     public int[] doorPos { get; set;}
+
+    //position von der der waiter loslaufen und hinlaufen soll
+    public int[] startPos { get; set; }
+    public int[] endPos { get; set; }
 
     //beinhaltet den path zum zum stuhl
     public List<string> path { get; set; }
@@ -159,6 +165,9 @@ public class Waiter : MonoBehaviour
         //da der waiter beim initialisieren an der tür stht, ist die erste aufgabe zu einem tresen zu gehen
         //1 = gehe zum tresen
         objective = 1;
+
+        //beim initialiieren ist die startPos die wo die tür steht
+        this.startPos = doorPos;
 
         //CONTINUE 
         //suche path von aktuelle posi zu besten tresen
