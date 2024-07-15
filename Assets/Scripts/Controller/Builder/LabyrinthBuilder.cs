@@ -313,6 +313,18 @@ public class LabyrinthBuilder : MonoBehaviour
         }
         return false;
     }
+
+    //guckt ob eine bestimmte koordinate in der waiterPath liste ist
+    public static bool InWaiterList(int x, int y){
+        for(int a=0;a<waiterPath.Count;a++){
+            int oldX = Int32.Parse(waiterPath[a].Split(":")[0]);
+            int oldY = Int32.Parse(waiterPath[a].Split(":")[1]);
+            if(oldX==x&&oldY==y){
+                return true;
+            }
+        }
+        return false;
+    }
     
 
 
@@ -383,39 +395,15 @@ public class LabyrinthBuilder : MonoBehaviour
         string[] endPosValue = npcDestinationInPath(endPos);
         if(startPosValue!=null&&endPosValue!=null){
             
+            /*for(int b=0;b<npcPath.Count;b++){
+                Debug.Log("npcPath: "+npcPath[b]);
+            }*/
+
             //bau path neu für jeden waiter (funktioniert nur wenn tür mit start/stop pos von waiter verbunden ist)
             WaiterPathManager(startPos);
 
             for(int a=0;a<waiterPath.Count;a++){
-                Debug.Log("temp wp: "+waiterPath[a]);
-            }
-
-            /*
-
-            //startPos
-            int startPosX = Int32.Parse(startPosValue[0].Split(":")[0]);
-            int startPosY = Int32.Parse(startPosValue[0].Split(":")[1]);
-            int startPosStep = Int32.Parse(startPosValue[0].Split(":")[2]);
-            
-            //endPos
-            int endPosX = Int32.Parse(endPosValue[0].Split(":")[0]);
-            int endPosY = Int32.Parse(endPosValue[0].Split(":")[1]);
-            int endPosStep = Int32.Parse(endPosValue[0].Split(":")[2]);
-
-            //berechne differenz zwischen position der startpos iund endpos
-            //lösche werte die rausfallen
-            if(){
-
-            }else if()
-            
-            /*
-            for(int a=route.Count-1;a>Int32.Parse(value[1])+1;a--){
-                route.RemoveAt(a);
-            }*/
-
-            //CONTINUE
-            for(int b=0;b<route.Count;b++){
-
+                Debug.Log("waiterPath: "+waiterPath[a]);
             }
         }
 
@@ -458,7 +446,7 @@ public class LabyrinthBuilder : MonoBehaviour
                     //position ist begehbar
                     if(gridMap[itemX, itemY-1]==0){
                         //gucke noch ob position nicht schon vorhanden ist in "position"
-                        if(!InList(itemX, itemY-1)){
+                        if(!InWaiterList(itemX, itemY-1)){
                             //füge den nachbarn hinzu mit einem höheren step der in der nächsten iteration gecheckt werden kann
                             waiterPath.Add(itemX+":"+(itemY-1)+":"+(step+1));
                         }
@@ -467,7 +455,7 @@ public class LabyrinthBuilder : MonoBehaviour
                 //rechts unten
                 if(itemX+1<=PlayerController.gridSize-1){
                     if(gridMap[itemX+1,itemY]==0){
-                        if(!InList(itemX+1, itemY)){
+                        if(!InWaiterList(itemX+1, itemY)){
                             waiterPath.Add((itemX+1)+":"+itemY+":"+(step+1));
                         }
                     }
@@ -475,7 +463,7 @@ public class LabyrinthBuilder : MonoBehaviour
                 //links unten
                 if(itemY+1<=PlayerController.gridSize-1){
                     if(gridMap[itemX,itemY+1]==0){
-                        if(!InList(itemX, itemY+1)){
+                        if(!InWaiterList(itemX, itemY+1)){
                             waiterPath.Add(itemX+":"+(itemY+1)+":"+(step+1));
                         }
                     }
@@ -483,7 +471,7 @@ public class LabyrinthBuilder : MonoBehaviour
                 //links oben
                 if(itemX-1>=0){
                     if(gridMap[itemX-1,itemY]==0){
-                        if(!InList(itemX-1, itemY)){
+                        if(!InWaiterList(itemX-1, itemY)){
                             waiterPath.Add((itemX-1)+":"+itemY+":"+(step+1));
                         }
                     }

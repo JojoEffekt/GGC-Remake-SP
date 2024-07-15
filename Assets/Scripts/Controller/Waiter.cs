@@ -167,7 +167,7 @@ public class Waiter : MonoBehaviour
         objective = 1;
 
         //beim initialiieren ist die startPos die wo die tür steht
-        this.startPos = doorPos;
+        this.startPos = new int[]{0,1};//doorPos;
 
         //CONTINUE 
         //suche path von aktuelle posi zu besten tresen

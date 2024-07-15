@@ -203,6 +203,7 @@ public class WaiterManager : MonoBehaviour
                         {   
                             //CONTINUE
                             //waiter hat weg zum gehen
+                            Debug.Log("path gefunden für "+waiter.Name+" zu "+npcPath[npcPath.Count-1]);
                             return true;
                         }
                     }
