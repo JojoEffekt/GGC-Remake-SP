@@ -383,28 +383,47 @@ public class LabyrinthBuilder : MonoBehaviour
     public static List<string> getWaiterPath(int[] startPos, int[] endPos){
     
         //enthält die kopierte route
-        //NIMM NEUE LISTE
         List<string> route = new List<string>();
 
-        //finale liste des npcs
+        //finale liste des waiters
         List<string> finaleRoute = new List<string>();
 
-        //gucke ob endposition und startPos in npcPath vorhanden ist und benutzte sie als start
-        //enthält die endkoordinate und die position in der liste
+        //gucke ob endposition und startPos in der begehbaren zone liegt
         string[] startPosValue = npcDestinationInPath(startPos);
         string[] endPosValue = npcDestinationInPath(endPos);
         if(startPosValue!=null&&endPosValue!=null){
-            
-            /*for(int b=0;b<npcPath.Count;b++){
-                Debug.Log("npcPath: "+npcPath[b]);
-            }*/
 
             //bau path neu für jeden waiter (funktioniert nur wenn tür mit start/stop pos von waiter verbunden ist)
             WaiterPathManager(startPos);
 
             for(int a=0;a<waiterPath.Count;a++){
-                Debug.Log("waiterPath: "+waiterPath[a]);
+                route.Add(waiterPath[a]);
             }
+
+            int step = Int32.Parse(endPosValue[0].Split(":")[2]);
+
+            //endposition wurde in liste gefunden, lösche alle werte die einen höheren step haben
+            //beginne ab der nachfolgenden position von der end pos, da alle darüber einen größeren step haben
+            for(int a=route.Count-1;a>Int32.Parse(endPosValue[1])+1;a--){
+                route.RemoveAt(a);
+            }
+
+            //beginne von ende und suche einen listeintrag mit step-1
+            //gucke ob er nachbar von voheriger pos ist
+            finaleRoute.Add(endPosValue[0]);
+            for(int a=step-1;a>0;a--){
+                for(int b=0;b<route.Count;b++){
+                    //hat position step-1
+                    if(Int32.Parse(route[b].Split(":")[2])==a){
+                        //prüfe ob die position ein kleinerer nachbar von letzter finalRoute eintrag ist
+                        if(IsNeighbour(route[b], finaleRoute[finaleRoute.Count-1])){
+                            finaleRoute.Add(route[b]);
+                        }
+                    }
+                }
+            }
+            //füge startposition hinzu
+            finaleRoute.Add(waiterPath[0]);
         }
 
         finaleRoute.Reverse();
@@ -412,9 +431,8 @@ public class LabyrinthBuilder : MonoBehaviour
         return finaleRoute;
     }
 
-
-
-
+    //baut die list die alle möglichen zu begehbaren position des aktuellen waiters enthält mit der 
+    //position wie viele schritte bis dahin benötigt werden
     public static void WaiterPathManager(int[] startPos){
 
         //leere die liste, damit sie neu erstellt werden kann
@@ -486,13 +504,6 @@ public class LabyrinthBuilder : MonoBehaviour
             BuildWaiterPath(step+1);
         }
     }
-
-
-
-
-
-
-
 
     //gucke ob endposition in npcPath vorhanden ist
     public static string[] npcDestinationInPath(int[] endPos){

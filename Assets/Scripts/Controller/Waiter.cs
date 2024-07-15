@@ -39,7 +39,7 @@ public class Waiter : MonoBehaviour
     public int[] startPos { get; set; }
     public int[] endPos { get; set; }
 
-    //beinhaltet den path zum zum stuhl
+    //beinhaltet den path zum zum nächsten ziel
     public List<string> path { get; set; }
 
     //beinhaltet die abzulaufende temporäre liste
@@ -167,12 +167,100 @@ public class Waiter : MonoBehaviour
         objective = 1;
 
         //beim initialiieren ist die startPos die wo die tür steht
-        this.startPos = new int[]{0,1};//doorPos;
-
-        //CONTINUE 
-        //suche path von aktuelle posi zu besten tresen
-        //laufe dorthin
+        this.startPos = doorPos;
     }
+
+    //wird vom waiterController aufgerufen wenn waiter am laufen ist 
+    /*
+    public void UpdateAnim()
+    {
+        //sorgt für eine flüssige bewegung
+        timeDelayMovement += Time.deltaTime * 1.5f;
+        
+        if(curPath.Count!=0)
+        {
+            //sucht das aktuell zu belaufende floorObj in der Scene
+            GameObject objName = GameObject.Find(curPath[0].Split(":")[0]+"-"+curPath[0].Split(":")[1]).gameObject;
+
+            //bewegt den spieler "grob"
+            npcGO.transform.position = Vector3.Lerp(curDynPlayerPos, objName.transform.position, timeDelayMovement);
+
+
+            //render den spieler richtig auf dem spielfeld, sowie anim.
+            for(int a=0;a<npcGO.transform.childCount;a++)
+            {
+                npcGO.transform.GetChild(a).gameObject.GetComponent<SpriteRenderer>().sortingOrder = Int32.Parse(curPath[0].Split(":")[0])+Int32.Parse(curPath[0].Split(":")[1])+1;
+            }
+
+            //bestimmt die npc laufrichtung
+            if(objName.transform.position.x<npcGO.transform.position.x)
+            {
+                if(objName.transform.position.y<npcGO.transform.position.y)
+                {
+                    //links unten
+                    walkAnim=2;
+                }
+                else
+                {
+                    //links oben
+                    walkAnim=3;
+                }
+            }
+            else
+            {
+                if(objName.transform.position.y<npcGO.transform.position.y)
+                {
+                    //rechts unten
+                    walkAnim=4;
+                }
+                else
+                {
+                    //rechts oben
+                    walkAnim=5;
+                }
+            }
+
+            //floorObj wurde belaufen, zerstöre das element und übergebe die DynPlayerPos
+            if(npcGO.transform.position==objName.transform.position)
+            {
+                //lösche letzten npcPath eintrag sodas der npc zur nächsten pos geht
+                curPath.RemoveAt(0);
+                timeDelayMovement = 0;
+                curDynPlayerPos = npcGO.transform.position;
+
+                //wenn der npc fertig mit laufen ist
+                if(curPath.Count==0)
+                {
+                    //laufanimation des npc wird ausgestellt
+                    walkAnim = 0;
+
+                    //npc läuft nicht mehr, cooldown bis er geht
+                    isOnWalk = false;
+
+                    //npc steht immernoch an der tür
+                    if(state==0)
+                    {
+                        //npc kann sich hinsetzten werden
+                        state = 1;
+
+                        //CONTINUE
+                        //player setzt sich hin
+                        //START.NPCHINSETZEN
+                        //npc kann bedient werden
+                            //-> fpr alle npcs mit state=1 und cooldown größer als 0
+                                //-> cooldown für npc stoppen weil essen geliefert wird von diener
+                    }
+                    //gucke ob das schon der rückweg des npcs ist
+                    else if(state==3)
+                    {
+                        //npc steht wieder an der tür
+                        //kann gelöscht werden
+                        state = 4;
+                    }
+                }
+            }
+        }
+    }*/
 
     //erstellt das gameObject für den waiter
     private void CreateWaiter(GameObject prefab)

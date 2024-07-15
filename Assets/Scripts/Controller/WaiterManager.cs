@@ -76,15 +76,34 @@ public class WaiterManager : MonoBehaviour
                 //ist ziel zum tresen zu gehen? (objective==1)
                 if(waiterList[a].objective==1)
                 {
-                    //CONTINUE suche path zum tresen
+                    //suche einen weg zum tresen
                     if(SearchForPath(waiterList[a]))
                     {
                         //wenn weg gefunden
                         Debug.Log("weg für "+waiterList[a].Name+" gefunden");
+                        //weg wurde gefunden und übergeben, starte die laufanimation 
                     }
                 }
             }
-        }
+
+
+
+            //für jeden waiter muss geprüft werden ob er läuft, wenn ja sorge für flüssige animation
+            for(int a=0;a<waiterList.Count;a++)
+            {
+                //waiter kann laufen
+                if(waiterList[a].isOnWalk)
+                {
+                    //gucke ob waiterMovementAnim gestartet wurde
+                    if(waiterList[a].walkAnim==0)
+                    {
+                        waiterList[a].walkAnim=1;
+                        StartCoroutine(Anim(waiterList[a],0));
+                    }
+
+                    waiterList[a].UpdateAnim();
+                }
+            }
     }
 
     //wird von save and load aufgerufen
@@ -197,13 +216,14 @@ public class WaiterManager : MonoBehaviour
                     if(!GameObject.Find(nearbyObj+"-Child"))
                     {
                         //gucke ob npc zur position laufen kann (übergibt die endPos)
-                        List<string> npcPath = LabyrinthBuilder.getWaiterPath(waiter.startPos ,new int[]{Int32.Parse(nearbyObj.Split("-")[0]),Int32.Parse(nearbyObj.Split("-")[1])});
+                        List<string> waiterPath = LabyrinthBuilder.getWaiterPath(waiter.startPos ,new int[]{Int32.Parse(nearbyObj.Split("-")[0]),Int32.Parse(nearbyObj.Split("-")[1])});
+                        
                         //gucke ob route gefunden wurde
-                        if(npcPath.Count!=0)
+                        if(waiterPath.Count!=0)
                         {   
-                            //CONTINUE
-                            //waiter hat weg zum gehen
-                            Debug.Log("path gefunden für "+waiter.Name+" zu "+npcPath[npcPath.Count-1]);
+                            //übergebe den zu speichernden path den waiter
+                            waiter.path = waiterPath;
+
                             return true;
                         }
                     }

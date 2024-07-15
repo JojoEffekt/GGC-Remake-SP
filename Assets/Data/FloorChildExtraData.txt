@@ -9,7 +9,7 @@ Chair;6-6;True
 Chair;3-7;True
 Chair;4-8;True
 Chair;6-8;True
-Chair;3-1;True
+Chair;3-1;False
 Chair;5-8;True
 Chair;11-5;True
 Chair;11-4;True
@@ -43,7 +43,7 @@ Table;8-6;True
 Table;4-7;True
 Table;5-7;True
 Table;6-7;True
-Table;4-1;True
+Table;4-1;False
 Table;7-6;True
 Table;12-4;True
 Table;12-5;True
