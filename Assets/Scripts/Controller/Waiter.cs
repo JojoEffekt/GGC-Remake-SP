@@ -22,8 +22,8 @@ public class Waiter : MonoBehaviour
 
     //aktuelle aufgabe des waiters
     public int objective; //0=none,
-                          //1=go to tresen
-                          //
+                          //1=will path zum counter
+                          //2=auf dem weg zum counter
 
     //variable um flüssiges movement des waiters zu erzeugen
     private float timeDelayMovement = 0.0f;    
@@ -170,8 +170,26 @@ public class Waiter : MonoBehaviour
         this.startPos = doorPos;
     }
 
+    //laufe zur neuen position anhand des erstellten path
+    //gibt TRUE zurück wenn waiter am ziel ankommen ist
+    public void NPCMovement()
+    { 
+        //kopiere die übergebene liste damit aus dieser werte entfernen können ohne die originale zu zerstören
+        curPath.Clear();
+        for(int a=path.Count-1;a>=0;a--)
+        {
+            curPath.Add(path[a]);
+        }
+        curPath.Reverse();
+
+        //npc setzt sich in bewegung
+        isOnWalk = true;
+
+        //damit kann die animation in waiterManager aufgegriffen werden
+        walkAnim = 1;
+    }
+
     //wird vom waiterController aufgerufen wenn waiter am laufen ist 
-    /*
     public void UpdateAnim()
     {
         //sorgt für eine flüssige bewegung
@@ -183,19 +201,19 @@ public class Waiter : MonoBehaviour
             GameObject objName = GameObject.Find(curPath[0].Split(":")[0]+"-"+curPath[0].Split(":")[1]).gameObject;
 
             //bewegt den spieler "grob"
-            npcGO.transform.position = Vector3.Lerp(curDynPlayerPos, objName.transform.position, timeDelayMovement);
+            waiterGO.transform.position = Vector3.Lerp(curDynWaiterPos, objName.transform.position, timeDelayMovement);
 
 
             //render den spieler richtig auf dem spielfeld, sowie anim.
-            for(int a=0;a<npcGO.transform.childCount;a++)
+            for(int a=0;a<waiterGO.transform.childCount-1;a++)
             {
-                npcGO.transform.GetChild(a).gameObject.GetComponent<SpriteRenderer>().sortingOrder = Int32.Parse(curPath[0].Split(":")[0])+Int32.Parse(curPath[0].Split(":")[1])+1;
+                waiterGO.transform.GetChild(a).gameObject.GetComponent<SpriteRenderer>().sortingOrder = Int32.Parse(curPath[0].Split(":")[0])+Int32.Parse(curPath[0].Split(":")[1])+1;
             }
 
             //bestimmt die npc laufrichtung
-            if(objName.transform.position.x<npcGO.transform.position.x)
+            if(objName.transform.position.x<waiterGO.transform.position.x)
             {
-                if(objName.transform.position.y<npcGO.transform.position.y)
+                if(objName.transform.position.y<waiterGO.transform.position.y)
                 {
                     //links unten
                     walkAnim=2;
@@ -208,7 +226,7 @@ public class Waiter : MonoBehaviour
             }
             else
             {
-                if(objName.transform.position.y<npcGO.transform.position.y)
+                if(objName.transform.position.y<waiterGO.transform.position.y)
                 {
                     //rechts unten
                     walkAnim=4;
@@ -221,12 +239,12 @@ public class Waiter : MonoBehaviour
             }
 
             //floorObj wurde belaufen, zerstöre das element und übergebe die DynPlayerPos
-            if(npcGO.transform.position==objName.transform.position)
+            if(waiterGO.transform.position==objName.transform.position)
             {
                 //lösche letzten npcPath eintrag sodas der npc zur nächsten pos geht
                 curPath.RemoveAt(0);
                 timeDelayMovement = 0;
-                curDynPlayerPos = npcGO.transform.position;
+                curDynWaiterPos = waiterGO.transform.position;
 
                 //wenn der npc fertig mit laufen ist
                 if(curPath.Count==0)
@@ -236,31 +254,10 @@ public class Waiter : MonoBehaviour
 
                     //npc läuft nicht mehr, cooldown bis er geht
                     isOnWalk = false;
-
-                    //npc steht immernoch an der tür
-                    if(state==0)
-                    {
-                        //npc kann sich hinsetzten werden
-                        state = 1;
-
-                        //CONTINUE
-                        //player setzt sich hin
-                        //START.NPCHINSETZEN
-                        //npc kann bedient werden
-                            //-> fpr alle npcs mit state=1 und cooldown größer als 0
-                                //-> cooldown für npc stoppen weil essen geliefert wird von diener
-                    }
-                    //gucke ob das schon der rückweg des npcs ist
-                    else if(state==3)
-                    {
-                        //npc steht wieder an der tür
-                        //kann gelöscht werden
-                        state = 4;
-                    }
                 }
             }
         }
-    }*/
+    }
 
     //erstellt das gameObject für den waiter
     private void CreateWaiter(GameObject prefab)

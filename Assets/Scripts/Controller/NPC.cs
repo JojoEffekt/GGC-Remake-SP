@@ -208,7 +208,6 @@ public class NPC : MonoBehaviour
     public bool NPCMovement(bool val)
     { 
         //kopiere die übergebene liste damit aus dieser werte entfernen können ohne die originale zu zerstören
-        //CONTINUE gucke welche liste hier erstellt werden soll / BZW INVERTIERE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         curPath.Clear();
         //path von platz zur tür
         if(!val)

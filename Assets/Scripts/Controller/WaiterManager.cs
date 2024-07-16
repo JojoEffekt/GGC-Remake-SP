@@ -61,7 +61,8 @@ public class WaiterManager : MonoBehaviour
 
                 //tresen hat essen
                 //vertausche die werte, sodas bei iteration der werten mit essen in liste ganz "oben" stehen
-                if(splitData[2].Equals("False")){
+                if(splitData[2].Equals("False"))
+                {
                     string switchData = counterDataList[0];
                     counterDataList[0] = counterDataList[a];
                     counterDataList[a] = switchData;
@@ -73,7 +74,7 @@ public class WaiterManager : MonoBehaviour
             //für jeden waiter
             for(int a=0;a<waiterList.Count;a++)
             {
-                //ist ziel zum tresen zu gehen? (objective==1)
+                //will zum tresen hat aber noch keinen path? (objective==1)
                 if(waiterList[a].objective==1)
                 {
                     //suche einen weg zum tresen
@@ -81,29 +82,33 @@ public class WaiterManager : MonoBehaviour
                     {
                         //wenn weg gefunden
                         Debug.Log("weg für "+waiterList[a].Name+" gefunden");
-                        //weg wurde gefunden und übergeben, starte die laufanimation 
+                        //weg wurde gefunden und übergeben, starte die laufanimation
+                        waiterList[a].NPCMovement();
+
+                        //von 1 -> 2, hat path zum thresen bekommen und geht jetzt dahin
+                        waiterList[a].objective = 2;
                     }
                 }
             }
+        }
 
 
-
-            //für jeden waiter muss geprüft werden ob er läuft, wenn ja sorge für flüssige animation
-            for(int a=0;a<waiterList.Count;a++)
+        //für jeden waiter muss geprüft werden ob er läuft, wenn ja, sorge für flüssige animation
+        for(int a=0;a<waiterList.Count;a++)
+        {
+            //waiter kann laufen
+            if(waiterList[a].isOnWalk)
             {
-                //waiter kann laufen
-                if(waiterList[a].isOnWalk)
+                //gucke ob waiterMovementAnim gestartet wurde
+                if(waiterList[a].walkAnim==0)
                 {
-                    //gucke ob waiterMovementAnim gestartet wurde
-                    if(waiterList[a].walkAnim==0)
-                    {
-                        waiterList[a].walkAnim=1;
-                        StartCoroutine(Anim(waiterList[a],0));
-                    }
-
-                    waiterList[a].UpdateAnim();
+    
+                   // StartCoroutine(Anim(waiterList[a],0));
                 }
+    
+                waiterList[a].UpdateAnim();
             }
+        }
     }
 
     //wird von save and load aufgerufen
