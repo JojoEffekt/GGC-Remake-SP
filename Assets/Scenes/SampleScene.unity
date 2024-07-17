@@ -17027,6 +17027,7 @@ MonoBehaviour:
   ButtonController: {fileID: 0}
   waiterList: []
   timeDelay: 0
+  counterDataList: []
 --- !u!114 &1630349699
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17282,6 +17283,7 @@ MonoBehaviour:
   MainController: {fileID: 349073842}
   RebuildStore: {fileID: 1822595005}
   NPCController: {fileID: 822842612}
+  WaiterController: {fileID: 1630349696}
   ItemController: {fileID: 406793277}
   ItemPrefab: {fileID: 6551093608942893140, guid: 1fde849bbeef1494e8dc59a06fb91a59, type: 3}
   switcher1: {fileID: 244330351}

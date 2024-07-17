@@ -11,6 +11,16 @@ public class SaveAndLoadController : MonoBehaviour
     public static string floorDataFilePath = "FloorData.txt";
     public static string floorChildExtraDataFilePath = "FloorChildExtraData.txt";
 
+    public enum DataSheets {
+        PlayerData,
+        WallData,
+        FloorData,
+        FloorChildExtraData
+    }
+
+    // backupdaten für waiter
+    public static string waiterDataBackup; 
+
     void Start()
     {
         LoadPlayerData();
@@ -148,7 +158,14 @@ public class SaveAndLoadController : MonoBehaviour
             source.WriteLine(PlayerController.getStorageItemDictInfo());
             source.WriteLine(PlayerController.getObjectLimiterDictInfo());
             source.WriteLine(PlayerController.getPlayerDictInfo());
-            source.WriteLine(GameObject.Find("WaiterController").GetComponent<WaiterManager>().WaiterDataToSave());
+            string waiterData = GameObject.Find("WaiterController").GetComponent<WaiterManager>().WaiterDataToSave();
+            if(waiterData.Length!=0){//nur speichern wenn der string nicht leer ist//passiert wenn baumodus offen und kein waiter vorhanden, dann wird leerer string erstellt. in dem fall zwischengespeicherterte daten speihern
+                source.WriteLine(waiterData);
+                waiterDataBackup = waiterData;
+            }else{
+                source.WriteLine(waiterDataBackup);
+            }
+            
             
             source.Close();
             //Debug.Log("successfully save Player-data!");
@@ -212,5 +229,24 @@ public class SaveAndLoadController : MonoBehaviour
         source.Close();
         string[] lines = fileContents.Split("\n"[0]);
         return lines;
+    }
+
+    public static string ReadSingleLine(string fileString, int line)
+    {
+        DataSheets file;
+        Enum.TryParse<DataSheets>(fileString, out file);
+        switch(file)
+        {
+            case DataSheets.PlayerData:
+                string[] lines = ReadStream(playerDataFilePath);
+
+                if(line<lines.Length)
+                {
+                    return lines[line];
+                }
+                break;
+        }
+
+        return "";
     }
 }

@@ -184,9 +184,6 @@ public class Waiter : MonoBehaviour
 
         //npc setzt sich in bewegung
         isOnWalk = true;
-
-        //damit kann die animation in waiterManager aufgegriffen werden
-        walkAnim = 1;
     }
 
     //wird vom waiterController aufgerufen wenn waiter am laufen ist 

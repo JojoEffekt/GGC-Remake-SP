@@ -10,6 +10,7 @@ public class RebuildUIController : MonoBehaviour
     public GameObject MainController;
     public GameObject RebuildStore;
     public GameObject NPCController;
+    public GameObject WaiterController;
 
     public GameObject ItemController;
 
@@ -38,6 +39,8 @@ public class RebuildUIController : MonoBehaviour
 
         //BEIM ÖFFNEN DES SHOPS LÖSCHE ALLE NPCS
         NPCController.GetComponent<NPCManager>().DeleteAllNPCS();
+        //BEIM ÖFFNEN DES SHOPS LÖSCHE ALLE WAITER
+        WaiterController.GetComponent<WaiterManager>().DeleteAllWaiters();
     }
 
     public void CloseShop(){
@@ -62,6 +65,9 @@ public class RebuildUIController : MonoBehaviour
         NPCController.GetComponent<NPCManager>().CollectAllChairsAndTablesInList();
         //läd das grid für npc/player movement
         LabyrinthBuilder.GenerateGrid();
+
+        //BEIM SCHLIEßEN DES SHOPS Erzeuge ALLE WAITER
+        WaiterController.GetComponent<WaiterManager>().InitialisiereWaiter(SaveAndLoadController.ReadSingleLine("PlayerData", 9));
     }
 
     public void RenderShop(){

@@ -3,13 +3,13 @@ Chair;3-5;True
 Chair;9-5;True
 Chair;7-3;True
 Chair;9-6;True
-Chair;8-7;True
+Chair;8-7;False
 Chair;7-7;True
 Chair;6-6;True
 Chair;3-7;True
 Chair;4-8;True
 Chair;6-8;True
-Chair;3-1;False
+Chair;3-1;True
 Chair;5-8;True
 Chair;11-5;True
 Chair;11-4;True
@@ -25,7 +25,7 @@ Chair;9-14;True
 Chair;10-13;True
 Chair;10-12;True
 Chair;10-11;True
-Chair;8-9;True
+Chair;8-9;False
 Chair;9-9;True
 Chair;12-0;True
 Chair;7-1;True
@@ -39,18 +39,18 @@ Table;5-6;True
 Table;6-3;True
 Table;6-4;True
 Table;8-5;True
-Table;8-6;True
+Table;8-6;False
 Table;4-7;True
 Table;5-7;True
 Table;6-7;True
-Table;4-1;False
+Table;4-1;True
 Table;7-6;True
 Table;12-4;True
 Table;12-5;True
 Table;12-3;True
 Table;12-2;True
 Table;12-1;True
-Table;8-10;True
+Table;8-10;False
 Table;8-12;True
 Table;8-11;True
 Table;8-13;True
@@ -60,9 +60,13 @@ Table;9-11;True
 Table;9-10;True
 Table;5-1;True
 Table;2-10;True
-Table;6-0;True
+Table;7-2;True
 Counter;4-2;False;Chilli con Carne;1600
-Counter;4-4;False;Omelette;70
+Counter;2-12;False;Omelette;10
+Counter;4-4;False;Garden Salad;10
+Counter;12-8;False;Omelette;70
+Counter;4-11;True;;0
+Counter;4-10;True;;0
 Oven;9-1;0;;0;;0
 Oven;9-2;0;;0;;0
 Oven;10-1;0;;0;;0

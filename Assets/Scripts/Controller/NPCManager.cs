@@ -1079,7 +1079,6 @@ public class NPCManager : MonoBehaviour
         //npc hat essen bekommen, spiele animation ab bis essen leer ist
         if(function==2)
         {
-            Debug.Log("anim 2!!!!!!! "+npc.npcGO.name);
             //wird benutzt um waittime nicht verringern zu lassen
             npc.isOnWalk = true;
 
@@ -1133,8 +1132,7 @@ public class NPCManager : MonoBehaviour
                 }
             }
             //}
-            Debug.Log("ende!");
-
+            
             //wird benutzt um zu erkennen das der npc direkt nach dem essen zur tür gehen soll
             npc.isOnWalk = true;
             npc.waittime = 0;
