@@ -83,7 +83,7 @@ public class WaiterManager : MonoBehaviour
                 if(waiterList[a].objective==1)
                 {
                     //suche einen weg zum tresen
-                    if(SearchForPath(waiterList[a]))
+                    if(CounterForWaiter(waiterList[a]))
                     {
                         //weg wurde gefunden und übergeben, starte die laufanimation
                         waiterList[a].NPCMovement();
@@ -199,71 +199,94 @@ public class WaiterManager : MonoBehaviour
         return data;
     }
 
-    //suche nach path von waiter startPos zu übergebene pos
-    public bool SearchForPath(Waiter waiter)
-    {
+    //wähl randomisierte counter für die waiter aus
+    public bool CounterForWaiter(Waiter waiter){
+
+        //zufällige zahl aus der range des waiters
         System.Random rndm = new System.Random();
-
         int rndmDL = rndm.Next(0,counterDataList.Count);
+
         for(int a=0;a<counterDataList.Count;a++)
         {
-            if(rndmDL+a>=counterDataList.Count){
-                Debug.Log("DL zu hoch "+(counterDataList.Count-1)+"max  rndm: "+rndmDL+"->"+((rndmDL+a)%counterDataList.Count)+":");
-            }else{
-                Debug.Log("DL "+(counterDataList.Count-1)+"max  rndm: "+rndmDL+"->"+(rndmDL+a)+":");
-            }
-        }
-
-        int rndmEDL = rndm.Next(0,counterEmptyDataList.Count);
-        for(int a=0;a<counterEmptyDataList.Count;a++)
-        {
-            if(rndmEDL+a>=counterEmptyDataList.Count){
-                Debug.Log("EDL zu hoch "+(counterEmptyDataList.Count-1)+"max  rndm: "+rndmEDL+"->"+((rndmEDL+a)%counterEmptyDataList.Count)+":");
-            }else{
-                Debug.Log("EDL "+(counterEmptyDataList.Count-1)+"max  rndm: "+rndmEDL+"->"+(rndmEDL+a)+":");
-            }
-        }
-
-
-
-        //für jeden counter prüfe ob weg von waiter zu einem tresen möglich ist
-        for(int a=0;a<counterDataList.Count;a++)
-        {
-            //alle nebenstehende positionen bilden
-            string[] splitCounter = counterDataList[a].Split(";");
-            int x = Int32.Parse(splitCounter[1].Split("-")[0]);
-            int y = Int32.Parse(splitCounter[1].Split("-")[1]);
-            string oben = x+"-"+(y-1);  //rechts oben   sprite: d
-            string rechts = (x+1)+"-"+y; //rechts unten  sprite: c
-            string unten = (x-1)+"-"+y;   //links oben    sprite: a
-            string links = x+"-"+(y+1);  //links unten   sprite: b
-            string[] suroundingPositions = new string[]{oben, rechts, unten, links};
-
-            //gucke ob umliegende floors existieren
-            foreach(string nearbyObj in suroundingPositions)
+            if(rndmDL+a>=counterDataList.Count)
             {
-                //FloorObj existiert (größe des grids beachten)
-                if(GameObject.Find(nearbyObj))
+                //Debug.Log("DL zu hoch "+(counterDataList.Count-1)+"max  rndm: "+rndmDL+"->"+((rndmDL+a)%counterDataList.Count)+":");
+                if(SearchForPath(waiter, counterDataList[(rndmDL+a)%counterDataList.Count]))
                 {
-                    //die fläche ist frei
-                    if(!GameObject.Find(nearbyObj+"-Child"))
-                    {
-                        //gucke ob npc zur position laufen kann (übergibt die endPos)
-                        List<string> waiterPath = LabyrinthBuilder.getWaiterPath(waiter.startPos ,new int[]{Int32.Parse(nearbyObj.Split("-")[0]),Int32.Parse(nearbyObj.Split("-")[1])});
-                        
-                        //gucke ob route gefunden wurde
-                        if(waiterPath.Count!=0)
-                        {   
-                            //übergebe den zu speichernden path den waiter
-                            waiter.path = waiterPath;
-
-                            return true;
-                        }
-                    }
+                    return true;
+                }
+            }
+            else
+            {
+                //Debug.Log("DL "+(counterDataList.Count-1)+"max  rndm: "+rndmDL+"->"+(rndmDL+a)+":");
+                if(SearchForPath(waiter, counterDataList[rndmDL+a]))
+                {
+                    return true;
                 }
             }
         }
 
+        //wenn kein counter mit essen zum hinlaufen gefunden wurde(weil nicht erreichbar) such in leere counter
+        int rndmEDL = rndm.Next(0,counterEmptyDataList.Count);
+
+        for(int a=0;a<counterEmptyDataList.Count;a++)
+        {
+            if(rndmEDL+a>=counterEmptyDataList.Count)
+            {
+                //Debug.Log("EDL zu hoch "+(counterEmptyDataList.Count-1)+"max  rndm: "+rndmEDL+"->"+((rndmEDL+a)%counterEmptyDataList.Count)+":");
+                if(SearchForPath(waiter, counterEmptyDataList[(rndmEDL+a)%counterEmptyDataList.Count]))
+                {
+                    return true;
+                }
+            }
+            else
+            {
+                //Debug.Log("EDL "+(counterEmptyDataList.Count-1)+"max  rndm: "+rndmEDL+"->"+(rndmEDL+a)+":");
+                if(SearchForPath(waiter, counterEmptyDataList[rndmEDL+a]))
+                {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    //suche nach path von waiter startPos zu übergebene pos
+    public bool SearchForPath(Waiter waiter, string counter)
+    {
+        //alle nebenstehende positionen bilden
+        string[] splitCounter = counter.Split(";");
+        int x = Int32.Parse(splitCounter[1].Split("-")[0]);
+        int y = Int32.Parse(splitCounter[1].Split("-")[1]);
+        string oben = x+"-"+(y-1);  //rechts oben   sprite: d
+        string rechts = (x+1)+"-"+y; //rechts unten  sprite: c
+        string unten = (x-1)+"-"+y;   //links oben    sprite: a
+        string links = x+"-"+(y+1);  //links unten   sprite: b
+        string[] suroundingPositions = new string[]{oben, rechts, unten, links};
+
+        //gucke ob umliegende floors existieren
+        foreach(string nearbyObj in suroundingPositions)
+        {
+            //FloorObj existiert (größe des grids beachten)
+            if(GameObject.Find(nearbyObj))
+            {
+                //die fläche ist frei
+                if(!GameObject.Find(nearbyObj+"-Child"))
+                {
+                    //gucke ob npc zur position laufen kann (übergibt die endPos)
+                    List<string> waiterPath = LabyrinthBuilder.getWaiterPath(waiter.startPos ,new int[]{Int32.Parse(nearbyObj.Split("-")[0]),Int32.Parse(nearbyObj.Split("-")[1])});
+                       
+                    //gucke ob route gefunden wurde
+                    if(waiterPath.Count!=0)
+                    {   
+                        //übergebe den zu speichernden path den waiter
+                        waiter.path = waiterPath;
+    
+                        return true;
+                    }
+                }
+            }
+        }
         return false;
     }
 
