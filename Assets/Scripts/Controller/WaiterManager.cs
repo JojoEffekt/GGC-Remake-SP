@@ -92,6 +92,22 @@ public class WaiterManager : MonoBehaviour
                         waiterList[a].objective = 2;
                     }
                 }
+                //3==waiter beim tresen, suche aus prozentualer chance die nächste aktion aus
+                else if(waiterList[a].objective==3)
+                {
+                    System.Random rndm = new System.Random();
+                    int nextTask = rndm.Next(0,100);
+                    if(nextTask>=waiterList[a].ToDish)
+                    {
+                        //server task
+                        Debug.Log(waiterList[a].Name+"taks serve");
+                    }
+                    else
+                    {
+                        //serve dish
+                        Debug.Log(waiterList[a].Name+"task dish");
+                    }
+                }
             }
         }
 

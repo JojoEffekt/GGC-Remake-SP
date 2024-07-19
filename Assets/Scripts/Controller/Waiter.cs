@@ -251,6 +251,9 @@ public class Waiter : MonoBehaviour
 
                     //npc läuft nicht mehr, cooldown bis er geht
                     isOnWalk = false;
+
+                    //von objective 2 zu ojective 3
+                    objective = 3;
                 }
             }
         }
