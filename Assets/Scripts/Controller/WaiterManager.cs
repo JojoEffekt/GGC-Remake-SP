@@ -101,11 +101,19 @@ public class WaiterManager : MonoBehaviour
                     {
                         //server task
                         Debug.Log(waiterList[a].Name+"taks serve");
+                        /*guck ob waiter essen vom tresen nehmen kann
+                        suche an dem der waiter gerade stehen muss
+                        ja -> suche nach einem erreichbaren player, nimm essen, rechne essen ab
+                              gehe zum player, stoppe player waittime, lege essen auf tisch, ping player, gehe zurück zum tresen(am besten mit essen)
+                        nein -> taske dish task
+                        */
                     }
                     else
                     {
                         //serve dish
                         Debug.Log(waiterList[a].Name+"task dish");
+                        //suche nach tisch mit essen drauf und ohne player daneben, gehe zum tish, nimm essen, change tischfced, mach tishc leer
+                        //gehe mit essen zum counter, reset 
                     }
                 }
             }
