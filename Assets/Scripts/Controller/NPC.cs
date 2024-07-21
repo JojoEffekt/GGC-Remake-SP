@@ -174,15 +174,8 @@ public class NPC : MonoBehaviour
                     //npc steht immernoch an der tür
                     if(state==0)
                     {
-                        //npc kann sich hinsetzten werden
+                        //npc kann sich hinsetzten 
                         state = 1;
-
-                        //CONTINUE
-                        //player setzt sich hin
-                        //START.NPCHINSETZEN
-                        //npc kann bedient werden
-                            //-> fpr alle npcs mit state=1 und cooldown größer als 0
-                                //-> cooldown für npc stoppen weil essen geliefert wird von diener
                     }
                     //gucke ob das schon der rückweg des npcs ist
                     else if(state==3)

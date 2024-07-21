@@ -223,6 +223,21 @@ public class WaiterManager : MonoBehaviour
         return data;
     }
 
+    //suche alle möglichen positionen  an die der waiter essen liefern kann
+    public int[] GetDeliveryPosition()
+    {
+        int[] position = new int[]{0,0};
+
+        //für jeden npc gucken ob state 2 ist(state 2 == npc sitzt auf platz)
+        //gucke ob essen vorhanden ist
+        //gucke ob route zum npc möglich ist
+        //stoppe countdown zeit
+        //liefere essen
+        //rechne essen ab
+
+        return position;
+    }
+
     //wähl randomisierte counter für die waiter aus
     public bool CounterForWaiter(Waiter waiter){
 
