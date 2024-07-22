@@ -101,6 +101,7 @@ public class WaiterManager : MonoBehaviour
                     {
                         //server task
                         Debug.Log(waiterList[a].Name+"taks serve");
+                        GetDeliveryPosition();
                         /*guck ob waiter essen vom tresen nehmen kann
                         suche an dem der waiter gerade stehen muss
                         ja -> suche nach einem erreichbaren player, nimm essen, rechne essen ab
@@ -228,7 +229,20 @@ public class WaiterManager : MonoBehaviour
     {
         int[] position = new int[]{0,0};
 
-        //für jeden npc gucken ob state 2 ist(state 2 == npc sitzt auf platz)
+        NPCManager npcManager = GameObject.Find("NPCController").GetComponent<NPCManager>();
+        for(int a=0;a<npcManager.npcList.Count;a++)
+        {
+            //für jeden npc gucken ob state 2 ist(state 2 == npc sitzt auf platz)
+            if(npcManager.npcList[a].state==2)
+            {
+                Debug.Log(npcManager.npcList[a].npcGO.name+" chair: "+npcManager.npcList[a].chairPos[0]+":"+npcManager.npcList[a].chairPos[1]+" ["+FloorChildExtraDataController.getObjectFCED(npcManager.npcList[a].chairPos[0]+"-"+npcManager.npcList[a].chairPos[1])+"]");
+                //ist der tisch leer (ohne essen drauf)
+                if(FloorChildExtraDataController.getObjectFCED(npcManager.npcList[a].tablePos[0]+"-"+npcManager.npcList[a].tablePos[1]).Split(";")[3].Equals("False"))
+                {
+                    Debug.Log("kein essen auf tisch");
+                }
+            }
+        }
         //gucke ob essen vorhanden ist
         //gucke ob route zum npc möglich ist
         //stoppe countdown zeit

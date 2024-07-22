@@ -115,7 +115,7 @@ public class NPCManager : MonoBehaviour
                 if(getPositionNextToChair(npcList[a]))
                 {
                     //verändere das FCED für table/chair auf besetzt
-                    FloorChildExtraDataController.ChangeFCEDData("Table;"+(npcList[a].tablePos[0]+"-"+npcList[a].tablePos[1])+";False");
+                    FloorChildExtraDataController.ChangeFCEDData("Table;"+(npcList[a].tablePos[0]+"-"+npcList[a].tablePos[1])+";False;False");
                     FloorChildExtraDataController.ChangeFCEDData("Chair;"+(npcList[a].chairPos[0]+"-"+npcList[a].chairPos[1])+";False");
 
                     //npc läuft los, ture=weg von tür zu path wird erstellt
@@ -181,10 +181,12 @@ public class NPCManager : MonoBehaviour
 
             //LÖSCHEN SIMULIERT BEDIENT WERDEN
             //temp
+            /*
             if(npcList[a].waittime<=25&&npcList[a].state==2)
             {
                 StartCoroutine(Anim(npcList[a],2));
             }
+            */
         }
     }
 
@@ -297,7 +299,7 @@ public class NPCManager : MonoBehaviour
     //lösche die FCED für table und chair auf den ein npc saß
     public void DeleteFCEDForNPC(NPC npc)
     {   
-        FloorChildExtraDataController.ChangeFCEDData("Table;"+(npc.tablePos[0]+"-"+npc.tablePos[1])+";True");
+        FloorChildExtraDataController.ChangeFCEDData("Table;"+(npc.tablePos[0]+"-"+npc.tablePos[1])+";True;False");
         FloorChildExtraDataController.ChangeFCEDData("Chair;"+(npc.chairPos[0]+"-"+npc.chairPos[1])+";True");
     }
 
@@ -318,7 +320,7 @@ public class NPCManager : MonoBehaviour
             //gucke ob das object table oder chair ist
             if(item.GetComponent<SpriteRenderer>().sprite.name.Split("_")[0].Equals("Table"))
             {
-                FloorChildExtraDataController.ChangeFCEDData("Table;"+(item.name.Split("-")[0]+"-"+item.name.Split("-")[1])+";True");
+                FloorChildExtraDataController.ChangeFCEDData("Table;"+(item.name.Split("-")[0]+"-"+item.name.Split("-")[1])+";True;False");
             }
             else
             {

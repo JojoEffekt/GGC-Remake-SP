@@ -26,9 +26,9 @@ public class FloorChildExtraDataController : MonoBehaviour
                 }
             }else if(type.Equals("Table")){
                 if(listItem.Length>2){
-                    TableList.Add(new Table(listItem[0], listItem[1], Convert.ToBoolean(listItem[2])));
+                    TableList.Add(new Table(listItem[0], listItem[1], Convert.ToBoolean(listItem[2]), Convert.ToBoolean(listItem[3])));
                 }else{
-                    TableList.Add(new Table(listItem[0], listItem[1], true));
+                    TableList.Add(new Table(listItem[0], listItem[1], true, false));
                 }
             }else if(type.Equals("Counter")){
                 if(listItem.Length>2){
@@ -154,7 +154,7 @@ public class FloorChildExtraDataController : MonoBehaviour
             chair.setData(Convert.ToBoolean(listItem[2]));
         }else if(type.Equals("Table")){
             Table table = getTable(listItem[1]);
-            table.setData(Convert.ToBoolean(listItem[2]));
+            table.setData(Convert.ToBoolean(listItem[2]), Convert.ToBoolean(listItem[3]));
         }else if(type.Equals("Counter")){
             Counter counter = getCounter(listItem[1]);
             counter.setData(Convert.ToBoolean(listItem[2]), listItem[3], Int32.Parse(listItem[4]));
@@ -305,6 +305,34 @@ public class FloorChildExtraDataController : MonoBehaviour
         return "";
     }
     
+    //sucht ein bestimmten object
+    public static string getObjectFCED(string name){
+        Debug.Log(name);
+        //für jedes oven FCED suche ob der table existiert
+        try{
+            if(File.Exists(Application.dataPath+"/Data/"+SaveAndLoadController.wallDataFilePath)==true&&File.Exists(Application.dataPath+"/Data/"+SaveAndLoadController.floorDataFilePath)==true&&File.Exists(Application.dataPath+"/Data/"+SaveAndLoadController.floorChildExtraDataFilePath)==true){
+                string[] lines = ReadStream(SaveAndLoadController.floorChildExtraDataFilePath);
+
+                for(int a=0;a<lines.Length-1;a++){
+                    string[] lineItem = lines[a].Split(";");
+
+                    //ist chair ?
+                    if(lineItem[0].Equals("Chair")&&(lineItem[1].Equals(name))){
+                        return lines[a];
+                    }
+                    //ist table?
+                    if(lineItem[0].Equals("Table")&&(lineItem[1].Equals(name))){
+                        return lines[a];
+                    }
+                }
+            }
+        }catch{
+            return "";
+        }
+
+        return "";
+    }
+
     //sucht alle FCED für bestimmte typ und gibt als list wieder
     public static List<string> getFCEDFromTyp(string type, string param1){
 
@@ -407,20 +435,23 @@ public class Chair{
 public class Table{
     public string type { get; set; }
     public string gameObjectName { get; set; }
-    public bool isEmpty { get; set; }
+    public bool isEmpty { get; set; } // ist npc am tisch?
+    public bool isFood { get; set; }  // ist essen auf tisch?
 
-    public Table(string type, string gameObjectName, bool isEmpty){
+    public Table(string type, string gameObjectName, bool isEmpty, bool isFood){
         this.type = type;
         this.gameObjectName = gameObjectName;
         this.isEmpty = isEmpty;
+        this.isFood = isFood;
     }
 
     public string getData(){
-        return type+";"+gameObjectName+";"+isEmpty;
+        return type+";"+gameObjectName+";"+isEmpty+";"+isFood;
     }
 
-    public void setData(bool isEmpty){
+    public void setData(bool isEmpty, bool isFood){
         this.isEmpty = isEmpty;
+        this.isFood = isFood;
     }
 }
 
