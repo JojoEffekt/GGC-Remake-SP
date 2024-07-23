@@ -39,6 +39,9 @@ public class Waiter : MonoBehaviour
     public int[] startPos { get; set; }
     public int[] endPos { get; set; }
 
+    //aktuelle position des waiters (wird nach path ablaufen aktualisiert)
+    public int[] curPos { get; set; }
+
     //beinhaltet den path zum zum nächsten ziel
     public List<string> path { get; set; }
 
@@ -238,6 +241,15 @@ public class Waiter : MonoBehaviour
             //floorObj wurde belaufen, zerstöre das element und übergebe die DynPlayerPos
             if(waiterGO.transform.position==objName.transform.position)
             {
+
+                //speicher die position auf die dr waiter gerade steht
+                if(curPath.Count==1)
+                {
+                    Debug.Log($"cur last Position {curPath[0]}");
+                    curPos = new int[]{Int32.Parse(curPath[0].Split(":")[0]), Int32.Parse(curPath[0].Split(":")[1])};
+                }
+                    
+
                 //lösche letzten npcPath eintrag sodas der npc zur nächsten pos geht
                 curPath.RemoveAt(0);
                 timeDelayMovement = 0;

@@ -97,11 +97,28 @@ public class WaiterManager : MonoBehaviour
                 {
                     System.Random rndm = new System.Random();
                     int nextTask = rndm.Next(0,100);
+                    //waiter probiert die task serve auszuführen
                     if(nextTask>=waiterList[a].ToDish)
                     {
-                        //server task
-                        Debug.Log(waiterList[a].Name+"taks serve");
-                        GetDeliveryPosition();
+                        
+                        int[] endPos = GetDeliveryPosition();
+
+                        if(endPos[0]!=0&&endPos[1]!=0)
+                        {
+                            Debug.Log($"[SERVE] {waiterList[a].Name} route von: {waiterList[a].curPos[0]}:{waiterList[a].curPos[1]} bis {endPos[0]}:{endPos[1]}");
+                        }
+                        else
+                        {
+                            Debug.Log($"[SERVE] {waiterList[a].Name} kein weg gefunden!");
+                        }
+                        
+                        //nimm endpos von path (oder einfach nebenstehende freie fläsche neben stuhl)
+                        //continue check route posibility
+                        //stoppe countdown zeit
+                        //liefere essen
+                        //rechne essen ab
+
+
                         /*guck ob waiter essen vom tresen nehmen kann
                         suche an dem der waiter gerade stehen muss
                         ja -> suche nach einem erreichbaren player, nimm essen, rechne essen ab
@@ -112,7 +129,7 @@ public class WaiterManager : MonoBehaviour
                     else
                     {
                         //serve dish
-                        Debug.Log(waiterList[a].Name+"task dish");
+//                        Debug.Log(waiterList[a].Name+"task dish");
                         //suche nach tisch mit essen drauf und ohne player daneben, gehe zum tish, nimm essen, change tischfced, mach tishc leer
                         //gehe mit essen zum counter, reset 
                     }
@@ -235,20 +252,18 @@ public class WaiterManager : MonoBehaviour
             //für jeden npc gucken ob state 2 ist(state 2 == npc sitzt auf platz)
             if(npcManager.npcList[a].state==2)
             {
-                Debug.Log(npcManager.npcList[a].npcGO.name+" chair: "+npcManager.npcList[a].chairPos[0]+":"+npcManager.npcList[a].chairPos[1]+" ["+FloorChildExtraDataController.getObjectFCED(npcManager.npcList[a].chairPos[0]+"-"+npcManager.npcList[a].chairPos[1])+"]");
                 //ist der tisch leer (ohne essen drauf)
                 if(FloorChildExtraDataController.getObjectFCED(npcManager.npcList[a].tablePos[0]+"-"+npcManager.npcList[a].tablePos[1]).Split(";")[3].Equals("False"))
                 {
-                    Debug.Log("kein essen auf tisch");
+                    position = new int[]{npcManager.npcList[a].chairPos[0], npcManager.npcList[a].chairPos[1]};
+                   // Debug.Log(npcManager.npcList[a].npcGO.name+": kein essen auf tisch ["+npcManager.npcList[a].tablePos[0]+":"+npcManager.npcList[a].tablePos[1]+"] chair: ["+npcManager.npcList[a].chairPos[0]+":"+npcManager.npcList[a].chairPos[1]+"]");
+                }else
+                {
+                    Debug.Log($"cant get position for: {npcManager.npcList[a].npcGO.name}");
+                    //Debug.Log(npcManager.npcList[a].npcGO.name+": essen! auf tisch ["+npcManager.npcList[a].tablePos[0]+":"+npcManager.npcList[a].tablePos[1]+"] chair: ["+npcManager.npcList[a].chairPos[0]+":"+npcManager.npcList[a].chairPos[1]+"]");
                 }
             }
         }
-        //gucke ob essen vorhanden ist
-        //gucke ob route zum npc möglich ist
-        //stoppe countdown zeit
-        //liefere essen
-        //rechne essen ab
-
         return position;
     }
 

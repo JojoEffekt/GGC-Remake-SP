@@ -7,5 +7,8 @@ Chair;2-2;False
 Table;2-3;False;False
 Table;2-4;False;False
 Table;2-5;False;False
-Counter;3-2;True;;0
+Counter;3-2;False;Omelette;10
 Counter;1-2;True;;0
+Oven;0-0;0;;0;;0
+Oven;1-0;0;;0;;0
+Oven;2-0;0;;0;;0

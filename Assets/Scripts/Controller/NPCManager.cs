@@ -97,6 +97,9 @@ public class NPCManager : MonoBehaviour
 
                 //npc hat sich auf platz  gesetzt kann bedient werden
                 npcList[a].state = 2;
+
+                //der npc soll, wenn er auf dem platz sitzt nochmal 30 sekunden warten
+                npcList[a].waittime = 30; 
             }
         }
     }
@@ -115,7 +118,7 @@ public class NPCManager : MonoBehaviour
                 if(getPositionNextToChair(npcList[a]))
                 {
                     //verändere das FCED für table/chair auf besetzt
-                    FloorChildExtraDataController.ChangeFCEDData("Table;"+(npcList[a].tablePos[0]+"-"+npcList[a].tablePos[1])+";False;False");
+                    FloorChildExtraDataController.ChangeFCEDData("Table;"+(npcList[a].tablePos[0]+"-"+npcList[a].tablePos[1])+";False;"+FloorChildExtraDataController.getObjectFCED(npcList[a].tablePos[0]+"-"+npcList[a].tablePos[1]).Split(";")[3]);
                     FloorChildExtraDataController.ChangeFCEDData("Chair;"+(npcList[a].chairPos[0]+"-"+npcList[a].chairPos[1])+";False");
 
                     //npc läuft los, ture=weg von tür zu path wird erstellt
@@ -299,7 +302,7 @@ public class NPCManager : MonoBehaviour
     //lösche die FCED für table und chair auf den ein npc saß
     public void DeleteFCEDForNPC(NPC npc)
     {   
-        FloorChildExtraDataController.ChangeFCEDData("Table;"+(npc.tablePos[0]+"-"+npc.tablePos[1])+";True;False");
+        FloorChildExtraDataController.ChangeFCEDData("Table;"+(npc.tablePos[0]+"-"+npc.tablePos[1])+";True;"+FloorChildExtraDataController.getObjectFCED(npc.tablePos[0]+"-"+npc.tablePos[1]).Split(";")[3]);
         FloorChildExtraDataController.ChangeFCEDData("Chair;"+(npc.chairPos[0]+"-"+npc.chairPos[1])+";True");
     }
 

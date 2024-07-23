@@ -307,7 +307,6 @@ public class FloorChildExtraDataController : MonoBehaviour
     
     //sucht ein bestimmten object
     public static string getObjectFCED(string name){
-        Debug.Log(name);
         //für jedes oven FCED suche ob der table existiert
         try{
             if(File.Exists(Application.dataPath+"/Data/"+SaveAndLoadController.wallDataFilePath)==true&&File.Exists(Application.dataPath+"/Data/"+SaveAndLoadController.floorDataFilePath)==true&&File.Exists(Application.dataPath+"/Data/"+SaveAndLoadController.floorChildExtraDataFilePath)==true){
