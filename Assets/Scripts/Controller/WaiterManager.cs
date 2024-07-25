@@ -76,7 +76,7 @@ public class WaiterManager : MonoBehaviour
 
 
 
-            //für jeden waiter
+            //für jeden waiter, gucke nach seiner aktuellen aufgabe
             for(int a=0;a<waiterList.Count;a++)
             {
                 //will zum tresen hat aber noch keinen path? (objective==1)
@@ -97,26 +97,62 @@ public class WaiterManager : MonoBehaviour
                 {
                     System.Random rndm = new System.Random();
                     int nextTask = rndm.Next(0,100);
+
                     //waiter probiert die task serve auszuführen
                     if(nextTask>=waiterList[a].ToDish)
                     {
-                        
+                        //CONTINUE!!!!
+                        /*
+                        prüfe ob essen auf tresen steht
+                        */
+
+                        //waiter holt sich die endposition eines npc der sitzt (endposition ist hierbei die position neben dem stuhl)
                         int[] endPos = GetDeliveryPosition();
 
-                        if(endPos[0]!=0&&endPos[1]!=0)
+                        //endposition hat einen wert (kann also ausgeführt werden)
+                        if((endPos[0]+endPos[1])!=-1)
                         {
                             Debug.Log($"[SERVE] {waiterList[a].Name} route von: {waiterList[a].curPos[0]}:{waiterList[a].curPos[1]} bis {endPos[0]}:{endPos[1]}");
+
+                            //suche nach einem path für den waiter zum laufen bis zum npc
+                            List<string> waiterPath = LabyrinthBuilder.getWaiterPath(waiterList[a].curPos, endPos);
+
+                            //gucke ob route gefunden wurde
+                            //starte das laufend des npcs
+                            if(waiterPath.Count!=0)
+                            {   
+                                //übergebe den zu speichernden path den waiter
+                                waiterList[a].path = waiterPath;
+
+                                //weg wurde gefunden und übergeben, starte die laufanimation
+                                waiterList[a].NPCMovement();
+
+                                //von 3 -> 4, hat path zum thresen bekommen und geht jetzt dahin (4=gericht servieren)
+                                waiterList[a].objective = 4;
+
+                                //CONITNUE
+                                /*
+                                nimm essen
+                                rechne essen ab
+                                render essen beim waiter
+                                stoppe countdown zeit vom npc
+                                */
+
+                                for(int c=0;c<waiterPath.Count;c++)
+                                {
+                                    //Debug.Log($"p: {waiterPath[c]}");
+                                }
+                            }
+                            else
+                            {
+                                //Debug.Log($"kein path");
+                            }
                         }
                         else
                         {
-                            Debug.Log($"[SERVE] {waiterList[a].Name} kein weg gefunden!");
+                            //Debug.Log($"[SERVE] {waiterList[a].Name} kein weg gefunden! [{endPos[0]}:{endPos[1]}]");
                         }
                         
-                        //nimm endpos von path (oder einfach nebenstehende freie fläsche neben stuhl)
-                        //continue check route posibility
-                        //stoppe countdown zeit
-                        //liefere essen
-                        //rechne essen ab
 
 
                         /*guck ob waiter essen vom tresen nehmen kann
@@ -244,7 +280,7 @@ public class WaiterManager : MonoBehaviour
     //suche alle möglichen positionen  an die der waiter essen liefern kann
     public int[] GetDeliveryPosition()
     {
-        int[] position = new int[]{0,0};
+        int[] position = new int[]{0,-1};
 
         NPCManager npcManager = GameObject.Find("NPCController").GetComponent<NPCManager>();
         for(int a=0;a<npcManager.npcList.Count;a++)
@@ -254,14 +290,19 @@ public class WaiterManager : MonoBehaviour
             {
                 //ist der tisch leer (ohne essen drauf)
                 if(FloorChildExtraDataController.getObjectFCED(npcManager.npcList[a].tablePos[0]+"-"+npcManager.npcList[a].tablePos[1]).Split(";")[3].Equals("False"))
-                {
-                    position = new int[]{npcManager.npcList[a].chairPos[0], npcManager.npcList[a].chairPos[1]};
+                { 
+                    position = new int[]{npcManager.npcList[a].endPos[0], npcManager.npcList[a].endPos[1]};
+                    return position;
                    // Debug.Log(npcManager.npcList[a].npcGO.name+": kein essen auf tisch ["+npcManager.npcList[a].tablePos[0]+":"+npcManager.npcList[a].tablePos[1]+"] chair: ["+npcManager.npcList[a].chairPos[0]+":"+npcManager.npcList[a].chairPos[1]+"]");
                 }else
                 {
-                    Debug.Log($"cant get position for: {npcManager.npcList[a].npcGO.name}");
+                    Debug.Log($"cant get position for [essen auf tisch]: {npcManager.npcList[a].npcGO.name}");
                     //Debug.Log(npcManager.npcList[a].npcGO.name+": essen! auf tisch ["+npcManager.npcList[a].tablePos[0]+":"+npcManager.npcList[a].tablePos[1]+"] chair: ["+npcManager.npcList[a].chairPos[0]+":"+npcManager.npcList[a].chairPos[1]+"]");
                 }
+            }
+            else
+            {
+                //Debug.Log($"{npcManager.npcList[a].npcGO.name} ist unterwegs");
             }
         }
         return position;

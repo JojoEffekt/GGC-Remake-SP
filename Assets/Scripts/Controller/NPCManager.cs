@@ -388,9 +388,9 @@ public class NPCManager : MonoBehaviour
         objectList.Clear();
 
         //suche alle objecte die chair oder table sind, auf dem spielfeld
-        for(int a=0;a<PlayerController.gridSize-1;a++)
+        for(int a=0;a<PlayerController.gridSize;a++)
         {
-            for(int b=0;b<PlayerController.gridSize-1;b++)
+            for(int b=0;b<PlayerController.gridSize;b++)
             {   
                 //suche alle existierende childs
                 GameObject obj = GameObject.Find(a+"-"+b+"-Child");
@@ -400,9 +400,11 @@ public class NPCManager : MonoBehaviour
                     if(obj.GetComponent<SpriteRenderer>().sprite.name.Split("_")[0].Equals("Chair"))
                     {
                         objectList.Add(obj);
+                        Debug.Log($"add {obj.GetComponent<SpriteRenderer>().sprite.name}");
                     }
                     else if(obj.GetComponent<SpriteRenderer>().sprite.name.Split("_")[0].Equals("Table"))
                     {
+                        Debug.Log($"add {obj.GetComponent<SpriteRenderer>().sprite.name}");
                         objectList.Add(obj);
                     }
                 }

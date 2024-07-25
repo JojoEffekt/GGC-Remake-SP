@@ -391,10 +391,17 @@ public class LabyrinthBuilder : MonoBehaviour
         //gucke ob endposition und startPos in der begehbaren zone liegt
         string[] startPosValue = npcDestinationInPath(startPos);
         string[] endPosValue = npcDestinationInPath(endPos);
+
+        //Debug.Log($"suche path von {startPosValue[0]}:{startPosValue[1]} bis {endPosValue[0]}:{endPosValue[1]}");
         if(startPosValue!=null&&endPosValue!=null){
 
             //bau path neu für jeden waiter (funktioniert nur wenn tür mit start/stop pos von waiter verbunden ist)
             WaiterPathManager(startPos);
+
+            /*for(int a=0;a<waiterPath.Count;a++)
+            {
+                Debug.Log($"ganze positionen: {waiterPath[a]}");
+            }*/
 
             for(int a=0;a<waiterPath.Count;a++){
                 route.Add(waiterPath[a]);
@@ -404,7 +411,8 @@ public class LabyrinthBuilder : MonoBehaviour
 
             //endposition wurde in liste gefunden, lösche alle werte die einen höheren step haben
             //beginne ab der nachfolgenden position von der end pos, da alle darüber einen größeren step haben
-            for(int a=route.Count-1;a>Int32.Parse(endPosValue[1])+1;a--){
+            //Debug.Log($"entferne alle wert größer als {endPosValue[1]}");
+            for(int a=route.Count-1;a>Int32.Parse(endPosValue[1]);a--){
                 route.RemoveAt(a);
             }
 
@@ -417,6 +425,7 @@ public class LabyrinthBuilder : MonoBehaviour
                     if(Int32.Parse(route[b].Split(":")[2])==a){
                         //prüfe ob die position ein kleinerer nachbar von letzter finalRoute eintrag ist
                         if(IsNeighbour(route[b], finaleRoute[finaleRoute.Count-1])){
+                            //Debug.Log($"add position: {route[b]}");
                             finaleRoute.Add(route[b]);
                         }
                     }

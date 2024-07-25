@@ -24,6 +24,8 @@ public class Waiter : MonoBehaviour
     public int objective; //0=none,
                           //1=will path zum counter
                           //2=auf dem weg zum counter
+                          //3=steht am tresen
+                          //4=auf dem weg zum npc zum gerichte servieren
 
     //variable um flüssiges movement des waiters zu erzeugen
     private float timeDelayMovement = 0.0f;    
@@ -165,7 +167,7 @@ public class Waiter : MonoBehaviour
         //erstelle den waiter
         CreateWaiter(prefab);
 
-        //da der waiter beim initialisieren an der tür stht, ist die erste aufgabe zu einem tresen zu gehen
+        //da der waiter beim initialisieren an der tür steht, ist die erste aufgabe zu einem tresen zu gehen
         //1 = gehe zum tresen
         objective = 1;
 
@@ -245,7 +247,7 @@ public class Waiter : MonoBehaviour
                 //speicher die position auf die dr waiter gerade steht
                 if(curPath.Count==1)
                 {
-                    Debug.Log($"cur last Position {curPath[0]}");
+                    //Debug.Log($"cur last Position {curPath[0]}");
                     curPos = new int[]{Int32.Parse(curPath[0].Split(":")[0]), Int32.Parse(curPath[0].Split(":")[1])};
                 }
                     
@@ -264,8 +266,24 @@ public class Waiter : MonoBehaviour
                     //npc läuft nicht mehr, cooldown bis er geht
                     isOnWalk = false;
 
-                    //von objective 2 zu ojective 3
-                    objective = 3;
+
+                    //steht jetzt beim tresen
+                    if(objective==2||objective==1||objective==0)
+                    {
+                        //von objective 2 zu ojective 3
+                        objective = 3;
+                    }
+                    //steht jetzt beim npc am tisch zum gericht servieren
+                    else if(objective==4)
+                    {
+                        Debug.Log($"essen abgeliefert, gehe zum tresen");
+                        
+                        //aufgabe ist wieder zum tresen zu gehen
+                        objective = 1;
+
+                        //startpos um die route zu bilden, dafür übergebe die position auf die der waiter gerade steht
+                        startPos = curPos;
+                    }
                 }
             }
         }
