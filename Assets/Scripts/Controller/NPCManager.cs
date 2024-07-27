@@ -400,11 +400,11 @@ public class NPCManager : MonoBehaviour
                     if(obj.GetComponent<SpriteRenderer>().sprite.name.Split("_")[0].Equals("Chair"))
                     {
                         objectList.Add(obj);
-                        Debug.Log($"add {obj.GetComponent<SpriteRenderer>().sprite.name}");
+//                        Debug.Log($"add {obj.GetComponent<SpriteRenderer>().sprite.name}");
                     }
                     else if(obj.GetComponent<SpriteRenderer>().sprite.name.Split("_")[0].Equals("Table"))
                     {
-                        Debug.Log($"add {obj.GetComponent<SpriteRenderer>().sprite.name}");
+//                        Debug.Log($"add {obj.GetComponent<SpriteRenderer>().sprite.name}");
                         objectList.Add(obj);
                     }
                 }

@@ -185,6 +185,7 @@ public class WaiterManager : MonoBehaviour
                 {
                     waiterList[a].walkAnim = 1;
 
+                    Debug.Log("rtratat!");
                     //für die animation während der bewegung
                     StartCoroutine(Anim(waiterList[a],0));
                 }
@@ -840,5 +841,6 @@ public class WaiterManager : MonoBehaviour
             //nur zum test
             yield return new WaitForSeconds(0.1F);
         }
+        Debug.Log("ende!!!");
     }
 }
