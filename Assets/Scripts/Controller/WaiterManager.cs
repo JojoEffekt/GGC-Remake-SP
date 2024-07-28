@@ -185,7 +185,8 @@ public class WaiterManager : MonoBehaviour
                 {
                     waiterList[a].walkAnim = 1;
 
-                    Debug.Log("rtratat!");
+                    //falls noch eine coroutine am laufen ist, brich ab Testweise!!!!
+                    StopCoroutine(Anim(waiterList[a],0));
                     //für die animation während der bewegung
                     StartCoroutine(Anim(waiterList[a],0));
                 }
@@ -383,6 +384,8 @@ public class WaiterManager : MonoBehaviour
                 //die fläche ist frei
                 if(!GameObject.Find(nearbyObj+"-Child"))
                 {
+
+                    Debug.Log($"suche weg von {waiter.startPos[0]}:{waiter.startPos[1]} bis {nearbyObj}");
                     //gucke ob npc zur position laufen kann (übergibt die endPos)
                     List<string> waiterPath = LabyrinthBuilder.getWaiterPath(waiter.startPos ,new int[]{Int32.Parse(nearbyObj.Split("-")[0]),Int32.Parse(nearbyObj.Split("-")[1])});
                        
@@ -391,6 +394,10 @@ public class WaiterManager : MonoBehaviour
                     {   
                         //übergebe den zu speichernden path den waiter
                         waiter.path = waiterPath;
+                        for(int c=0;c<waiterPath.Count;c++)
+                        {
+                            Debug.Log($"stecke: {waiterPath[c]}");
+                        }
     
                         return true;
                     }

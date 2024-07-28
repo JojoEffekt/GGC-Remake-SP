@@ -388,15 +388,15 @@ public class LabyrinthBuilder : MonoBehaviour
         //finale liste des waiters
         List<string> finaleRoute = new List<string>();
 
+        //bau path neu für jeden waiter (funktioniert nur wenn tür mit start/stop pos von waiter verbunden ist)
+        WaiterPathManager(startPos);
+
         //gucke ob endposition und startPos in der begehbaren zone liegt
-        string[] startPosValue = npcDestinationInPath(startPos);
-        string[] endPosValue = npcDestinationInPath(endPos);
+        string[] startPosValue = waiterDestinationInPath(startPos);
+        string[] endPosValue = waiterDestinationInPath(endPos);
 
         //Debug.Log($"suche path von {startPosValue[0]}:{startPosValue[1]} bis {endPosValue[0]}:{endPosValue[1]}");
         if(startPosValue!=null&&endPosValue!=null){
-
-            //bau path neu für jeden waiter (funktioniert nur wenn tür mit start/stop pos von waiter verbunden ist)
-            WaiterPathManager(startPos);
 
             /*for(int a=0;a<waiterPath.Count;a++)
             {
@@ -411,7 +411,7 @@ public class LabyrinthBuilder : MonoBehaviour
 
             //endposition wurde in liste gefunden, lösche alle werte die einen höheren step haben
             //beginne ab der nachfolgenden position von der end pos, da alle darüber einen größeren step haben
-            //Debug.Log($"entferne alle wert größer als {endPosValue[1]}");
+            Debug.Log($"von {startPosValue[1]} bis {endPosValue[1]}");
             for(int a=route.Count-1;a>Int32.Parse(endPosValue[1]);a--){
                 route.RemoveAt(a);
             }
@@ -450,6 +450,7 @@ public class LabyrinthBuilder : MonoBehaviour
         //startposition ist die akutelle position des aktuellen waiters
         int step = 0;
         waiterPath.Add(startPos[0]+":"+(startPos[1])+":"+step);
+        Debug.Log("add"+startPos[0]+":"+(startPos[1])+":"+step);
 
         //erstellt eine neue liste
         BuildWaiterPath(step);
@@ -512,6 +513,18 @@ public class LabyrinthBuilder : MonoBehaviour
             //wodurch alle positions auf nachbarn geprüft werden, die gerade hinzugefügt wurden
             BuildWaiterPath(step+1);
         }
+    }
+
+    //gucke ob endposition in waterPath vorhanden ist
+    public static string[] waiterDestinationInPath(int[] endPos){
+        for(int a=0;a<waiterPath.Count;a++){
+            int x = Int32.Parse(waiterPath[a].Split(":")[0]);
+            int y = Int32.Parse(waiterPath[a].Split(":")[1]);
+            if(x==endPos[0]&&y==endPos[1]){
+                return new string[]{waiterPath[a],""+a};
+            }
+        }
+        return null;
     }
 
     //gucke ob endposition in npcPath vorhanden ist
