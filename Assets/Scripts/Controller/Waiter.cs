@@ -277,6 +277,9 @@ public class Waiter : MonoBehaviour
                     else if(objective==4)
                     {
                         Debug.Log($"essen abgeliefert, gehe zum tresen");
+                        //CONTINUE
+                        //essen abgeben
+                        //npc ess animation starten
                         
                         //aufgabe ist wieder zum tresen zu gehen
                         objective = 1;

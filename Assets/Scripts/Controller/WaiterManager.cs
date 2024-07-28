@@ -36,22 +36,6 @@ public class WaiterManager : MonoBehaviour
         {
             timeDelay = 0.0f;
 
-
-            /*
-            idle position am tresen
-            suche je nach priorität (50%,50%) oder (20%,80%) mit -> random(): essen liefern oder abräumen
-                -> finde gegebenes ziel, wenn keins verfügbar, nehme anderes ziel
-            suche essen, nimm essen, rechne essen ab
-            
-            hat waiter eine aufgabe?
-            ja -> erledige aufgabe
-            nein -> steht waiter am tresen? 
-                nein -> gehe zum tresen mit essen darauf, sonst zu einem ohne essen
-                ja -> suche nach aufgabe
-
-            aufgabe: essem liefern, essen abräumen  
-            */
-
             //suche jede sekunde nach allen tresen + inhalt dieser
             List<string> cdList = FloorChildExtraDataController.getFCEDFromAllCounter();
             counterDataList.Clear();
@@ -103,10 +87,14 @@ public class WaiterManager : MonoBehaviour
                     {
                         //CONTINUE!!!!
                         /*
-                        prüfe ob essen auf tresen steht
+                        prüfe ob essen auf tresen steht, prüfe FCED von tresen (letztes element)
+                        kriege essen raus anhand was auf tresen steht
+
+                        Anonsten andeere aufgabe
                         */
 
                         //waiter holt sich die endposition eines npc der sitzt (endposition ist hierbei die position neben dem stuhl)
+                        //dieser npc hat kein essen
                         int[] endPos = GetDeliveryPosition();
 
                         //endposition hat einen wert (kann also ausgeführt werden)
@@ -132,24 +120,20 @@ public class WaiterManager : MonoBehaviour
 
                                 //CONITNUE
                                 /*
-                                nimm essen
                                 rechne essen ab
                                 render essen beim waiter
                                 stoppe countdown zeit vom npc
                                 */
-
-                                for(int c=0;c<waiterPath.Count;c++)
-                                {
-                                    //Debug.Log($"p: {waiterPath[c]}");
-                                }
                             }
                             else
                             {
                                 //Debug.Log($"kein path");
+                                //andere aufgabe machen
                             }
                         }
                         else
                         {
+                            //andere aufgabe machen
                             //Debug.Log($"[SERVE] {waiterList[a].Name} kein weg gefunden! [{endPos[0]}:{endPos[1]}]");
                         }
                         
